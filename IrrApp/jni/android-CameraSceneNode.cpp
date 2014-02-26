@@ -10,49 +10,73 @@
 
 extern "C"
 {
-	void Java_zte_irrlib_scene_CameraSceneNode_nativeSetLookAt(
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeSetLookAt(
 		JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z, jint id)
 	{
 		scene::ICameraSceneNode* camera = 
 			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
 		
-		if(camera){
-			camera->setTarget(core::vector3df(x,y,z));
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, SetLookAt);	
+			return -1;
 		}
-		else WARN_NODE_NOT_FOUND(id, SetLookAt);
+		camera->setTarget(core::vector3df(x,y,z));
+		return 0;
 	}
 
-	void Java_zte_irrlib_scene_CameraSceneNode_nativeSetClipPlane(
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeSetClipPlane(
 		JNIEnv *env, jobject defaultObj, jdouble nearClip, jdouble farClip, jint id)
 	{
 		scene::ICameraSceneNode* camera =
 			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
-		if(camera){
-			camera->setNearValue(nearClip);
-			camera->setFarValue(farClip);
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, SetClipPlane);	
+			return -1;
 		}
-		else WARN_NODE_NOT_FOUND(id, SetClipPlane);
+		camera->setNearValue(nearClip);
+		camera->setFarValue(farClip);
+		return 0;
 	}
 
-	void Java_zte_irrlib_scene_CameraSceneNode_nativeSetAspectRatio(
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeSetAspectRatio(
 		JNIEnv *env, jobject defaultObj, jdouble ratio, jint id)
 	{
 		scene::ICameraSceneNode* camera =
 			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
-		if(camera){
-			camera->setAspectRatio(ratio);
+			
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, SetAspectRatio);	
+			return -1;
 		}
-		else WARN_NODE_NOT_FOUND(id, SetAspectRatio);
+		camera->setAspectRatio(ratio);
+		return 0;
 	}
 
-	void Java_zte_irrlib_scene_CameraSceneNode_nativeSetFovy(
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeSetFovy(
 		JNIEnv *env, jobject defaultObj, jdouble fovy, jint id)
 	{
 		scene::ICameraSceneNode* camera =
 			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
-		if(camera){
-			camera->setFOV(fovy);
+			
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, SetFovy);	
+			return -1;
 		}
-		else WARN_NODE_NOT_FOUND(id, SetFovy);
+		camera->setFOV(fovy);
+		return 0;
+	}
+	
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeSetUpVector(
+		JNIEnv *env, jobject defaultObj, jobject upVec, jint id)
+	{
+		scene::ICameraSceneNode* camera =
+			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
+			
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, SetUpVector);	
+			return -1;
+		}
+		camera->setUpVector(createvector3dfFromVector3d(env, upVec));
+		return 0;
 	}
 }

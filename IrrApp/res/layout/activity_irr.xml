@@ -16,15 +16,70 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
     
-    <zte.irrlib.IrrlichtView
+    <zte.irrapp.DemoView
         android:id="@+id/irrview"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="266dp" />
 
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="START" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="3"
+        android:rowCount="3" >
+
+        <Button
+            android:id="@+id/left"
+            android:layout_column="0"
+            android:layout_gravity="left|top"
+            android:layout_row="1"
+            android:text="@string/left" />
+
+        <Button
+            android:id="@+id/up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_gravity="left|top"
+            android:layout_row="0"
+            android:text="@string/up" />
+
+        <Button
+            android:id="@+id/right"
+            android:layout_column="2"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="1"
+            android:text="@string/right" />
+
+        <Button
+            android:id="@+id/down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_gravity="left|top"
+            android:layout_row="2"
+            android:text="@string/down" />
+
+        <Button
+            android:id="@+id/media"
+            android:layout_column="2"
+            android:layout_gravity="right|top"
+            android:layout_row="0"
+            android:text="@string/play" />
+
+        <Button
+            android:id="@+id/pause"
+            android:layout_column="2"
+            android:layout_gravity="right|top"
+            android:layout_row="1"
+            android:text="@string/pause" />
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_column="2"
+            android:layout_gravity="right|top"
+            android:layout_row="2"
+            android:text="@string/stop" />
+
+    </GridLayout>
 
 </LinearLayout>

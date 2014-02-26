@@ -1,7 +1,5 @@
 package zte.irrlib;
 
-import java.util.ArrayList;
-
 import zte.irrlib.core.Color3i;
 import zte.irrlib.core.Color4i;
 import zte.irrlib.core.Rect4i;
@@ -33,10 +31,6 @@ public class Engine{
 		mRenderType = type;
 	}
 	
-	public void setEvent(Event event){
-		mEvent = event;
-	}
-	
 	public Scene getScene(){
 		return mScene;
 	}
@@ -49,35 +43,9 @@ public class Engine{
 		return mScene.getRenderSize();
 	}
 	
-	public Event getEvent(){
-		return mEvent;
-	}
-	
 	public double getFPS(){
-		//to be implemented.
 		return nativeGetFPS();
 	}
-	
-	/*public synchronized boolean queueEvent(Event event){
-		//max event number is 255;
-		if (mEventQueue.size() < 255){
-			mEventQueue.add(event);
-			return true;
-		}
-		else {
-			Log.w(TAG, "event queue is full.");
-			return false;
-		}
-	}*/
-	
-	/*public synchronized Event getEvent(){
-		if (mEventQueue.size() <= 0){
-			return null;
-		}
-		else{
-			return mEventQueue.remove(0);
-		}
-	}*/
 	
 	public synchronized void onDestroy(){
 		if (mIsInit) javaClear();
@@ -92,11 +60,11 @@ public class Engine{
 			//do some clean
 			if (mIsInit) javaClear();
 			if (nativeIsInit()) nativeClear();
+			
 			//re-initialize
 			nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i());
 			JavaInit();
 			mRenderer.onCreate(this);
-			Log.d(TAG, "OnSurfaceCreated if");
 		}
 		Log.d(TAG, "OnSurfaceCreated");
 	}
@@ -120,9 +88,7 @@ public class Engine{
 	}
 	
 	private void javaClear(){
-		if (mEventQueue != null) mEventQueue.clear();
 		mScene.javaClear();
-		
 		mIsInit = false; 
 	}
 	
@@ -132,16 +98,13 @@ public class Engine{
 	}
 	
 	private Engine(){
-		mEventQueue = new ArrayList<Event>();
 	}
 	
 	private static Engine mUniInstance;
 	
-	private Event mEvent;
 	private Scene mScene;
 	private Renderer mRenderer;
 	private int mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
-	private ArrayList<Event> mEventQueue;
 	
 	private boolean mIsInit;
 	

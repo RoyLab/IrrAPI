@@ -10,7 +10,12 @@ public class CameraSceneNode extends SceneNode{
 	}
 	
 	public void setLookAt(Vector3d vec){
+		mLookAt.copy(vec);
 		nativeSetLookAt(vec.x, vec.y, vec.z, getId());
+	}
+	
+	public void setUpVector(Vector3d vec){
+		nativeSetUpVector(vec, getId());
 	}
 	
 	public void setAspectRatio(double ratio){
@@ -23,6 +28,7 @@ public class CameraSceneNode extends SceneNode{
 	
 	public void javaLoadDataAndInit(Vector3d pos, Vector3d lookAt, SceneNode parent){
 		super.javaLoadDataAndInit(pos, parent);
+		mLookAt = new Vector3d(lookAt);
 		Vector2i size = mScene.getRenderSize();
 		setAspectRatio((float)size.x/size.y);
 	}
@@ -32,8 +38,15 @@ public class CameraSceneNode extends SceneNode{
 		mNodeType = TYPE_CAMERA;
 	}
 	
-	private native void nativeSetLookAt(double x, double y, double z, int id);
-	private native void nativeSetClipPlain(double nearClip, double farClip, int id);
-	private native void nativeSetAspectRatio(double ratio, int id);
-	private native void nativeSetFovy(double fovy, int id);
+	public Vector3d getLookAt(){
+		return new Vector3d(mLookAt);
+	}
+	
+	private Vector3d mLookAt;
+	
+	private native int nativeSetLookAt(double x, double y, double z, int id);
+	private native int nativeSetClipPlain(double nearClip, double farClip, int id);
+	private native int nativeSetAspectRatio(double ratio, int id);
+	private native int nativeSetFovy(double fovy, int id);
+	private native int nativeSetUpVector(Vector3d upVec, int id);
 }

@@ -1,17 +1,18 @@
 package zte.irrapp;
 
+import zte.irrlib.CameraFPSWrapper;
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
 import zte.irrlib.core.Color3i;
 import zte.irrlib.core.Color4i;
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
+import zte.irrlib.scene.CameraSceneNode;
 import zte.irrlib.scene.LightSceneNode;
 import zte.irrlib.scene.MeshSceneNode;
 import zte.irrlib.scene.Scene;
 import zte.irrlib.scene.SceneNode;
 import zte.irrlib.scene.TexMediaPlayer;
-import zte.irrlib.Event;
 
 public class DemoRenderer implements Renderer {
 	
@@ -22,59 +23,32 @@ public class DemoRenderer implements Renderer {
 		
 		scene.drawAllNodes();
 		
-		
 		scene.drawText("fps: " + engine.getFPS() + " material: " + model.getMaterialCount(),
 				new Vector2i(0, 0),
 				new Color4i(0xff, 0x40, 0x90, 0xff));
-		
-		mEvent = engine.getEvent();
-		if (mEvent != null){
-			scene.drawText("touch: " + scene.getTouchedSceneNode((int)mEvent.motionEvent.getX(),
-					(int)mEvent.motionEvent.getY(), model),
-					new Vector2i(0, 20), 
-					new Color4i(0xff, 0xff, 0xff, 0xff));
-			
-			scene.drawText("point: " + (int)mEvent.motionEvent.getX() + ":" +
-					(int)mEvent.motionEvent.getY(),
-					new Vector2i(0, 40), 
-					new Color4i(0xff, 0xff, 0xff, 0xff));
-		}
 	}
 
 	public void onCreate(Engine engine) {
 		origin = new Vector3d();
-		back = new Vector3d(0, 0, 20);
+		back = new Vector3d(0, 20, 0);
 		left = new Vector3d(-20, 0, 0);
 		right = new Vector3d(20, 0, 0);
 		
 		engine.setResourceDir("/storage/sdcard0/irrmedia/");
 		Scene scene = engine.getScene();
 		scene.setDefaultFontPath("bigfont.png");
-		//scene.enableLighting(false);
-		scene.addCameraSceneNode(new Vector3d(2, 10, -10), origin, true, null);
-		/*mPlayer = scene.getMediaPlayer();
+		scene.enableLighting(true);
 		
-		try {
-			mPlayer.setDataSource("/storage/extSdCard/irrmedia/media.ts");
-		} catch (Exception e) {
-			Log.e(TAG, "something wrong with mediaPlayer.");
-			e.printStackTrace();
-			mPlayer.release();
-		} 
+		camera = scene.addCameraSceneNode(new Vector3d(0, 0, -100), origin, true, null);
+		w = new CameraFPSWrapper(camera);
 		
-		try {
-			mPlayer.prepare();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+		cube = scene.addCubeSceneNode(back, 10, null);
+		cube.enableLighting(false);
+		cube.setTexture("test2.jpg", 0);
+		cube.addRotationAnimator(new Vector3d(0,0.5,0.2));
+		
 		model = scene.addMeshSceneNode("models/axis.obj", origin, null);
-		
 		model.addRotationAnimator(new Vector3d(0,0.5,0.0));
-		model.setSmoothShade(true, 0);
-		model.setTouchable(true);
-		model.setDiffuseColor(new Color4i(0xff, 0xff, 0, 0xff), 10);
 		model.setRotation(new Vector3d(90, 0, 0), SceneNode.TRANS_ABSOLUTE);
 		
 		light = scene.addLightSceneNode(new Vector3d(-30,30,-30), 100, new Color3i(0x7f,0x7f,0x7f), null);
@@ -99,7 +73,8 @@ public class DemoRenderer implements Renderer {
 	private LightSceneNode light;
 	private int count;
 	private TexMediaPlayer mPlayer;
-	private Event mEvent;
-		
+	
+	private CameraSceneNode camera;
+	public CameraFPSWrapper w;
 	private Vector3d origin, back, left, right;
 }

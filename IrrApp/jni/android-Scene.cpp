@@ -434,6 +434,7 @@ extern "C"
 		if (!parentNode) return;
 			
 		parentNode->removeChild(node);
+		node->drop();
 	}
 	
 	int Java_zte_irrlib_scene_Scene_nativeGetMediaTextureId(

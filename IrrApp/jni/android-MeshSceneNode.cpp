@@ -129,6 +129,20 @@ extern "C"
 		node->getMaterial(materialID).Shininess = (float)shininess;
 		return 0;
 	}
+	
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeEnableLighting(
+		JNIEnv *env, jobject defaultObj, jboolean flag, jint id)
+	{
+		scene::ISceneNode* node =
+			(ISceneNode*)smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, EnableLighting);
+			return -1;
+		}	
+		node->setMaterialFlag(video::EMF_LIGHTING, false);
+		return 0;
+	}
 
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetTexture(
 		JNIEnv *env, jobject defaultObj, jstring path, jint materialID, jint id)

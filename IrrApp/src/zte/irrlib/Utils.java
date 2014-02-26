@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import zte.irrapp.WLog;
+
 import android.content.res.AssetManager;
 import android.util.Log;
 
@@ -17,11 +19,9 @@ public class Utils {
 	    try{
             File f = new File(path);
             if(!f.exists()){
-            	Log.w(TAG, "File not exists: " + path);
             	return false;
             }
-	    }catch (Exception e) {
-    		Log.w(TAG, "Path open failed: " + path);
+	    }catch (Exception e){
             return false;
 	    }
 	    return true;
@@ -31,18 +31,29 @@ public class Utils {
 		return (path.charAt(0) == '/');
 	}
 	
-	/*public void copyAssetsToNative(AssetManager assetManager, boolean isMandatory) throws IOException{
-		if (!isMandatory){
-			File checkFile = new File(getResourceDir());
-			if (checkFile.exists() && checkFile.isDirectory()){
-				return;
+	public static boolean copyAssets(AssetManager assetManager, String source, String desPath) 
+			throws IOException{
+		
+		File checkFile = new File(desPath);
+		if (checkFile.exists()){
+			if (!checkFile.isDirectory()){
+				return false;
 			}
+		} else {
+			checkFile.mkdirs();
 		}
-		String[] fileList = assetManager.list("");
+		
+		String[] fileList = assetManager.list(source);
 		for(String file:fileList){
-			InputStream input = assetManager.open(file);
+			InputStream input;
+			try{
+				 input = assetManager.open(source+"/"+file);
+			}catch (IOException e){
+				Log.i(TAG, "Skip dir: " + file);
+				continue;
+			}
 			OutputStream output =
-					new FileOutputStream(getResourceDir() + "/" + file);
+					new FileOutputStream(desPath+"/"+file);
 			byte[] buffer = new byte[4096];
 			int length;
 			while ((length = input.read(buffer)) > 0){
@@ -52,5 +63,6 @@ public class Utils {
 			output.close();
 			input.close();
 		}
-	}*/
+		return true;
+	}
 }

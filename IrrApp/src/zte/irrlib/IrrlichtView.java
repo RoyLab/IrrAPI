@@ -30,19 +30,6 @@ public class IrrlichtView extends GLSurfaceView {
 		setEGLConfigChooser(new RecommedEGLConfigChooser(mRenderType, sampleLevel));
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event){
-		if (event.getAction() == MotionEvent.ACTION_DOWN){
-			Event e = new Event(mEngine);
-			e.EventType = Event.KEY_DOWN_EVENT;
-			e.motionEvent = event;
-			
-			queueEvent(e);
-			return true;
-		}
-		return super.onTouchEvent(event);
-	}
-	
 	public void enableGLES2(boolean flag){
 		if (flag){
 			mRenderType = EGL10Ext.EGL_OPENGL_ES2_BIT;
@@ -97,12 +84,6 @@ public class IrrlichtView extends GLSurfaceView {
 		super.onDetachedFromWindow();
 		Log.d(TAG, "OnDetached");
 	}
-	
-	/*public void onDestroy(){
-		if (mEngine != null){
-			mEngine.onDestroy();
-		}
-	}*/
 	
 	protected Activity getActivity(){
 		return (Activity)getContext();
