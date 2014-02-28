@@ -7,4 +7,8 @@ public class WLog {
 	public static void i(String str){
 		Log.i(tag, str);
 	}
+	
+	public static void d(String str){
+		Log.d(tag, str);
+	}
 }

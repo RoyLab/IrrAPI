@@ -7,7 +7,7 @@
 #endif
 
 #define LOG_TAG "NativeScene"
-
+#include "COGLESDriver.h"
 extern "C"
 {
 	//set background color
@@ -69,6 +69,7 @@ extern "C"
 	void Java_zte_irrlib_scene_Scene_nativeSmgrDrawAll(
 		JNIEnv *env, jobject defaultObj)
 	{
+		//((COGLES1Driver*)device)->testGLError();
 		smgr->drawAll();
 	}
 	

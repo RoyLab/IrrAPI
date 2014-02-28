@@ -42,20 +42,36 @@ public class MeshSceneNode extends SceneNode{
 		nativeSetShininess(para, materialId, getId());
 	}
 
-	public int setTexture(String path, int materialId) {
-		return nativeSetTexture(mScene.getFullPath(path), materialId, getId());
+	public void setTexture(String path, int materialId) {
+		nativeSetTexture(mScene.getFullPath(path), materialId, getId());
 	}
 	
-	public int setTexture(Bitmap bitmap, int materialId){
-		return nativeSetBitmapTexture(bitmap.toString(), bitmap, materialId, getId());
+	public void setTexture(Bitmap bitmap, int materialId){
+		nativeSetBitmapTexture(bitmap.toString(), bitmap, materialId, getId());
 	}
 	
 	public void setMediaTexture(int materialId){
 		nativeSetMediaTexture(materialId, getId());
 	}
+
+	public void setTexture(String path) {
+		nativeAllSetTexture(mScene.getFullPath(path), getId());
+	}
 	
-	public int addTextureAnimator(String[] path, int timePerFrame, boolean loop) {
-		return nativeAddTextureAnimator(path, timePerFrame, loop, getId());
+	public void setTexture(Bitmap bitmap){
+		nativeAllSetBitmapTexture(bitmap.toString(), bitmap, getId());
+	}
+	
+	public void setMediaTexture(){
+		nativeAllSetMediaTexture(getId());
+	}
+	
+	public void addTextureAnimator(String[] path, int timePerFrame, boolean loop) {
+		String text[] = path.clone();
+		for (int i = 0; i < text.length; i++){
+			text[i] = mScene.getFullPath(text[i]);
+		}
+		nativeAddTextureAnimator(text, timePerFrame, loop, getId());
 	}
 	
 	public void setBBoxVisibility(boolean flag){
@@ -69,17 +85,23 @@ public class MeshSceneNode extends SceneNode{
 	protected native int nativeSetTouchable(boolean flag, int Id);
 	protected native int nativeSetBBoxVisibility(boolean flag, int Id);
 	
+	private native int nativeEnableLighting(boolean flag, int Id);
+
 	private native int nativeSetSmoothShade(boolean flag, int materialId, int Id);
 	private native int nativeSetAmbientColor(int r, int g, int b, int a, int materialId, int Id);
 	private native int nativeSetDiffuseColor(int r, int g, int b, int a, int materialId, int Id);
 	private native int nativeSetEmissiveColor(int r, int g, int b, int a, int materialId, int Id);
 	private native int nativeSetSpecularColor(int r, int g, int b, int a, int materialId, int Id);
 	private native int nativeSetShininess(double shininess, int materialId, int Id);
-	private native int nativeEnableLighting(boolean flag, int Id);
 	
 	private native int nativeSetTexture(String path, int materialId, int Id);
-	private native int nativeAddTextureAnimator(String[] path, int timePerFrame, boolean loop, int Id);
 	private native int nativeSetBitmapTexture(String name, Bitmap bitmap, int materialId, int Id);
 	private native int nativeSetMediaTexture(int materialId, int Id);
+	
+	private native int nativeAllSetTexture(String path, int Id);
+	private native int nativeAllSetBitmapTexture(String name, Bitmap bitmap, int Id);
+	private native int nativeAllSetMediaTexture(int Id);
+
+	private native int nativeAddTextureAnimator(String[] path, int timePerFrame, boolean loop, int Id);
 	private native int nativeGetMaterialCount(int Id);
 }

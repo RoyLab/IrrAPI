@@ -31,6 +31,13 @@ extern int GL_BGRA;
 #ifdef _IRR_COMPILE_WITH_ANDROID_DEVICE_
 #include <android/log.h>
 #include "android-global.h"
+
+#ifdef LOG_TAG
+#undef LOG_TAG
+#endif
+
+#define LOG_TAG "NativeOGLESDriver"
+#define EXTTEST(...) testGLError();LOGD(__VA_ARGS__)
 #endif
 
 namespace irr
@@ -170,6 +177,7 @@ COGLES1Driver::COGLES1Driver(const SIrrlichtCreationParameters& params,
 
 	genericDriverInit(params.WindowSize, params.Stencilbuffer);
 #endif
+	if (testGLError()) LOGD("Driver error.");
 }
 
 
@@ -433,7 +441,7 @@ void COGLES1Driver::setTransform(E_TRANSFORMATION_STATE state, const core::matri
 {
 	Matrices[state] = mat;
 	Transformation3DChanged = true;
-
+	
 	switch(state)
 	{
 	case ETS_VIEW:
@@ -467,7 +475,7 @@ void COGLES1Driver::setTransform(E_TRANSFORMATION_STATE state, const core::matri
 		if (i>= MaxTextureUnits)
 			break;
 		const bool isRTT = Material.getTexture(i) && Material.getTexture(i)->isRenderTarget();
-
+		
 		if (MultiTextureExtension)
 			extGlActiveTexture(GL_TEXTURE0 + i);
 
@@ -1437,6 +1445,7 @@ bool COGLES1Driver::setTexture(u32 stage, const video::ITexture* texture)
 	{
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_TEXTURE_EXTERNAL_OES);
+		//EXTTEST("1");
 		return true;
 	}
 	else
@@ -1445,6 +1454,7 @@ bool COGLES1Driver::setTexture(u32 stage, const video::ITexture* texture)
 		{
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_TEXTURE_EXTERNAL_OES);
+			//EXTTEST("2");
 			os::Printer::log("Fatal Error: Tried to set a texture not owned by this driver.", ELL_ERROR);
 			return false;
 		}
@@ -1465,6 +1475,7 @@ bool COGLES1Driver::setTexture(u32 stage, const video::ITexture* texture)
 		glDisable(untarget);
 		glBindTexture(target,
 			static_cast<const COGLES1Texture*>(texture)->getOGLES1TextureName());
+		//EXTTEST("4£¬ %d", static_cast<const COGLES1Texture*>(texture)->getOGLES1TextureName());
 	}
 	return true;
 }
@@ -1833,8 +1844,6 @@ void COGLES1Driver::setBasicRenderStates(const SMaterial& material, const SMater
 
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
 			(material.TextureLayer[i].BilinearFilter || material.TextureLayer[i].TrilinearFilter) ? GL_LINEAR : GL_NEAREST);
-		glTexParameteri( GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER,
-			(material.TextureLayer[i].BilinearFilter || material.TextureLayer[i].TrilinearFilter) ? GL_LINEAR : GL_NEAREST);		
 
 		if (material.getTexture(i) && material.getTexture(i)->hasMipMaps())
 			// the npot extensions need some checks, because APPLE
@@ -1846,10 +1855,6 @@ void COGLES1Driver::setBasicRenderStates(const SMaterial& material, const SMater
 					material.TextureLayer[i].TrilinearFilter ? GL_LINEAR:
 					material.TextureLayer[i].BilinearFilter ? GL_LINEAR:
 					GL_NEAREST);
-				glTexParameteri( GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER,
-					material.TextureLayer[i].TrilinearFilter ? GL_LINEAR:
-					material.TextureLayer[i].BilinearFilter ? GL_LINEAR:
-					GL_NEAREST);					
 			}
 			else
 			{
@@ -1857,15 +1862,9 @@ void COGLES1Driver::setBasicRenderStates(const SMaterial& material, const SMater
 					material.TextureLayer[i].TrilinearFilter ? GL_LINEAR_MIPMAP_LINEAR :
 					material.TextureLayer[i].BilinearFilter ? GL_LINEAR_MIPMAP_NEAREST :
 					GL_NEAREST_MIPMAP_NEAREST );
-				glTexParameteri( GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER,
-					material.TextureLayer[i].TrilinearFilter ? GL_LINEAR_MIPMAP_LINEAR :
-					material.TextureLayer[i].BilinearFilter ? GL_LINEAR_MIPMAP_NEAREST :
-					GL_NEAREST_MIPMAP_NEAREST );
 			}
 		else
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-				(material.TextureLayer[i].BilinearFilter || material.TextureLayer[i].TrilinearFilter) ? GL_LINEAR : GL_NEAREST);
-			glTexParameteri( GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER,
 				(material.TextureLayer[i].BilinearFilter || material.TextureLayer[i].TrilinearFilter) ? GL_LINEAR : GL_NEAREST);
 				
 #ifdef GL_EXT_texture_filter_anisotropic

@@ -34,12 +34,7 @@ public class TexMediaPlayer extends MediaPlayer
 			throws IllegalArgumentException, SecurityException,
 			IllegalStateException, IOException{
 		
-		if (Utils.isAbsolutePath(path)){
-			super.setDataSource(path);
-		}
-		else{
-			super.setDataSource(mScene.getResourceDir()+path);
-		}
+		super.setDataSource(mScene.getFullPath(path));
 	}
 	
 	void setTexId(int id){

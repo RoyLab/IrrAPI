@@ -2,6 +2,7 @@ package zte.irrlib.scene;
 
 import java.util.ArrayList;
 
+import zte.irrapp.WLog;
 import zte.irrlib.Engine;
 import zte.irrlib.Utils;
 import zte.irrlib.core.Color3i;
@@ -139,6 +140,7 @@ public class Scene {
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
+		setActiveCamera(node);
 		node.javaLoadDataAndInit(pos, lookAt, parent);
 		return node;
 	}
@@ -174,6 +176,7 @@ public class Scene {
 			return null;
 		}
 		node.javaLoadDataAndInit(pos, parent);
+		mBBGroup.add(node);
 		return node;
 	}
 	
@@ -227,8 +230,16 @@ public class Scene {
 		mHeight = height;
 	}
 	
+	public void onDrawFrame(){
+		for (BillboardGroup itr:mBBGroup){
+			itr.updateVisible(getActiveCamera());
+		}
+		getActiveCamera().resetPosChangedFlag();
+	}
+	
 	public void javaClear(){
 		mNodeList.clear();
+		mBBGroup.clear();
 		if (mMediaPlayer != null){
 			mMediaPlayer.release();
 			mMediaPlayer = null;
@@ -274,7 +285,7 @@ public class Scene {
 		return _UniInstance;
 	}
 	
-	protected String getFullPath(String path){
+	public String getFullPath(String path){
 		if (Utils.isAbsolutePath(path)){
 			return path; 
 		} else {
@@ -292,10 +303,12 @@ public class Scene {
 	private boolean mEnableLighting = true;
 	private String mResourceDir;
 	private TexMediaPlayer mMediaPlayer;
+	private ArrayList<BillboardGroup> mBBGroup;
 	
 	private Scene(Engine engine){
 		mEngine = engine;
 		mNodeList = new ArrayList<SceneNode>();
+		mBBGroup = new ArrayList<BillboardGroup>();
 	}
 	
 	private native void nativeSetClearColor(int r, int g, int b, int a);

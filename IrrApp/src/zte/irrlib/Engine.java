@@ -65,6 +65,7 @@ public class Engine{
 			nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i());
 			JavaInit();
 			mRenderer.onCreate(this);
+			Log.d(TAG, "Renderer created");
 		}
 		Log.d(TAG, "OnSurfaceCreated");
 	}
@@ -77,6 +78,7 @@ public class Engine{
 	
 	public void onDrawFrame(){
 		nativeBeginScene();
+		mScene.onDrawFrame();
 		mRenderer.onDrawFrame(this);
 		nativeEndScene();
 	}

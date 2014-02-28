@@ -62,7 +62,7 @@ void CCubeSceneNode::render()
 {
 	video::IVideoDriver* driver = SceneManager->getVideoDriver();
 	driver->setTransform(video::ETS_WORLD, AbsoluteTransformation);
-
+	
 	// for debug purposes only:
 	bool renderMeshes = true;
 	video::SMaterial mat = Mesh->getMeshBuffer(0)->getMaterial();
@@ -72,9 +72,10 @@ void CCubeSceneNode::render()
 		mat.MaterialType = video::EMT_TRANSPARENT_ADD_COLOR;
 	else
 		driver->setMaterial(Mesh->getMeshBuffer(0)->getMaterial());
+	
 	driver->setMaterial(mat);
 	driver->drawMeshBuffer(Mesh->getMeshBuffer(0));
-
+	
 	// for debug purposes only:
 	if (DebugDataVisible)
 	{

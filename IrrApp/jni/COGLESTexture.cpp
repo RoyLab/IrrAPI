@@ -13,6 +13,13 @@
 #include "CImage.h"
 #include "CColorConverter.h"
 #include "irrString.h"
+#include "android-global.h"
+
+#ifdef LOG_TAG
+#undef LOG_TAG
+#endif
+
+#define LOG_TAG "NativeOGLESTex"
 
 namespace irr
 {
@@ -53,7 +60,9 @@ COGLES1Texture::COGLES1Texture(IImage* origImage, const io::path& name, COGLES1D
 		Image->drop();
 		Image=0;
 	}
-
+	
+	if (Driver->testGLError())
+		LOGD("Tex error. %s", name.c_str());
 }
 
 
@@ -797,8 +806,14 @@ COGLES1Texture(name, driver)
 
 	IsExternal = true;
 	glGenTextures(1, &TextureName);
+	glBindTexture(GL_TEXTURE_EXTERNAL_OES, getOGLES1TextureName());
+	glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glDisable(GL_TEXTURE_EXTERNAL_OES);
 
 	ImageSize.Width = ImageSize.Height = 0;
+	if (Driver->testGLError())
+		LOGD("Ext tex error. %s", name.c_str());
 }
 
 COGLES1TextureExt::~COGLES1TextureExt(){}

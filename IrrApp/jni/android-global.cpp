@@ -19,7 +19,7 @@ int gWindowHeight = 480;
 SColor backColor = SColor(255,0,0,0);
 
 bool _isInit = false;
-char _extPrefix[] = "<external>";
+const char _extPrefix[] = "<external>";
 char _builtInFontPath[128] = "";
 ITexture *_extTex = 0;
 
@@ -138,10 +138,12 @@ IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap)
 	switch (bitmapInfo.format)
 	{
 	case ANDROID_BITMAP_FORMAT_RGB_565:
+		//LOGD("565");
 		format = ECF_R5G6B5;
 		break;
 	case ANDROID_BITMAP_FORMAT_RGBA_8888:
 		format = ECF_A8R8G8B8;
+		//LOGD("A");
 		break;
 	default: break;
 	}

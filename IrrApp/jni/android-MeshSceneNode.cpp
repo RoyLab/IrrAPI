@@ -10,6 +10,21 @@
 
 extern "C"
 {
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeEnableLighting(
+		JNIEnv *env, jobject defaultObj, jboolean flag, jint id)
+	{
+		scene::ISceneNode* node =
+			(ISceneNode*)smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, EnableLighting);
+			return -1;
+		}
+		node->setMaterialFlag(video::EMF_LIGHTING, flag);
+		return 0;
+	}
+
+
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetBBoxVisibility(
 		JNIEnv *env, jobject defaultObj, jboolean flag, jint id)
 	{
@@ -44,6 +59,66 @@ extern "C"
 		}
 		return 0;
 	}
+	
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeAllSetTexture(
+		JNIEnv *env, jobject defaultObj, jstring path, jint id)
+	{
+		const char *msg = env->GetStringUTFChars(path,0);
+		core::stringc file = msg;
+
+		scene::ISceneNode* node =
+			(ISceneNode*)smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetAllTexture);
+			return -1;
+		}	
+		node->setMaterialTexture(0,driver->getTexture(file.c_str()));
+		env->ReleaseStringUTFChars(path,msg);
+		return 0;
+	}
+	
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeAllSetMediaTexture(
+		JNIEnv *env, jobject defaultObj, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetAllMediaTexture);
+			return -1;
+		}
+		
+		if (!_extTex)
+			_extTex = driver->addTexture(_extPrefix, 0);
+		
+		node->setMaterialTexture(0, _extTex);
+		return 0;
+	}
+
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeAllSetBitmapTexture(
+		JNIEnv *env, jobject defaultObj, jstring jname, 
+		jobject jbitmap, jint id)
+	{
+		const char *name = env->GetStringUTFChars(jname,0);
+		IImage *image = createImageFromBitmap(env, jbitmap);
+		
+		if (!image)
+			return -1;
+		
+		scene::ISceneNode* node =
+			(ISceneNode*)smgr->getSceneNodeFromId(id);
+			
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetAllBitmapTexture);
+			return -1;
+		}	
+			
+		ITexture *tex = driver->addTexture(name, image, 0);
+		node->setMaterialTexture(0, tex);
+		env->ReleaseStringUTFChars(jname,name);
+		return 0;
+	}
 
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetSmoothShade(
 		JNIEnv *env, jobject defaultObj,jboolean flag, jint materialID, jint id)
@@ -59,7 +134,7 @@ extern "C"
 		return 0;
 	}
 
-	
+
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetAmbientColor(
 		JNIEnv *env, jobject defaultObj, jint r, jint g, jint b, jint a, jint materialID, jint id)
 	{
@@ -69,7 +144,7 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetAmbientColor);
 			return -1;
-		}		
+		}
 		node->getMaterial(materialID).AmbientColor = video::SColor(a,r,g,b);
 		return 0;
 	}
@@ -83,7 +158,7 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetDiffuseColor);
 			return -1;
-		}		
+		}
 		node->getMaterial(materialID).DiffuseColor = video::SColor(a,r,g,b);
 		return 0;
 	}
@@ -97,7 +172,7 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetEmissiveColor);
 			return -1;
-		}			
+		}
 		node->getMaterial(materialID).EmissiveColor = video::SColor(a,r,g,b);
 		return 0;
 	}
@@ -111,7 +186,7 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetSpecularColor);
 			return -1;
-		}				
+		}
 		node->getMaterial(materialID).SpecularColor = video::SColor(a,r,g,b);
 		return 0;
 	}
@@ -125,26 +200,12 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetShininess);
 			return -1;
-		}	
+		}
 		node->getMaterial(materialID).Shininess = (float)shininess;
 		return 0;
 	}
-	
-	int Java_zte_irrlib_scene_MeshSceneNode_nativeEnableLighting(
-		JNIEnv *env, jobject defaultObj, jboolean flag, jint id)
-	{
-		scene::ISceneNode* node =
-			(ISceneNode*)smgr->getSceneNodeFromId(id);
-		if (!node)
-		{
-			WARN_NODE_NOT_FOUND(id, EnableLighting);
-			return -1;
-		}	
-		node->setMaterialFlag(video::EMF_LIGHTING, false);
-		return 0;
-	}
 
-	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetTexture(
+		int Java_zte_irrlib_scene_MeshSceneNode_nativeSetTexture(
 		JNIEnv *env, jobject defaultObj, jstring path, jint materialID, jint id)
 	{
 		const char *msg = env->GetStringUTFChars(path,0);
@@ -156,40 +217,51 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetTexture);
 			return -1;
-		}	
+		}
 		node->getMaterial(materialID).setTexture(
 			0,driver->getTexture(file.c_str()));
-
-		/* another method: set specific layer with new texture for all materials
-		if(materialID >= video::MATERIAL_MAX_TEXTURES)
-				return -1;
-		node->setMaterialTexture(materialID,driver->getTexture(file.c_str()));
-		*/
 		env->ReleaseStringUTFChars(path,msg);
 		return 0;
 	}
-	
+
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetMediaTexture(
+		JNIEnv *env, jobject defaultObj, jint mId, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetMediaTexture);
+			return -1;
+		}
+		
+		if (!_extTex)
+			_extTex = driver->addTexture(_extPrefix, 0);
+		
+		node->getMaterial(mId).setTexture(0, _extTex);
+		return 0;
+	}
+
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetBitmapTexture(
-		JNIEnv *env, jobject defaultObj, jstring jname, 
+		JNIEnv *env, jobject defaultObj, jstring jname,
 		jobject jbitmap, jint materialID, jint id)
 	{
 		const char *name = env->GetStringUTFChars(jname,0);
 		IImage *image = createImageFromBitmap(env, jbitmap);
-		
+
 		if (!image)
 			return -1;
-		
+
 		scene::ISceneNode* node =
 			(ISceneNode*)smgr->getSceneNodeFromId(id);
-			
+
 		if (!node)
 		{
 			WARN_NODE_NOT_FOUND(id, SetBitmapTexture);
 			return -1;
-		}	
-			
+		}
+
 		ITexture *tex = driver->addTexture(name, image, 0);
-		node->setMaterialTexture(0, tex);
+		node->getMaterial(materialID).setTexture(0, tex);
 		env->ReleaseStringUTFChars(jname,name);
 		return 0;
 	}
@@ -222,23 +294,8 @@ extern "C"
 			smgr->createTextureAnimator(texArr, timePerFrame, loop);
 		node->addAnimator(texAni);
 		return 0;
-	}
-	
-	
-	
-	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetMediaTexture(
-		JNIEnv *env, jobject defaultObj, jint mId, jint id)
-	{
-		ISceneNode* node = smgr->getSceneNodeFromId(id);
-		if (!node)
-		{
-			WARN_NODE_NOT_FOUND(id, SetMediaTexture);
-			return -1;
-		}	
-		node->setMaterialTexture(mId, _extTex);
-		return 0;
-	}
-	
+	}	
+
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeGetMaterialCount(
 		JNIEnv *env, jobject defaultObj, jint id)
 	{

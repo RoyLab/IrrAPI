@@ -59,7 +59,7 @@ extern stringc gSdCardPath;
 extern video::SColor backColor;
 
 extern bool _isInit;
-extern char _extPrefix[];
+extern const char _extPrefix[];
 extern char _builtInFontPath[];
 extern ITexture* _extTex;
 

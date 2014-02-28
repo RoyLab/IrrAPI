@@ -1,5 +1,6 @@
 package zte.irrlib;
 
+import zte.irrapp.WLog;
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.CameraSceneNode;
 import zte.irrlib.scene.SceneNode;
@@ -39,11 +40,11 @@ public class CameraFPSWrapper {
 	}
 	
 	private void recalculate(){
-		if (mFai > Math.PI - 1e-5){
-			mFai = Math.PI - 1e-5;
+		if (mFai > Math.PI - 0.1){
+			mFai = Math.PI - 0.1;
 		}
-		if (mFai < 1e-5){
-			mFai = 1e-5;
+		if (mFai < 0.1){
+			mFai = 0.1;
 		}
 		
 		pLook.x = Math.sin(mFai) * Math.sin(mXita);

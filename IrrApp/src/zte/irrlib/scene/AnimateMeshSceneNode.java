@@ -20,9 +20,8 @@ public class AnimateMeshSceneNode extends MeshSceneNode {
 		return nativeGetFrameNumber(getId());
 	}
 	
-	//return 0 means succeed
-	public int setCurrentFrame(int frame){
-		return nativeSetCurrentFrame(frame, getId());
+	public void setCurrentFrame(int frame){
+		nativeSetCurrentFrame(frame, getId());
 	}
 	
 	public void setAnimationSpeed(double fps){
@@ -39,6 +38,4 @@ public class AnimateMeshSceneNode extends MeshSceneNode {
 	private native int nativeSetCurrentFrame(int frame, int id);
 	private native void nativeSetAnimationSpeed(double fps, int id);
 	private native void nativeSetLoopMode(boolean loop, int id);
-	
-	
 }

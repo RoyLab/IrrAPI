@@ -6,15 +6,15 @@ import java.util.Iterator;
 
 public class BillboardGroup extends SceneNode{
 	
-	private ArrayList<BillboardSceneNode> mGroup;
-	private Scene mScene;
-	
-	public final int REMOVE_FROM_SCENE = 0x01;
-	public final int REMOVE_FROM_GROUP = 0x02;
+	public static final int REMOVE_FROM_SCENE = 0x01;
+	public static final int REMOVE_FROM_GROUP = 0x02;
 	
 	BillboardGroup(){
 		super();
 		mNodeType = TYPE_BILLBOARD_GROUP;
+		mGroup = new ArrayList<BillboardSceneNode>();
+		mNear = 0.01;
+		mFar = 1000;
 	}
 	
 	public void add(BillboardSceneNode node){
@@ -45,20 +45,26 @@ public class BillboardGroup extends SceneNode{
 		mGroup.removeAll(mGroup);
 	}
 	
-	public void setViewCompressionValues(double near, double far){
-		Iterator<BillboardSceneNode> itr = mGroup.iterator();
-		CameraSceneNode camera = mScene.getActiveCamera();
-		BillboardSceneNode tmp;
-		double disSquare;
-		
-		while (itr.hasNext()){
-			tmp = itr.next();
-			disSquare = tmp.getPosition().distanceSquare(camera.getPosition());
-			
-			if (disSquare < near*near || disSquare > far*far){
-				tmp.setVisible(false);
-			}
-			else tmp.setVisible(true);
-		}
+	public void setVisibleDistance(double near, double far){
+		mFar = far; mNear = near;
 	}
+	
+	public void updateVisible(CameraSceneNode camera){
+		
+		if ((mLastCamera == camera) && (!camera.isPositionChanged())) return;
+		
+		for (BillboardSceneNode itr:mGroup){
+			double disSquare = itr.getPosition().distanceSquare(camera.getPosition());
+			
+			if (disSquare < mNear*mNear || disSquare > mFar*mFar){
+				itr.setVisible(false);
+			}
+			else itr.setVisible(true);
+		}
+		mLastCamera = camera;
+	}
+	
+	private ArrayList<BillboardSceneNode> mGroup;
+	private double mNear, mFar;
+	private CameraSceneNode mLastCamera;
 }

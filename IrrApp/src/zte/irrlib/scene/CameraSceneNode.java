@@ -26,6 +26,20 @@ public class CameraSceneNode extends SceneNode{
 		nativeSetFovy(fovy, getId());
 	}
 	
+	public boolean isPositionChanged(){
+		return mIsPosChanged;
+	}
+	
+	public void resetPosChangedFlag(){
+		mIsPosChanged = false;
+	}
+	
+	@Override
+	public void setPosition(Vector3d para, int mode){
+		super.setPosition(para, mode);
+		mIsPosChanged = true;
+	}
+	
 	public void javaLoadDataAndInit(Vector3d pos, Vector3d lookAt, SceneNode parent){
 		super.javaLoadDataAndInit(pos, parent);
 		mLookAt = new Vector3d(lookAt);
@@ -43,6 +57,7 @@ public class CameraSceneNode extends SceneNode{
 	}
 	
 	private Vector3d mLookAt;
+	private boolean mIsPosChanged;
 	
 	private native int nativeSetLookAt(double x, double y, double z, int id);
 	private native int nativeSetClipPlain(double nearClip, double farClip, int id);

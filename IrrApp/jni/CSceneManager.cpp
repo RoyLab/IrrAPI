@@ -1323,7 +1323,7 @@ void CSceneManager::drawAll()
 	Parameters.setAttribute ( "drawn_transparent_effect", 0 );
 
 	u32 i; // new ISO for scoping problem in some compilers
-
+	
 	// reset all transforms
 	video::IVideoDriver* driver = getVideoDriver();
 	if ( driver )
@@ -1351,7 +1351,7 @@ void CSceneManager::drawAll()
 		ActiveCamera->render();
 		camWorldPos = ActiveCamera->getAbsolutePosition();
 	}
-
+	
 	// let all nodes register themselves
 	OnRegisterSceneNode();
 
@@ -1374,7 +1374,7 @@ void CSceneManager::drawAll()
 		if(LightManager)
 			LightManager->OnRenderPassPostRender(CurrentRendertime);
 	}
-
+	
 	//render lights scenes
 	{
 		//__android_log_print(ANDROID_LOG_INFO,"Enron","CSceneManager:drawall():render light scenes");
@@ -1419,7 +1419,7 @@ void CSceneManager::drawAll()
 		if(LightManager)
 			LightManager->OnRenderPassPostRender(CurrentRendertime);
 	}
-
+	
 	// render skyboxes
 	{
 		CurrentRendertime = ESNRP_SKY_BOX;
@@ -1448,14 +1448,13 @@ void CSceneManager::drawAll()
 			LightManager->OnRenderPassPostRender(CurrentRendertime);
 	}
 
-
 	// render default objects
 	{
 		CurrentRendertime = ESNRP_SOLID;
 		Driver->getOverrideMaterial().Enabled = ((Driver->getOverrideMaterial().EnablePasses & CurrentRendertime) != 0);
 
 		SolidNodeList.sort(); // sort by textures
-
+		
 		if(LightManager)
 		{
 			LightManager->OnRenderPassPreRender(CurrentRendertime);
@@ -1470,7 +1469,9 @@ void CSceneManager::drawAll()
 		else
 		{
 			for (i=0; i<SolidNodeList.size(); ++i)
+			{
 				SolidNodeList[i].Node->render();
+			}
 		}
 
 		Parameters.setAttribute ( "drawn_solid", (s32) SolidNodeList.size() );
@@ -1479,7 +1480,7 @@ void CSceneManager::drawAll()
 		if(LightManager)
 			LightManager->OnRenderPassPostRender(CurrentRendertime);
 	}
-
+	
 	// render shadows
 	if(ShadowFlag)
 	{

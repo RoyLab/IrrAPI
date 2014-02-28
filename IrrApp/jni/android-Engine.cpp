@@ -29,6 +29,7 @@ extern "C"
 			device = 0;
 			driver = 0;
 			smgr = 0;
+			_extTex = 0;
 		}
 		
 		device = createDevice( videoType, 
@@ -45,7 +46,7 @@ extern "C"
 			LOGE("No driver!"); 
 			return -2;
 		}
-
+		
 		smgr = device->getSceneManager();
 		if (!smgr){
 			LOGE("No scene manager!");
@@ -75,9 +76,8 @@ extern "C"
 	int Java_zte_irrlib_Engine_nativeClear(
 		JNIEnv *env, jobject defaultObj)
 	{
-		//if (device) delete device;
+		//if (device) device->drop();
 		//device = 0;
-		//if (smgr) smgr->clear();
 		_isInit = false;
 	}
 	
