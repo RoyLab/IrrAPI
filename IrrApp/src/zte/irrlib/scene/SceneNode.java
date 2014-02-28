@@ -126,6 +126,10 @@ public class SceneNode {
 		nativeAddDeleteAnimator(ms, getId());
 	}
 	
+	public void addCollisionResponseAnimator(SceneNode selNode){
+		nativeAddCollisionResponseAnimator(mScene.getId(selNode),getId());
+	}
+	
 	//单个去除动画的函数实现所需代码略多，暂不管
 	public void removeAllAnimator(){
 		nativeRemoveAllAnimator(getId());
@@ -181,7 +185,7 @@ public class SceneNode {
 	private native int nativeSetRotation(double x, double y, double z, int Id);
 	private native int nativeSetScale(double x, double y, double z, int Id);
 	private native int nativeSetPosition(double x, double y, double z, int Id);
-
+	
 	//! animator native method.
 	private native int nativeAddRotationAnimator(
 			double x, double y, double z, int Id);
@@ -197,7 +201,8 @@ public class SceneNode {
 			
 	private native int nativeAddDeleteAnimator(int ms, int Id);
 	private native int nativeRemoveAllAnimator(int Id);
-
+	private native int nativeAddCollisionResponseAnimator(int selId, int Id);
+	
 	public class TransformationInfo{
 		public Vector3d Position;
 		public Vector3d Rotation;

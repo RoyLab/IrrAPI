@@ -42,7 +42,7 @@ public class DemoRenderer implements Renderer {
 		left = new Vector3d(-20, 0, 0);
 		right = new Vector3d(20, 0, 0);
 		
-		engine.setResourceDir("/storage/sdcard0/irrmedia/");
+		engine.setResourceDir("/sdcard/irrmedia/");
 		Scene scene = engine.getScene();
 		scene.setClearColor(new Color4i(0xff, 0xff, 0x9f, 0x3f));
 		scene.setDefaultFontPath("bigfont.png");
@@ -51,12 +51,22 @@ public class DemoRenderer implements Renderer {
 		camera = scene.addCameraSceneNode(new Vector3d(0, 0, -30), origin, true, null);
 		w = new CameraFPSWrapper(camera);
 		
-		cube = scene.addCubeSceneNode(back, 10, null);
+		//cube.addRotationAnimator(new Vector3d(0,0.5,0.2));
+		cube = scene.addCubeSceneNode(origin, 10, null);
 		cube.enableLighting(false);
 		cube.setSmoothShade(false, 0);
+		cube.setTexture("test2.jpg");
+		//cube.addRotationAnimator(new Vector3d(0,0.5,0.2));
+		cube.addFlyStraightAnimator(new Vector3d(-30,0,0), new Vector3d(50,0,20), 1000, true, true);
 		
-		//cube.setTexture("test2.jpg");
-		cube.addRotationAnimator(new Vector3d(0,0.5,0.2));
+		walla = scene.addCubeSceneNode(new Vector3d(-30,0,0), 10, null);
+		walla.setScale(new Vector3d(0.5,5,5), 0);
+		walla.setTexture("test2.jpg");
+		wallb = scene.addCubeSceneNode(new Vector3d(30,0,0), 10, null);
+		wallb.setTexture("test2.jpg");
+		wallb.setScale(new Vector3d(0.5,5,5), 0);
+		cube.addCollisionResponseAnimator(walla);
+		cube.addCollisionResponseAnimator(wallb);
 		
 		/*model = scene.addAnimateMeshSceneNode("settings/settings.b3d", origin, null);
 		model.addRotationAnimator(new Vector3d(0,0.5,0.0));
@@ -93,7 +103,7 @@ public class DemoRenderer implements Renderer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cube.setMediaTexture();
+		//cube.setMediaTexture();
 		bill.setTexture("test2.jpg");
 		light = scene.addLightSceneNode(new Vector3d(-30,30,-30), 100, new Color3i(0x7f,0x7f,0x7f), null);
 		mPlayer.start();
@@ -110,7 +120,7 @@ public class DemoRenderer implements Renderer {
 
 	private BillboardGroup group;
 	private SceneNode empty, node;
-	private MeshSceneNode cube;
+	private MeshSceneNode cube,walla,wallb;
 	public AnimateMeshSceneNode model;
 	private BillboardSceneNode bill;
 	private LightSceneNode light;

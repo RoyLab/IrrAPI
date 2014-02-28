@@ -166,6 +166,39 @@ extern "C"
 		return 0;
 	}
 	
+	int Java_zte_irrlib_scene_SceneNode_nativeAddCollisionResponseAnimator(
+		JNIEnv *env, jobject defaultObj, jint selId, jint id)
+	{
+		ISceneNode* selNode = smgr->getSceneNodeFromId(selId);
+		if (!selNode)
+		{
+			WARN_NODE_NOT_FOUND(selId, AddCollisionResponseAnimator);
+			return -1;
+		}
+
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, AddCollisionResponseAnimator);
+			return -1;
+		}
+
+		ITriangleSelector* selector = smgr->createTriangleSelectorFromBoundingBox(selNode);
+		vector3df radius(0,0,0),gravity(0,0,0),translation(0,0,0);
+		const aabbox3d<f32>& box = node->getBoundingBox();
+		radius = box.MaxEdge-box.getCenter();
+
+		ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(selector, node,
+			radius,
+			gravity,
+			translation,
+			0.0005f
+		);
+		node->addAnimator(anim);
+		anim->drop();
+	}
+
+
 	int Java_zte_irrlib_scene_SceneNode_nativeRemoveAllAnimator(
 		JNIEnv *env, jobject defaultObj, jint id)
 	{
