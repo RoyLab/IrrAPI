@@ -8,11 +8,19 @@ class ParticleSystemSceneNode extends SceneNode {
 	
 	public static final int EMITTER_BOX = 0x01;
 	
+	/**
+	 * 唯一构造函数
+	 */
 	public ParticleSystemSceneNode(){
 		super();
 		mNodeType = TYPE_PARTICLE_SYSTEM;
 	}
 	
+	/**
+	 * 为粒子系统节点设置发射器
+	 * @param EmitterType 所使用的发射器类型
+	 * @param para 所使用的发射器对象
+	 */
 	public void SetEmitter(int EmitterType, Param para){
 		nativeSetEmitter(EmitterType, para, getId());
 	}

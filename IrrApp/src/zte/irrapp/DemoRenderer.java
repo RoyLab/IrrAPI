@@ -67,7 +67,7 @@ public class DemoRenderer implements Renderer {
 		wallb.setScale(new Vector3d(0.5,5,5), 0);
 		cube.addCollisionResponseAnimator(walla);
 		cube.addCollisionResponseAnimator(wallb);
-		
+		scene.addParticleSystemSceneNode(new Vector3d(0,10,0), true, null);
 		/*model = scene.addAnimateMeshSceneNode("settings/settings.b3d", origin, null);
 		model.addRotationAnimator(new Vector3d(0,0.5,0.0));
 		model.setRotation(new Vector3d(90, 0, 0), SceneNode.TRANS_ABSOLUTE);

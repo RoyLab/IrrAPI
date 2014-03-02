@@ -10,18 +10,33 @@ import android.view.Surface;
 public class TexMediaPlayer extends MediaPlayer
 	implements SurfaceTexture.OnFrameAvailableListener{
 	
+	/**
+	 * 构造函数，为场景赋值。
+	 * @param sc 所使用的场景对象
+	 */
 	public TexMediaPlayer(Scene sc){
 		super();
 		mScene = sc;
 	}
 	
+	/**
+	 * 构造函数，为场景赋值并指定材质ID值
+	 * @param sc 所使用的场景对象
+	 * @param texId 材质的ID值
+	 */
 	public TexMediaPlayer(Scene sc, int texId){
 		this(sc);
 		setTexId(texId);
 	}
 	
+	/**
+	 * Log Tag
+	 */
 	public static final String TAG = "TexMediaPlayer";
 	
+	/**
+	 * 更新视频图像
+	 */
 	public synchronized void update(){
 		if ((mSurfaceTex!=null) && mNewFrame){
 			mSurfaceTex.updateTexImage();
@@ -37,6 +52,10 @@ public class TexMediaPlayer extends MediaPlayer
 		super.setDataSource(mScene.getFullPath(path));
 	}
 	
+	/**
+	 * 设置材质
+	 * @param id 所用材质ID值
+	 */
 	void setTexId(int id){
 		mSurfaceTex = new SurfaceTexture(id);
 		mSurfaceTex.setOnFrameAvailableListener(this);

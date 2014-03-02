@@ -401,9 +401,9 @@ extern "C"
 	}
 
 	//how to make it?
-	/*int Java_zte_irrlib_scene_Scene_nativeAddParticleSystemSceneNode(
+	int Java_zte_irrlib_scene_Scene_nativeAddParticleSystemSceneNode(
 		JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
-		jboolean withDefaultEmitter, int id, int parent)
+		jboolean withDefaultEmitter, jint id, jint parent, jboolean isLight)
 	{
 		//1.25: must use default emitter now
 		if(!withDefaultEmitter) return -1;
@@ -423,7 +423,7 @@ extern "C"
 
 		if(ps) return 0;
 		else return -1;
-	}*/
+	}
 
 	void Java_zte_irrlib_scene_Scene_nativeRemoveNode(
 		JNIEnv *env, jobject defaultObj, jint id)

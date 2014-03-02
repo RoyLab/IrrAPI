@@ -4,68 +4,142 @@ import zte.irrlib.core.Color4i;
 import android.graphics.Bitmap;
 
 public class MeshSceneNode extends SceneNode{
-
+	
+	/**
+	 * 唯一构造函数
+	 */
 	MeshSceneNode(){
 		super();
 		mNodeType = TYPE_MESH;
 	}
 	
+	/**
+	 * 设置模型节点是否响应光照。
+	 * @param flag 值为true时响应光照，否则无视光源
+	 */
 	public void enableLighting(boolean flag){
 		nativeEnableLighting(flag, getId());
 	}
 	
+	/**
+	 * 设置模型节点是否响应点选碰撞检测。
+	 * @param flag 值为true时则响应点选碰撞检测，否则不响应
+	 */
 	public void setTouchable(boolean flag){
 		nativeSetTouchable(flag, getId());
 	}
 	
+	/**
+	 * 设置指定材质是否使用使用平滑着色（高氏着色：Gouraud Shading）。
+	 * @param flag 值为true时启用Gouraud Shading，否则不启用。
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setSmoothShade(boolean flag, int materialId){
 		nativeSetSmoothShade(flag, materialId, getId());
 	}
 	
+	/**
+	 * 设置指定材质对环境光的颜色响应。
+	 * @param color 材质对环境光的颜色响应参数
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setAmbientColor(Color4i color, int materialId) {
 		nativeSetAmbientColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
-
+	
+	/**
+	 * 设置指定材质对漫反射光的颜色响应。
+	 * @param color 材质对漫反射光的响应参数，默认值为全白（255，255，255）
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setDiffuseColor(Color4i color, int materialId) {
 		nativeSetDiffuseColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
-
+	
+	/**
+	 * 设置指定材质的发射光颜色。默认不发光。
+	 * @param color 材质的发射射光参数
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setEmissiveColor(Color4i color, int materialId) {
 		nativeSetEmissiveColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
-
+	
+	/**
+	 * 设置指定材质的对高光的颜色响应。
+	 * @param color 材质的高光响应参数。默认值为全白（255，255，255）
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setSpecularColor(Color4i color, int materialId) {
 		nativeSetSpecularColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
-
+	
+	/**
+	 * 设置指定材质光强参数，将影响材质的高光。
+	 * 通用值为20。置0时则无高光。正常取值范围为[0.5,128]。
+	 * @param para 材质光强参数值
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setShininess(double para, int materialId) {
 		nativeSetShininess(para, materialId, getId());
 	}
-
+	
+	/**
+	 * 设置指定材质的贴图。
+	 * @param path 贴图的路径
+	 * @param materialId 指定材质的ID值 
+	 */
 	public void setTexture(String path, int materialId) {
 		nativeSetTexture(mScene.getFullPath(path), materialId, getId());
 	}
 	
+	/**
+	 * 设置指定材质的贴图为位图。
+	 * @param bitmap 所使用的位图对象
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setTexture(Bitmap bitmap, int materialId){
 		nativeSetBitmapTexture(bitmap.toString(), bitmap, materialId, getId());
 	}
 	
+	/**
+	 * 设置指定材质贴图为视频图像
+	 * @param materialId 指定材质的ID值
+	 */
 	public void setMediaTexture(int materialId){
 		nativeSetMediaTexture(materialId, getId());
 	}
-
+	
+	/**
+	 * 为模型节点所有材质指定统一贴图
+	 * @param path 贴图的路径
+	 */
 	public void setTexture(String path) {
 		nativeAllSetTexture(mScene.getFullPath(path), getId());
 	}
 	
+	/**
+	 * 为模型所有节点指定统一位图贴图
+	 * @param bitmap 所使用的位图对象
+	 */
 	public void setTexture(Bitmap bitmap){
 		nativeAllSetBitmapTexture(bitmap.toString(), bitmap, getId());
 	}
 	
+	/**
+	 * 为模型所有节点指定统一视频贴图
+	 * @param bitmap 所使用的视频贴图对象
+	 */
 	public void setMediaTexture(){
 		nativeAllSetMediaTexture(getId());
 	}
 	
+	/**
+	 * 为模型材质设定动画贴图
+	 * @param path 所用贴图组的路径
+	 * @param timePerFrame 贴图动画播放速率，单位frame/second
+	 * @param loop 值为true时循环播放贴图动画，否则单次播放
+	 */
 	public void addTextureAnimator(String[] path, int timePerFrame, boolean loop) {
 		String text[] = path.clone();
 		for (int i = 0; i < text.length; i++){
@@ -74,10 +148,18 @@ public class MeshSceneNode extends SceneNode{
 		nativeAddTextureAnimator(text, timePerFrame, loop, getId());
 	}
 	
+	/**
+	 * 设置模型节点的包围盒是否可视
+	 * @param flag 值为true时包围盒可视，否则不可见
+	 */
 	public void setBBoxVisibility(boolean flag){
 		nativeSetBBoxVisibility(flag, getId());
 	}
 	
+	/**
+	 * 返回模型节点的材质数目
+	 * @return 模型节点的材质数目
+	 */
 	public int getMaterialCount(){
 		return nativeGetMaterialCount(getId());
 	}
