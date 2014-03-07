@@ -96,6 +96,20 @@ extern "C"
 		return 0;
 	}
 	
+	int Java_zte_irrlib_scene_SceneNode_nativeSetMaterialType(
+		JNIEnv*  env, jobject defaultObj, jint type, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		//LOGD("POSITION %d", id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetMaterialType);
+			return -1;
+		}
+		node->setMaterialType(E_MATERIAL_TYPE(type));
+		return 0;
+	}
+
 	int Java_zte_irrlib_scene_SceneNode_nativeAddRotationAnimator(
 		JNIEnv*  env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
 		jint id)

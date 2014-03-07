@@ -81,6 +81,11 @@ vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec)
 			env->GetDoubleField(vec, id_vz));
 }
 
+dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec)
+{
+	return dimension2df(env->GetDoubleField(vec, id_vx), env->GetDoubleField(vec, id_vy));
+}
+
 void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jobject rect)
 {
 	cls_vector3d = env->GetObjectClass(vector);

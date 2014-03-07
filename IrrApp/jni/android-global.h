@@ -25,6 +25,7 @@ SColor createSColorFromColor4i(JNIEnv *env, jobject color);
 SColor createSColorFromColor3i(JNIEnv *env, jobject color);
 SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
 vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
+dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
 
 void setVector3dFromvector3df(JNIEnv *env, jobject light, jfieldID id, const vector3df& vec);
 void setColor3iFromSColorf(JNIEnv *env, jobject light, jfieldID id, const SColorf& color);
