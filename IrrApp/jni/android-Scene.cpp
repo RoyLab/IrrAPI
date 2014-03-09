@@ -95,13 +95,17 @@ extern "C"
 	int Java_zte_irrlib_scene_Scene_nativeGetTouchedSceneNode(
 		JNIEnv *env, jobject defaultObj, jint x, jint y, jint root)
 	{
-		ISceneNode* rootNode = smgr->getSceneNodeFromId(root);
-		ICameraSceneNode* camera = smgr->getActiveCamera();
+
+		ISceneNode* rootNode;
+		if (root == 0) rootNode = smgr->getRootSceneNode();
+		else rootNode = smgr->getSceneNodeFromId(root);
+
 		if (!rootNode)
 		{
 			WARN_NODE_NOT_FOUND(root, GetTouchedSceneNode);
 			return -1;
 		}
+		ICameraSceneNode* camera = smgr->getActiveCamera();
 		
 		ISceneCollisionManager *collMgr = smgr->getSceneCollisionManager();
 		core::line3d<f32> ray = collMgr->getRayFromScreenCoordinates(

@@ -93,9 +93,9 @@ void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jo
 	cls_color3i = env->GetObjectClass(color3);
 	cls_rect4i = env->GetObjectClass(rect);
 	
-	id_vx = env->GetFieldID(cls_vector3d, "x", "D");
-	id_vy = env->GetFieldID(cls_vector3d, "y", "D");
-	id_vz = env->GetFieldID(cls_vector3d, "z", "D");
+	id_vx = env->GetFieldID(cls_vector3d, "X", "D");
+	id_vy = env->GetFieldID(cls_vector3d, "Y", "D");
+	id_vz = env->GetFieldID(cls_vector3d, "Z", "D");
 	
 	id_red = env->GetFieldID(cls_color4i, "red", "I");
 	id_green = env->GetFieldID(cls_color4i, "green", "I");
@@ -106,10 +106,10 @@ void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jo
 	id_green3 = env->GetFieldID(cls_color3i, "green", "I");
 	id_blue3 = env->GetFieldID(cls_color3i, "blue", "I");
 	
-	id_left = env->GetFieldID(cls_rect4i, "left", "I");
-	id_top = env->GetFieldID(cls_rect4i, "top", "I");
-	id_right = env->GetFieldID(cls_rect4i, "right", "I");
-	id_bottom = env->GetFieldID(cls_rect4i, "bottom", "I");
+	id_left = env->GetFieldID(cls_rect4i, "Left", "I");
+	id_top = env->GetFieldID(cls_rect4i, "Top", "I");
+	id_right = env->GetFieldID(cls_rect4i, "Right", "I");
+	id_bottom = env->GetFieldID(cls_rect4i, "Bottom", "I");
 }
 
 long _getTime()

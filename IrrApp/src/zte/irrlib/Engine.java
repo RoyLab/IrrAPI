@@ -8,10 +8,23 @@ import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.Scene;
 import android.util.Log;
 
-//向上负责与视图类的通信，向下负责管理引擎的java和native层
+/**
+ * 3D引擎类，负责管理引擎的创建和销毁，处理与文件系统相关的事务，
+ * 并提供接口供视图类调用。
+ */
 public class Engine{
+	
+	/**
+	 * 日志标签
+	 */
 	public static final String TAG = "IrrEngine";
 	
+	/**
+	 * 构造器不可以被直接调用，本方法替代构造方法，用于取得
+	 * 该类的实例。在程序运行时，任何时刻调用本方法取得的实
+	 * 例将是同一个实例（单例模式）。
+	 * @return 返回该类的实例
+	 */
 	public static Engine getInstance(){
 		if (mUniInstance == null){
 			mUniInstance = new Engine();
@@ -19,41 +32,53 @@ public class Engine{
 		return mUniInstance;
 	}
 	
+	/**
+	 * 设定资源文件（材质，模型等）的绝对路径。
+	 * @param path 路径名。请以'/'为开头，并以'/'为结尾
+	 */
 	public void setResourceDir(String path){
 		mScene.setResourceDir(path);
 	}
 	
-	public void setRenderer(Renderer renderer){
-		mRenderer = renderer;
-	}
-	
-	public void setRenderType(int type){
-		mRenderType = type;
-	}
-	
+	/**
+	 * 取得引擎内部的场景类。
+	 * @return 场景类的指针
+	 */
 	public Scene getScene(){
 		return mScene;
 	}
 	
+	/**
+	 * 取得资源文件目录的绝对路径。可以通过{@link #setResourceDir(String)}设置路径。
+	 * @return 目录的绝对路径
+	 */
 	public String getResourceDir(){
 		return mScene.getResourceDir();
 	}
 	
+	/**
+	 * 取得画布大小。
+	 * @return 画布大小
+	 */
 	public Vector2i getRenderSize(){
 		return mScene.getRenderSize();
 	}
 	
+	/**
+	 * 取得当前渲染的帧率。
+	 * @return 帧率（fps）
+	 */
 	public double getFPS(){
 		return nativeGetFPS();
 	}
 	
-	public synchronized void onDestroy(){
+	synchronized void onDestroy(){
 		if (mIsInit) javaClear();
 		if (nativeIsInit()) nativeClear();
 		Log.d(TAG, "OnDestroy");
 	}
 	
-	public synchronized void onSurfaceCreated(){
+	synchronized void onSurfaceCreated(){
 		if (!checkState()){
 			mScene = Scene.getInstance(this);
 			
@@ -70,19 +95,27 @@ public class Engine{
 		Log.d(TAG, "OnSurfaceCreated");
 	}
 	
-	public void onSurfaceChanged(int width, int height){
+	void onSurfaceChanged(int width, int height){
 		nativeResize(width, height);
 		mScene.onResize(width, height);
 		mRenderer.onResize(this, width, height);
 	}
 	
-	public void onDrawFrame(){
+	void onDrawFrame(){
 		nativeBeginScene();
 		mScene.onDrawFrame();
 		mRenderer.onDrawFrame(this);
 		nativeEndScene();
 	}
 	
+	void setRenderer(Renderer renderer){
+		mRenderer = renderer;
+	}
+
+	void setRenderType(int type){
+		mRenderType = type;
+	}
+
 	private int JavaInit(){
 		mScene.init();
 		mIsInit = true; 
@@ -119,6 +152,9 @@ public class Engine{
 	native void nativeBeginScene();
 	native void nativeEndScene();
 	
+	/**
+	 * 引擎的渲染器接口，用于场景渲染，需要用户自己实现。 
+	 */
 	public interface Renderer {
 		void onDrawFrame(Engine engine);
 		void onCreate(Engine engine);

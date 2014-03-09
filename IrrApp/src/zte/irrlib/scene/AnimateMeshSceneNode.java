@@ -1,15 +1,11 @@
 package zte.irrlib.scene;
 
-
+/**
+ * 动态多边形节点类
+ * @author Fxx
+ *
+ */
 public class AnimateMeshSceneNode extends MeshSceneNode {
-	
-	/**
-	 * 唯一的构造函数。
-	 */
-	AnimateMeshSceneNode(){
-		super();
-		mNodeType = TYPE_ANIMATE_MESH;
-	}
 	
 	/**
 	 * 返回动画模型初始帧帧号。
@@ -59,6 +55,14 @@ public class AnimateMeshSceneNode extends MeshSceneNode {
 		nativeSetLoopMode(loop, getId());
 	}
 	
+	/**
+	 * 唯一的构造函数。
+	 */
+	AnimateMeshSceneNode(){
+		super();
+		mNodeType = TYPE_ANIMATE_MESH;
+	}
+
 	private native int nativeGetStartFrame(int id);
 	private native int nativeGetEndFrame(int id);
 	private native int nativeGetFrameNumber(int id);

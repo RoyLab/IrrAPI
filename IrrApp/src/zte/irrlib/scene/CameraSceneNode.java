@@ -3,15 +3,13 @@ package zte.irrlib.scene;
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
 
+/**
+ * 相机节点类
+ * @author Fxx
+ *
+ */
 public class CameraSceneNode extends SceneNode{
 
-	/**
-	 * 唯一构造函数
-	 */
-	CameraSceneNode(){
-		super();
-		mNodeType = TYPE_CAMERA;
-	}
 	/**
 	 * 设置相裁剪面。
 	 * @param nearClip 近端裁剪面的z值
@@ -27,7 +25,7 @@ public class CameraSceneNode extends SceneNode{
 	 */
 	public void setLookAt(Vector3d vec){
 		mLookAt.copy(vec);
-		nativeSetLookAt(vec.x, vec.y, vec.z, getId());
+		nativeSetLookAt(vec.X, vec.Y, vec.Z, getId());
 	}
 	
 	/**
@@ -85,7 +83,7 @@ public class CameraSceneNode extends SceneNode{
 		super.javaLoadDataAndInit(pos, parent);
 		mLookAt = new Vector3d(lookAt);
 		Vector2i size = mScene.getRenderSize();
-		setAspectRatio((float)size.x/size.y);
+		setAspectRatio((float)size.X/size.Y);
 	}
 	
 	/**
@@ -96,6 +94,11 @@ public class CameraSceneNode extends SceneNode{
 		return new Vector3d(mLookAt);
 	}
 	
+	CameraSceneNode(){
+		super();
+		mNodeType = TYPE_CAMERA;
+	}
+
 	private Vector3d mLookAt;
 	private boolean mIsPosChanged;
 	

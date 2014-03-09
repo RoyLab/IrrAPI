@@ -37,7 +37,7 @@ public class SLight {
 #define SPOT_LIGHT			0x02
 #define DIRECTIONAL_LIGHT	0x03
 
-#define NUM 10
+#define NUM 8
 
 extern "C"
 {
@@ -65,8 +65,8 @@ extern "C"
 		strcpy(name[5], "OuterCone"); strcpy(type[5], "D");
 		strcpy(name[6], "InnerCone"); strcpy(type[6], "D");
 		strcpy(name[7], "Falloff"); strcpy(type[7], "D");
-		strcpy(name[8], "Direction"); strcpy(type[8], "Lzte/irrlib/core/Vector3d;");
-		strcpy(name[9], "Radius"); strcpy(type[9], "D");
+		/*strcpy(name[8], "Direction"); strcpy(type[8], "Lzte/irrlib/core/Vector3d;");
+		strcpy(name[9], "Radius"); strcpy(type[9], "D");*/
 		
 		jclass cls_light = env->GetObjectClass(light_obj);
 		for (int i = 0; i < NUM; i++)
@@ -121,8 +121,8 @@ extern "C"
 		lightData.OuterCone =  (f32)env->GetDoubleField(light_obj, id_field[5]);
 		lightData.InnerCone = (f32)env->GetDoubleField(light_obj, id_field[6]);
 		lightData.Falloff = (f32)env->GetDoubleField(light_obj, id_field[7]);
-		lightData.Direction = createvector3dfFromVector3d(env, env->GetObjectField(light_obj, id_field[8]));
-		lightData.Radius = (f32)env->GetDoubleField(light_obj, id_field[9]);
+		/*lightData.Direction = createvector3dfFromVector3d(env, env->GetObjectField(light_obj, id_field[8]));
+		lightData.Radius = (f32)env->GetDoubleField(light_obj, id_field[9]);*/
 		
 /*		LOGE("%f, %f, %f", lightData.AmbientColor.r, lightData.AmbientColor.g, lightData.AmbientColor.b);
 		LOGE("%f, %f, %f", lightData.DiffuseColor.r, lightData.DiffuseColor.g, lightData.DiffuseColor.b);
@@ -172,8 +172,8 @@ extern "C"
 		env->SetDoubleField(light_obj, id_field[5], lightData.OuterCone);
 		env->SetDoubleField(light_obj, id_field[6], lightData.InnerCone);
 		env->SetDoubleField(light_obj, id_field[7], lightData.Falloff);
-		setVector3dFromvector3df(env, light_obj, id_field[8], lightData.Direction);
-		env->SetDoubleField(light_obj, id_field[9], lightData.Radius);
+		/*setVector3dFromvector3df(env, light_obj, id_field[8], lightData.Direction);
+		env->SetDoubleField(light_obj, id_field[9], lightData.Radius);*/
 		
 /*		LOGE("%f, %f, %f", lightData.AmbientColor.r, lightData.AmbientColor.g, lightData.AmbientColor.b);
 		LOGE("%f, %f, %f", lightData.DiffuseColor.r, lightData.DiffuseColor.g, lightData.DiffuseColor.b);

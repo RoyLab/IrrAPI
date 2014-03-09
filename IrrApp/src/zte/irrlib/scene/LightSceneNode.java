@@ -1,27 +1,24 @@
  package zte.irrlib.scene;
 
-import zte.irrapp.WLog;
 import zte.irrlib.core.SLight;
+import zte.irrlib.core.Vector3d;
 
+/**
+ * 灯光节点类，默认为点光源类型。<br>
+ * 该 节点的{@link #setRotation(Vector3d, int)}用于给有向灯光设置方向。
+ * @author Fxx
+ *
+ */
 public class LightSceneNode extends SceneNode {
 	/**
-	 * 唯一构造函数
-	 */
-	LightSceneNode(){
-		super();
-		mNodeType = TYPE_LIGHT;
-		LightData = new SLight();
-	}
-	
-	/**
-	 * 更新光源参数值
+	 * 更新光源参数值，在改变灯光参数{@link #LightData}后使用
 	 */
 	public void upLoadLightData(){
 		nativeSendLightData(LightData, getId());
 	}
 	
 	/**
-	 * 获取光源参数值
+	 * 获取光源参数值，通常情况下，用户不需要调用该方法
 	 */
 	public void downloadLightData(){
 		nativeGetLightData(LightData, getId());
@@ -42,6 +39,21 @@ public class LightSceneNode extends SceneNode {
 	 * 光源参数
 	 */
 	public SLight LightData;
+	
+	/**
+	 * 唯一构造函数
+	 */
+	LightSceneNode(){
+		super();
+		mNodeType = TYPE_LIGHT;
+		LightData = new SLight();
+	}
+
+	void javaLoadDataAndInit(Vector3d pos, SceneNode parent, double radius){
+		super.javaLoadDataAndInit(pos, parent);
+		LightData.setRadius(radius);
+		downloadLightData();
+	}
 	
 	private native int nativeSendLightData(SLight data, int id);
 	private native int nativeGetLightData(SLight data, int id);

@@ -5,17 +5,14 @@ import zte.irrlib.core.Vector2d;
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.core.BoxEmitter;
 
+/**
+ * 粒子系统节点类
+ * @author Fxx
+ *
+ */
 public class ParticleSystemSceneNode extends SceneNode {
 	
 	public static final int EMITTER_BOX = 0x01;
-	
-	/**
-	 * 唯一构造函数
-	 */
-	public ParticleSystemSceneNode(){
-		super();
-		mNodeType = TYPE_PARTICLE_SYSTEM;
-	}
 	
 	/**
 	 * 为粒子系统节点设置盒状发射器
@@ -43,7 +40,7 @@ public class ParticleSystemSceneNode extends SceneNode {
 	 * @param affectZ 指定运动是否影响Z轴
 	 */
 	public void addAttractionParticleAffector(Vector3d point, int speed, boolean attract, boolean affectX, boolean affectY, boolean affectZ){
-		nativeAddAttractionParticleAffector(point.x, point.y, point.z, speed, attract, affectX, affectY, affectZ, getId());
+		nativeAddAttractionParticleAffector(point.X, point.Y, point.Z, speed, attract, affectX, affectY, affectZ, getId());
 	}
 	
 	/**
@@ -51,7 +48,7 @@ public class ParticleSystemSceneNode extends SceneNode {
 	 * @param scaleTo 粒子大小将被扩大的倍数
 	 */
 	 public void addScaleParticleAffector(Vector2d scaleTo){
-		 nativeAddScaleParticleAffector(scaleTo.x, scaleTo.y, getId());
+		 nativeAddScaleParticleAffector(scaleTo.X, scaleTo.Y, getId());
 	 }
 	 
 	 /**
@@ -69,7 +66,7 @@ public class ParticleSystemSceneNode extends SceneNode {
 	  * @param time 粒子受力时间，单位：毫秒（ms）
 	  */
 	 public void addGravityAffector(Vector3d gravity, int time){
-		 nativeAddGravityAffector(gravity.x, gravity.y, gravity.z, time, getId());
+		 nativeAddGravityAffector(gravity.X, gravity.Y, gravity.Z, time, getId());
 	 }
 	
 	/**
@@ -78,10 +75,18 @@ public class ParticleSystemSceneNode extends SceneNode {
 	 * @param center 粒子运动围绕的中心点
 	 */
 	 public void addRotationAffector(Vector3d speed, Vector3d center){
-		 nativeAddRotationAffector(speed.x, speed.y, speed.z, center.x, center.y, center.z, getId());
+		 nativeAddRotationAffector(speed.X, speed.Y, speed.Z, center.X, center.Y, center.Z, getId());
 	 }
 	 
-	 private native void nativeSetBoxEmitter(BoxEmitter para, int id);
+	 /**
+	 * 唯一构造函数
+	 */
+	ParticleSystemSceneNode(){
+		super();
+		mNodeType = TYPE_PARTICLE_SYSTEM;
+	}
+
+	private native void nativeSetBoxEmitter(BoxEmitter para, int id);
 	 private native int nativeAllSetTexture(String path, int Id);
 	 private native void nativeAddAttractionParticleAffector(double x, double y, double z, int speed, 
 			 boolean attract, boolean affectX, boolean affectY, boolean affectZ, int Id);

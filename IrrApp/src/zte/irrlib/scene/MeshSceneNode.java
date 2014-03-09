@@ -3,15 +3,12 @@ package zte.irrlib.scene;
 import zte.irrlib.core.Color4i;
 import android.graphics.Bitmap;
 
+/**
+ * 多边形节点类
+ * @author Fxx
+ *
+ */
 public class MeshSceneNode extends SceneNode{
-	
-	/**
-	 * 唯一构造函数
-	 */
-	MeshSceneNode(){
-		super();
-		mNodeType = TYPE_MESH;
-	}
 	
 	/**
 	 * 设置模型节点是否响应光照。
@@ -164,6 +161,14 @@ public class MeshSceneNode extends SceneNode{
 		return nativeGetMaterialCount(getId());
 	}
 	
+	/**
+	 * 唯一构造函数
+	 */
+	MeshSceneNode(){
+		super();
+		mNodeType = TYPE_MESH;
+	}
+
 	protected native int nativeSetTouchable(boolean flag, int Id);
 	protected native int nativeSetBBoxVisibility(boolean flag, int Id);
 	

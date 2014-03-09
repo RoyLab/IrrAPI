@@ -2,32 +2,12 @@ package zte.irrlib.scene;
 
 import java.io.IOException;
 
-import zte.irrlib.Utils;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.view.Surface;
 
 public class TexMediaPlayer extends MediaPlayer
 	implements SurfaceTexture.OnFrameAvailableListener{
-	
-	/**
-	 * 构造函数，为场景赋值。
-	 * @param sc 所使用的场景对象
-	 */
-	public TexMediaPlayer(Scene sc){
-		super();
-		mScene = sc;
-	}
-	
-	/**
-	 * 构造函数，为场景赋值并指定材质ID值
-	 * @param sc 所使用的场景对象
-	 * @param texId 材质的ID值
-	 */
-	public TexMediaPlayer(Scene sc, int texId){
-		this(sc);
-		setTexId(texId);
-	}
 	
 	/**
 	 * Log Tag
@@ -53,9 +33,24 @@ public class TexMediaPlayer extends MediaPlayer
 	}
 	
 	/**
-	 * 设置材质
-	 * @param id 所用材质ID值
+	 * 构造函数，为场景赋值。
+	 * @param sc 所使用的场景对象
 	 */
+	TexMediaPlayer(Scene sc){
+		super();
+		mScene = sc;
+	}
+
+	/**
+	 * 构造函数，为场景赋值并指定材质ID值
+	 * @param sc 所使用的场景对象
+	 * @param texId 材质的ID值
+	 */
+	TexMediaPlayer(Scene sc, int texId){
+		this(sc);
+		setTexId(texId);
+	}
+
 	void setTexId(int id){
 		mSurfaceTex = new SurfaceTexture(id);
 		mSurfaceTex.setOnFrameAvailableListener(this);

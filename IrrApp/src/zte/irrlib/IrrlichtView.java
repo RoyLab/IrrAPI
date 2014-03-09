@@ -10,10 +10,18 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 
+/**
+ * <p>与引擎兼容的视图类的一种实现。
+ * <p>该视图类是{@link GLSurfaceView}的子类，继承了来自{@link GLSurfaceView}的绝大部分方法。
+ * 同时建立一些新方法来<b>替代</b>父类的方法。注意，为了保证软件的稳定性，请尽量使用
+ * 新的方法，避免使用被替代的方法。 
+ */
 public class IrrlichtView extends GLSurfaceView {
-
+	
+	/**
+	 * 日志标签
+	 */
 	public final String TAG = "IrrlichtView";
 	
 	public IrrlichtView(Context context) {		
@@ -26,55 +34,68 @@ public class IrrlichtView extends GLSurfaceView {
 		mEngine = Engine.getInstance();
 	}
 	
+	/**
+	 * 可以和{@link #setEGLConfigChooser(EGLConfigChooser)}互相替代。
+	 * 本方法简化了设定上下文环境的工作，可以用于初始化一个RGB565，并且
+	 * 打开多重采样上下文环境。
+	 * @param sampleLevel 多重采样重数
+	 */
 	public void setRecommendEGLConfigChooser(int sampleLevel){
 		setEGLConfigChooser(new RecommedEGLConfigChooser(mRenderType, sampleLevel));
 	}
 	
+	/**
+	 * openGL ES2.0的开关，默认关闭。替代{@link #setEGLContextClientVersion(int)}。
+	 * @param flag 为true时打开开关
+	 */
 	public void enableGLES2(boolean flag){
 		if (flag){
 			mRenderType = EGL10Ext.EGL_OPENGL_ES2_BIT;
-			setEGLContextClientVersion(2);
+			super.setEGLContextClientVersion(2);
 			mEngine.setRenderType(EGL10Ext.EGL_OPENGL_ES2_BIT);
 		}
 		else{
 			mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
-			setEGLContextClientVersion(1);
+			super.setEGLContextClientVersion(1);
 			mEngine.setRenderType(EGL10Ext.EGL_OPENGL_ES1_BIT);
 		}
 	}
 	
-	//method replacing GLSurfaceView.setRenderer.
+	/**
+	 * 替代了{@link #setRenderer(Renderer)}，用于指定视图类的渲染回调
+	 * 方法。该方法在整个视图类的生命周期中必须调用一次且只能调用一次。<br>
+	 * 以下方法必须在该方法之前被调用：<br>
+	 * {@link #enableGLES2(boolean)}<br>
+	 * {@link #setRecommendEGLConfigChooser(int)}<br>
+	 * {@link #setEGLConfigChooser(EGLConfigChooser)}<br>
+	 * {@link #setEGLConfigChooser(boolean)}<br>
+	 * {@link #setEGLConfigChooser(int, int, int, int, int, int)}<br>
+	 * {@link #setEGLConfigChooser(boolean)}<br>
+	 * 以下方法必须在该方法之后调用<br>
+	 * {@link #setRecommendEGLConfigChooser(int)}<br>
+	 * {@link #requestRender()}<br>
+	 * {@link #onPause()}<br>
+	 * {@link #onResume()}<br>
+	 * {@link #getRenderMode()}<br>
+	 * {@link #queueEvent(Runnable)}<br>
+	 * @param renderer 渲染器，需要用户实现{@link Engine.Renderer}接口
+	 */
 	public void setEngineRenderer(Engine.Renderer renderer){
-		/* source: http://developer.android.com/reference/android/opengl/GLSurfaceView.html
-		 * 
-		 * The following GLSurfaceView methods can only be called before setRenderer is called:
-		 * 
-		 * setEGLConfigChooser(boolean)
-		 * setEGLConfigChooser(EGLConfigChooser)
-		 * setEGLConfigChooser(int, int, int, int, int, int)
-		 * 
-		 * The following GLSurfaceView methods can only be called after setRenderer is called:
-		 * 
-		 * getRenderMode()
-		 * onPause()
-		 * onResume()
-		 * queueEvent(Runnable)
-		 * requestRender()
-		 * setRenderMode(int)
-		 */
-		
-		//since this method will automatically call GLSurfaceView.setRenderer, the same principle
-		//above should be followed.
-		
 		mEngine.setRenderer(renderer);
 		super.setRenderer(new GLSurfaceView.Renderer() {
 			public void onSurfaceCreated(GL10 unused, EGLConfig config) {mEngine.onSurfaceCreated();}
 			public void onSurfaceChanged(GL10 unused, int width, int height) {mEngine.onSurfaceChanged(width, height);}
 			public void onDrawFrame(GL10 unused) {mEngine.onDrawFrame();}
 		});
-		
-		setPreserveEGLContextOnPause(true);
+		super.setPreserveEGLContextOnPause(true);
 	}
+	
+	@Override@Deprecated
+	public final void setEGLContextClientVersion(int version){}
+	@Override@Deprecated
+	public final void setRenderer(GLSurfaceView.Renderer renderer){}
+	@Override@Deprecated
+	public final void setPreserveEGLContextOnPause(boolean flag){}
 	
 	@Override
 	protected void onDetachedFromWindow(){

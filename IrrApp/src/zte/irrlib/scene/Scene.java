@@ -2,7 +2,6 @@ package zte.irrlib.scene;
 
 import java.util.ArrayList;
 
-import zte.irrapp.WLog;
 import zte.irrlib.Engine;
 import zte.irrlib.Utils;
 import zte.irrlib.core.Color3i;
@@ -12,6 +11,13 @@ import zte.irrlib.core.Vector2d;
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
 
+/**
+ * 场景类，在zte.irrlib.scene包内，所有的类的构造方法均不可见，请使用
+ * 对应的add方法({@link #addCubeSceneNode(Vector3d, double, SceneNode)}等)
+ * 或者get方法({@link #getMediaPlayer()}等)来获得类的实例。<br>
+ * @author Fxx
+ *
+ */
 public class Scene {
 	
 	/**
@@ -138,7 +144,7 @@ public class Scene {
 	 */
 	//to be extend, can be transparent one, can be only part of it.
 	public void drawImage(String path, Vector2i leftUp, Vector2i size){
-		nativeDrawImage(getFullPath(path), leftUp.x, leftUp.y, size.x, size.y);
+		nativeDrawImage(getFullPath(path), leftUp.X, leftUp.Y, size.X, size.Y);
 	}
 	
 	/**
@@ -149,7 +155,7 @@ public class Scene {
 	 */
 	//to be extend, can be multi-color one
 	public void drawRectangle(Vector2i leftUp, Vector2i size, Color4i color){
-		nativeDrawRectangle(leftUp.x, leftUp.y, size.x, size.y, color.r(), color.g(), color.b(), color.a());
+		nativeDrawRectangle(leftUp.X, leftUp.Y, size.X, size.Y, color.r(), color.g(), color.b(), color.a());
 	}
 	
 	/**
@@ -160,7 +166,7 @@ public class Scene {
 	 */
 	//It is necessary to supply font choice?
 	public void drawText(String text, Vector2i leftUp, Color4i color){
-		nativeDrawText(text, leftUp.x, leftUp.y, color.r(), color.g(), color.b(), color.a());
+		nativeDrawText(text, leftUp.X, leftUp.Y, color.r(), color.g(), color.b(), color.a());
 	}
 	
 	/**
@@ -178,7 +184,7 @@ public class Scene {
 	 */
 	public SceneNode addEmptySceneNode(Vector3d pos, SceneNode parent){
 		SceneNode node = new SceneNode();
-		if (nativeAddEmptySceneNode(pos.x, pos.y, pos.z, 
+		if (nativeAddEmptySceneNode(pos.X, pos.Y, pos.Z, 
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
@@ -193,9 +199,9 @@ public class Scene {
 	 * @param parent 所添加立方体节点的父节点对象
 	 * @return 所添加的节点对象
 	 */
-	public MeshSceneNode addCubeSceneNode(Vector3d pos, float size, SceneNode parent){
+	public MeshSceneNode addCubeSceneNode(Vector3d pos, double size, SceneNode parent){
 		MeshSceneNode node = new MeshSceneNode();
-		if (nativeAddCubeSceneNode(pos.x, pos.y, pos.z, 
+		if (nativeAddCubeSceneNode(pos.X, pos.Y, pos.Z, 
 				size, getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
@@ -212,7 +218,7 @@ public class Scene {
 	 */
 	public MeshSceneNode addMeshSceneNode(String path, Vector3d pos, SceneNode parent){
 		MeshSceneNode node = new MeshSceneNode();
-		if (nativeAddMeshSceneNode(getFullPath(path), pos.x, pos.y, pos.z,
+		if (nativeAddMeshSceneNode(getFullPath(path), pos.X, pos.Y, pos.Z,
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
@@ -230,7 +236,7 @@ public class Scene {
 	 */
 	public SceneNode addTextNode(String text, Vector3d pos, double size, SceneNode parent){
 		SceneNode node = new SceneNode();
-		if (nativeAddTextNode(text, pos.x, pos.y, pos.z, size, 
+		if (nativeAddTextNode(text, pos.X, pos.Y, pos.Z, size, 
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
@@ -248,8 +254,8 @@ public class Scene {
 	 */
 	public CameraSceneNode addCameraSceneNode(Vector3d pos, Vector3d lookAt, boolean isActive, SceneNode parent){
 		CameraSceneNode node = new CameraSceneNode();
-		if (nativeAddCameraSceneNode(pos.x, pos.y, pos.z, 
-				lookAt.x, lookAt.y, lookAt.z, isActive, 
+		if (nativeAddCameraSceneNode(pos.X, pos.Y, pos.Z, 
+				lookAt.X, lookAt.Y, lookAt.Z, isActive, 
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
@@ -267,8 +273,8 @@ public class Scene {
 	 */
 	public BillboardSceneNode addBillboardSceneNode(Vector3d pos, Vector2d size, SceneNode parent){
 		BillboardSceneNode node = new BillboardSceneNode();
-		if (nativeAddBillboardSceneNode(pos.x, pos.y, pos.z, 
-				size.x, size.y, getId(node), getId(parent), mEnableLighting) != 0){
+		if (nativeAddBillboardSceneNode(pos.X, pos.Y, pos.Z, 
+				size.X, size.Y, getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
 		
@@ -286,14 +292,13 @@ public class Scene {
 	 */
 	public LightSceneNode addLightSceneNode(Vector3d pos, double radius, Color3i color, SceneNode parent){
 		LightSceneNode node = new LightSceneNode();
-		if (nativeAddLightSceneNode(pos.x, pos.y, pos.z, radius,
+		if (nativeAddLightSceneNode(pos.X, pos.Y, pos.Z, radius,
 				color.r(), color.g(), color.b(), 
 				getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
 		
-		node.javaLoadDataAndInit(pos, parent);
-		node.downloadLightData();
+		node.javaLoadDataAndInit(pos, parent, radius);
 		return node;
 	}
 	
@@ -305,7 +310,7 @@ public class Scene {
 	 */
 	public BillboardGroup addBillboardGroup(Vector3d pos, SceneNode parent){
 		BillboardGroup node = new BillboardGroup();
-		if (nativeAddEmptySceneNode(pos.x, pos.y, pos.z, 
+		if (nativeAddEmptySceneNode(pos.X, pos.Y, pos.Z, 
 				getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
@@ -323,7 +328,7 @@ public class Scene {
 	 */
 	public AnimateMeshSceneNode addAnimateMeshSceneNode(String path, Vector3d pos, SceneNode parent){
 		AnimateMeshSceneNode node = new AnimateMeshSceneNode();
-		if (nativeAddAnimateMeshSceneNode(getFullPath(path), pos.x, pos.y, pos.z,
+		if (nativeAddAnimateMeshSceneNode(getFullPath(path), pos.X, pos.Y, pos.Z,
 				getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
@@ -340,7 +345,7 @@ public class Scene {
 	 */
 	public ParticleSystemSceneNode addParticleSystemSceneNode(Vector3d pos, boolean withDefaultEmitter, SceneNode parent){
 		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
-		if (nativeAddParticleSystemSceneNode(pos.x, pos.y, pos.z, 
+		if (nativeAddParticleSystemSceneNode(pos.X, pos.Y, pos.Z, 
 				withDefaultEmitter, getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
@@ -381,6 +386,7 @@ public class Scene {
 	 * 场景初始化，初始化场景对象和摄像机。
 	 */
 	public void init(){
+		clearAllNodes();
 		SceneNode.setScene(this);
 		addCameraSceneNode(
 				new Vector3d(0, 0, 0), 

@@ -2,6 +2,11 @@ package zte.irrlib.scene;
 
 import zte.irrlib.core.Vector3d;
 
+/**
+ * 场景节点的基本类。
+ * @author Fxx
+ *
+ */
 public class SceneNode {
 	
 	//节点类型
@@ -279,7 +284,7 @@ public class SceneNode {
 		}
 		else return;
 		
-		nativeSetPosition(mPosition[0].x, mPosition[0].y, mPosition[0].z, getId());
+		nativeSetPosition(mPosition[0].X, mPosition[0].Y, mPosition[0].Z, getId());
 	}
 	
 	/**
@@ -298,7 +303,7 @@ public class SceneNode {
 		}
 		else return;
 		
-		nativeSetRotation(mRotation[0].x, mRotation[0].y, mRotation[0].z, getId());
+		nativeSetRotation(mRotation[0].X, mRotation[0].Y, mRotation[0].Z, getId());
 	}
 	
 	/**
@@ -317,7 +322,7 @@ public class SceneNode {
 		}
 		else return;
 		
-		nativeSetScale(mScale[0].x, mScale[0].y, mScale[0].z, getId());
+		nativeSetScale(mScale[0].X, mScale[0].Y, mScale[0].Z, getId());
 	}
 	
 	/**
@@ -377,8 +382,8 @@ public class SceneNode {
 	 */
 	public void addFlyStraightAnimator(Vector3d start, Vector3d end, 
 			double time, boolean loop, boolean pingpong){
-		nativeAddFlyStraightAnimator(start.x, start.y, start.z, 
-				end.x, end.y, end.z, time, loop, pingpong, getId());
+		nativeAddFlyStraightAnimator(start.X, start.Y, start.Z, 
+				end.X, end.Y, end.Z, time, loop, pingpong, getId());
 	}
 	
 	/**
@@ -392,8 +397,8 @@ public class SceneNode {
 	 */
 	public void addFlyCircleAnimator(Vector3d center, double radius,
 			double speed, Vector3d axis, double startPoint, double radiusEllipsoid){
-		nativeAddFlyCircleAnimator(center.x, center.y, center.z, radius, speed, 
-				axis.x, axis.y, axis.z, startPoint, startPoint, getId());
+		nativeAddFlyCircleAnimator(center.X, center.Y, center.Z, radius, speed, 
+				axis.X, axis.Y, axis.Z, startPoint, startPoint, getId());
 	}
 	
 	/**
@@ -401,7 +406,7 @@ public class SceneNode {
 	 * @param speed 绕各个轴向的旋转速率，单位：度/10毫秒
 	 */
 	public void addRotationAnimator(Vector3d speed){
-		nativeAddRotationAnimator(speed.x, speed.y, speed.z, getId());
+		nativeAddRotationAnimator(speed.X, speed.Y, speed.Z, getId());
 	}
 	
 	/**
@@ -435,6 +440,10 @@ public class SceneNode {
 		mScene.removeNode(this);
 	}	
 	
+	public int setMaterialType(E_MATERIAL_TYPE type){
+		return nativeSetMaterialType(type.ordinal(), getId());
+	}
+
 	/**
 	 * 在Java层保存及初始化节点信息
 	 * @param pos 节点的初始位置
@@ -447,9 +456,6 @@ public class SceneNode {
 		mScene.registerNode(this);
 	}
 	
-	public int setMaterialType(E_MATERIAL_TYPE type){
-		return nativeSetMaterialType(type.ordinal(), getId());
-	}
 	/**
 	 * 唯一构造函数
 	 */

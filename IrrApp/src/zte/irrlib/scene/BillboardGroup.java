@@ -3,22 +3,16 @@ package zte.irrlib.scene;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
+/**
+ * 公告板组节点类，管理一组公告板的位置，可见性等，同时可以设置
+ * 组内公告版的可见的距离范围，可用于烟雾、植被等的模拟。
+ * @author Fxx
+ *
+ */
 public class BillboardGroup extends SceneNode{
 	
 	public static final int REMOVE_FROM_SCENE = 0x01;
 	public static final int REMOVE_FROM_GROUP = 0x02;
-	
-	/**
-	 * 唯一构造函数。
-	 */
-	BillboardGroup(){
-		super();
-		mNodeType = TYPE_BILLBOARD_GROUP;
-		mGroup = new ArrayList<BillboardSceneNode>();
-		mNear = 0.01;
-		mFar = 1000;
-	}
 	
 	/**
 	 * 添加指定公告板节点到公告板组。
@@ -92,6 +86,17 @@ public class BillboardGroup extends SceneNode{
 		mLastCamera = camera;
 	}
 	
+	/**
+	 * 唯一构造函数。
+	 */
+	BillboardGroup(){
+		super();
+		mNodeType = TYPE_BILLBOARD_GROUP;
+		mGroup = new ArrayList<BillboardSceneNode>();
+		mNear = 0.01;
+		mFar = 1000;
+	}
+
 	private ArrayList<BillboardSceneNode> mGroup;
 	private double mNear, mFar;
 	private CameraSceneNode mLastCamera;
