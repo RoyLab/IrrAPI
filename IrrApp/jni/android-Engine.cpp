@@ -25,7 +25,8 @@ extern "C"
 		
 		if (device) 
 		{
-			delete device;
+			device->drop();
+			
 			device = 0;
 			driver = 0;
 			smgr = 0;

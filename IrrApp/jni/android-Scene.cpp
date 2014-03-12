@@ -195,7 +195,7 @@ extern "C"
 		core::vector3df pos = core::vector3df(x,y,z);
 
 		const char *msg = env->GetStringUTFChars(path,0);
-		IMesh* mesh = smgr->getMesh(msg);
+		IMesh* mesh = smgr->getMesh(io::path(msg));
 		env->ReleaseStringUTFChars(path, msg);
 		
 		if (!mesh)
@@ -439,7 +439,6 @@ extern "C"
 		if (!parentNode) return;
 			
 		parentNode->removeChild(node);
-		node->drop();
 	}
 	
 	int Java_zte_irrlib_scene_Scene_nativeGetMediaTextureId(
