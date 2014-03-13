@@ -1,18 +1,23 @@
 package zte.irrlib;
 
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import zte.irrlib.core.BoundingBox;
 import zte.irrlib.core.Color3i;
 import zte.irrlib.core.Color4i;
 import zte.irrlib.core.Rect4i;
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.Scene;
+import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 /**
  * 3D引擎类，负责管理引擎的创建和销毁，处理与文件系统相关的事务，
  * 并提供接口供视图类调用。
  */
-public class Engine{
+public class Engine implements GLSurfaceView.Renderer{
 	
 	/**
 	 * 日志标签
@@ -72,13 +77,15 @@ public class Engine{
 		return nativeGetFPS();
 	}
 	
-	synchronized void onDestroy(){
+	public synchronized void onSurfaceDestroyed(){
+		mScene.clearAllNodes();
 		if (mIsInit) javaClear();
 		if (nativeIsInit()) nativeClear();
 		Log.d(TAG, "OnDestroy");
 	}
 	
-	synchronized void onSurfaceCreated(){
+	@Override
+	public synchronized void onSurfaceCreated(GL10 unused, EGLConfig config){
 		if (!checkState()){
 			mScene = Scene.getInstance(this);
 			
@@ -87,7 +94,7 @@ public class Engine{
 			if (nativeIsInit()) nativeClear();
 			
 			//re-initialize
-			nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i());
+			nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
 			JavaInit();
 			mRenderer.onCreate(this);
 			Log.d(TAG, "Renderer created");
@@ -95,13 +102,15 @@ public class Engine{
 		Log.d(TAG, "OnSurfaceCreated");
 	}
 	
-	void onSurfaceChanged(int width, int height){
+	@Override
+	public synchronized void onSurfaceChanged(GL10 unused, int width, int height){
 		nativeResize(width, height);
 		mScene.onResize(width, height);
 		mRenderer.onResize(this, width, height);
 	}
 	
-	void onDrawFrame(){
+	@Override
+	public synchronized void onDrawFrame(GL10 unused){
 		nativeBeginScene();
 		mScene.onDrawFrame();
 		mRenderer.onDrawFrame(this);
@@ -143,7 +152,7 @@ public class Engine{
 	
 	private boolean mIsInit;
 	
-	private native int nativeInit(int rendertype, Vector3d vec, Color4i color4, Color3i color3, Rect4i rect);
+	private native int nativeInit(int rendertype, Vector3d vec, Color4i color4, Color3i color3, Rect4i rect, BoundingBox bbox);
 	private native void nativeClear();
 	private native boolean nativeIsInit();
 	private native void nativeResize(int w, int h);

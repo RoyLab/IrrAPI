@@ -93,7 +93,7 @@ extern "C"
 	}
 	
 	int Java_zte_irrlib_scene_Scene_nativeGetTouchedSceneNode(
-		JNIEnv *env, jobject defaultObj, jint x, jint y, jint root)
+		JNIEnv *env, jobject defaultObj, jfloat x, jfloat y, jint root)
 	{
 
 		ISceneNode* rootNode;

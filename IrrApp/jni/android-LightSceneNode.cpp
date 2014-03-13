@@ -165,10 +165,14 @@ extern "C"
 		
 		SLight &lightData = light->getLightData();
 		
-		setColor3iFromSColorf(env, light_obj, id_field[1], lightData.AmbientColor);
-		setColor3iFromSColorf(env, light_obj, id_field[2], lightData.DiffuseColor);
-		setColor3iFromSColorf(env, light_obj, id_field[3], lightData.SpecularColor);
-		setVector3dFromvector3df(env, light_obj, id_field[4], lightData.Attenuation);
+		jobject obj = env->GetObjectField(light_obj, id_field[1]);
+		setColor3iFromSColorf(env, obj, lightData.AmbientColor);
+		obj = env->GetObjectField(light_obj, id_field[2]);
+		setColor3iFromSColorf(env, obj, lightData.DiffuseColor);
+		obj = env->GetObjectField(light_obj, id_field[3]);		
+		setColor3iFromSColorf(env, obj, lightData.SpecularColor);
+		obj = env->GetObjectField(light_obj, id_field[4]);
+		setVector3dFromvector3df(env, obj, lightData.Attenuation);
 		env->SetDoubleField(light_obj, id_field[5], lightData.OuterCone);
 		env->SetDoubleField(light_obj, id_field[6], lightData.InnerCone);
 		env->SetDoubleField(light_obj, id_field[7], lightData.Falloff);

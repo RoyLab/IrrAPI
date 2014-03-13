@@ -46,7 +46,7 @@ public class DemoRenderer implements Renderer {
 		left = new Vector3d(-20, 0, 0);
 		right = new Vector3d(20, 0, 0);
 		
-		engine.setResourceDir("/sdcard/irrmedia/");
+		engine.setResourceDir("/storage/sdcard0/irrmedia/");
 		Scene scene = engine.getScene();
 		//scene.setClearColor(new Color4i(0xff, 0xff, 0x9f, 0x3f));
 		scene.setClearColor(new Color4i(0,0,0,0));

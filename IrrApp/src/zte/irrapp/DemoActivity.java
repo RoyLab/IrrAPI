@@ -8,6 +8,7 @@ import zte.irrlib.Utils;
 import zte.test.irrapp.R;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +23,22 @@ public class DemoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_irr);
+		  
+		Utils util = new Utils();
+		try {
+			util.setSDCardPath();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		util.UtilsInit(getAssets());
 		
 		mDemo = (DemoView)findViewById(R.id.irrview);
 		mDemo.setRecommendEGLConfigChooser(0);
+		mDemo.enableGLES2(true);
 		mRenderer = new DemoRenderer();
 		mDemo.setEngineRenderer(mRenderer);
-		
+		 
 		mDemo.setEventReceiver(new DemoReceiver(mDemo, mRenderer));
 		
 		up = (Button)findViewById(R.id.up);

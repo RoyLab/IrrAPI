@@ -18,6 +18,8 @@ long _getTime();
 int getOpenGLESTextureID(const ITexture* tex);
 
 void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jobject rect);
+void initBoundingBoxId(JNIEnv *env, jobject thiz);
+
 IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
 
 recti createrectiFromRect4i(JNIEnv *env, jobject rec);
@@ -27,8 +29,9 @@ SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
 vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
 dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
 
-void setVector3dFromvector3df(JNIEnv *env, jobject light, jfieldID id, const vector3df& vec);
-void setColor3iFromSColorf(JNIEnv *env, jobject light, jfieldID id, const SColorf& color);
+void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vecorig);
+void setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& colororig);
+void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig);
 
 void setgSdCardPath(JNIEnv* env, jstring newpath);
 

@@ -324,4 +324,20 @@ extern "C"
 		}	
 		return node->getMaterialCount();
 	}
+
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeGetBoundingBox(
+		JNIEnv *env, jobject defaultObj, jobject bbox, jboolean isAbsolute, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetMediaTexture);
+			return -1;
+		}	
+		setBoundingBoxFromaabbox3df(env, bbox, 
+			(isAbsolute)?node->getTransformedBoundingBox():node->getBoundingBox());
+		return 0;
+	}
+	
+	
 }

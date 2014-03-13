@@ -13,9 +13,10 @@ extern "C"
 {
 	int Java_zte_irrlib_Engine_nativeInit(
 		JNIEnv *env, jobject defaultObj, int type,
-		jobject vector, jobject color4, jobject color3, jobject rect)
+		jobject vector, jobject color4, jobject color3, jobject rect, jobject bbox)
 	{
 		initJNIInfo(env, vector, color4, color3, rect);
+		initBoundingBoxId(env, bbox);
 		
 		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
 		if (type == 0x00000001) videoType = video::EDT_OGLES1;
@@ -54,8 +55,8 @@ extern "C"
 			return -3;
 		}
 		
-		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
 		LOGI("Engine is ready. width: %d, height: %d", gWindowWidth, gWindowHeight);
+		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
 		_isInit = true;
 		return 0;
 	}

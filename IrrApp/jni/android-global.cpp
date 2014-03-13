@@ -37,20 +37,29 @@ static jfieldID id_left, id_top, id_right, id_bottom;
 static jclass cls_vector3d;
 static jfieldID id_vx, id_vy, id_vz;
 
-void setVector3dFromvector3df(JNIEnv *env, jobject light, jfieldID id, const vector3df& vec)
+static jclass cls_bbox;
+static jfieldID id_min, id_max;
+
+void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vec)
 {
-	jobject obj = env->GetObjectField(light, id);
 	env->SetDoubleField(obj, id_vx, vec.X);
 	env->SetDoubleField(obj, id_vy, vec.Y);
 	env->SetDoubleField(obj, id_vz, vec.Z);
 }
 
-void setColor3iFromSColorf(JNIEnv *env, jobject light, jfieldID id, const SColorf& color)
+void setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& color)
 {
-	jobject obj = env->GetObjectField(light, id);
 	env->SetIntField(obj, id_red3, color.r*255);
 	env->SetIntField(obj, id_green3, color.g*255);
 	env->SetIntField(obj, id_blue3, color.b*255);
+}
+
+void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig)
+{
+	jobject obj1 = env->GetObjectField(bbox, id_min);
+	setVector3dFromvector3df(env, obj1, bboxorig.MinEdge);
+	jobject obj2 = env->GetObjectField(bbox, id_max);
+	setVector3dFromvector3df(env, obj2, bboxorig.MaxEdge);
 }
 
 SColorf createSColorfFromColor3i(JNIEnv *env, jobject color)
@@ -112,6 +121,13 @@ void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jo
 	id_top = env->GetFieldID(cls_rect4i, "Top", "I");
 	id_right = env->GetFieldID(cls_rect4i, "Right", "I");
 	id_bottom = env->GetFieldID(cls_rect4i, "Bottom", "I");
+}
+
+void initBoundingBoxId(JNIEnv *env, jobject thiz)
+{
+	cls_bbox = env->GetObjectClass(thiz);
+	id_min = env->GetFieldID(cls_bbox, "MinEdge", "Lzte/irrlib/core/Vector3d;");
+	id_max = env->GetFieldID(cls_bbox, "MaxEdge", "Lzte/irrlib/core/Vector3d;");
 }
 
 long _getTime()

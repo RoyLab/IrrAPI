@@ -97,7 +97,7 @@ public class Scene {
 	 * @param root 碰撞检测起始的根节点对象
 	 * @return 指定根节点下子节点中被指定射线击中的节点对象
 	 */
-	public SceneNode getTouchedSceneNode(int x, int y, SceneNode root){
+	public SceneNode getTouchedSceneNode(float x, float y, SceneNode root){
 		return queryById(nativeGetTouchedSceneNode(x, y, getId(root)));
 	}
 	
@@ -521,7 +521,7 @@ public class Scene {
 	private native void nativeSetClearColor(int r, int g, int b, int a);
     private native void nativeSetAmbientLight(int r, int g, int b, int a);
     private native void nativeSetActiveCamera(int id);
-    private native int nativeGetTouchedSceneNode(int x, int y, int root);
+    private native int nativeGetTouchedSceneNode(float x, float y, int root);
     
     //native draw API
 	private native void nativeDrawImage(
