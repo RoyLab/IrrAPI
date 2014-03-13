@@ -70,17 +70,17 @@ namespace irr
                 ColorMaterial( 0 ), MaterialShininess( 0.f ), RenderMode( EMT_SOLID )
         {
             s32 dummy;
-			strcpy(VertexShaderFile, gSdCardPath.c_str());
-			strcat(VertexShaderFile,"/Irrlicht/COGLES2FixedPipeline.vsh");
-			strcpy( FragmentShaderFile, gSdCardPath.c_str());
-			strcat( FragmentShaderFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
-            initFromFiles( dummy, VertexShaderFile, FragmentShaderFile, false );
+			strcpy(VertexShadeFile, gSdCardPath.c_str());
+			strcat(VertexShadeFile,"/Irrlicht/COGLES2FixedPipeline.vsh");
+			strcpy( FragmentShadeFile, gSdCardPath.c_str());
+			strcat( FragmentShadeFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
+            initFromFiles( dummy, VertexShadeFile, FragmentShadeFile, false );
             initData();
         };
 
         void COGLES2FixedPipelineShader::reload()
         {
-            reloadFromFiles( VertexShaderFile, FragmentShaderFile );
+            reloadFromFiles( VertexShadeFile, FragmentShadeFile );
             //initData();
         }
 

@@ -420,6 +420,7 @@ ITexture* CNullDriver::getTexture(const io::path& filename)
 	else
 	{
 		os::Printer::log("Could not open file of texture", filename, ELL_WARNING);
+		__android_log_print(ANDROID_LOG_INFO,"log", "%s", filename.c_str());
 		return 0;
 	}
 }

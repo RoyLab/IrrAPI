@@ -62,8 +62,7 @@ vec4 render2D(void)
 {
 	vec4 color = varVertexColor;
 	vec4 texel = texture2D(uTextureUnit0, varTexCoord[0].xy);
-	//if(uUseTexture[0])
-	if(false)
+	if(uUseTexture[0])
 	{
 		color *= texel;
 	}
@@ -74,8 +73,7 @@ vec4 renderSolid(void)
 {
 	vec4 color = varVertexColor;
 	vec4 texel = texture2D(uTextureUnit0, varTexCoord[0].xy);
-	//if(uUseTexture[0])
-	if(false)
+	if(uUseTexture[0])
 		color *= texel;
 	return color;
 }
@@ -176,7 +174,7 @@ void main (void)
 		gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
 		
 	//gl_FragColor = varVertexColor;
-	gl_FragColor = varNewColor;
+	//gl_FragColor = varNewColor;
 	if(uFog)
 	{
 		float fogFactor = ComputeFog();

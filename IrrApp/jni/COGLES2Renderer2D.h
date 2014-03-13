@@ -35,8 +35,8 @@ namespace irr
             bool  UseAlphaTest;
             float AlphaTestValue;
             core::matrix4 OrthoMatrix;
-			c8 VertexShaderFile[50];
-			c8 FragmentShaderFile[50];
+			c8 VertexShaderFile[100];
+			c8 FragmentShaderFile[100];
 
 			
         private:

@@ -205,7 +205,7 @@ void main(void)
 		gNormal = normalize(gNormal);
 	
 	ReplaceColorMaterial();
-	varNewColor = computeLighting();
+	//varNewColor = computeLighting();
 	if(uLighting)
 		varVertexColor = computeLighting();
 	else
@@ -214,8 +214,7 @@ void main(void)
 	for(int i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		varTexCoord[i] = vec4(0.0);
 	
-	//if(uUseTexture[0])
-	if(false)
+	if(uUseTexture[0])
 	{
 		if(uRenderMode == SphereMap || uRenderMode == Reflection2Layer)
 		{

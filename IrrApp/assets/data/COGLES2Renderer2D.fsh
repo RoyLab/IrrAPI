@@ -3,8 +3,7 @@
 // and OpenGL ES driver implemented by Christian Stehno
 // This file is part of the "Irrlicht Engine".
 // For conditions of distribution and use, see copyright notice in Irrlicht.h
-precision highp float;
-precision highp int;
+precision mediump float;
 
 uniform bool uUseTexture;
 uniform sampler2D uTextureUnit;
