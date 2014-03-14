@@ -213,7 +213,7 @@ IImage* JNIUtils::createImageFromBitmap(JNIEnv* env, jobject jbitmap)
 		
 	return image;
 }
-/*
+
 
 static jclass cls_color4i;
 static jfieldID id_red, id_green, id_blue, id_alpha;
@@ -319,7 +319,7 @@ void initBoundingBoxId(JNIEnv *env, jobject thiz)
 	id_min = env->GetFieldID(cls_bbox, "MinEdge", "Lzte/irrlib/core/Vector3d;");
 	id_max = env->GetFieldID(cls_bbox, "MaxEdge", "Lzte/irrlib/core/Vector3d;");
 }
-*/
+
 long _getTime()
 {
     struct timeval  now;

@@ -40,7 +40,7 @@ public class DemoRenderer implements Renderer {
 			
 	}
 
-	public void onCreate(Engine engine) {                              
+	public void onCreate(Engine engine) {                               
 		origin = new Vector3d(); 
 		back = new Vector3d(0, 20, 0);
 		left = new Vector3d(-20, 0, 0);

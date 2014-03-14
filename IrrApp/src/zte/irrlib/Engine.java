@@ -80,16 +80,15 @@ public class Engine implements GLSurfaceView.Renderer{
 	
 	@Override
 	public synchronized void onSurfaceCreated(GL10 unused, EGLConfig config){
-		nativeCreateDevice(mRenderType);
-		WLog.d("java1");
-		initJNIFieldID();
-		WLog.d("java2");
+		nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
+		//nativeCreateDevice(mRenderType);
+		//initJNIFieldID();
 		javaReset();
-		WLog.d("java3");
 		mRenderer.onCreate(this);
 		Log.d(TAG, "OnSurfaceCreated");
 	}
-	
+
+	private native int nativeInit(int rendertype, Vector3d vec, Color4i color4, Color3i color3, Rect4i rect, BoundingBox bbox);
 	@Override
 	public synchronized void onSurfaceChanged(GL10 unused, int width, int height){
 		nativeResize(width, height);

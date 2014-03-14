@@ -21,7 +21,7 @@ extern IVideoDriver* driver;
 extern ISceneManager* smgr;
 
 /*class Param in ParticleSystemSceneNode.java
-public class Param{
+public class Param{ 
 		double BBox[];
 		Vector3d InitialDirection;
 		double MinEmitRate, MaxEmitRate;
@@ -71,14 +71,13 @@ extern "C"
 			delete [] type[i];
 		}
 		delete name, type;
-		LOGD("NativeSetEmitter: initFieldID end!");
+		LOGE("NativeSetEmitter: initFieldID end!");
 		isInitEmitter = true;
 	}
 
 	void Java_zte_irrlib_scene_ParticleSystemSceneNode_nativeSetBoxEmitter(
 		JNIEnv *env, jobject defaultObj, jobject emitter_obj, jint id)
 	{
-		LOGD("SETBOXEMMTER?");
 		initFieldIdEmitter(env, emitter_obj);
 		
 		scene::IParticleSystemSceneNode* ps = 
@@ -97,21 +96,22 @@ extern "C"
 			LOGE("NativeSetEmitter: bbox index error! ");
 			return;		//no enough elements for bbox
 		}
+		
 		core::aabbox3d<f32> bbox = core::aabbox3d<f32>(
 				bboxVal[0],bboxVal[1],bboxVal[2],bboxVal[3],bboxVal[4],bboxVal[5]);
 		env->ReleaseDoubleArrayElements(bboxArr,bboxVal,JNI_ABORT);
 		
-		vector3df initDir = utils->createvector3dfFromVector3d(env, env->GetObjectField(emitter_obj, id_field[1]));
+		vector3df initDir = createvector3dfFromVector3d(env, env->GetObjectField(emitter_obj, id_field[1]));
 		jint minRate = (jdouble)env->GetIntField(emitter_obj,id_field[2]);
 		jint maxRate = (jdouble)env->GetIntField(emitter_obj,id_field[3]);
-		SColor darkColor = utils->createSColorFromColor4i(env,env->GetObjectField(emitter_obj,id_field[4]));
-		SColor brightColor = utils->createSColorFromColor4i(env,env->GetObjectField(emitter_obj,id_field[5]));
+		SColor darkColor = createSColorFromColor4i(env,env->GetObjectField(emitter_obj,id_field[4]));
+		SColor brightColor = createSColorFromColor4i(env,env->GetObjectField(emitter_obj,id_field[5]));
 		jint minTime = (jdouble)env->GetIntField(emitter_obj,id_field[6]);
 		jint maxTime = (jdouble)env->GetIntField(emitter_obj,id_field[7]);
 		jint maxAngle = (jdouble)env->GetIntField(emitter_obj,id_field[8]);
-		dimension2df minSize = utils->createdimension2dfFromVector2d(env,env->GetObjectField(emitter_obj,id_field[9]));
-		dimension2df maxSize = utils->createdimension2dfFromVector2d(env,env->GetObjectField(emitter_obj,id_field[10]));
-		LOGD("NativeSetEmitter: param inti end!");
+		dimension2df minSize = createdimension2dfFromVector2d(env,env->GetObjectField(emitter_obj,id_field[9]));
+		dimension2df maxSize = createdimension2dfFromVector2d(env,env->GetObjectField(emitter_obj,id_field[10]));
+		LOGE("NativeSetEmitter: param inti end!");
 		scene::IParticleEmitter* em = ps->createBoxEmitter(
 			bbox, 								// emitter size
 			initDir,							// initial direction
@@ -124,7 +124,6 @@ extern "C"
 		);
 		ps->setEmitter(em);
 		em->drop();
-		LOGD("SETBOXEMMTER!");
 	}
 
 	int Java_zte_irrlib_scene_ParticleSystemSceneNode_nativeAllSetTexture(

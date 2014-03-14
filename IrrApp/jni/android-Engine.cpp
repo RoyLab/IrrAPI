@@ -67,6 +67,58 @@ extern "C"
 		utils->initJNIClass(env, name, fname, fsig, num);
 	}
 	
+	int Java_zte_irrlib_Engine_nativeInit(
+		JNIEnv *env, jobject defaultObj, int type,
+		jobject vector, jobject color4, jobject color3, jobject rect, jobject bbox)
+	{
+		initJNIInfo(env, vector, color4, color3, rect);
+		initBoundingBoxId(env, bbox);
+		
+		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
+		if (type == 0x00000001) videoType = video::EDT_OGLES1;
+		else if (type == 0x00000004) videoType = video::EDT_OGLES2;
+		
+		//importGLInit();
+		
+		if (device) 
+		{
+			device->drop();
+			
+			device = 0;
+			driver = 0;
+			smgr = 0;
+			_extTex = 0;
+		}
+		
+		device = createDevice( videoType, 
+			dimension2d<u32>(gWindowWidth, gWindowHeight), 16, false, false, false, 0);
+
+		if (!device)
+		{
+			LOGE("No device!");
+			return -1;
+		}
+		
+		driver = device->getVideoDriver();
+		if (!driver){
+			LOGE("No driver!"); 
+			return -2;
+		}
+		
+		smgr = device->getSceneManager();
+		if (!smgr){
+			LOGE("No scene manager!");
+			return -3;
+		}
+		
+		LOGI("Engine is ready. width: %d, height: %d", gWindowWidth, gWindowHeight);
+		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
+		LOGD("%d1", &utils);
+		if (!utils)	utils = new JNIUtils();
+		LOGD("%d2", &utils);
+		return 0;
+	}
+	
 	void Java_zte_irrlib_Engine_nativeTest(
 		JNIEnv *env, jobject thiz, jobject obj)
 	{
