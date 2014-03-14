@@ -114,10 +114,10 @@ extern "C"
 		
 		SLight &lightData = light->getLightData();
 		
-		lightData.AmbientColor = createSColorfFromColor3i(env, env->GetObjectField(light_obj, id_field[1]));
-		lightData.DiffuseColor = createSColorfFromColor3i(env, env->GetObjectField(light_obj, id_field[2]));
-		lightData.SpecularColor = createSColorfFromColor3i(env, env->GetObjectField(light_obj, id_field[3]));
-		lightData.Attenuation = createvector3dfFromVector3d(env, env->GetObjectField(light_obj, id_field[4]));
+		lightData.AmbientColor = utils->createSColorfFromColor3i(env, env->GetObjectField(light_obj, id_field[1]));
+		lightData.DiffuseColor = utils->createSColorfFromColor3i(env, env->GetObjectField(light_obj, id_field[2]));
+		lightData.SpecularColor = utils->createSColorfFromColor3i(env, env->GetObjectField(light_obj, id_field[3]));
+		lightData.Attenuation = utils->createvector3dfFromVector3d(env, env->GetObjectField(light_obj, id_field[4]));
 		lightData.OuterCone =  (f32)env->GetDoubleField(light_obj, id_field[5]);
 		lightData.InnerCone = (f32)env->GetDoubleField(light_obj, id_field[6]);
 		lightData.Falloff = (f32)env->GetDoubleField(light_obj, id_field[7]);
@@ -166,13 +166,13 @@ extern "C"
 		SLight &lightData = light->getLightData();
 		
 		jobject obj = env->GetObjectField(light_obj, id_field[1]);
-		setColor3iFromSColorf(env, obj, lightData.AmbientColor);
+		utils->setColor3iFromSColorf(env, obj, lightData.AmbientColor);
 		obj = env->GetObjectField(light_obj, id_field[2]);
-		setColor3iFromSColorf(env, obj, lightData.DiffuseColor);
+		utils->setColor3iFromSColorf(env, obj, lightData.DiffuseColor);
 		obj = env->GetObjectField(light_obj, id_field[3]);		
-		setColor3iFromSColorf(env, obj, lightData.SpecularColor);
+		utils->setColor3iFromSColorf(env, obj, lightData.SpecularColor);
 		obj = env->GetObjectField(light_obj, id_field[4]);
-		setVector3dFromvector3df(env, obj, lightData.Attenuation);
+		utils->setVector3dFromvector3df(env, obj, lightData.Attenuation);
 		env->SetDoubleField(light_obj, id_field[5], lightData.OuterCone);
 		env->SetDoubleField(light_obj, id_field[6], lightData.InnerCone);
 		env->SetDoubleField(light_obj, id_field[7], lightData.Falloff);

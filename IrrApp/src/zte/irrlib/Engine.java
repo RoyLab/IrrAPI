@@ -3,6 +3,7 @@ package zte.irrlib;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import zte.irrapp.WLog;
 import zte.irrlib.core.BoundingBox;
 import zte.irrlib.core.Color3i;
 import zte.irrlib.core.Color4i;
@@ -77,28 +78,15 @@ public class Engine implements GLSurfaceView.Renderer{
 		return nativeGetFPS();
 	}
 	
-	public synchronized void onSurfaceDestroyed(){
-		mScene.clearAllNodes();
-		if (mIsInit) javaClear();
-		if (nativeIsInit()) nativeClear();
-		Log.d(TAG, "OnDestroy");
-	}
-	
 	@Override
 	public synchronized void onSurfaceCreated(GL10 unused, EGLConfig config){
-		if (!checkState()){
-			mScene = Scene.getInstance(this);
-			
-			//do some clean
-			if (mIsInit) javaClear();
-			if (nativeIsInit()) nativeClear();
-			
-			//re-initialize
-			nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
-			JavaInit();
-			mRenderer.onCreate(this);
-			Log.d(TAG, "Renderer created");
-		}
+		nativeCreateDevice(mRenderType);
+		WLog.d("java1");
+		initJNIFieldID();
+		WLog.d("java2");
+		javaReset();
+		WLog.d("java3");
+		mRenderer.onCreate(this);
 		Log.d(TAG, "OnSurfaceCreated");
 	}
 	
@@ -124,21 +112,54 @@ public class Engine implements GLSurfaceView.Renderer{
 	void setRenderType(int type){
 		mRenderType = type;
 	}
-
-	private int JavaInit(){
-		mScene.init();
-		mIsInit = true; 
-		return 0;
+	
+	public void initJNIFieldID(){
+		String fname[] = new String[4];
+		String fsig[] = new String[4];
+		
+		
+		WLog.d("new1");
+		fname[0] = "MinEdge"; fsig[0] = "Lzte/irrlib/core/Vector3d;";
+		fname[1] = "MaxEdge"; fsig[1] = "Lzte/irrlib/core/Vector3d;";
+		nativeInitJNI("zte/irrlib/core/BoundingBox", fname, fsig, 2);
+		
+		WLog.d("new2");
+		fname[0] = "X"; 		fsig[0] = "D";
+		fname[1] = "Y";			fsig[1] = "D";
+		nativeInitJNI("zte/irrlib/core/Vector2d", fname, fsig, 2);
+		WLog.d("new3");
+		fname[0] = "X";			fsig[0] = "D";
+		fname[1] = "Y";			fsig[1] = "D";
+		fname[2] = "Z"; 		fsig[2] = "D";
+		nativeInitJNI("zte/irrlib/core/Vector3d", fname, fsig, 3);
+		WLog.d("new4");       
+		fname[0] = "red"; 		fsig[0] = "I";
+		fname[1] = "green";		fsig[1] = "I";
+		fname[2] = "blue";		fsig[2] = "I";
+		nativeInitJNI("zte/irrlib/core/Color3i", fname, fsig, 3);
+		WLog.d("new5");
+		fname[0] = "red"; 		fsig[0] = "I";
+		fname[1] = "green"; 	fsig[1] = "I";
+		fname[2] = "blue"; 		fsig[2] = "I";
+		fname[3] = "alpha"; 	fsig[3] = "I";
+		nativeInitJNI("zte/irrlib/core/Color4i", fname, fsig, 4);
+		WLog.d("new6");
+		fname[0] = "Left"; 		fsig[0] = "I";
+		fname[1] = "Top"; 		fsig[1] = "I";
+		fname[2] = "Right";		fsig[2] = "I";
+		fname[3] = "Bottom";	fsig[3] = "I";
+		nativeInitJNI("zte/irrlib/core/Rect4i", fname, fsig, 4);		
+		WLog.d("new7");
+		//nativeTest(new BoundingBox());
 	}
 	
-	private void javaClear(){
-		mScene.javaClear();
-		mIsInit = false; 
+	private void javaReset(){
+		resetMembergValue();
+		mScene.javaReset();
 	}
 	
-	//当且仅当native引擎和Java接口都已经被初始化时返回true
-	private boolean checkState(){
-		return (mIsInit && nativeIsInit());
+	private void resetMembergValue(){
+		mScene = Scene.getInstance(this);
 	}
 	
 	private Engine(){
@@ -150,16 +171,16 @@ public class Engine implements GLSurfaceView.Renderer{
 	private Renderer mRenderer;
 	private int mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 	
-	private boolean mIsInit;
-	
-	private native int nativeInit(int rendertype, Vector3d vec, Color4i color4, Color3i color3, Rect4i rect, BoundingBox bbox);
-	private native void nativeClear();
-	private native boolean nativeIsInit();
 	private native void nativeResize(int w, int h);
 	private native double nativeGetFPS();
 	
+	private native int nativeCreateDevice(int type);
+	private native void nativeInitJNI(String name, String[] fname, String[] fsig, int num);
+	
 	native void nativeBeginScene();
 	native void nativeEndScene();
+	
+	native void nativeTest(Object obj);
 	
 	/**
 	 * 引擎的渲染器接口，用于场景渲染，需要用户自己实现。 

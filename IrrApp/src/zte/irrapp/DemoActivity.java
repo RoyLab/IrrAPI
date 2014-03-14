@@ -7,6 +7,7 @@ import zte.irrlib.IrrlichtView;
 import zte.irrlib.Utils;
 import zte.test.irrapp.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class DemoActivity extends Activity {
 		
 		mDemo = (DemoView)findViewById(R.id.irrview);
 		mDemo.setRecommendEGLConfigChooser(0);
-		mDemo.enableGLES2(true);
+		//mDemo.enableGLES2(true);
 		mRenderer = new DemoRenderer();
 		mDemo.setEngineRenderer(mRenderer);
 		 
@@ -45,6 +46,8 @@ public class DemoActivity extends Activity {
 		down = (Button)findViewById(R.id.down);
 		left = (Button)findViewById(R.id.left);
 		right = (Button)findViewById(R.id.right);
+		
+		play = (Button)findViewById(R.id.play);
 		
 		up.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -85,7 +88,13 @@ public class DemoActivity extends Activity {
 				});
 			}
 		});
+		
 		Log.d(TAG, "Activity onCreate.");
+	}
+	
+	public void newActivity(View view){
+		Intent intent = new Intent(this, SubActivity.class);
+		startActivity(intent);
 	}
 	
 	@Override
@@ -110,5 +119,17 @@ public class DemoActivity extends Activity {
 	protected void onDestroy(){
 		super.onDestroy();
 		Log.d(TAG, "Activity onDestroy");
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
+		Log.d(TAG, "Activity onStop");
+	}
+	
+	@Override
+	public void onRestart(){
+		super.onRestart();
+		Log.d(TAG, "Activity onRestart");
 	}
 }

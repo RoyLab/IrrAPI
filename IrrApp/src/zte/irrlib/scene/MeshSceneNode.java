@@ -143,7 +143,7 @@ public class MeshSceneNode extends SceneNode{
 		for (int i = 0; i < text.length; i++){
 			text[i] = mScene.getFullPath(text[i]);
 		}
-		nativeAddTextureAnimator(text, timePerFrame, loop, getId());
+		nativeAddTextureAnimator(text, timePerFrame, loop, getId());    
 	}
 	
 	/**
@@ -168,7 +168,7 @@ public class MeshSceneNode extends SceneNode{
 	 */
 	public BoundingBox getBoundingBox(){
 		BoundingBox bbox = new BoundingBox();
-		nativeGetBoundingBox(bbox, false, getId());
+		//nativeGetBoundingBox(bbox, false, getId());
 		return bbox;
 	}
 	

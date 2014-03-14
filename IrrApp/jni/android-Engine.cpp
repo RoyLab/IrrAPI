@@ -11,19 +11,9 @@
 
 extern "C"
 {
-	int Java_zte_irrlib_Engine_nativeInit(
-		JNIEnv *env, jobject defaultObj, int type,
-		jobject vector, jobject color4, jobject color3, jobject rect, jobject bbox)
+	int Java_zte_irrlib_Engine_nativeCreateDevice(
+		JNIEnv *env, jobject thiz, int type)
 	{
-		initJNIInfo(env, vector, color4, color3, rect);
-		initBoundingBoxId(env, bbox);
-		
-		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
-		if (type == 0x00000001) videoType = video::EDT_OGLES1;
-		else if (type == 0x00000004) videoType = video::EDT_OGLES2;
-		
-		//importGLInit();
-		
 		if (device) 
 		{
 			device->drop();
@@ -33,6 +23,12 @@ extern "C"
 			smgr = 0;
 			_extTex = 0;
 		}
+	
+		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
+		if (type == 0x00000001) videoType = video::EDT_OGLES1;
+		else if (type == 0x00000004) videoType = video::EDT_OGLES2;
+		
+		//importGLInit();
 		
 		device = createDevice( videoType, 
 			dimension2d<u32>(gWindowWidth, gWindowHeight), 16, false, false, false, 0);
@@ -56,10 +52,29 @@ extern "C"
 		}
 		
 		LOGI("Engine is ready. width: %d, height: %d", gWindowWidth, gWindowHeight);
+		
 		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
-		_isInit = true;
+		LOGD("%d1", &utils);
+		if (!utils)	utils = new JNIUtils();
+		LOGD("%d2", &utils);
 		return 0;
 	}
+	
+	void Java_zte_irrlib_Engine_nativeInitJNI(
+		JNIEnv *env, jobject thiz, jstring name, 
+		jobjectArray fname, jobjectArray fsig, jint num)
+	{
+		utils->initJNIClass(env, name, fname, fsig, num);
+	}
+	
+	void Java_zte_irrlib_Engine_nativeTest(
+		JNIEnv *env, jobject thiz, jobject obj)
+	{
+		LOGD("test?");
+		utils->setBoundingBoxFromaabbox3df(env, obj, aabbox3df());
+	}
+
+
 	
 	void Java_zte_irrlib_Engine_nativeSetFontPath(
 		JNIEnv *env, jobject defaultObj, jstring path)
@@ -67,20 +82,6 @@ extern "C"
 		const char* text = env->GetStringUTFChars(path, 0);
 		strcpy(_builtInFontPath, text);
 		env->ReleaseStringUTFChars(path, text);
-	}
-	
-	bool Java_zte_irrlib_Engine_nativeIsInit(
-		JNIEnv *env, jobject defaultObj)
-	{
-		return _isInit;
-	}
-	
-	int Java_zte_irrlib_Engine_nativeClear(
-		JNIEnv *env, jobject defaultObj)
-	{
-		//if (device) device->drop();
-		//device = 0;
-		_isInit = false;
 	}
 	
 	void Java_zte_irrlib_Engine_nativeResize(
@@ -98,12 +99,6 @@ extern "C"
 		else LOGE("Driver is not ready.");
 	}
 	
-	/*void Java_zte_irrlib_Engine_nativeDrop(
-		JNIEnv *env, jobject defaultObj)
-	{
-		device->drop();
-	}*/
-	
 	void Java_zte_irrlib_Engine_nativeBeginScene(
 		JNIEnv *env, jobject defaultObj)
 	{
@@ -116,7 +111,6 @@ extern "C"
 	{
 		if (driver) driver->endScene();
 	}
-
 	
 	double Java_zte_irrlib_Engine_nativeGetFPS(
 		JNIEnv *env, jobject defaultObj)

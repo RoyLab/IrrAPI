@@ -383,17 +383,6 @@ public class Scene {
 	}
 	
 	/**
-	 * 场景初始化，初始化场景对象和摄像机。
-	 */
-	public void init(){
-		clearAllNodes();
-		SceneNode.setScene(this);
-		addCameraSceneNode(
-				new Vector3d(0, 0, 0), 
-				new Vector3d(0, 0, 100), true, null);
-	}
-	
-	/**
 	 * 更改渲染区域尺寸。
 	 * @param width 渲染区域的宽度值，单位为像素
 	 * @param height 渲染区域高度值，单位为像素
@@ -415,15 +404,22 @@ public class Scene {
 	
 	/**
 	 * 清除存储在Java层的所有节点、公告板和视频播放器信息
+	 * 同时初始化场景摄像机
 	 */
-	public void javaClear(){
+	public void javaReset(){
 		mNodeList.clear();
 		mBBGroup.clear();
+		
 		if (mMediaPlayer != null){
 			mMediaPlayer.release();
 			mMediaPlayer = null;
 		}
 		_NewId = 0;
+		
+		SceneNode.setScene(this);
+		addCameraSceneNode(
+				new Vector3d(0, 0, 0), 
+				new Vector3d(0, 0, 100), true, null);
 	}
 	
 	/**

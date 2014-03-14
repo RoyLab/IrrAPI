@@ -83,7 +83,7 @@ public class IrrlichtView extends GLSurfaceView {
 	public void setEngineRenderer(Engine.Renderer renderer){
 		mEngine.setRenderer(renderer);
 		super.setRenderer(mEngine);
-		super.setPreserveEGLContextOnPause(true);
+		//super.setPreserveEGLContextOnPause(true);
 	}
 	
 	@Override@Deprecated
@@ -92,15 +92,6 @@ public class IrrlichtView extends GLSurfaceView {
 	public final void setRenderer(GLSurfaceView.Renderer renderer){}
 	@Override@Deprecated
 	public final void setPreserveEGLContextOnPause(boolean flag){}
-	
-	@Override
-	public void onDetachedFromWindow(){
-		if (mEngine != null){
-			mEngine.onSurfaceDestroyed();
-		}
-		super.onDetachedFromWindow();
-		Log.d(TAG, "onSurfaceDestroyed");
-	}
 	
 	protected Activity getActivity(){
 		return (Activity)getContext();

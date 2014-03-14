@@ -47,9 +47,12 @@ extern "C"
 		JNIEnv *env, jobject defaultObj,
 		jobject rec, jobject c1, jobject c2, jobject c3, jobject c4)
 	{
-		driver->draw2DRectangle(createrectiFromRect4i(env, rec), 
-			createSColorFromColor4i(env, c1), createSColorFromColor4i(env, c2), 
-			createSColorFromColor4i(env, c3), createSColorFromColor4i(env, c4)
+		driver->draw2DRectangle(
+			utils->createrectiFromRect4i(env, rec), 
+			utils->createSColorFromColor4i(env, c1),
+			utils->createSColorFromColor4i(env, c2), 
+			utils->createSColorFromColor4i(env, c3), 
+			utils->createSColorFromColor4i(env, c4)
 			);
 	}
 	

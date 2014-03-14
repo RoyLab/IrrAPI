@@ -40,8 +40,8 @@ public class DemoRenderer implements Renderer {
 			
 	}
 
-	public void onCreate(Engine engine) {      
-		origin = new Vector3d();
+	public void onCreate(Engine engine) {                              
+		origin = new Vector3d(); 
 		back = new Vector3d(0, 20, 0);
 		left = new Vector3d(-20, 0, 0);
 		right = new Vector3d(20, 0, 0);
@@ -63,6 +63,7 @@ public class DemoRenderer implements Renderer {
 		cube.setTexture("test2.jpg");
 		//cube.addRotationAnimator(new Vector3d(0,0.5,0.2));
 		cube.addFlyStraightAnimator(new Vector3d(-30,0,0), new Vector3d(50,0,20), 1000, true, true);
+		//WLog.d("" + cube.getBoundingBox().MinEdge.X);
 		
 		walla = scene.addCubeSceneNode(new Vector3d(-30,0,0), 10, null);
 		walla.setScale(new Vector3d(0.5,5,5), 0);

@@ -103,7 +103,7 @@ extern "C"
 		ITexture *tex = driver->getTexture(name);
 		if (!tex)
 		{
-			IImage *image = createImageFromBitmap(env, jbitmap);
+			IImage *image = utils->createImageFromBitmap(env, jbitmap);
 			if (!image)
 			{
 				env->ReleaseStringUTFChars(jname,name);
@@ -254,7 +254,7 @@ extern "C"
 		ITexture *tex = driver->getTexture(name);
 		if (!tex)
 		{
-			IImage *image = createImageFromBitmap(env, jbitmap);
+			IImage *image = utils->createImageFromBitmap(env, jbitmap);
 			if (!image)
 			{
 				env->ReleaseStringUTFChars(jname,name);
@@ -333,8 +333,8 @@ extern "C"
 		{
 			WARN_NODE_NOT_FOUND(id, SetMediaTexture);
 			return -1;
-		}	
-		setBoundingBoxFromaabbox3df(env, bbox, 
+		}
+		utils->setBoundingBoxFromaabbox3df(env, bbox, 
 			(isAbsolute)?node->getTransformedBoundingBox():node->getBoundingBox());
 		return 0;
 	}
