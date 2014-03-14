@@ -1,6 +1,7 @@
 package zte.irrapp;
 
 import java.io.IOException;
+import java.util.Random;
 
 import android.util.Log;
 import zte.irrlib.CameraFPSWrapper;
@@ -29,9 +30,17 @@ public class DemoRenderer implements Renderer {
 	public static final String TAG = "DemoRenderer";
 
 	public void onDrawFrame(Engine engine) {
-		//mPlayer.update();
 		Scene scene = engine.getScene();
-		
+		if(random.nextInt()%177 == 0){
+			float x = random.nextInt()%40;
+			float y = random.nextInt()%20;
+			float z = random.nextInt()%10;
+			
+			psExp.setPosition(new Vector3d(x,y,z),0);
+			psExp = scene.addExplosionParticleSceneNode(new Vector3d(x,y,z), 1.0, 10.0,null);
+			psExp.setTexture("fire.bmp");
+		}
+
 		scene.drawAllNodes();
 		
 		scene.drawText("fps: " + engine.getFPS() + " material: ",
@@ -45,6 +54,7 @@ public class DemoRenderer implements Renderer {
 		back = new Vector3d(0, 20, 0);
 		left = new Vector3d(-20, 0, 0);
 		right = new Vector3d(20, 0, 0);
+		random = new Random();
 		
 		engine.setResourceDir("/sdcard/irrmedia/");
 		Scene scene = engine.getScene();
@@ -147,10 +157,31 @@ public class DemoRenderer implements Renderer {
 		star[4].addFadeOutAffectorParticleAffector(new Color4i(0,0,0,0), 500);
 		star[4].addRotationAffector(new Vector3d(0.0,0.0,50.0), new Vector3d(3.0,0.0,-10.0));
 		
-		cube.setVisible(false);
-		walla.setVisible(false);
-		wallb.setVisible(false);
-		bill.setVisible(false);
+		ball=scene.addSphereSceneNode(new Vector3d(0,0,0), 0.5, 16, null);
+		ball.addFlyStraightAnimator(new Vector3d(40,0,0), new Vector3d(-40,0,0), 4000, true, false);
+		psCT = scene.addCometTailSceneNode(new Vector3d(0.5,0,0),1.0, 10.0, new Vector3d(0.01,0.0,0.0), ball);
+		psCT.setTexture("portal1.bmp");
+		//psCT.setParent(ball);
+		//psCT.addFlyStraightAnimator(new Vector3d(-20,-10,-10), new Vector3d(20,10,10), 2000, true, true);
+		
+		psStars = scene.addStarsParticleSceneNode(new Vector3d(0,0,0), 1000, null);
+		psStars.setTexture("portal1.bmp");
+		psExp = scene.addExplosionParticleSceneNode(new Vector3d(0,0,0), 1.0, 10.0,null);
+		psExp.setTexture("fire.bmp");
+		
+		for(int i=0;i<5;++i)
+			star[i].setVisible(false);	//	Îå»·
+		ps.setVisible(false);			//»ðÑæ	
+		cube.setVisible(false);		//Æ½ÒÆÁ¢·½Ìå
+		walla.setVisible(false);		//×ó²àÇ½Ìå
+		wallb.setVisible(false);		//ÓÒ²àÇ½Ìå
+		bill.setVisible(false);			//¹«¸æ°å
+		ball.setVisible(true); 			//åçÐÇÇòÌå
+		psCT.setVisible(true);		//åçÐÇÍÏÎ²
+		psStars.setVisible(true);		//ÐÇ¿Õ
+		psExp.setVisible(true);		//±¬Õ¨
+		
+		
 		//star.addAttractionParticleAffector(new Vector3d(0.0,0.0,0.0), 10, false, true, false, false);
 		/*model = scene.addAnimateMeshSceneNode("settings/settings.b3d", origin, null);
 		model.addRotationAnimator(new Vector3d(0,0.5,0.0));
@@ -199,10 +230,10 @@ public class DemoRenderer implements Renderer {
 	public void onResize(Engine engine, int width, int height) {
 		
 	}
-
+	private Random random;
 	private BillboardGroup group;
 	private SceneNode empty, node;
-	private MeshSceneNode cube,walla,wallb;
+	private MeshSceneNode cube,walla,wallb,ball;
 	public AnimateMeshSceneNode model;
 	private BillboardSceneNode bill;
 	private LightSceneNode light;
@@ -212,6 +243,6 @@ public class DemoRenderer implements Renderer {
 	private CameraSceneNode camera;
 	public CameraFPSWrapper w;
 	private Vector3d origin, back, left, right;
-	private ParticleSystemSceneNode ps, star[];
+	private ParticleSystemSceneNode ps, star[],psCT,psStars,psExp;
 	private BoxEmitter em;
 }
