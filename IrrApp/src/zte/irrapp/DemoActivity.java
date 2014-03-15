@@ -3,6 +3,7 @@ package zte.irrapp;
 
 import java.io.IOException;
 
+import zte.irrlib.Engine;
 import zte.irrlib.IrrlichtView;
 import zte.irrlib.Utils;
 import zte.test.irrapp.R;
@@ -118,6 +119,7 @@ public class DemoActivity extends Activity {
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
+		Engine.release();
 		Log.d(TAG, "Activity onDestroy");
 	}
 	

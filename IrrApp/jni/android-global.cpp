@@ -21,23 +21,54 @@ int gWindowHeight = 480;
 stringc gSdCardPath;
 SColor backColor = SColor(255,150,150,150);
 
-bool _isInit = false;
 const char _extPrefix[] = "<external>";
 char _builtInFontPath[128] = "";
 ITexture *_extTex = 0;
 
+void resetGlobalValue()
+{
+	device = 0;
+	driver = 0;
+	smgr = 0;
+	_extTex = 0;
+	
+	gWindowWidth = 640;
+	gWindowHeight = 480;
+	
+	backColor = SColor(255,150,150,150);
+	strcpy(_builtInFontPath, "");
+}
 
-JavaClassInfo::JavaClassInfo(const JavaClassInfo& other):
+JavaClassInfo::JavaClassInfo():
+	FieldID(NULL),Sig(new char[128])
+{
+	
+}
+
+/*JavaClassInfo::JavaClassInfo(const JavaClassInfo& other):
 	count(other.count), Sig(new char[128]),
 	FieldID(new jfieldID[count])
 {
 	memcpy(Sig, other.Sig, 128);
-	memcpy(FieldID, other.FieldID, other.count * sizeof(jfieldID));
+	//memory copy of jfieldID will cause heap corruption.
+	//memcpy(FieldID, other.FieldID, other.count * sizeof(jfieldID));
 	//LOGD("%s, %d", Sig, other.count * sizeof(jfieldID));
 	//LOGD("%d, %d, %d", sizeof(FieldID), &FieldID[0], &FieldID[1]);
+}*/
+
+JavaClassInfo::~JavaClassInfo()
+{
+	delete [] Sig;
+	if (FieldID) delete [] FieldID;
 }
 
-JNIUtils::JNIUtils():clsArray(1)
+JNIUtils::JNIUtils():
+	count(0)
+{
+
+}
+
+JNIUtils::~JNIUtils()
 {
 
 }
@@ -45,39 +76,40 @@ JNIUtils::JNIUtils():clsArray(1)
 void JNIUtils::initJNIClass(JNIEnv *env, jstring clsName, 
 	jobjectArray fname, jobjectArray fsig, int num)
 {
-	JavaClassInfo info;
+	if (count > CAPACITY -1 ) return;
+	
 	const char *name = env->GetStringUTFChars(clsName, 0);
-	strcpy(info.Sig, name);
-	//LOGD("%s", info.Sig);
+	strcpy(clsArray[count].Sig, name);
+	//LOGD("%s", clsArray[count].Sig);
 	env->ReleaseStringUTFChars(clsName, name);
 	
-	jclass cls = env->FindClass(info.Sig);
-	info.count = num;
-	info.FieldID = new jfieldID[info.count];
+	jclass cls = env->FindClass(clsArray[count].Sig);
+	clsArray[count].count = num;
+	clsArray[count].FieldID = new jfieldID[clsArray[count].count];
 	
 	//will there be any memory leak?
-	for (int i = 0; i < info.count; i++)
+	for (int i = 0; i < clsArray[count].count; i++)
 	{	
 		jstring tfname = (jstring)env->GetObjectArrayElement(fname, i);
 		jstring tfsig = (jstring)env->GetObjectArrayElement(fsig, i);
 		const char *tmp1 = env->GetStringUTFChars(tfname, 0);
 		const char *tmp2 = env->GetStringUTFChars(tfsig, 0);
-		//LOGD("%s4 %d, %s, %s", info.Sig, i, tmp1, tmp2);
-		info.FieldID[i] = env->GetFieldID(cls, tmp1, tmp2);
+		//LOGD("%s4 %d, %s, %s", clsArray[count].Sig, i, tmp1, tmp2);
+		clsArray[count].FieldID[i] = env->GetFieldID(cls, tmp1, tmp2);
 		env->ReleaseStringUTFChars(tfname, tmp1);
 		env->ReleaseStringUTFChars(tfsig, tmp2);
 	}
-	//LOGD("push start.%s, %d", info.Sig, &clsArray);
-	clsArray.push_back(&info);
-	//LOGD("push end");
+	
+	count++;
 }
 
 const JavaClassInfo* JNIUtils::getClassInfo(const char* name)
 {
-	for (int i = 0; i < clsArray.size(); i++)
+	for (int i = 0; i < count; i++)
 	{
-		if (strstr(clsArray[i]->Sig, name) != 0)
-			return clsArray[i];
+		//LOGD("%s, ??", clsArray[i].Sig);
+		if (strstr(clsArray[i].Sig, name) != 0)
+			return &clsArray[i];
 	}
 	return 0;
 }
@@ -161,12 +193,9 @@ void JNIUtils::setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& co
 
 void JNIUtils::setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig)
 {
-	LOGD("11");
 	const JavaClassInfo* info = getClassInfo("BoundingBox");
-	LOGD("11");
 	setVector3dFromvector3df(env, 
 		env->GetObjectField(bbox, info->FieldID[0]), bboxorig.MinEdge);
-	LOGD("11");
 	setVector3dFromvector3df(env, 
 		env->GetObjectField(bbox, info->FieldID[1]), bboxorig.MaxEdge);
 }
@@ -226,7 +255,7 @@ IImage* JNIUtils::createImageFromBitmap(JNIEnv* env, jobject jbitmap)
 }
 
 
-static jclass cls_color4i;
+/*static jclass cls_color4i;
 static jfieldID id_red, id_green, id_blue, id_alpha;
 
 static jclass cls_color3i;
@@ -329,7 +358,7 @@ void initBoundingBoxId(JNIEnv *env, jobject thiz)
 	cls_bbox = env->GetObjectClass(thiz);
 	id_min = env->GetFieldID(cls_bbox, "MinEdge", "Lzte/irrlib/core/Vector3d;");
 	id_max = env->GetFieldID(cls_bbox, "MaxEdge", "Lzte/irrlib/core/Vector3d;");
-}
+}*/
 
 long _getTime()
 {

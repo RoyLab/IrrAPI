@@ -9,7 +9,6 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.SurfaceHolder;
 
 /**
  * <p>与引擎兼容的视图类的一种实现。

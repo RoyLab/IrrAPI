@@ -76,7 +76,7 @@ extern "C"
 			WARN_NODE_NOT_FOUND(id, SetUpVector);	
 			return -1;
 		}
-		camera->setUpVector(createvector3dfFromVector3d(env, upVec));
+		camera->setUpVector(utils->createvector3dfFromVector3d(env, upVec));
 		return 0;
 	}
 }

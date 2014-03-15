@@ -7,34 +7,6 @@
 #include <android/bitmap.h>
 #include <jni.h>
 
-using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-long _getTime();
-int getOpenGLESTextureID(const ITexture* tex);
-
-void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jobject rect);
-void initBoundingBoxId(JNIEnv *env, jobject thiz);
-
-IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
-
-recti createrectiFromRect4i(JNIEnv *env, jobject rec);
-SColor createSColorFromColor4i(JNIEnv *env, jobject color);
-SColor createSColorFromColor3i(JNIEnv *env, jobject color);
-SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
-vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
-dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
-
-void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vecorig);
-void setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& colororig);
-void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig);
-
-void setgSdCardPath(JNIEnv* env, jstring newpath);
-
 #define LOG_TAG "irrlicht engine"
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -55,6 +27,35 @@ void setgSdCardPath(JNIEnv* env, jstring newpath);
 #define INFO_ADD_SUCCEED(id, funcName) \
 	LOGI("Add Node(id: %d) success! In Function: %s", id, #funcName)	
 
+using namespace irr;
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
+
+long _getTime();
+int getOpenGLESTextureID(const ITexture* tex);
+void resetGlobalValue();
+void setgSdCardPath(JNIEnv* env, jstring newpath);
+
+
+/*void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jobject rect);
+void initBoundingBoxId(JNIEnv *env, jobject thiz);
+
+IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
+
+recti createrectiFromRect4i(JNIEnv *env, jobject rec);
+SColor createSColorFromColor4i(JNIEnv *env, jobject color);
+SColor createSColorFromColor3i(JNIEnv *env, jobject color);
+SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
+vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
+dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
+
+void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vecorig);
+void setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& colororig);
+void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig);*/
+
 extern IrrlichtDevice *device;
 extern IVideoDriver* driver;
 extern ISceneManager* smgr;
@@ -74,23 +75,16 @@ struct JavaClassInfo
 	jfieldID *FieldID;
 	unsigned short count;
 	
-	JavaClassInfo():
-		FieldID(NULL),Sig(new char[128]){}
-	
-	JavaClassInfo(const JavaClassInfo& other);
-		
-	~JavaClassInfo()
-	{
-		delete [] Sig;
-		if (FieldID) delete [] FieldID;
-	}
+	JavaClassInfo();
+	//JavaClassInfo(const JavaClassInfo& other);
+	~JavaClassInfo();
 };
 
 class JNIUtils
 {
 public:
 	JNIUtils();
-	~JNIUtils(){}
+	~JNIUtils();
 	
 	void initJNIClass(JNIEnv *env, jstring clsName, 
 		jobjectArray fname, jobjectArray fsig, int num);
@@ -116,9 +110,13 @@ public:
 	IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
 	
 private:
-
+	
 	const JavaClassInfo* getClassInfo(const char* name);
-	core::array<JavaClassInfo*> clsArray;
+	
+	enum {CAPACITY = 10};
+	
+	JavaClassInfo clsArray[CAPACITY];
+	int count;
 };
 
 extern JNIUtils *utils;

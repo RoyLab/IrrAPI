@@ -473,6 +473,13 @@ public class Scene {
 	}
 	
 	/**
+	 * 这个方法不应该被用户所调用
+	 */
+	public static void release(){
+		
+	}
+	
+	/**
 	 * 返回场景对象。
 	 * @return 场景对象
 	 */

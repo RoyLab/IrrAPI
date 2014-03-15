@@ -168,7 +168,7 @@ public class MeshSceneNode extends SceneNode{
 	 */
 	public BoundingBox getBoundingBox(){
 		BoundingBox bbox = new BoundingBox();
-		//nativeGetBoundingBox(bbox, false, getId());
+		nativeGetBoundingBox(bbox, false, getId());
 		return bbox;
 	}
 	

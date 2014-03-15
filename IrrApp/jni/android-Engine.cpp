@@ -17,11 +17,7 @@ extern "C"
 		if (device) 
 		{
 			device->drop();
-			
-			device = 0;
-			driver = 0;
-			smgr = 0;
-			_extTex = 0;
+			resetGlobalValue();
 		}
 	
 		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
@@ -54,10 +50,17 @@ extern "C"
 		LOGI("Engine is ready. width: %d, height: %d", gWindowWidth, gWindowHeight);
 		
 		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
-		LOGD("%d1", &utils);
 		if (!utils)	utils = new JNIUtils();
-		LOGD("%d2", &utils);
+		
 		return 0;
+	}
+	
+	void Java_zte_irrlib_Engine_nativeRelease(
+		JNIEnv *env, jclass clazz)
+	{
+		if (device) device->drop();
+		resetGlobalValue();
+		delete utils;	utils = 0;
 	}
 	
 	void Java_zte_irrlib_Engine_nativeInitJNI(
@@ -67,7 +70,7 @@ extern "C"
 		utils->initJNIClass(env, name, fname, fsig, num);
 	}
 	
-	int Java_zte_irrlib_Engine_nativeInit(
+	/*int Java_zte_irrlib_Engine_nativeInit(
 		JNIEnv *env, jobject defaultObj, int type,
 		jobject vector, jobject color4, jobject color3, jobject rect, jobject bbox)
 	{
@@ -117,7 +120,7 @@ extern "C"
 		if (!utils)	utils = new JNIUtils();
 		LOGD("%d2", &utils);
 		return 0;
-	}
+	}*/
 	
 	void Java_zte_irrlib_Engine_nativeTest(
 		JNIEnv *env, jobject thiz, jobject obj)
