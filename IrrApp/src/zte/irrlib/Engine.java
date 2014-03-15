@@ -82,7 +82,7 @@ public class Engine implements GLSurfaceView.Renderer{
 	public synchronized void onSurfaceCreated(GL10 unused, EGLConfig config){
 		nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
 		//nativeCreateDevice(mRenderType);
-		//initJNIFieldID();
+		initJNIFieldID();
 		javaReset();
 		mRenderer.onCreate(this);
 		Log.d(TAG, "OnSurfaceCreated");
@@ -113,43 +113,43 @@ public class Engine implements GLSurfaceView.Renderer{
 	}
 	
 	public void initJNIFieldID(){
+		if (mJNIIsInit) return;
+		
 		String fname[] = new String[4];
 		String fsig[] = new String[4];
 		
-		
-		WLog.d("new1");
 		fname[0] = "MinEdge"; fsig[0] = "Lzte/irrlib/core/Vector3d;";
 		fname[1] = "MaxEdge"; fsig[1] = "Lzte/irrlib/core/Vector3d;";
 		nativeInitJNI("zte/irrlib/core/BoundingBox", fname, fsig, 2);
 		
-		WLog.d("new2");
 		fname[0] = "X"; 		fsig[0] = "D";
 		fname[1] = "Y";			fsig[1] = "D";
 		nativeInitJNI("zte/irrlib/core/Vector2d", fname, fsig, 2);
-		WLog.d("new3");
+		
 		fname[0] = "X";			fsig[0] = "D";
 		fname[1] = "Y";			fsig[1] = "D";
 		fname[2] = "Z"; 		fsig[2] = "D";
 		nativeInitJNI("zte/irrlib/core/Vector3d", fname, fsig, 3);
-		WLog.d("new4");       
+		
 		fname[0] = "red"; 		fsig[0] = "I";
 		fname[1] = "green";		fsig[1] = "I";
 		fname[2] = "blue";		fsig[2] = "I";
 		nativeInitJNI("zte/irrlib/core/Color3i", fname, fsig, 3);
-		WLog.d("new5");
+		
 		fname[0] = "red"; 		fsig[0] = "I";
 		fname[1] = "green"; 	fsig[1] = "I";
 		fname[2] = "blue"; 		fsig[2] = "I";
 		fname[3] = "alpha"; 	fsig[3] = "I";
 		nativeInitJNI("zte/irrlib/core/Color4i", fname, fsig, 4);
-		WLog.d("new6");
+		
 		fname[0] = "Left"; 		fsig[0] = "I";
 		fname[1] = "Top"; 		fsig[1] = "I";
 		fname[2] = "Right";		fsig[2] = "I";
 		fname[3] = "Bottom";	fsig[3] = "I";
 		nativeInitJNI("zte/irrlib/core/Rect4i", fname, fsig, 4);		
-		WLog.d("new7");
+		
 		//nativeTest(new BoundingBox());
+		mJNIIsInit = true;
 	}
 	
 	private void javaReset(){
@@ -165,6 +165,7 @@ public class Engine implements GLSurfaceView.Renderer{
 	}
 	
 	private static Engine mUniInstance;
+	private static boolean mJNIIsInit;
 	
 	private Scene mScene;
 	private Renderer mRenderer;

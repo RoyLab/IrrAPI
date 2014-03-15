@@ -77,15 +77,7 @@ struct JavaClassInfo
 	JavaClassInfo():
 		FieldID(NULL),Sig(new char[128]){}
 	
-	JavaClassInfo(const JavaClassInfo& other):
-		count(other.count), Sig(new char[128]),
-		FieldID(new jfieldID[count])
-	{
-		LOGD("??");
-		memcpy(Sig, other.Sig, 128);
-		memcpy(FieldID, other.FieldID, other.count * sizeof(jfieldID));
-		LOGD("!!");
-	}
+	JavaClassInfo(const JavaClassInfo& other);
 		
 	~JavaClassInfo()
 	{
@@ -126,7 +118,7 @@ public:
 private:
 
 	const JavaClassInfo* getClassInfo(const char* name);
-	core::array<JavaClassInfo> clsArray;
+	core::array<JavaClassInfo*> clsArray;
 };
 
 extern JNIUtils *utils;

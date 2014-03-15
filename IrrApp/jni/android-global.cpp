@@ -26,7 +26,18 @@ const char _extPrefix[] = "<external>";
 char _builtInFontPath[128] = "";
 ITexture *_extTex = 0;
 
-JNIUtils::JNIUtils():clsArray(8)
+
+JavaClassInfo::JavaClassInfo(const JavaClassInfo& other):
+	count(other.count), Sig(new char[128]),
+	FieldID(new jfieldID[count])
+{
+	memcpy(Sig, other.Sig, 128);
+	memcpy(FieldID, other.FieldID, other.count * sizeof(jfieldID));
+	//LOGD("%s, %d", Sig, other.count * sizeof(jfieldID));
+	//LOGD("%d, %d, %d", sizeof(FieldID), &FieldID[0], &FieldID[1]);
+}
+
+JNIUtils::JNIUtils():clsArray(1)
 {
 
 }
@@ -37,7 +48,7 @@ void JNIUtils::initJNIClass(JNIEnv *env, jstring clsName,
 	JavaClassInfo info;
 	const char *name = env->GetStringUTFChars(clsName, 0);
 	strcpy(info.Sig, name);
-	LOGD("%s", info.Sig);
+	//LOGD("%s", info.Sig);
 	env->ReleaseStringUTFChars(clsName, name);
 	
 	jclass cls = env->FindClass(info.Sig);
@@ -51,22 +62,22 @@ void JNIUtils::initJNIClass(JNIEnv *env, jstring clsName,
 		jstring tfsig = (jstring)env->GetObjectArrayElement(fsig, i);
 		const char *tmp1 = env->GetStringUTFChars(tfname, 0);
 		const char *tmp2 = env->GetStringUTFChars(tfsig, 0);
-		LOGD("%s4 %d, %s, %s", info.Sig, i, tmp1, tmp2);
+		//LOGD("%s4 %d, %s, %s", info.Sig, i, tmp1, tmp2);
 		info.FieldID[i] = env->GetFieldID(cls, tmp1, tmp2);
 		env->ReleaseStringUTFChars(tfname, tmp1);
 		env->ReleaseStringUTFChars(tfsig, tmp2);
 	}
-	LOGD("%s, %d", info.Sig, &clsArray);
-	clsArray.push_back(info);
-	LOGD("end");
+	//LOGD("push start.%s, %d", info.Sig, &clsArray);
+	clsArray.push_back(&info);
+	//LOGD("push end");
 }
 
 const JavaClassInfo* JNIUtils::getClassInfo(const char* name)
 {
 	for (int i = 0; i < clsArray.size(); i++)
 	{
-		if (strstr(clsArray[i].Sig, name) != 0)
-			return &clsArray[i];
+		if (strstr(clsArray[i]->Sig, name) != 0)
+			return clsArray[i];
 	}
 	return 0;
 }

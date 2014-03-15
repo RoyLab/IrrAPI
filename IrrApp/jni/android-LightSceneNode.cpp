@@ -22,7 +22,7 @@ public class SLight {
 	public Color3i SpecularColor = new Color3i(0xff, 0xff, 0xff);
 	
 	//Attenuation factors (constant, linear, quadratic)
-	public Vector3d Attenuation = new Vector3d(0, 0, 1); 
+	public Vector3d Attenuation = new Vector3d(0, 0, 1);
 	
 	//only available for spot light
 	public double OuterCone = 45.0;

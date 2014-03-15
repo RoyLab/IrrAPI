@@ -21,7 +21,7 @@ extern IVideoDriver* driver;
 extern ISceneManager* smgr;
 
 /*class Param in ParticleSystemSceneNode.java
-public class Param{ 
+public class Param{
 		double BBox[];
 		Vector3d InitialDirection;
 		double MinEmitRate, MaxEmitRate;
