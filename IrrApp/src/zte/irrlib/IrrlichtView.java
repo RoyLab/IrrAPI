@@ -3,6 +3,7 @@ package zte.irrlib;
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
+import javax.microedition.khronos.opengles.GL10;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +17,7 @@ import android.util.Log;
  * 同时建立一些新方法来<b>替代</b>父类的方法。注意，为了保证软件的稳定性，请尽量使用
  * 新的方法，避免使用被替代的方法。 
  */
-public class IrrlichtView extends GLSurfaceView {
+public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Renderer{
 	
 	/**
 	 * 日志标签
@@ -26,11 +27,13 @@ public class IrrlichtView extends GLSurfaceView {
 	public IrrlichtView(Context context) {		
 		super(context);
 		mEngine = Engine.getInstance();
+		enableGLES2(false);
 	}
 	
 	public IrrlichtView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mEngine = Engine.getInstance();
+		enableGLES2(false);
 	}
 	
 	/**
@@ -51,12 +54,10 @@ public class IrrlichtView extends GLSurfaceView {
 		if (flag){
 			mRenderType = EGL10Ext.EGL_OPENGL_ES2_BIT;
 			super.setEGLContextClientVersion(2);
-			mEngine.setRenderType(EGL10Ext.EGL_OPENGL_ES2_BIT);
 		}
 		else{
 			mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 			super.setEGLContextClientVersion(1);
-			mEngine.setRenderType(EGL10Ext.EGL_OPENGL_ES1_BIT);
 		}
 	}
 	
@@ -81,7 +82,7 @@ public class IrrlichtView extends GLSurfaceView {
 	 */
 	public void setEngineRenderer(Engine.Renderer renderer){
 		mEngine.setRenderer(renderer);
-		super.setRenderer(mEngine);
+		super.setRenderer(this);
 		//super.setPreserveEGLContextOnPause(true);
 	}
 	
@@ -101,6 +102,19 @@ public class IrrlichtView extends GLSurfaceView {
 	
 	static {
 		System.loadLibrary("irrlicht");
+	}
+
+	public void onDrawFrame(GL10 gl) {
+		mEngine.onDrawFrame();
+	}
+
+	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		mEngine.onSurfaceChanged(width, height);
+	}
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		mEngine.setRenderType(mRenderType);
+		mEngine.onSurfaceCreated();
 	}
 }
 

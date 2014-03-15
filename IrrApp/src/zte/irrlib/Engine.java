@@ -12,7 +12,7 @@ import android.util.Log;
  * 3D引擎类，负责管理引擎的创建和销毁，处理与文件系统相关的事务，
  * 并提供接口供视图类调用。
  */
-public class Engine implements GLSurfaceView.Renderer{
+public class Engine{
 	
 	/**
 	 * 日志标签
@@ -92,8 +92,7 @@ public class Engine implements GLSurfaceView.Renderer{
 		return nativeGetFPS();
 	}
 	
-	@Override
-	public synchronized void onSurfaceCreated(GL10 unused, EGLConfig config){
+	public synchronized void onSurfaceCreated(){
 		//nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
 		nativeCreateDevice(mRenderType);
 		initJNIFieldID();
@@ -102,15 +101,13 @@ public class Engine implements GLSurfaceView.Renderer{
 		Log.d(TAG, "OnSurfaceCreated");
 	}
 
-	@Override
-	public synchronized void onSurfaceChanged(GL10 unused, int width, int height){
+	public synchronized void onSurfaceChanged(int width, int height){
 		nativeResize(width, height);
 		mScene.onResize(width, height);
 		mRenderer.onResize(this, width, height);
 	}
 	
-	@Override
-	public synchronized void onDrawFrame(GL10 unused){
+	public synchronized void onDrawFrame(){
 		nativeBeginScene();
 		mScene.onDrawFrame();
 		mRenderer.onDrawFrame(this);
