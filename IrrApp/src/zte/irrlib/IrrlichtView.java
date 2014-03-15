@@ -17,7 +17,7 @@ import android.util.Log;
  * 同时建立一些新方法来<b>替代</b>父类的方法。注意，为了保证软件的稳定性，请尽量使用
  * 新的方法，避免使用被替代的方法。 
  */
-public class IrrlichtView extends GLSurfaceView {
+public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Renderer{
 	
 	/**
 	 * 日志标签
@@ -27,11 +27,13 @@ public class IrrlichtView extends GLSurfaceView {
 	public IrrlichtView(Context context) {		
 		super(context);
 		mEngine = Engine.getInstance();
+		enableGLES2(false);
 	}
 	
 	public IrrlichtView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mEngine = Engine.getInstance();
+		enableGLES2(false);
 	}
 	
 	/**
@@ -52,12 +54,10 @@ public class IrrlichtView extends GLSurfaceView {
 		if (flag){
 			mRenderType = EGL10Ext.EGL_OPENGL_ES2_BIT;
 			super.setEGLContextClientVersion(2);
-			mEngine.setRenderType(EGL10Ext.EGL_OPENGL_ES2_BIT);
 		}
 		else{
 			mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 			super.setEGLContextClientVersion(1);
-			mEngine.setRenderType(EGL10Ext.EGL_OPENGL_ES1_BIT);
 		}
 	}
 	
@@ -82,12 +82,8 @@ public class IrrlichtView extends GLSurfaceView {
 	 */
 	public void setEngineRenderer(Engine.Renderer renderer){
 		mEngine.setRenderer(renderer);
-		super.setRenderer(new GLSurfaceView.Renderer() {
-			public void onSurfaceCreated(GL10 unused, EGLConfig config) {mEngine.onSurfaceCreated();}
-			public void onSurfaceChanged(GL10 unused, int width, int height) {mEngine.onSurfaceChanged(width, height);}
-			public void onDrawFrame(GL10 unused) {mEngine.onDrawFrame();}
-		});
-		super.setPreserveEGLContextOnPause(true);
+		super.setRenderer(this);
+		//super.setPreserveEGLContextOnPause(true);
 	}
 	
 	@Override@Deprecated
@@ -96,15 +92,6 @@ public class IrrlichtView extends GLSurfaceView {
 	public final void setRenderer(GLSurfaceView.Renderer renderer){}
 	@Override@Deprecated
 	public final void setPreserveEGLContextOnPause(boolean flag){}
-	
-	@Override
-	protected void onDetachedFromWindow(){
-		if (mEngine != null){
-			mEngine.onDestroy();
-		}
-		super.onDetachedFromWindow();
-		Log.d(TAG, "OnDetached");
-	}
 	
 	protected Activity getActivity(){
 		return (Activity)getContext();
@@ -115,6 +102,19 @@ public class IrrlichtView extends GLSurfaceView {
 	
 	static {
 		System.loadLibrary("irrlicht");
+	}
+
+	public void onDrawFrame(GL10 gl) {
+		mEngine.onDrawFrame();
+	}
+
+	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		mEngine.onSurfaceChanged(width, height);
+	}
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		mEngine.setRenderType(mRenderType);
+		mEngine.onSurfaceCreated();
 	}
 }
 

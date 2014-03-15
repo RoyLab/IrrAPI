@@ -7,29 +7,6 @@
 #include <android/bitmap.h>
 #include <jni.h>
 
-using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-long _getTime();
-int getOpenGLESTextureID(const ITexture* tex);
-
-void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jobject rect);
-IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
-
-recti createrectiFromRect4i(JNIEnv *env, jobject rec);
-SColor createSColorFromColor4i(JNIEnv *env, jobject color);
-SColor createSColorFromColor3i(JNIEnv *env, jobject color);
-SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
-vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
-dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
-
-void setVector3dFromvector3df(JNIEnv *env, jobject light, jfieldID id, const vector3df& vec);
-void setColor3iFromSColorf(JNIEnv *env, jobject light, jfieldID id, const SColorf& color);
-
 #define LOG_TAG "irrlicht engine"
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -48,8 +25,37 @@ void setColor3iFromSColorf(JNIEnv *env, jobject light, jfieldID id, const SColor
 	LOGE("Add Node(id: %d) failed! In Function: %s", id, #funcName)
 
 #define INFO_ADD_SUCCEED(id, funcName) \
-	LOGI("Add Node(id: %d) success! In Function: %s", id, #funcName)
-	
+	LOGI("Add Node(id: %d) success! In Function: %s", id, #funcName)	
+
+using namespace irr;
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
+
+long _getTime();
+int getOpenGLESTextureID(const ITexture* tex);
+void resetGlobalValue();
+void setgSdCardPath(JNIEnv* env, jstring newpath);
+
+
+/*void initJNIInfo(JNIEnv *env, jobject vector, jobject color4, jobject color3, jobject rect);
+void initBoundingBoxId(JNIEnv *env, jobject thiz);
+
+IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
+
+recti createrectiFromRect4i(JNIEnv *env, jobject rec);
+SColor createSColorFromColor4i(JNIEnv *env, jobject color);
+SColor createSColorFromColor3i(JNIEnv *env, jobject color);
+SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
+vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
+dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
+
+void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vecorig);
+void setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& colororig);
+void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig);*/
+
 extern IrrlichtDevice *device;
 extern IVideoDriver* driver;
 extern ISceneManager* smgr;
@@ -59,9 +65,60 @@ extern int  gWindowHeight;
 extern stringc gSdCardPath;
 extern video::SColor backColor;
 
-extern bool _isInit;
-extern const char _extPrefix[];
+//extern const char _extPrefix[];
+
 extern char _builtInFontPath[];
 extern ITexture* _extTex;
 
+struct JavaClassInfo
+{
+	char *Sig;
+	jfieldID *FieldID;
+	unsigned short count;
+	
+	JavaClassInfo();
+	//JavaClassInfo(const JavaClassInfo& other);
+	~JavaClassInfo();
+};
+
+class JNIUtils
+{
+public:
+	JNIUtils();
+	~JNIUtils();
+	
+	void initJNIClass(JNIEnv *env, jstring clsName, 
+		jobjectArray fname, jobjectArray fsig, int num);
+	
+	vector3df createvector3dfFromVector3d(JNIEnv *env, jobject vec);
+	
+	SColorf createSColorfFromColor3i(JNIEnv *env, jobject color);
+	
+	SColor createSColorFromColor3i(JNIEnv *env, jobject color);
+	
+	SColor createSColorFromColor4i(JNIEnv *env, jobject color);
+	
+	recti createrectiFromRect4i(JNIEnv *env, jobject rec);
+	
+	dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
+	
+	void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vec);
+	
+	void setColor3iFromSColorf(JNIEnv *env, jobject obj, const SColorf& color);
+	
+	void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig);
+	
+	IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
+	
+private:
+	
+	const JavaClassInfo* getClassInfo(const char* name);
+	
+	enum {CAPACITY = 10};
+	
+	JavaClassInfo clsArray[CAPACITY];
+	int count;
+};
+
+extern JNIUtils *utils;
 #endif // __ANDOIRD_GLOBAL_H_INCLUDED__

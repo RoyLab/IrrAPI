@@ -60,11 +60,12 @@
             android:text="@string/down" />
 
         <Button
-            android:id="@+id/media"
+            android:id="@+id/play"
             android:layout_column="2"
             android:layout_gravity="right|top"
             android:layout_row="0"
-            android:text="@string/play" />
+            android:text="@string/play"
+            android:onClick="newActivity" />
 
         <Button
             android:id="@+id/pause"

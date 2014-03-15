@@ -97,7 +97,7 @@ public class Scene {
 	 * @param root 碰撞检测起始的根节点对象
 	 * @return 指定根节点下子节点中被指定射线击中的节点对象
 	 */
-	public SceneNode getTouchedSceneNode(int x, int y, SceneNode root){
+	public SceneNode getTouchedSceneNode(float x, float y, SceneNode root){
 		return queryById(nativeGetTouchedSceneNode(x, y, getId(root)));
 	}
 	
@@ -435,17 +435,6 @@ public class Scene {
 	}
 	
 	/**
-	 * 场景初始化，初始化场景对象和摄像机。
-	 */
-	public void init(){
-		clearAllNodes();
-		SceneNode.setScene(this);
-		addCameraSceneNode(
-				new Vector3d(0, 0, 0), 
-				new Vector3d(0, 0, 100), true, null);
-	}
-	
-	/**
 	 * 更改渲染区域尺寸。
 	 * @param width 渲染区域的宽度值，单位为像素
 	 * @param height 渲染区域高度值，单位为像素
@@ -467,15 +456,22 @@ public class Scene {
 	
 	/**
 	 * 清除存储在Java层的所有节点、公告板和视频播放器信息
+	 * 同时初始化场景摄像机
 	 */
-	public void javaClear(){
+	public void javaReset(){
 		mNodeList.clear();
 		mBBGroup.clear();
+		
 		if (mMediaPlayer != null){
 			mMediaPlayer.release();
 			mMediaPlayer = null;
 		}
 		_NewId = 0;
+		
+		SceneNode.setScene(this);
+		addCameraSceneNode(
+				new Vector3d(0, 0, 0), 
+				new Vector3d(0, 0, 100), true, null);
 	}
 	
 	/**
@@ -529,6 +525,13 @@ public class Scene {
 	}
 	
 	/**
+	 * 这个方法不应该被用户所调用
+	 */
+	public static void release(){
+		
+	}
+	
+	/**
 	 * 返回场景对象。
 	 * @return 场景对象
 	 */
@@ -573,7 +576,7 @@ public class Scene {
 	private native void nativeSetClearColor(int r, int g, int b, int a);
     private native void nativeSetAmbientLight(int r, int g, int b, int a);
     private native void nativeSetActiveCamera(int id);
-    private native int nativeGetTouchedSceneNode(int x, int y, int root);
+    private native int nativeGetTouchedSceneNode(float x, float y, int root);
     
     //native draw API
 	private native void nativeDrawImage(

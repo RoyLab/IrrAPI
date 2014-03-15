@@ -1,11 +1,11 @@
 package zte.irrlib;
 
-import zte.irrlib.core.Color3i;
-import zte.irrlib.core.Color4i;
-import zte.irrlib.core.Rect4i;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 import zte.irrlib.core.Vector2i;
-import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.Scene;
+import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 /**
@@ -32,6 +32,26 @@ public class Engine{
 		return mUniInstance;
 	}
 	
+	/**
+	 * 慎重使用，释放引擎所使用的native和Java内存，当且仅当在一个程
+	 * 序中不再使用引擎时调用。<br>
+	 * 该方法存在的原因是你可能不再需要引擎，且你需要释放引擎占据的内存
+	 * 空间留给别的模块。<br>
+	 * 一种典型的情况是你用引擎仅仅作为欢迎界面的渲染器，那么当欢迎界
+	 * 面结束时，你应当调用该方法释放资源。如果欢迎界面结束后，你仍有
+	 * 可能在别的地方用到该引擎，请不要使用本方法：引擎不会因为频繁的
+	 * 初始化而造成内存溢出，而在不合适的时机调用该方法则可能造成程序
+	 * 崩溃。<br>
+	 * 注意：本方法不建议在EGL上下文中（如）时候使用，否则可能会
+	 * 出现材质丢失的问题。
+	 */
+	public static void release(){
+		nativeRelease();
+		Scene.release();
+		mUniInstance = null;
+		mJNIIsInit = false;
+	}
+
 	/**
 	 * 设定资源文件（材质，模型等）的绝对路径。
 	 * @param path 路径名。请以'/'为开头，并以'/'为结尾
@@ -72,36 +92,22 @@ public class Engine{
 		return nativeGetFPS();
 	}
 	
-	synchronized void onDestroy(){
-		if (mIsInit) javaClear();
-		if (nativeIsInit()) nativeClear();
-		Log.d(TAG, "OnDestroy");
-	}
-	
-	synchronized void onSurfaceCreated(){
-		if (!checkState()){
-			mScene = Scene.getInstance(this);
-			
-			//do some clean
-			if (mIsInit) javaClear();
-			if (nativeIsInit()) nativeClear();
-			
-			//re-initialize
-			nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i());
-			JavaInit();
-			mRenderer.onCreate(this);
-			Log.d(TAG, "Renderer created");
-		}
+	public synchronized void onSurfaceCreated(){
+		//nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
+		nativeCreateDevice(mRenderType);
+		initJNIFieldID();
+		javaReset();
+		mRenderer.onCreate(this);
 		Log.d(TAG, "OnSurfaceCreated");
 	}
-	
-	void onSurfaceChanged(int width, int height){
+
+	public synchronized void onSurfaceChanged(int width, int height){
 		nativeResize(width, height);
 		mScene.onResize(width, height);
 		mRenderer.onResize(this, width, height);
 	}
 	
-	void onDrawFrame(){
+	public synchronized void onDrawFrame(){
 		nativeBeginScene();
 		mScene.onDrawFrame();
 		mRenderer.onDrawFrame(this);
@@ -115,42 +121,77 @@ public class Engine{
 	void setRenderType(int type){
 		mRenderType = type;
 	}
-
-	private int JavaInit(){
-		mScene.init();
-		mIsInit = true; 
-		return 0;
+	
+	public void initJNIFieldID(){
+		if (mJNIIsInit) return;
+		
+		String fname[] = new String[4];
+		String fsig[] = new String[4];
+		
+		fname[0] = "MinEdge"; fsig[0] = "Lzte/irrlib/core/Vector3d;";
+		fname[1] = "MaxEdge"; fsig[1] = "Lzte/irrlib/core/Vector3d;";
+		nativeInitJNI("zte/irrlib/core/BoundingBox", fname, fsig, 2);
+		
+		fname[0] = "X"; 		fsig[0] = "D";
+		fname[1] = "Y";			fsig[1] = "D";
+		nativeInitJNI("zte/irrlib/core/Vector2d", fname, fsig, 2);
+		
+		fname[0] = "X";			fsig[0] = "D";
+		fname[1] = "Y";			fsig[1] = "D";
+		fname[2] = "Z"; 		fsig[2] = "D";
+		nativeInitJNI("zte/irrlib/core/Vector3d", fname, fsig, 3);
+		
+		fname[0] = "red"; 		fsig[0] = "I";
+		fname[1] = "green";		fsig[1] = "I";
+		fname[2] = "blue";		fsig[2] = "I";
+		nativeInitJNI("zte/irrlib/core/Color3i", fname, fsig, 3);
+		
+		fname[0] = "red"; 		fsig[0] = "I";
+		fname[1] = "green"; 	fsig[1] = "I";
+		fname[2] = "blue"; 		fsig[2] = "I";
+		fname[3] = "alpha"; 	fsig[3] = "I";
+		nativeInitJNI("zte/irrlib/core/Color4i", fname, fsig, 4);
+		
+		fname[0] = "Left"; 		fsig[0] = "I";
+		fname[1] = "Top"; 		fsig[1] = "I";
+		fname[2] = "Right";		fsig[2] = "I";
+		fname[3] = "Bottom";	fsig[3] = "I";
+		nativeInitJNI("zte/irrlib/core/Rect4i", fname, fsig, 4);		
+		
+		mJNIIsInit = true;
 	}
 	
-	private void javaClear(){
-		mScene.javaClear();
-		mIsInit = false; 
+	private void javaReset(){
+		resetMembergValue();
+		mScene.javaReset();
 	}
 	
-	//当且仅当native引擎和Java接口都已经被初始化时返回true
-	private boolean checkState(){
-		return (mIsInit && nativeIsInit());
+	private void resetMembergValue(){
+		mScene = Scene.getInstance(this);
 	}
 	
 	private Engine(){
 	}
 	
 	private static Engine mUniInstance;
+	private static boolean mJNIIsInit;
 	
 	private Scene mScene;
 	private Renderer mRenderer;
 	private int mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 	
-	private boolean mIsInit;
-	
-	private native int nativeInit(int rendertype, Vector3d vec, Color4i color4, Color3i color3, Rect4i rect);
-	private native void nativeClear();
-	private native boolean nativeIsInit();
 	private native void nativeResize(int w, int h);
 	private native double nativeGetFPS();
 	
+	//private native int nativeInit(int rendertype, Vector3d vec, Color4i color4, Color3i color3, Rect4i rect, BoundingBox bbox);
+	private native int nativeCreateDevice(int type);
+	private static native void nativeRelease();
+	private native void nativeInitJNI(String name, String[] fname, String[] fsig, int num);
+	
 	native void nativeBeginScene();
 	native void nativeEndScene();
+	
+	native void nativeTest(Object obj);
 	
 	/**
 	 * 引擎的渲染器接口，用于场景渲染，需要用户自己实现。 
