@@ -1,5 +1,6 @@
 package zte.irrlib.scene;
 
+import zte.irrlib.core.BoundingBox;
 import zte.irrlib.core.Color4i;
 import android.graphics.Bitmap;
 
@@ -142,7 +143,7 @@ public class MeshSceneNode extends SceneNode{
 		for (int i = 0; i < text.length; i++){
 			text[i] = mScene.getFullPath(text[i]);
 		}
-		nativeAddTextureAnimator(text, timePerFrame, loop, getId());
+		nativeAddTextureAnimator(text, timePerFrame, loop, getId());    
 	}
 	
 	/**
@@ -159,6 +160,26 @@ public class MeshSceneNode extends SceneNode{
 	 */
 	public int getMaterialCount(){
 		return nativeGetMaterialCount(getId());
+	}
+	
+	/**
+	 * 返回未变换的包围盒，就是说，即使节点是运动的，经过变换的，返回的包围盒依然是最初的那个。
+	 * @return 包围盒的实例
+	 */
+	public BoundingBox getBoundingBox(){
+		BoundingBox bbox = new BoundingBox();
+		nativeGetBoundingBox(bbox, false, getId());
+		return bbox;
+	}
+	
+	/**
+	 * 返回绝对的包围盒，就是说，如果节点是运动的，经过变换的，返回的包围盒也会是经过变换的。
+	 * @return 包围盒的实例
+	 */
+	public BoundingBox getAbsoluteBoundingBox(){
+		BoundingBox bbox = new BoundingBox();
+		nativeGetBoundingBox(bbox, true, getId());
+		return bbox;
 	}
 	
 	/**
@@ -191,4 +212,6 @@ public class MeshSceneNode extends SceneNode{
 
 	private native int nativeAddTextureAnimator(String[] path, int timePerFrame, boolean loop, int Id);
 	private native int nativeGetMaterialCount(int Id);
+	
+	private native int nativeGetBoundingBox(BoundingBox box, boolean isAbsolute, int id);
 }

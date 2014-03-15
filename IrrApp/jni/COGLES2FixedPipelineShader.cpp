@@ -72,15 +72,15 @@ namespace irr
             s32 dummy;
 			strcpy(VertexShaderFile, gSdCardPath.c_str());
 			strcat(VertexShaderFile,"/Irrlicht/COGLES2FixedPipeline.vsh");
-			strcpy( FragmentShaderFile, gSdCardPath.c_str());
-			strcat( FragmentShaderFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
-            initFromFiles( dummy, VertexShaderFile, FragmentShaderFile, false );
+			strcpy( FragmentShadeFile, gSdCardPath.c_str());
+			strcat( FragmentShadeFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
+            initFromFiles( dummy, VertexShaderFile, FragmentShadeFile, false );
             initData();
         };
 
         void COGLES2FixedPipelineShader::reload()
         {
-            reloadFromFiles( VertexShaderFile, FragmentShaderFile );
+            reloadFromFiles( VertexShaderFile, FragmentShadeFile );
             //initData();
         }
 

@@ -47,9 +47,12 @@ extern "C"
 		JNIEnv *env, jobject defaultObj,
 		jobject rec, jobject c1, jobject c2, jobject c3, jobject c4)
 	{
-		driver->draw2DRectangle(createrectiFromRect4i(env, rec), 
-			createSColorFromColor4i(env, c1), createSColorFromColor4i(env, c2), 
-			createSColorFromColor4i(env, c3), createSColorFromColor4i(env, c4)
+		driver->draw2DRectangle(
+			utils->createrectiFromRect4i(env, rec), 
+			utils->createSColorFromColor4i(env, c1),
+			utils->createSColorFromColor4i(env, c2), 
+			utils->createSColorFromColor4i(env, c3), 
+			utils->createSColorFromColor4i(env, c4)
 			);
 	}
 	
@@ -93,7 +96,7 @@ extern "C"
 	}
 	
 	int Java_zte_irrlib_scene_Scene_nativeGetTouchedSceneNode(
-		JNIEnv *env, jobject defaultObj, jint x, jint y, jint root)
+		JNIEnv *env, jobject defaultObj, jfloat x, jfloat y, jint root)
 	{
 
 		ISceneNode* rootNode;
@@ -195,7 +198,7 @@ extern "C"
 		core::vector3df pos = core::vector3df(x,y,z);
 
 		const char *msg = env->GetStringUTFChars(path,0);
-		IMesh* mesh = smgr->getMesh(msg);
+		IMesh* mesh = smgr->getMesh(io::path(msg));
 		env->ReleaseStringUTFChars(path, msg);
 		
 		if (!mesh)
@@ -439,7 +442,6 @@ extern "C"
 		if (!parentNode) return;
 			
 		parentNode->removeChild(node);
-		node->drop();
 	}
 	
 	int Java_zte_irrlib_scene_Scene_nativeGetMediaTextureId(
@@ -451,7 +453,7 @@ extern "C"
 		}
 		else
 		{
-			_extTex = driver->addTexture(_extPrefix, 0);
+			_extTex = driver->addTexture("<external>", 0);
 			return getOpenGLESTextureID(_extTex);
 		}
 	}

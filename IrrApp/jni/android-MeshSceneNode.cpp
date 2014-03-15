@@ -89,7 +89,7 @@ extern "C"
 		}
 		
 		if (!_extTex)
-			_extTex = driver->addTexture(_extPrefix, 0);
+			_extTex = driver->addTexture("<external>", 0);
 		
 		node->setMaterialTexture(0, _extTex);
 		return 0;
@@ -100,11 +100,19 @@ extern "C"
 		jobject jbitmap, jint id)
 	{
 		const char *name = env->GetStringUTFChars(jname,0);
-		IImage *image = createImageFromBitmap(env, jbitmap);
-		
-		if (!image)
-			return -1;
-		
+		ITexture *tex = driver->getTexture(name);
+		if (!tex)
+		{
+			IImage *image = utils->createImageFromBitmap(env, jbitmap);
+			if (!image)
+			{
+				env->ReleaseStringUTFChars(jname,name);
+				return -1;
+			}
+			tex = driver->addTexture(name, image, 0);
+			image->drop();
+		}
+		env->ReleaseStringUTFChars(jname,name);
 		scene::ISceneNode* node =
 			(ISceneNode*)smgr->getSceneNodeFromId(id);
 			
@@ -113,10 +121,7 @@ extern "C"
 			WARN_NODE_NOT_FOUND(id, SetAllBitmapTexture);
 			return -1;
 		}	
-			
-		ITexture *tex = driver->addTexture(name, image, 0);
 		node->setMaterialTexture(0, tex);
-		env->ReleaseStringUTFChars(jname,name);
 		return 0;
 	}
 
@@ -235,7 +240,7 @@ extern "C"
 		}
 		
 		if (!_extTex)
-			_extTex = driver->addTexture(_extPrefix, 0);
+			_extTex = driver->addTexture("<external>", 0);
 		
 		node->getMaterial(mId).setTexture(0, _extTex);
 		return 0;
@@ -246,23 +251,28 @@ extern "C"
 		jobject jbitmap, jint materialID, jint id)
 	{
 		const char *name = env->GetStringUTFChars(jname,0);
-		IImage *image = createImageFromBitmap(env, jbitmap);
-
-		if (!image)
-			return -1;
-
+		ITexture *tex = driver->getTexture(name);
+		if (!tex)
+		{
+			IImage *image = utils->createImageFromBitmap(env, jbitmap);
+			if (!image)
+			{
+				env->ReleaseStringUTFChars(jname,name);
+				return -1;
+			}
+			tex = driver->addTexture(name, image, 0);
+			image->drop();
+		}
+		env->ReleaseStringUTFChars(jname,name);
 		scene::ISceneNode* node =
 			(ISceneNode*)smgr->getSceneNodeFromId(id);
-
+			
 		if (!node)
 		{
-			WARN_NODE_NOT_FOUND(id, SetBitmapTexture);
+			WARN_NODE_NOT_FOUND(id, SetAllBitmapTexture);
 			return -1;
 		}
-
-		ITexture *tex = driver->addTexture(name, image, 0);
 		node->getMaterial(materialID).setTexture(0, tex);
-		env->ReleaseStringUTFChars(jname,name);
 		return 0;
 	}
 
@@ -292,7 +302,14 @@ extern "C"
 
 		scene::ISceneNodeAnimator* texAni =
 			smgr->createTextureAnimator(texArr, timePerFrame, loop);
+		if (!texAni)
+		{
+			LOGE("Tex anim creation error!");
+			return -1;
+		}
 		node->addAnimator(texAni);
+		texAni->drop();
+		
 		return 0;
 	}	
 
@@ -307,4 +324,20 @@ extern "C"
 		}	
 		return node->getMaterialCount();
 	}
+
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeGetBoundingBox(
+		JNIEnv *env, jobject defaultObj, jobject bbox, jboolean isAbsolute, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetMediaTexture);
+			return -1;
+		}
+		utils->setBoundingBoxFromaabbox3df(env, bbox, 
+			(isAbsolute)?node->getTransformedBoundingBox():node->getBoundingBox());
+		return 0;
+	}
+	
+	
 }

@@ -208,6 +208,7 @@ extern "C"
 			translation,
 			0.0005f
 		);
+		selector->drop();
 		node->addAnimator(anim);
 		anim->drop();
 	}

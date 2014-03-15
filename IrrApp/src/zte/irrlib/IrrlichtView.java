@@ -3,7 +3,6 @@ package zte.irrlib;
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
-import javax.microedition.khronos.opengles.GL10;
 
 import android.app.Activity;
 import android.content.Context;
@@ -82,12 +81,8 @@ public class IrrlichtView extends GLSurfaceView {
 	 */
 	public void setEngineRenderer(Engine.Renderer renderer){
 		mEngine.setRenderer(renderer);
-		super.setRenderer(new GLSurfaceView.Renderer() {
-			public void onSurfaceCreated(GL10 unused, EGLConfig config) {mEngine.onSurfaceCreated();}
-			public void onSurfaceChanged(GL10 unused, int width, int height) {mEngine.onSurfaceChanged(width, height);}
-			public void onDrawFrame(GL10 unused) {mEngine.onDrawFrame();}
-		});
-		super.setPreserveEGLContextOnPause(true);
+		super.setRenderer(mEngine);
+		//super.setPreserveEGLContextOnPause(true);
 	}
 	
 	@Override@Deprecated
@@ -96,15 +91,6 @@ public class IrrlichtView extends GLSurfaceView {
 	public final void setRenderer(GLSurfaceView.Renderer renderer){}
 	@Override@Deprecated
 	public final void setPreserveEGLContextOnPause(boolean flag){}
-	
-	@Override
-	protected void onDetachedFromWindow(){
-		if (mEngine != null){
-			mEngine.onDestroy();
-		}
-		super.onDetachedFromWindow();
-		Log.d(TAG, "OnDetached");
-	}
 	
 	protected Activity getActivity(){
 		return (Activity)getContext();
