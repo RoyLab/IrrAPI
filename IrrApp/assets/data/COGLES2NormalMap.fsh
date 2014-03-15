@@ -5,8 +5,7 @@
 // For conditions of distribution and use, see copyright notice in Irrlicht.h
 #define MAX_LIGHTS 2
 
-precision highp float;
-precision highp int;
+precision mediump float;
 
 uniform sampler2D texture0;
 uniform sampler2D texture1;

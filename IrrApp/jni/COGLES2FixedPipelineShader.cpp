@@ -75,12 +75,22 @@ namespace irr
 			strcpy( FragmentShadeFile, gSdCardPath.c_str());
 			strcat( FragmentShadeFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
             initFromFiles( dummy, VertexShaderFile, FragmentShadeFile, false );
+/*=======
+			strcpy(VertexShadeFile, gSdCardPath.c_str());
+			strcat(VertexShadeFile,"/Irrlicht/COGLES2FixedPipeline.vsh");
+			strcpy( FragmentShadeFile, gSdCardPath.c_str());
+			strcat( FragmentShadeFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
+            initFromFiles( dummy, VertexShadeFile, FragmentShadeFile, false );
+>>>>>>> branch 'master' of https://github.com/zjtuzteproject/IrrAPI.git*/
             initData();
         };
 
         void COGLES2FixedPipelineShader::reload()
         {
             reloadFromFiles( VertexShaderFile, FragmentShadeFile );
+/*=======
+            reloadFromFiles( VertexShadeFile, FragmentShadeFile );
+>>>>>>> branch 'master' of https://github.com/zjtuzteproject/IrrAPI.git*/
             //initData();
         }
 

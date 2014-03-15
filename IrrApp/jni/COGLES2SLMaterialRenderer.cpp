@@ -350,6 +350,7 @@ namespace irr
                 char *pInfoLog = new char[maxLength];
                 glGetProgramInfoLog( Program, maxLength, &length, pInfoLog );
                 os::Printer::log( reinterpret_cast<const c8*>( pInfoLog ), ELL_ERROR );
+				os::Printer::log( "why??", ELL_ERROR );
                 delete [] pInfoLog;
 
                 return false;

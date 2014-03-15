@@ -28,8 +28,8 @@ namespace irr
         const char* const COGLES2NormalMapRenderer::sBuiltInShaderUniformNames[] =
         {
             "uMvpMatrix",
-            "uLightPos",
-            "uLightColor",
+            "uLightPos[0]",
+            "uLightColor[0]",
             "texture0",
             "texture1",
             0
