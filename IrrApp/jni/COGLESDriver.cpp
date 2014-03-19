@@ -28,18 +28,6 @@ extern int GL_BGRA;
 #include <SDL/SDL.h>
 #endif
 
-#ifdef _IRR_COMPILE_WITH_ANDROID_DEVICE_
-#include <android/log.h>
-#include "android-global.h"
-
-#ifdef LOG_TAG
-#undef LOG_TAG
-#endif
-
-#define LOG_TAG "NativeOGLESDriver"
-#define EXTTEST(...) testGLError();LOGD(__VA_ARGS__)
-#endif
-
 namespace irr
 {
 namespace video
@@ -177,7 +165,7 @@ COGLES1Driver::COGLES1Driver(const SIrrlichtCreationParameters& params,
 
 	genericDriverInit(params.WindowSize, params.Stencilbuffer);
 #endif
-	if (testGLError()) LOGD("Driver error.");
+	if (testGLError()) os::Printer::log("Driver error.");
 }
 
 
@@ -185,8 +173,8 @@ COGLES1Driver::COGLES1Driver(const SIrrlichtCreationParameters& params,
 COGLES1Driver::~COGLES1Driver()
 {
 	RequestedLights.clear();
-	deleteMaterialRenders();
-	deleteAllTextures();
+	//deleteMaterialRenders();
+	//deleteAllTextures();
 
 #if defined(EGL_VERSION_1_0)
 	eglMakeCurrent(EglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
@@ -1445,7 +1433,6 @@ bool COGLES1Driver::setTexture(u32 stage, const video::ITexture* texture)
 	{
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_TEXTURE_EXTERNAL_OES);
-		//EXTTEST("1");
 		return true;
 	}
 	else
@@ -1454,7 +1441,6 @@ bool COGLES1Driver::setTexture(u32 stage, const video::ITexture* texture)
 		{
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_TEXTURE_EXTERNAL_OES);
-			//EXTTEST("2");
 			os::Printer::log("Fatal Error: Tried to set a texture not owned by this driver.", ELL_ERROR);
 			return false;
 		}
@@ -1475,7 +1461,6 @@ bool COGLES1Driver::setTexture(u32 stage, const video::ITexture* texture)
 		glDisable(untarget);
 		glBindTexture(target,
 			static_cast<const COGLES1Texture*>(texture)->getOGLES1TextureName());
-		//EXTTEST("4， %d", static_cast<const COGLES1Texture*>(texture)->getOGLES1TextureName());
 	}
 	return true;
 }
@@ -2367,7 +2352,7 @@ void COGLES1Driver::drawStencilShadowVolume(const core::vector3df* triangles, s3
 	//分别为Mesh上的三角形，Mesh投影下去的三角形，ShadowVolume三角形1，ShadowVolume三角形2
 	//__android_log_print(ANDROID_LOG_INFO, "Enron", "COGLESDriver:DrawStencilShaodowVolume()");
 
-	__android_log_print(ANDROID_LOG_INFO, "Enron", "count：%d", count);
+	//__android_log_print(ANDROID_LOG_INFO, "Enron", "count：%d", count);
 
 	if (!StencilBuffer || !count)
 		return;

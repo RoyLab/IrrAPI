@@ -43,8 +43,8 @@ namespace irr
 
             bool CompiledShaders;
             f32 CurrentScale;
-			c8 VertexShaderFile[100];
-        	c8 FragmentShaderFile[100];
+			c8 VertexShaderFile[128];
+        	c8 FragmentShaderFile[128];
 
         private:
             enum SHADER_UNIFORM

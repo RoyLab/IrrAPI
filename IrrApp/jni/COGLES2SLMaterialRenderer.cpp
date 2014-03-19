@@ -136,25 +136,25 @@ namespace irr
             {
                 os::Printer::log( "Could not create shader program.", ELL_ERROR );
             }
-
+			
             if ( !readVertexShader( vertexShaderFile ) )
             {
                 os::Printer::log( "Error reading fixed pipeline vertex shader.", ELL_ERROR );
             }
-
+			
             if ( !readFragmentShader( pixelShaderFile ) )
             {
                 os::Printer::log( "Error reading fixed pipeline fragment shader.", ELL_ERROR );
             }
-
+			
             for ( size_t i = 0; i < EVA_COUNT; ++i )
                 glBindAttribLocation( Program, i, sBuiltInVertexAttributeNames[i] );
-
+				
             if ( !linkProgram() )
             {
                 os::Printer::log( "Error linking fixed pipeline shader program.", ELL_ERROR );
             }
-
+			
             if ( registerMaterial )
                 outMaterialTypeNr = Driver->addMaterialRenderer( this );
 			os::Printer::log("Shader loaded");
@@ -297,14 +297,13 @@ namespace irr
         {
             GLuint shaderHandle = glCreateShader( shaderType );
 
-			os::Printer::log("Loading shader", shaderFile);
+			//os::Printer::log("Loading shader", shaderFile);
             glShaderSource( shaderHandle, 1, &shader, NULL );
             glCompileShader( shaderHandle );
 
             int status = 0;
 
             glGetShaderiv( shaderHandle, GL_COMPILE_STATUS, &status );
-
             if ( !status )
             {
                 wchar_t buf[512];
@@ -350,12 +349,10 @@ namespace irr
                 char *pInfoLog = new char[maxLength];
                 glGetProgramInfoLog( Program, maxLength, &length, pInfoLog );
                 os::Printer::log( reinterpret_cast<const c8*>( pInfoLog ), ELL_ERROR );
-				os::Printer::log( "why??", ELL_ERROR );
                 delete [] pInfoLog;
 
                 return false;
             }
-
             // get uniforms information
 
             int num = 0;
@@ -379,7 +376,7 @@ namespace irr
 
             core::array<core::stringc> names( num );
             core::array<SUniformInfo> uni( num );
-
+			
             for ( int i = 0; i < num; ++i )
             {
                 memset( buf, 0, maxlen );
@@ -409,7 +406,6 @@ namespace irr
                 {
                     wchar_t buf[512];
                     swprintf( buf, 512, L"Unable to find uniform : %S", UniformStringTable[i] );
-                    os::Printer::log( buf, ELL_WARNING );
                     SUniformInfo blank;
                     blank.location = -1;
                     blank.type = GL_INVALID_ENUM;

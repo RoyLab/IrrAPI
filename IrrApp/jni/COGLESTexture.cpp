@@ -13,13 +13,14 @@
 #include "CImage.h"
 #include "CColorConverter.h"
 #include "irrString.h"
-#include "android-global.h"
+#include <android/log.h>
 
-#ifdef LOG_TAG
-#undef LOG_TAG
-#endif
-
-#define LOG_TAG "NativeOGLESTex"
+#define LOG_TAG "ogles tex"
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 namespace irr
 {
@@ -34,7 +35,7 @@ COGLES1Texture::COGLES1Texture(IImage* origImage, const io::path& name, COGLES1D
 	// PixelFormat(GL_BGRA),
 	PixelType(GL_UNSIGNED_BYTE), MipLevelStored(0),
 	HasMipMaps(true), IsRenderTarget(false), AutomaticMipmapUpdate(false),
-	UseStencil(false), ReadOnlyLock(false), KeepImage(true),
+	UseStencil(false), ReadOnlyLock(false), KeepImage(false),
 	IsExternal(false)
 {
 	#ifdef _DEBUG

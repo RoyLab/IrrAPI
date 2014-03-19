@@ -6,6 +6,7 @@
 #include <android/log.h>
 #include <android/bitmap.h>
 #include <jni.h>
+#include <android/asset_manager_jni.h>
 
 #define LOG_TAG "irrlicht engine"
 
@@ -60,8 +61,6 @@ extern IrrlichtDevice *device;
 extern IVideoDriver* driver;
 extern ISceneManager* smgr;
 
-extern int  gWindowWidth;
-extern int  gWindowHeight;
 extern stringc gSdCardPath;
 extern video::SColor backColor;
 
@@ -109,6 +108,10 @@ public:
 	void setBoundingBoxFromaabbox3df(JNIEnv *env, jobject bbox, const aabbox3df& bboxorig);
 	
 	IImage* createImageFromBitmap(JNIEnv* env, jobject jbitmap);
+	
+	int getGLTexId(ITexture* tex);
+	
+	bool isExtTex(ITexture* tex);
 	
 private:
 	

@@ -16,22 +16,52 @@ extern "C"
 	{
 		backColor = SColor(a,r,g,b);
 	}
-	
-	// 
-	void Java_zte_irrlib_scene_Scene_nativeDrawImage(
+	 
+	int Java_zte_irrlib_scene_Scene_nativeDrawImage(
 		JNIEnv *env, jobject defaultObj, jstring path,
-		jint left, jint up, jint width, jint height)
+		jobject des, jdouble left, jdouble top, jdouble right, 
+		jint bottom, jboolean alpha)
 	{
 		const char *msg = env->GetStringUTFChars(path,0);
 		ITexture* tex = driver->getTexture(msg);
 		if (!tex) 
 		{
 			LOGE("Cannot find Image: %s", msg);
-			return;
+			env->ReleaseStringUTFChars(path, msg);
+			return -1;
 		}
-		dimension2d<u32> size = tex->getOriginalSize();
-		driver->draw2DImage(tex, rect<s32>(left,up,left+width,up+height), rect<s32>(0,0,size.Width,size.Height));
 		env->ReleaseStringUTFChars(path, msg);
+		dimension2d<u32> size = tex->getOriginalSize();
+		driver->draw2DImage(tex, utils->createrectiFromRect4i(env, des), 
+			recti(left*size.Width, top*size.Height, right*size.Width, bottom*size.Height),
+			0, 0, alpha);
+		return 0;
+	}
+	
+	int Java_zte_irrlib_scene_Scene_nativeDrawBitmap(
+		JNIEnv *env, jobject defaultObj, jstring jname, jobject jbitmap,
+		jobject des, jdouble left, jdouble top, jdouble right, 
+		jint bottom, jboolean alpha)
+	{
+		const char *name = env->GetStringUTFChars(jname,0);
+		ITexture *tex = driver->getTexture(name);
+		if (!tex)
+		{
+			IImage *image = utils->createImageFromBitmap(env, jbitmap);
+			if (!image)
+			{
+				env->ReleaseStringUTFChars(jname,name);
+				return -1;
+			}
+			tex = driver->addTexture(name, image, 0);
+			image->drop();
+		}
+		env->ReleaseStringUTFChars(jname,name);
+		dimension2d<u32> size = tex->getOriginalSize();
+		driver->draw2DImage(tex, utils->createrectiFromRect4i(env, des), 
+			recti(left*size.Width, top*size.Height, right*size.Width, bottom*size.Height),
+			0, 0, alpha);
+		return 0;
 	}
 	
 	void Java_zte_irrlib_scene_Scene_nativeDrawRectangle(
@@ -193,7 +223,8 @@ extern "C"
 
 	int Java_zte_irrlib_scene_Scene_nativeAddMeshSceneNode(
 		JNIEnv*  env, jobject defaultObj, jstring path, 
-		jdouble x, jdouble y, jdouble z, jint id, jint parent, jboolean isLight)
+		jdouble x, jdouble y, jdouble z, jint id, 
+		jint parent, jboolean isLight, jboolean optimizedByOctree)
 	{
 		core::vector3df pos = core::vector3df(x,y,z);
 
@@ -217,10 +248,12 @@ extern "C"
 				return -1;
 			}
 		}
-		node = smgr->addMeshSceneNode(mesh,parentNode,id,pos);
+		if (optimizedByOctree) node = smgr->addOctreeSceneNode(mesh,parentNode,id);
+		else node = smgr->addMeshSceneNode(mesh,parentNode,id);
 
 		if (node)
 		{
+			node->setPosition(pos);
 			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
 			return 0;
 		}
@@ -461,9 +494,37 @@ extern "C"
 	void Java_zte_irrlib_scene_Scene_nativeSetFontPath(
 		JNIEnv *env, jobject defaultObj, jstring path)
 	{
-		const char* txt = env->GetStringUTFChars(path, 0);
-		strcpy(_builtInFontPath, txt);
-		env->ReleaseStringUTFChars(path, txt);
+		const char* ch = env->GetStringUTFChars(path, 0);
+		strcpy(_builtInFontPath, ch);
+		env->ReleaseStringUTFChars(path, ch);
+	}
+	
+	void Java_zte_irrlib_scene_Scene_nativeRemoveTexture(
+		JNIEnv *env, jobject defaultObj, jstring name)
+	{
+		const char* ch = env->GetStringUTFChars(name, 0);
+		driver->removeTexture(driver->getTexture(ch));
+		env->ReleaseStringUTFChars(name, ch);
+	}
+	
+	void Java_zte_irrlib_scene_Scene_nativeRemoveUnusedMesh(
+		JNIEnv *env, jobject defaultObj)
+	{
+		smgr->getMeshCache()->clearUnusedMeshes();
+	}
+	
+	int Java_zte_irrlib_scene_Scene_nativeApplyNewExternalTex(
+		JNIEnv *env, jobject defaultObj, jstring name)
+	{
+		const char* ch = env->GetStringUTFChars(name, 0);
+		ITexture* tex = driver->addTexture(ch, 0);
+		if (!tex)
+		{
+			LOGE("Cannot apply new tex: %s", ch);
+			return -1;
+		}
+		env->ReleaseStringUTFChars(name, ch);
+		return utils->getGLTexId(tex);
 	}
 }
 	

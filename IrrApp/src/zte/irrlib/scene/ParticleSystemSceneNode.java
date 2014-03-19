@@ -78,6 +78,25 @@ public class ParticleSystemSceneNode extends SceneNode {
 		 nativeAddRotationAffector(speed.X, speed.Y, speed.Z, center.X, center.Y, center.Z, getId());
 	 }
 	 
+	@Override
+	public ParticleSystemSceneNode clone(){
+		ParticleSystemSceneNode res = softClone();
+		cloneInNativeAndSetupNodesId(res);
+		return res;
+	}
+	
+	@Override
+	protected ParticleSystemSceneNode softClone(){
+		ParticleSystemSceneNode res = new ParticleSystemSceneNode(this);
+		softCopyChildren(res);
+		return res;
+	}
+	
+	protected ParticleSystemSceneNode(ParticleSystemSceneNode node){
+		super(node);
+	}
+		
+	 
 	 /**
 	 * 唯一构造函数
 	 */

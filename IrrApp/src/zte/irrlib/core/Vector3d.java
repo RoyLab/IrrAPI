@@ -141,6 +141,14 @@ public class Vector3d {
 		return minus(v).isZero();
 	}
 	
+	/**
+	 * 取得向量的长度
+	 * @return 向量的长度
+	 */
+	public double length(){
+		return Math.sqrt(X*X + Y*Y + Z*Z);
+	}
+	
 	public double X, Y, Z;
 	
 	public static final double ZERO = 1E-9;

@@ -21,6 +21,7 @@
 #include <EGL/egl.h>
 #endif
 #include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #include <android/log.h>
 #ifndef GL_BGRA
 // we need to do this for the IMG_BGRA8888 extension
@@ -180,7 +181,6 @@ namespace irr
 #endif
 #ifdef _IRR_COMPILE_WITH_ANDROID_DEVICE_
             os::Printer::log( "OpenGL-ES2 initialized" );
-            __android_log_print(ANDROID_LOG_INFO, "Irrlicht", "OGLES2 initialized");
             genericDriverInit( params.WindowSize, params.Stencilbuffer );
 #endif
         }
@@ -189,8 +189,8 @@ namespace irr
 //! destructor
         COGLES2Driver::~COGLES2Driver()
         {
-            deleteMaterialRenders();
-            deleteAllTextures();
+            //deleteMaterialRenders();
+            //deleteAllTextures();
 
 #ifndef _IRR_COMPILE_WITH_ANDROID_DEVICE_
             // HACK : the following is commented because destroying the context crashes under Linux ( Thibault 04-feb-10 )
@@ -203,7 +203,6 @@ namespace irr
             if ( HDc )
                 ReleaseDC(( HWND )EglWindow, HDc );
 #endif
-
             delete TwoDRenderer;
             delete FixedPipeline;
         }
@@ -235,9 +234,9 @@ namespace irr
 
             StencilBuffer = stencilBuffer;
 
+			FileSystem->addFileArchive("<assets>/irrshader", true, false);
             FixedPipeline = new COGLES2FixedPipelineShader( this, FileSystem );
             FixedPipeline->useProgram(); //For setting the default uniforms (Alpha)
-
             TwoDRenderer = new COGLES2Renderer2d( this, FileSystem );
 
             glPixelStorei( GL_PACK_ALIGNMENT, 2 );
@@ -1403,6 +1402,41 @@ namespace irr
                                static_cast<const COGLES2Texture*>( texture )->getOGLES2TextureName() );
             }
             testGLError();
+			/*if (!texture)
+			{
+				glDisable(GL_TEXTURE_2D);
+				glDisable(GL_TEXTURE_EXTERNAL_OES);
+				return true;
+			}
+			else
+			{
+				if (texture->getDriverType() != EDT_OGLES2)
+				{
+					//glDisable(GL_TEXTURE_2D);
+					glDisable(GL_TEXTURE_EXTERNAL_OES);
+					os::Printer::log("Fatal Error: Tried to set a texture not owned by this driver.", ELL_ERROR);
+					return false;
+				}
+				
+				GLuint target, untarget;
+				if (((COGLES2Texture*)texture)->isExternal())
+				{
+					target = GL_TEXTURE_EXTERNAL_OES;
+					untarget = GL_TEXTURE_2D;
+				}
+				else
+				{
+					target = GL_TEXTURE_2D;
+					untarget = GL_TEXTURE_EXTERNAL_OES;
+				}
+				
+				//glEnable(target);
+				//glDisable(untarget);
+				glBindTexture(target,
+					static_cast<const COGLES2Texture*>(texture)->getOGLES2TextureName());
+			}
+			testGLError();
+			os::Printer::log(core::stringc(texture->getName()).c_str());*/
             return true;
         }
 
@@ -1452,7 +1486,10 @@ namespace irr
 		//! returns a device dependent texture from a software surface (IImage)
         video::ITexture* COGLES2Driver::createDeviceDependentTexture(IImage* surface, const io::path& name, void* mipmapData)
         {
-            return new COGLES2Texture( surface, name, this );
+            //return new COGLES2Texture( surface, name, this );
+			//if (!surface) return new COGLES2TextureExt(name, this);
+			if (!surface) return 0;
+			else return new COGLES2Texture(surface, name, this);
         }
 
 

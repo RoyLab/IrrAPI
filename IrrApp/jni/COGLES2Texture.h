@@ -74,6 +74,9 @@ namespace irr
             //! sets whether this texture is intended to be used as a render target.
             void setIsRenderTarget( bool isTarget );
 
+			//! Is it a external texture?
+			bool isExternal(){return IsExternal;}
+			
         protected:
 
             //! protected constructor with basic setup, no GL texture name created, for derived classes
@@ -102,7 +105,28 @@ namespace irr
             bool AutomaticMipmapUpdate;
             bool UseStencil;
             bool ReadOnlyLock;
+			
+			bool IsExternal;
         };
+
+		
+		class COGLES2TextureExt: public COGLES2Texture
+		{
+		public:
+
+			//! constructor
+			COGLES2TextureExt(const io::path& name, COGLES2Driver* driver = 0);
+
+			//! destructor
+			virtual ~COGLES2TextureExt();
+
+			//! lock function
+			virtual void* lock(bool readOnly = false, u32 mipmapLevel=0){return 0;}
+
+			//! unlock function
+			virtual void unlock(){}
+
+		};
 
 
 //! OGLES21 FBO texture.

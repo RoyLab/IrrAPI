@@ -55,6 +55,24 @@ public class AnimateMeshSceneNode extends MeshSceneNode {
 		nativeSetLoopMode(loop, getId());
 	}
 	
+	@Override
+	public AnimateMeshSceneNode clone(){
+		AnimateMeshSceneNode res = softClone();
+		cloneInNativeAndSetupNodesId(res);
+		return res;
+	}
+	
+	@Override
+	protected AnimateMeshSceneNode softClone(){
+		AnimateMeshSceneNode res = new AnimateMeshSceneNode(this);
+		softCopyChildren(res);
+		return res;
+	}
+	
+	protected AnimateMeshSceneNode(AnimateMeshSceneNode node){
+		super(node);
+	}
+	
 	/**
 	 * 唯一的构造函数。
 	 */

@@ -62,6 +62,14 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 	
 	/**
+	 * 查看openGL ES2.0开关是否打开
+	 * @return 为true，则使用ES2.0渲染
+	 */
+	public boolean IsGLES2Enabled(){
+		return mRenderType == EGL10Ext.EGL_OPENGL_ES2_BIT;
+	}
+	
+	/**
 	 * 替代了{@link #setRenderer(Renderer)}，用于指定视图类的渲染回调
 	 * 方法。该方法在整个视图类的生命周期中必须调用一次且只能调用一次。<br>
 	 * 以下方法必须在该方法之前被调用：<br>
@@ -113,8 +121,7 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		mEngine.setRenderType(mRenderType);
-		mEngine.onSurfaceCreated();
+		mEngine.onSurfaceCreated(this);
 	}
 }
 

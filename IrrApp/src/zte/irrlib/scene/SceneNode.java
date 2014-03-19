@@ -1,5 +1,7 @@
 package zte.irrlib.scene;
 
+import java.util.ArrayList;
+
 import zte.irrlib.core.Vector3d;
 
 /**
@@ -25,205 +27,6 @@ public class SceneNode {
 	public static final int TRANS_RELATIVE = 1;
 	
 	public static final int FLAG_MATERIAL_OWNER = 0x00001000;
-	
-	//材质类型
-	public enum E_MATERIAL_TYPE
-	{
-		//! Standard solid material.
-		/** Only first texture is used, which is supposed to be the
-		diffuse material. */
-		EMT_SOLID,
-
-		//! Solid material with 2 texture layers.
-		/** The second is blended onto the first using the alpha value
-		of the vertex colors. This material is currently not implemented in OpenGL.
-		*/
-		EMT_SOLID_2_LAYER,
-
-		//! Material type with standard lightmap technique
-		/** There should be 2 textures: The first texture layer is a
-		diffuse map, the second is a light map. Dynamic light is
-		ignored. */
-		EMT_LIGHTMAP,
-
-		//! Material type with lightmap technique like EMT_LIGHTMAP.
-		/** But lightmap and diffuse texture are added instead of modulated. */
-		EMT_LIGHTMAP_ADD,
-
-		//! Material type with standard lightmap technique
-		/** There should be 2 textures: The first texture layer is a
-		diffuse map, the second is a light map. Dynamic light is
-		ignored. The texture colors are effectively multiplied by 2
-		for brightening. Like known in DirectX as D3DTOP_MODULATE2X. */
-		EMT_LIGHTMAP_M2,
-
-		//! Material type with standard lightmap technique
-		/** There should be 2 textures: The first texture layer is a
-		diffuse map, the second is a light map. Dynamic light is
-		ignored. The texture colors are effectively multiplyied by 4
-		for brightening. Like known in DirectX as D3DTOP_MODULATE4X. */
-		EMT_LIGHTMAP_M4,
-
-		//! Like EMT_LIGHTMAP, but also supports dynamic lighting.
-		EMT_LIGHTMAP_LIGHTING,
-
-		//! Like EMT_LIGHTMAP_M2, but also supports dynamic lighting.
-		EMT_LIGHTMAP_LIGHTING_M2,
-
-		//! Like EMT_LIGHTMAP_4, but also supports dynamic lighting.
-		EMT_LIGHTMAP_LIGHTING_M4,
-
-		//! Detail mapped material.
-		/** The first texture is diffuse color map, the second is added
-		to this and usually displayed with a bigger scale value so that
-		it adds more detail. The detail map is added to the diffuse map
-		using ADD_SIGNED, so that it is possible to add and substract
-		color from the diffuse map. For example a value of
-		(127,127,127) will not change the appearance of the diffuse map
-		at all. Often used for terrain rendering. */
-		EMT_DETAIL_MAP,
-
-		//! Look like a reflection of the environment around it.
-		/** To make this possible, a texture called 'sphere map' is
-		used, which must be set as the first texture. */
-		EMT_SPHERE_MAP,
-
-		//! A reflecting material with an optional non reflecting texture layer.
-		/** The reflection map should be set as first texture. */
-		EMT_REFLECTION_2_LAYER,
-
-		//! A transparent material.
-		/** Only the first texture is used. The new color is calculated
-		by simply adding the source color and the dest color. This
-		means if for example a billboard using a texture with black
-		background and a red circle on it is drawn with this material,
-		the result is that only the red circle will be drawn a little
-		bit transparent, and everything which was black is 100%
-		transparent and not visible. This material type is useful for
-		particle effects. */
-		EMT_TRANSPARENT_ADD_COLOR,
-
-		//! Makes the material transparent based on the texture alpha channel.
-		/** The final color is blended together from the destination
-		color and the texture color, using the alpha channel value as
-		blend factor. Only first texture is used. If you are using
-		this material with small textures, it is a good idea to load
-		the texture in 32 bit mode
-		(video::IVideoDriver::setTextureCreationFlag()). Also, an alpha
-		ref is used, which can be manipulated using
-		SMaterial::MaterialTypeParam. This value controls how sharp the
-		edges become when going from a transparent to a solid spot on
-		the texture. */
-		EMT_TRANSPARENT_ALPHA_CHANNEL,
-
-		//! Makes the material transparent based on the texture alpha channel.
-		/** If the alpha channel value is greater than 127, a
-		pixel is written to the target, otherwise not. This
-		material does not use alpha blending and is a lot faster
-		than EMT_TRANSPARENT_ALPHA_CHANNEL. It is ideal for drawing
-		stuff like leafes of plants, because the borders are not
-		blurry but sharp. Only first texture is used. If you are
-		using this material with small textures and 3d object, it
-		is a good idea to load the texture in 32 bit mode
-		(video::IVideoDriver::setTextureCreationFlag()). */
-		EMT_TRANSPARENT_ALPHA_CHANNEL_REF,
-
-		//! Makes the material transparent based on the vertex alpha value.
-		EMT_TRANSPARENT_VERTEX_ALPHA,
-
-		//! A transparent reflecting material with an optional additional non reflecting texture layer.
-		/** The reflection map should be set as first texture. The
-		transparency depends on the alpha value in the vertex colors. A
-		texture which will not reflect can be set as second texture.
-		Please note that this material type is currently not 100%
-		implemented in OpenGL. */
-		EMT_TRANSPARENT_REFLECTION_2_LAYER,
-
-		//! A solid normal map renderer.
-		/** First texture is the color map, the second should be the
-		normal map. Note that you should use this material only when
-		drawing geometry consisting of vertices of type
-		S3DVertexTangents (EVT_TANGENTS). You can convert any mesh into
-		this format using IMeshManipulator::createMeshWithTangents()
-		(See SpecialFX2 Tutorial). This shader runs on vertex shader
-		1.1 and pixel shader 1.1 capable hardware and falls back to a
-		fixed function lighted material if this hardware is not
-		available. Only two lights are supported by this shader, if
-		there are more, the nearest two are chosen. */
-		EMT_NORMAL_MAP_SOLID,
-
-		//! A transparent normal map renderer.
-		/** First texture is the color map, the second should be the
-		normal map. Note that you should use this material only when
-		drawing geometry consisting of vertices of type
-		S3DVertexTangents (EVT_TANGENTS). You can convert any mesh into
-		this format using IMeshManipulator::createMeshWithTangents()
-		(See SpecialFX2 Tutorial). This shader runs on vertex shader
-		1.1 and pixel shader 1.1 capable hardware and falls back to a
-		fixed function lighted material if this hardware is not
-		available. Only two lights are supported by this shader, if
-		there are more, the nearest two are chosen. */
-		EMT_NORMAL_MAP_TRANSPARENT_ADD_COLOR,
-
-		//! A transparent (based on the vertex alpha value) normal map renderer.
-		/** First texture is the color map, the second should be the
-		normal map. Note that you should use this material only when
-		drawing geometry consisting of vertices of type
-		S3DVertexTangents (EVT_TANGENTS). You can convert any mesh into
-		this format using IMeshManipulator::createMeshWithTangents()
-		(See SpecialFX2 Tutorial). This shader runs on vertex shader
-		1.1 and pixel shader 1.1 capable hardware and falls back to a
-		fixed function lighted material if this hardware is not
-		available.  Only two lights are supported by this shader, if
-		there are more, the nearest two are chosen. */
-		EMT_NORMAL_MAP_TRANSPARENT_VERTEX_ALPHA,
-
-		//! Just like EMT_NORMAL_MAP_SOLID, but uses parallax mapping.
-		/** Looks a lot more realistic. This only works when the
-		hardware supports at least vertex shader 1.1 and pixel shader
-		1.4. First texture is the color map, the second should be the
-		normal map. The normal map texture should contain the height
-		value in the alpha component. The
-		IVideoDriver::makeNormalMapTexture() method writes this value
-		automatically when creating normal maps from a heightmap when
-		using a 32 bit texture. The height scale of the material
-		(affecting the bumpiness) is being controlled by the
-		SMaterial::MaterialTypeParam member. If set to zero, the
-		default value (0.02f) will be applied. Otherwise the value set
-		in SMaterial::MaterialTypeParam is taken. This value depends on
-		with which scale the texture is mapped on the material. Too
-		high or low values of MaterialTypeParam can result in strange
-		artifacts. */
-		EMT_PARALLAX_MAP_SOLID,
-
-		//! A material like EMT_PARALLAX_MAP_SOLID, but transparent.
-		/** Using EMT_TRANSPARENT_ADD_COLOR as base material. */
-		EMT_PARALLAX_MAP_TRANSPARENT_ADD_COLOR,
-
-		//! A material like EMT_PARALLAX_MAP_SOLID, but transparent.
-		/** Using EMT_TRANSPARENT_VERTEX_ALPHA as base material. */
-		EMT_PARALLAX_MAP_TRANSPARENT_VERTEX_ALPHA,
-
-		//! BlendFunc = source * sourceFactor + dest * destFactor ( E_BLEND_FUNC )
-		/** Using only first texture. Generic blending method. */
-		EMT_ONETEXTURE_BLEND,
-
-		//! This value is not used. It only forces this enumeration to compile to 32 bit.
-		EMT_FORCE_32BIT ;
-		
-		/*
-		private int nCode;
-		
-		private E_MATERIAL_TYPE(int val){
-			this.nCode = val;
-		}
-		
-		@Override
-		public String toString(){
-			return String.valueOf(this.nCode);
-		}
-		*/
-	};
 	
 	/**
 	 * 设置场景对象。
@@ -255,7 +58,9 @@ public class SceneNode {
 	 * @param node 父节点对象
 	 */
 	public void setParent(SceneNode node){
+		if (mParent != null) mParent.removeChild2(this);
 		mParent = node;
+		if (mParent != null) mParent.addChild(this);
 		nativeSetParent(mScene.getId(mParent), getId());
 	}
 	
@@ -306,6 +111,10 @@ public class SceneNode {
 		nativeSetRotation(mRotation[0].X, mRotation[0].Y, mRotation[0].Z, getId());
 	}
 	
+	public SceneNode getParent(){
+		return mParent;
+	}
+	
 	/**
 	 * 设置节点的大小。
 	 * @param para	沿三个轴向大小变换值
@@ -334,6 +143,15 @@ public class SceneNode {
 	}
 	
 	/**
+	 * 返回节点的绝对位置坐标。
+	 * @return 绝对位置坐标
+	 */
+	public Vector3d getAbsolutePosition(){
+		if (mParent == null) return new Vector3d(mPosition[0]);
+		return new Vector3d(mPosition[0]).plus(mParent.getAbsolutePosition());
+	}
+	
+	/**
 	 * 返回节点的旋转角度。
 	 * @return 节点的旋转角度
 	 */
@@ -342,11 +160,29 @@ public class SceneNode {
 	}
 	
 	/**
-	 * 返回节点相对于父节点的大小。
-	 * @return 节点相对于父节点的大小
+	 * 返回节点的绝对旋转角度。
+	 * @return 绝对旋转角度
+	 */
+	public Vector3d getAbsoluteRotation(){
+		if (mParent == null) return new Vector3d(mRotation[0]);
+		return new Vector3d(mRotation[0]).plus(mParent.getAbsolutePosition());
+	}
+	
+	/**
+	 * 返回节点相对于父节点的缩放。
+	 * @return 节点相对于父节点的缩放
 	 */
 	public Vector3d getScale(){
 		return new Vector3d(mScale[0]); 
+	}
+	
+	/**
+	 * 返回节点的绝对缩放。
+	 * @return 绝对缩放
+	 */
+	public Vector3d getAbsoluteScale(){
+		if (mParent == null) return new Vector3d(mScale[0]);
+		return new Vector3d(mScale[0]).plus(mParent.getAbsolutePosition());
 	}
 	
 	/**
@@ -360,6 +196,35 @@ public class SceneNode {
 		info.Scale = new Vector3d(mScale[0]);
 		
 		return info;
+	}
+	
+	/**
+	 * 返回节点的直接子节点的个数
+	 * @return 直接子节点的个数
+	 */
+	public int getChildrenCount(){
+		if (mChild == null) return 0;
+		return mChild.size();
+	}
+	
+	/**
+	 * 通过序号取得子节点
+	 * @param index 序号
+	 * @return 对应的子节点
+	 */
+	public SceneNode getChild(int index){
+		return mChild.get(index);
+	}
+	
+	/**
+	 * 遍历所有的一级子节点（不迭代），顺序进行同样的操作
+	 * @param f 遍历回调类，该类的operate方法会针对每个一级子节点被调用一次
+	 */
+	public void do2EveryChild(TraversalCallback f){
+		if (mChild == null) return;
+		for (SceneNode child: mChild){
+			f.operate(child);
+		}
 	}
 	
 	/**
@@ -418,14 +283,6 @@ public class SceneNode {
 	}
 	
 	/**
-	 * 添加对指定节点的碰撞检测响应。
-	 * @param selNode 指定的节点对象
-	 */
-	public void addCollisionResponseAnimator(SceneNode selNode){
-		nativeAddCollisionResponseAnimator(mScene.getId(selNode),getId());
-	}
-	
-	/**
 	 * 删除节点上的所有动画
 	 */
 	//单个去除动画的函数实现所需代码略多，暂不管
@@ -438,26 +295,41 @@ public class SceneNode {
 	 */
 	public void remove(){
 		mScene.removeNode(this);
-	}	
+	}
 	
-	public int setMaterialType(E_MATERIAL_TYPE type){
-		return nativeSetMaterialType(type.ordinal(), getId());
+	/**
+	 * 将指定的一级子节点变为当前节点的兄弟节点
+	 * @param child 子节点的指针
+	 * @return
+	 */
+	public boolean removeChild(SceneNode child){
+		if (child == null || mChild == null || 
+				!mChild.contains(child)) return false;
+		child.setParent(mParent);
+		return true;
 	}
 
+	@Override/** 克隆节点*/
+	public SceneNode clone(){
+		SceneNode res = softClone();
+		cloneInNativeAndSetupNodesId(res);
+		return res;
+	}
+	
 	/**
 	 * 在Java层保存及初始化节点信息
-	 * @param pos 节点的初始位置
+	 * param pos 节点的初始位置
 	 * @param parent 节点的父节点
 	 */
 	void javaLoadDataAndInit(Vector3d pos, SceneNode parent){
 		mPosition[0] = pos;
-		mParent = parent;
+		setParent(parent);
 		mark();
 		mScene.registerNode(this);
 	}
 	
 	/**
-	 * 唯一构造函数
+	 * 构造函数
 	 */
 	SceneNode() {
 		this.Id = mScene.getNewId();
@@ -484,6 +356,69 @@ public class SceneNode {
 	 */
 	int getId() {return Id;}
 	
+	void addChild(SceneNode child){
+		if (mChild == null) mChild = new ArrayList<SceneNode>();
+		mChild.add(child);
+	}
+	
+	void removeChild2(SceneNode child){
+		mChild.remove(child);
+	}
+	
+	/**
+	 * 在java层做好自己的注册，并且调用子节点的迭代，设定好父子关系
+	 * @return 克隆的父节点
+	 */
+	protected SceneNode softClone(){
+		SceneNode res = new SceneNode(this);
+		softCopyChildren(res);
+		return res;
+	}
+	
+	protected final void softCopyChildren(SceneNode root){
+		if (mChild != null){
+			root.mChild = new ArrayList<SceneNode>();
+			for (SceneNode node:mChild){
+				SceneNode son = node.softClone();
+				son.mParent = root;
+				root.mChild.add(son);
+			}
+		}
+	}
+	
+	protected final void setupNodesId(SceneNode node){
+		if (mChild == null) return;
+		for (int i = 0; i < getChildrenCount(); i++){
+			nativeChangeId(getChild(i).getId(), node.getChild(i).getId(), getId());
+			setupNodesId(node.getChild(i));
+		}
+	}
+	
+	protected final void cloneInNativeAndSetupNodesId(SceneNode res){
+		nativeCloneNode(getId(), res.getId());
+		setupNodesId(res);
+	}
+	
+	protected SceneNode(SceneNode node) {
+		Id = mScene.getNewId();
+		mPosition = new Vector3d[2];
+		mPosition[0] = new Vector3d(node.mPosition[0]);
+		mPosition[1] = new Vector3d(node.mPosition[1]);
+		
+		mRotation = new Vector3d[2];
+		mRotation[0] = new Vector3d(node.mRotation[0]);
+		mRotation[1] = new Vector3d(node.mRotation[1]);
+		
+		mScale = new Vector3d[2];
+		mScale[0] = new Vector3d(node.mScale[0]);
+		mScale[1] = new Vector3d(node.mScale[1]);
+		
+		mNodeType = node.mNodeType;
+		mParent = node.mParent;
+		mIsVisible = node.mIsVisible;
+		mScene.registerNode(this);
+	}
+	
 	protected static Scene mScene;
 	
 	protected final int Id;
@@ -495,6 +430,7 @@ public class SceneNode {
 	protected Vector3d []mScale;
 	
 	protected int mNodeType;
+	protected ArrayList<SceneNode> mChild;
 	
 	//! transform native method.
 	private native int nativeSetParent(int parent, int Id);
@@ -502,7 +438,6 @@ public class SceneNode {
 	private native int nativeSetRotation(double x, double y, double z, int Id);
 	private native int nativeSetScale(double x, double y, double z, int Id);
 	private native int nativeSetPosition(double x, double y, double z, int Id);
-	private native int nativeSetMaterialType(int type, int Id);
 	
 	//! animator native method.
 	private native int nativeAddRotationAnimator(
@@ -519,11 +454,29 @@ public class SceneNode {
 			
 	private native int nativeAddDeleteAnimator(int ms, int Id);
 	private native int nativeRemoveAllAnimator(int Id);
-	private native int nativeAddCollisionResponseAnimator(int selId, int Id);
+	//private native int nativeAddCollisionResponseAnimator(int selId, int Id);
 	
+	protected native int nativeCreateEmptySceneNode(int Id, boolean isLight);
+	protected native int nativeCloneNode(int res, int des);
+	protected native int nativeChangeId(int res, int des, int parent);
+	
+	/**
+	 * 节点的变换信息类
+	 * @author Roy
+	 *
+	 */
 	public class TransformationInfo{
 		public Vector3d Position;
 		public Vector3d Rotation;
 		public Vector3d Scale;
+	}
+	
+	/**
+	 * 遍历回调类，参见{@link SceneNode#do2EveryChild(TraversalCallback)}
+	 * @author Roy
+	 *
+	 */
+	public interface TraversalCallback{
+		void operate(SceneNode node);
 	}
 }

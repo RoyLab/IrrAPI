@@ -11,6 +11,8 @@
 
 #ifdef _IRR_COMPILE_WITH_OGLES2_
 
+extern const char _pathAssets[];
+
 #include "COGLES2SLMaterialRenderer.h"
 #include "COGLES2Utils.h"
 
@@ -68,30 +70,17 @@ namespace irr
                 : COGLES2SLMaterialRenderer( driver, fs, 0, 0, sBuiltInShaderUniformNames, UNIFORM_COUNT ), Normalize( 0 ), AlphaTest( 0 ), AlphaValue( 0.f ),
                 AlphaFunction( ALPHA_GREATER ), Lighting( 0 ), Fog( 0 ), FogType( 0 ), FogStart( 0.f ), FogEnd( 0.f ), FogDensity( 0.f ),
                 ColorMaterial( 0 ), MaterialShininess( 0.f ), RenderMode( EMT_SOLID )
-        {
+        {			
             s32 dummy;
-			strcpy(VertexShaderFile, gSdCardPath.c_str());
-			strcat(VertexShaderFile,"/Irrlicht/COGLES2FixedPipeline.vsh");
-			strcpy( FragmentShadeFile, gSdCardPath.c_str());
-			strcat( FragmentShadeFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
-            initFromFiles( dummy, VertexShaderFile, FragmentShadeFile, false );
-/*=======
-			strcpy(VertexShadeFile, gSdCardPath.c_str());
-			strcat(VertexShadeFile,"/Irrlicht/COGLES2FixedPipeline.vsh");
-			strcpy( FragmentShadeFile, gSdCardPath.c_str());
-			strcat( FragmentShadeFile,"/Irrlicht/COGLES2FixedPipeline.fsh");
-            initFromFiles( dummy, VertexShadeFile, FragmentShadeFile, false );
->>>>>>> branch 'master' of https://github.com/zjtuzteproject/IrrAPI.git*/
+			strcpy(VertexShaderFile,"irrshader/COGLES2FixedPipeline.vsh");
+			strcpy( FragmentShaderFile,"irrshader/COGLES2FixedPipeline.fsh");
+            initFromFiles( dummy, VertexShaderFile, FragmentShaderFile, false );
             initData();
         };
 
         void COGLES2FixedPipelineShader::reload()
         {
-            reloadFromFiles( VertexShaderFile, FragmentShadeFile );
-/*=======
-            reloadFromFiles( VertexShadeFile, FragmentShadeFile );
->>>>>>> branch 'master' of https://github.com/zjtuzteproject/IrrAPI.git*/
-            //initData();
+            reloadFromFiles( VertexShaderFile, FragmentShaderFile );
         }
 
         void COGLES2FixedPipelineShader::initData()

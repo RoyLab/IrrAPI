@@ -36,7 +36,7 @@ public class TexMediaPlayer extends MediaPlayer
 	 * 构造函数，为场景赋值。
 	 * @param sc 所使用的场景对象
 	 */
-	TexMediaPlayer(Scene sc){
+	public TexMediaPlayer(Scene sc){
 		super();
 		mScene = sc;
 	}
@@ -46,20 +46,37 @@ public class TexMediaPlayer extends MediaPlayer
 	 * @param sc 所使用的场景对象
 	 * @param texId 材质的ID值
 	 */
-	TexMediaPlayer(Scene sc, int texId){
+	public TexMediaPlayer(Scene sc, int texId){
 		this(sc);
 		setTexId(texId);
 	}
 
-	void setTexId(int id){
+	/**
+	 * 设置材质相机的openGL ES纹理ID，相机将在ID被指定后连接到openGL ES。
+	 * 用户可以使用{@link TexMediaPlayer#isConnected2OGLES()}查询连接状态
+	 * @param id openGL ES纹理ID
+	 */
+	public void setTexId(int id){
+		if (id < 0) return;
+		
 		mSurfaceTex = new SurfaceTexture(id);
 		mSurfaceTex.setOnFrameAvailableListener(this);
 		setSurface(new Surface(mSurfaceTex));
+		mIsConnected = true;
+	}
+	
+	/**
+	 * 查询材质相机是否已经连接到openGL ES。
+	 * @return 为true则表示已经连接
+	 */
+	public boolean isConnected2OGLES(){
+		return mIsConnected;
 	}
 
 	private SurfaceTexture mSurfaceTex;
 	private boolean mNewFrame;
 	private Scene mScene;
+	private boolean mIsConnected;
 	
 	//! SurfaceTexture.OnFrameAvailableListener
 	public synchronized void onFrameAvailable(SurfaceTexture sf) {

@@ -3,6 +3,7 @@
 #include "android-global.h"
 #include <android/bitmap.h>
 #include "COGLESTexture.h"
+#include "COGLES2Texture.h"
 
 using namespace irr;
 using namespace core;
@@ -16,12 +17,8 @@ IVideoDriver* driver = 0;
 ISceneManager* smgr = 0;
 JNIUtils *utils = 0;
 
-int gWindowWidth = 640;
-int gWindowHeight = 480;
 stringc gSdCardPath;
 SColor backColor = SColor(255,150,150,150);
-
-//const char _extPrefix[] = "<external>";
 
 char _builtInFontPath[128] = "";
 ITexture *_extTex = 0;
@@ -33,9 +30,6 @@ void resetGlobalValue()
 	smgr = 0;
 	_extTex = 0;
 	
-	gWindowWidth = 640;
-	gWindowHeight = 480;
-	
 	backColor = SColor(255,150,150,150);
 	strcpy(_builtInFontPath, "");
 }
@@ -43,19 +37,7 @@ void resetGlobalValue()
 JavaClassInfo::JavaClassInfo():
 	FieldID(NULL),Sig(new char[128])
 {
-	
 }
-
-/*JavaClassInfo::JavaClassInfo(const JavaClassInfo& other):
-	count(other.count), Sig(new char[128]),
-	FieldID(new jfieldID[count])
-{
-	memcpy(Sig, other.Sig, 128);
-	//memory copy of jfieldID will cause heap corruption.
-	//memcpy(FieldID, other.FieldID, other.count * sizeof(jfieldID));
-	//LOGD("%s, %d", Sig, other.count * sizeof(jfieldID));
-	//LOGD("%d, %d, %d", sizeof(FieldID), &FieldID[0], &FieldID[1]);
-}*/
 
 JavaClassInfo::~JavaClassInfo()
 {
@@ -72,6 +54,32 @@ JNIUtils::JNIUtils():
 JNIUtils::~JNIUtils()
 {
 
+}
+
+bool JNIUtils::isExtTex(ITexture* tex)
+{
+	switch(driver->getDriverType())
+	{
+	case video::EDT_OGLES1:
+		return ((COGLES1Texture*)tex)->isExternal();
+	case video::EDT_OGLES2:
+		return ((COGLES2Texture*)tex)->isExternal();
+	default:
+		return false;
+	}
+}
+
+int JNIUtils::getGLTexId(ITexture* tex)
+{
+	switch(driver->getDriverType())
+	{
+	case video::EDT_OGLES1:
+		return ((COGLES1Texture*)tex)->getOGLES1TextureName();
+	case video::EDT_OGLES2:
+		return ((COGLES2Texture*)tex)->getOGLES2TextureName();
+	default:
+		return -1;
+	}
 }
 
 void JNIUtils::initJNIClass(JNIEnv *env, jstring clsName, 
@@ -252,6 +260,7 @@ IImage* JNIUtils::createImageFromBitmap(JNIEnv* env, jobject jbitmap)
 	IImage* image = driver->createImageFromData(format, 
 		dimension2d<u32>(bitmapInfo.width, bitmapInfo.height), pixels);
 		
+	AndroidBitmap_unlockPixels(env, jbitmap);
 	return image;
 }
 

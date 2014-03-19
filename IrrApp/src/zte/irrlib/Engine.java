@@ -1,11 +1,8 @@
 package zte.irrlib;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.scene.Scene;
-import android.opengl.GLSurfaceView;
+import android.content.res.AssetManager;
 import android.util.Log;
 
 /**
@@ -14,10 +11,14 @@ import android.util.Log;
  */
 public class Engine{
 	
-	/**
-	 * 日志标签
-	 */
+	/** 日志标签*/
 	public static final String TAG = "IrrEngine";
+	/** assets目录前缀*/
+	public static final String ASSETS_PATH = "<assets>/";
+	/** 系统内置资源assets目录名*/
+	public static final String SYSTEM_MEDIA = "sysmedia";
+	/** 系统内置资源assets目录完整路径*/
+	public static final String SYSTEM_MEDIA_FULL = "<assets>/sysmedia/";
 	
 	/**
 	 * 构造器不可以被直接调用，本方法替代构造方法，用于取得
@@ -92,11 +93,28 @@ public class Engine{
 		return nativeGetFPS();
 	}
 	
-	public synchronized void onSurfaceCreated(){
+	/**
+	 * 将assets中的一个文件夹添加入引擎文件系统，这个方法并不会搜索文件夹下的子文件夹，
+	 * 添加目录之后，可以在资源路径之前添加{@link #SYSTEM_MEDIA_FULL}以表示这是个
+	 * assets目录。
+	 * @param dirname 目录名称，根目录用用空字符串代表
+	 * @param ignorePath 在将来查找文件时，是否忽略路径
+	 * @return 是否成功添加
+	 */
+	public boolean addAssetsDir(String dirname, boolean ignorePath){
+		return nativeAddAssetsDir(dirname, ignorePath);
+	}
+	
+	public synchronized void onSurfaceCreated(IrrlichtView view){
 		//nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
-		nativeCreateDevice(mRenderType);
+		nativeInitAssetManager(view.getActivity().getAssets());
+		nativeCreateDevice(view.IsGLES2Enabled()?
+				EGL10Ext.EGL_OPENGL_ES2_BIT:EGL10Ext.EGL_OPENGL_ES1_BIT);
 		initJNIFieldID();
+		nativeSetAssetsPath(ASSETS_PATH);
+		addAssetsDir(SYSTEM_MEDIA, false);
 		javaReset();
+		//nativeTest();
 		mRenderer.onCreate(this);
 		Log.d(TAG, "OnSurfaceCreated");
 	}
@@ -117,12 +135,8 @@ public class Engine{
 	void setRenderer(Renderer renderer){
 		mRenderer = renderer;
 	}
-
-	void setRenderType(int type){
-		mRenderType = type;
-	}
 	
-	public void initJNIFieldID(){
+	private void initJNIFieldID(){
 		if (mJNIIsInit) return;
 		
 		String fname[] = new String[4];
@@ -162,12 +176,8 @@ public class Engine{
 	}
 	
 	private void javaReset(){
-		resetMembergValue();
-		mScene.javaReset();
-	}
-	
-	private void resetMembergValue(){
 		mScene = Scene.getInstance(this);
+		mScene.javaReset();
 	}
 	
 	private Engine(){
@@ -178,7 +188,6 @@ public class Engine{
 	
 	private Scene mScene;
 	private Renderer mRenderer;
-	private int mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 	
 	private native void nativeResize(int w, int h);
 	private native double nativeGetFPS();
@@ -187,11 +196,14 @@ public class Engine{
 	private native int nativeCreateDevice(int type);
 	private static native void nativeRelease();
 	private native void nativeInitJNI(String name, String[] fname, String[] fsig, int num);
+	private native int nativeInitAssetManager(AssetManager asset);
 	
-	native void nativeBeginScene();
-	native void nativeEndScene();
+	private native void nativeBeginScene();
+	private native void nativeEndScene();
 	
-	native void nativeTest(Object obj);
+	private native boolean nativeAddAssetsDir(String name, boolean ignorePath);
+	private native void nativeSetAssetsPath(String path);
+	private native void nativeTest();
 	
 	/**
 	 * 引擎的渲染器接口，用于场景渲染，需要用户自己实现。 

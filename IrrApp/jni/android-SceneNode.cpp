@@ -95,20 +95,6 @@ extern "C"
 		node->setPosition(core::vector3df(x,y,z));
 		return 0;
 	}
-	
-	int Java_zte_irrlib_scene_SceneNode_nativeSetMaterialType(
-		JNIEnv*  env, jobject defaultObj, jint type, jint id)
-	{
-		ISceneNode* node = smgr->getSceneNodeFromId(id);
-		//LOGD("POSITION %d", id);
-		if (!node)
-		{
-			WARN_NODE_NOT_FOUND(id, SetMaterialType);
-			return -1;
-		}
-		node->setMaterialType(E_MATERIAL_TYPE(type));
-		return 0;
-	}
 
 	int Java_zte_irrlib_scene_SceneNode_nativeAddRotationAnimator(
 		JNIEnv*  env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
@@ -179,40 +165,6 @@ extern "C"
 		anim->drop();
 		return 0;
 	}
-	
-	int Java_zte_irrlib_scene_SceneNode_nativeAddCollisionResponseAnimator(
-		JNIEnv *env, jobject defaultObj, jint selId, jint id)
-	{
-		ISceneNode* selNode = smgr->getSceneNodeFromId(selId);
-		if (!selNode)
-		{
-			WARN_NODE_NOT_FOUND(selId, AddCollisionResponseAnimator);
-			return -1;
-		}
-
-		ISceneNode* node = smgr->getSceneNodeFromId(id);
-		if (!node)
-		{
-			WARN_NODE_NOT_FOUND(id, AddCollisionResponseAnimator);
-			return -1;
-		}
-
-		ITriangleSelector* selector = smgr->createTriangleSelectorFromBoundingBox(selNode);
-		vector3df radius(0,0,0),gravity(0,0,0),translation(0,0,0);
-		const aabbox3d<f32>& box = node->getBoundingBox();
-		radius = box.MaxEdge-box.getCenter();
-
-		ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(selector, node,
-			radius,
-			gravity,
-			translation,
-			0.0005f
-		);
-		selector->drop();
-		node->addAnimator(anim);
-		anim->drop();
-	}
-
 
 	int Java_zte_irrlib_scene_SceneNode_nativeRemoveAllAnimator(
 		JNIEnv *env, jobject defaultObj, jint id)
@@ -224,6 +176,53 @@ extern "C"
 			return -1;
 		}				
 		node->removeAnimators();
+		return 0;
+	}
+	
+	int Java_zte_irrlib_scene_SceneNode_nativeCreateEmptySceneNode(
+		JNIEnv*  env, jobject defaultObj, jint id, jboolean isLight)
+	{
+		ISceneNode* node = smgr->addEmptySceneNode(0, id);
+
+		if (node)
+		{
+			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
+			return 0;
+		}
+		else 
+		{
+			ERROR_ADD_FAILD(id, CreateEmptySceneNode);
+			return -1;
+		}
+	}
+	
+	int Java_zte_irrlib_scene_SceneNode_nativeCloneNode(
+		JNIEnv*  env, jobject defaultObj, jint res, jint des)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(res);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(res, AddDeleteAnimator);
+			return -1;
+		}
+		
+		ISceneNode *copy = node->clone();
+		copy->setID(des);
+		return 0;
+	}
+	
+		
+	int Java_zte_irrlib_scene_SceneNode_nativeChangeId(
+		JNIEnv*  env, jobject defaultObj, jint res, jint des, jint parent)
+	{
+		ISceneNode* parentNode = smgr->getSceneNodeFromId(parent);
+		ISceneNode* node = smgr->getSceneNodeFromId(res, parentNode);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(res, AddDeleteAnimator);
+			return -1;
+		}
+		node->setID(des);
 		return 0;
 	}
 }

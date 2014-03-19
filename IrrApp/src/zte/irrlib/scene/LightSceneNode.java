@@ -55,6 +55,24 @@ public class LightSceneNode extends SceneNode {
 		downloadLightData();
 	}
 	
+	@Override
+	public LightSceneNode clone(){
+		LightSceneNode res = softClone();
+		cloneInNativeAndSetupNodesId(res);
+		return res;
+	}
+	
+	@Override
+	protected LightSceneNode softClone(){
+		LightSceneNode res = new LightSceneNode(this);
+		softCopyChildren(res);
+		return res;
+	}
+	
+	protected LightSceneNode(LightSceneNode node){
+		super(node);
+	}
+	
 	private native int nativeSendLightData(SLight data, int id);
 	private native int nativeGetLightData(SLight data, int id);
 }

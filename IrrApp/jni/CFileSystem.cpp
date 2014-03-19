@@ -20,6 +20,7 @@
 #include "CAttributes.h"
 #include "CMemoryFile.h"
 #include "CLimitReadFile.h"
+#include "CAssetsReader.h"
 
 
 #if defined (_IRR_WINDOWS_API_)
@@ -74,6 +75,11 @@ CFileSystem::CFileSystem()
 
 #ifdef __IRR_COMPILE_WITH_TAR_ARCHIVE_LOADER_
 	ArchiveLoader.push_back(new CArchiveLoaderTAR(this));
+#endif
+
+#ifdef _IRR_COMPILE_WITH_ANDROID_DEVICE_
+	ArchiveLoader.push_back(new CArchiveLoaderAssets(this));
+	//os::Printer::log("assetspushed", "", ELL_ERROR);
 #endif
 }
 
@@ -207,7 +213,6 @@ bool CFileSystem::addFileArchive(const io::path& filename, bool ignoreCase,
 			return true;
 		}
 	}
-
 	// do we know what type it should be?
 	if (archiveType == EFAT_UNKNOWN || archiveType == EFAT_FOLDER)
 	{

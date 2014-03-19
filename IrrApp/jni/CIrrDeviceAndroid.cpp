@@ -8,13 +8,15 @@
 #ifdef _IRR_COMPILE_WITH_ANDROID_DEVICE_
 
 #include "os.h"
-	
-#include "android-global.h"
-#ifdef LOG_TAG
-#undef LOG_TAG
-#endif
-
+#include <android/log.h>
 #define LOG_TAG "AndroidDevice"
+
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+
 #define CREATED_DRIVER(driver) LOGI("%s driver created.", #driver)
 
 namespace irr

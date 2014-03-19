@@ -13,7 +13,6 @@
 #include "IMaterialRenderer.h"
 #include "CMeshManipulator.h"
 #include "CColorConverter.h"
-#include <android/log.h>
 
 
 namespace irr
@@ -175,17 +174,16 @@ CNullDriver::~CNullDriver()
 	if (MeshManipulator)
 		MeshManipulator->drop();
 	deleteAllTextures();
-
+	
 	u32 i;
 	for (i=0; i<SurfaceLoader.size(); ++i)
 		SurfaceLoader[i]->drop();
-
+	
 	for (i=0; i<SurfaceWriter.size(); ++i)
 		SurfaceWriter[i]->drop();
 
 	// delete material renderers
 	deleteMaterialRenders();
-
 	// delete hardware mesh buffers
 	removeAllHardwareBuffers();
 }
@@ -418,8 +416,8 @@ ITexture* CNullDriver::getTexture(const io::path& filename)
 	}
 	else
 	{
+		os::Printer::log(filename.c_str(), filename, ELL_WARNING);
 		os::Printer::log("Could not open file of texture", filename, ELL_WARNING);
-		__android_log_print(ANDROID_LOG_INFO,"log", "%s", filename.c_str());
 		return 0;
 	}
 }
@@ -507,10 +505,10 @@ video::ITexture* CNullDriver::findTexture(const io::path& filename)
 }
 
 //! Creates a texture from a loaded IImage.
-//! If name has a prefix of <external>, it is an external texture.
 ITexture* CNullDriver::addTexture(const io::path& name, IImage* image, void* mipmapData)
 {
-	if ( 0 == name.size() || (!image && (name.subString(0, 10) != "<external>")))
+	//roy modified.
+	if ( 0 == name.size() /*|| !image*/)
 		return 0;
 	ITexture* t = createDeviceDependentTexture(image, name, mipmapData);
 	if (t)

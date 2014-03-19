@@ -16,7 +16,7 @@ IRRDRVOBJ2 = COGLES2Driver.cpp COGLES2FixedPipelineShader.cpp COGLES2ParallaxMap
 IRRIMAGEOBJ = InstancedMesh.cpp CColorConverter.cpp CImage.cpp CImageLoaderBMP.cpp CImageLoaderJPG.cpp CImageLoaderPCX.cpp CImageLoaderPNG.cpp CImageLoaderPSD.cpp CImageLoaderTGA.cpp CImageLoaderPPM.cpp CImageLoaderWAL.cpp CImageLoaderRGB.cpp CImageWriterBMP.cpp CImageWriterJPG.cpp CImageWriterPCX.cpp CImageWriterPNG.cpp CImageWriterPPM.cpp CImageWriterPSD.cpp CImageWriterTGA.cpp
 IRRVIDEOOBJ = CVideoModeList.cpp CFPSCounter.cpp $(IRRDRVROBJ) $(IRRIMAGEOBJ)
 IRRSWRENDEROBJ = CSoftwareDriver.cpp CSoftwareTexture.cpp CTRFlat.cpp CTRFlatWire.cpp CTRGouraud.cpp CTRGouraudWire.cpp CTRTextureFlat.cpp CTRTextureFlatWire.cpp CTRTextureGouraud.cpp CTRTextureGouraudAdd.cpp CTRTextureGouraudNoZ.cpp CTRTextureGouraudWire.cpp CZBuffer.cpp CTRTextureGouraudVertexAlpha2.cpp CTRTextureGouraudNoZ2.cpp CTRTextureLightMap2_M2.cpp CTRTextureLightMap2_M4.cpp CTRTextureLightMap2_M1.cpp CSoftwareDriver2.cpp CSoftwareTexture2.cpp CTRTextureGouraud2.cpp CTRGouraud2.cpp CTRGouraudAlpha2.cpp CTRGouraudAlphaNoZ2.cpp CTRTextureDetailMap2.cpp CTRTextureGouraudAdd2.cpp CTRTextureGouraudAddNoZ2.cpp CTRTextureWire2.cpp CTRTextureLightMap2_Add.cpp CTRTextureLightMapGouraud2_M4.cpp IBurningShader.cpp CTRTextureBlend.cpp CTRTextureGouraudAlpha.cpp CTRTextureGouraudAlphaNoZ.cpp CDepthBuffer.cpp CBurningShader_Raster_Reference.cpp
-IRRIOOBJ = CFileList.cpp CFileSystem.cpp CLimitReadFile.cpp CMemoryFile.cpp CReadFile.cpp CWriteFile.cpp CXMLReader.cpp CXMLWriter.cpp CZipReader.cpp CPakReader.cpp CNPKReader.cpp CTarReader.cpp CMountPointReader.cpp irrXML.cpp CAttributes.cpp lzma/LzmaDec.c
+IRRIOOBJ = CFileList.cpp CFileSystem.cpp CLimitReadFile.cpp CMemoryFile.cpp CReadFile.cpp CWriteFile.cpp CXMLReader.cpp CXMLWriter.cpp CZipReader.cpp CPakReader.cpp CNPKReader.cpp CTarReader.cpp CMountPointReader.cpp irrXML.cpp CAttributes.cpp lzma/LzmaDec.c CAssetFile.cpp CAssetsReader.cpp
 IRROTHEROBJ = CIrrDeviceConsole.cpp CIrrDeviceStub.cpp CLogger.cpp Irrlicht.cpp os.cpp
 IRRGUIOBJ = CGUIButton.cpp CGUICheckBox.cpp CGUIComboBox.cpp CGUIContextMenu.cpp CGUIEditBox.cpp CGUIEnvironment.cpp CGUIFileOpenDialog.cpp CGUIFont.cpp CGUIImage.cpp CGUIInOutFader.cpp CGUIListBox.cpp CGUIMenu.cpp CGUIMeshViewer.cpp CGUIMessageBox.cpp CGUIModalScreen.cpp CGUIScrollBar.cpp CGUISpinBox.cpp CGUISkin.cpp CGUIStaticText.cpp CGUITabControl.cpp CGUITable.cpp CGUIToolBar.cpp CGUIWindow.cpp CGUIColorSelectDialog.cpp CDefaultGUIElementFactory.cpp CGUISpriteBank.cpp CGUIImageList.cpp CGUITreeView.cpp
 
@@ -43,6 +43,6 @@ LOCAL_SRC_FILES := \
      $(BZIP2OBJ)
 
 
-LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog -lGLESv2 -ljnigraphics 
+LOCAL_LDLIBS := -lGLESv1_CM -ldl -llog -lGLESv2 -ljnigraphics -landroid
 
 include $(BUILD_SHARED_LIBRARY)

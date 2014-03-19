@@ -7,6 +7,7 @@
 
 #include "IReferenceCounted.h"
 #include "coreutil.h"
+#include "IrrCompileConfig.h"
 
 namespace irr
 {
@@ -46,6 +47,10 @@ namespace io
 
 	//! Internal function, please do not use.
 	IReadFile* createReadFile(const io::path& fileName);
+#ifdef _IRR_COMPILE_WITH_ANDROID_DEVICE_
+	//! Internal function, please do not use.
+	IReadFile* createAssetFile(const io::path& fileName);
+#endif
 	//! Internal function, please do not use.
 	IReadFile* createLimitReadFile(const io::path& fileName, IReadFile* alreadyOpenedFile, long pos, long areaSize);
 	//! Internal function, please do not use.

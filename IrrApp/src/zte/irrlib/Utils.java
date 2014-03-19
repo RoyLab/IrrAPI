@@ -149,9 +149,4 @@ public class Utils {
 	}
 	
 	private native void nativeSetSdCardPath(String path);
-	
-	static {
-		System.loadLibrary("irrlicht");
-	}
-
 }

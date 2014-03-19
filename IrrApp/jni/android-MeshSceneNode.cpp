@@ -228,6 +228,31 @@ extern "C"
 		env->ReleaseStringUTFChars(path,msg);
 		return 0;
 	}
+	
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetExternalTexture(
+		JNIEnv *env, jobject defaultObj, jstring jname, jint mId, jint Id)
+	{
+		const char *name = env->GetStringUTFChars(jname,0);
+		ITexture* tex = driver->findTexture(name);
+		env->ReleaseStringUTFChars(jname, name);
+		
+		if (!tex || !utils->isExtTex(tex)) 
+		{
+			LOGW("Not a external Texture.");
+			return -1;
+		}
+		
+		ISceneNode* node = smgr->getSceneNodeFromId(Id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(Id, SetExternalTexture);
+			return -1;
+		}
+		
+		if (mId < 0) node->setMaterialTexture(0, tex);
+		else node->getMaterial(mId).setTexture(0, tex);
+		return 0;
+	}
 
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetMediaTexture(
 		JNIEnv *env, jobject defaultObj, jint mId, jint id)
@@ -298,6 +323,7 @@ extern "C"
 			file = msg;
 			texArr.push_back(driver->getTexture(file.c_str()));
 			env->ReleaseStringUTFChars(path,msg);
+			env->DeleteLocalRef(path);
 		}
 
 		scene::ISceneNodeAnimator* texAni =
@@ -339,5 +365,68 @@ extern "C"
 		return 0;
 	}
 	
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeAddCollisionResponseAnimator(
+		JNIEnv *env, jobject defaultObj, jint selId, jboolean bbox, jboolean octree, jint id)
+	{
+		ISceneNode* selNode = smgr->getSceneNodeFromId(selId);
+		if (!selNode)
+		{
+			WARN_NODE_NOT_FOUND(selId, AddCollisionResponseAnimator);
+			return -1;
+		}
+
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, AddCollisionResponseAnimator);
+			return -1;
+		}
+		
+		ITriangleSelector* selector = 0;
+		if (bbox) selector = smgr->createTriangleSelectorFromBoundingBox(selNode);
+		else if (!octree) selector = smgr->createTriangleSelector(((IMeshSceneNode*)selNode)->getMesh(), selNode);
+		else selector = smgr->createTriangleSelector(((IMeshSceneNode*)selNode)->getMesh(), selNode);
+		
+		vector3df radius(0,0,0),gravity(0,0,0),translation(0,0,0);
+		const aabbox3d<f32>& box = node->getBoundingBox();
+		radius = box.MaxEdge-box.getCenter();
+
+		ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(selector, node,
+			radius,
+			gravity,
+			translation,
+			0.0005f
+		);
+		selector->drop();
+		node->addAnimator(anim);
+		anim->drop();
+	}
 	
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetMaterialType(
+		JNIEnv*  env, jobject defaultObj, jint type, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		//LOGD("POSITION %d", id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetMaterialType);
+			return -1;
+		}
+		node->setMaterialType(E_MATERIAL_TYPE(type));
+		return 0;
+	}
+
+	int Java_zte_irrlib_scene_MeshSceneNode_nativeSetMaterialFlag(
+		JNIEnv*  env, jobject defaultObj, jint type, jboolean flag, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		//LOGD("POSITION %d", id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, SetMaterialFlag);
+			return -1;
+		}
+		node->setMaterialFlag(E_MATERIAL_FLAG(type), flag);
+		return 0;
+	}
 }

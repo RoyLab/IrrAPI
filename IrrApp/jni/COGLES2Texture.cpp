@@ -18,8 +18,18 @@
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#include <android/log.h>
+
+#define LOG_TAG "ogles tex"
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+
 #ifndef _IRR_COMPILE_WITH_ANDROID_DEVICE_
 #include <EGL/egl.h>
+
 #endif
 
 namespace irr
@@ -35,7 +45,7 @@ namespace irr
                 // PixelFormat(GL_BGRA),
                 PixelType( GL_UNSIGNED_BYTE ),
                 HasMipMaps( true ), IsRenderTarget( false ), AutomaticMipmapUpdate( false ),
-                UseStencil( false ), ReadOnlyLock( false )
+                UseStencil( false ), ReadOnlyLock( false ), IsExternal(false)
         {
 #ifdef _DEBUG
             setDebugName( "COGLES2Texture" );
@@ -49,6 +59,8 @@ namespace irr
                 glGenTextures( 1, &TextureName );
                 copyTexture();
             }
+			Image->drop();
+			Image = 0;
         }
 
 
@@ -732,6 +744,29 @@ namespace irr
             return false;
         }
 #endif
+
+		
+		COGLES2TextureExt::COGLES2TextureExt(const io::path& name, COGLES2Driver* driver):
+		COGLES2Texture(name, driver)
+		{
+			#ifdef _DEBUG
+			setDebugName("COGLES2TextureExt");
+			#endif
+
+			IsExternal = true;
+			glGenTextures(1, &TextureName);
+			glBindTexture(GL_TEXTURE_EXTERNAL_OES, getOGLES2TextureName());
+			glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glDisable(GL_TEXTURE_EXTERNAL_OES);
+
+			ImageSize.Width = ImageSize.Height = 0;
+			if (Driver->testGLError())
+				LOGD("Ext tex error. %s", name.c_str());
+		}
+
+		COGLES2TextureExt::~COGLES2TextureExt(){}
+
 
     } // end namespace video
 } // end namespace irr

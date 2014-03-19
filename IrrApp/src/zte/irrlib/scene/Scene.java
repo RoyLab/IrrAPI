@@ -6,10 +6,12 @@ import zte.irrlib.Engine;
 import zte.irrlib.Utils;
 import zte.irrlib.core.Color3i;
 import zte.irrlib.core.Color4i;
+import zte.irrlib.core.Rect4d;
 import zte.irrlib.core.Rect4i;
 import zte.irrlib.core.Vector2d;
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
+import android.graphics.Bitmap;
 
 /**
  * 场景类，在zte.irrlib.scene包内，所有的类的构造方法均不可见，请使用
@@ -26,6 +28,35 @@ public class Scene {
 	public static final String TAG = "Scene";
 	
 	/**
+	 * 如果某个类需要在每次绘制循环中对相机的移动做出反应，那么需要
+	 * 完成改接口，并使用{@link Scene#regUpdatableObject(Updatable)}
+	 * 注册，使用{@link Scene#unregUpdatableObject(Updatable)}取消注册
+	 * @author Roy
+	 *
+	 */
+	public interface Updatable{
+		void enableUpdate(Scene sc, boolean flag);
+		void updateFromCamera(CameraSceneNode cam);
+	}
+	
+	/**
+	 * 在场景中移除可根据当前相机更新信息的类
+	 * @param obj 注册的类
+	 * @return 是否成功移除
+	 */
+	public boolean unregUpdatableObject(Updatable obj){
+		return mUpdateList.remove(obj);
+	}
+	
+	/**
+	 * 在场景中注册可根据当前相机更新信息的类
+	 * @param obj 注册的类
+	 */
+	public void regUpdatableObject(Updatable obj){
+		mUpdateList.add(obj);
+	}
+	
+	/**
 	 * 设置是否打开光照。
 	 * @param flag 值为true时光照打开，否则关闭
 	 */
@@ -34,15 +65,23 @@ public class Scene {
 	}
 	
 	/**
-	 * 设置字体路径。
-	 * @param path 字体图片文件所在路径
+	 * 光照开关是否打开
+	 * @return 若为真，则光照已经被打开QFGJH 
 	 */
-	public void setDefaultFontPath(String path){
-		nativeSetFontPath(getFullPath(path));
+	public boolean isLightingEnabled(){
+		return mEnableLighting;
 	}
 	
 	/**
-	 * 设置材质所在文件夹的路径。
+	 * 设置字体文件，字体文件必须放置在assets下的sysmedia里
+	 * @param path 字体图片文件名
+	 */
+	public void setFont(String font){
+		nativeSetFontPath(Engine.SYSTEM_MEDIA + "/" + font);
+	}
+	
+	/**
+	 * 设置材质所在文件夹的路径
 	 * @param path 材质文件夹路径
 	 */
 	public void setResourceDir(String path){
@@ -139,23 +178,53 @@ public class Scene {
 	/**
 	 * 绘制2D图像。
 	 * @param path 所要绘制的图片所在路径
-	 * @param leftUp 所要绘制的图片所在位置的左上点坐标值
-	 * @param size 绘制区域大小值
+	 * @param des 绘制区域的位置
+	 * @param src 用户所希望绘制的图片区域在整个图片中的坐标，坐标是归一化的，如为null，则绘制整张图片
+	 * @param useAlphaAsTransparentValue 是否使用alpha通道（如果有）作为材质的透明度
 	 */
-	//to be extend, can be transparent one, can be only part of it.
-	public void drawImage(String path, Vector2i leftUp, Vector2i size){
-		nativeDrawImage(getFullPath(path), leftUp.X, leftUp.Y, size.X, size.Y);
+	public void drawImage(String path, Rect4i des, Rect4d src, boolean useAlphaAsTransparentValue){
+		if (src == null)
+			nativeDrawImage(getFullPath(path), des, 
+					0, 0, 1, 1, useAlphaAsTransparentValue);
+		else
+			nativeDrawImage(getFullPath(path), des, 
+				src.Left, src.Top, src.Right, src.Bottom, useAlphaAsTransparentValue);
+	}
+	
+	/**
+	 * 绘制位图
+	 * @param bit 所需要绘制的位图
+	 * @param des 绘制区域的位置
+	 * @param src 用户所希望绘制的图片区域在整个图片中的坐标，坐标是归一化的，如为null，则绘制整张图片
+	 * @param useAlphaAsTransparentValue 是否使用alpha通道（如果有）作为材质的透明度
+	 */
+	public void drawImage(Bitmap bit, String name, Rect4i des, Rect4d src, boolean useAlphaAsTransparentValue){
+		if (src == null)
+			nativeDrawBitmap(name, bit, des, 0, 0, 0, 0, useAlphaAsTransparentValue);
+		else
+			nativeDrawBitmap(name, bit, des, src.Left, src.Top, src.Right,
+					src.Bottom, useAlphaAsTransparentValue);
 	}
 	
 	/**
 	 * 绘制2D矩形。
-	 * @param leftUp 所要绘制的矩形所在位置的左上点坐标值
-	 * @param size 所要绘制的矩形尺寸
+	 * @param rect 所要绘制矩形的区域
 	 * @param color 所要绘制的矩形的颜色
 	 */
-	//to be extend, can be multi-color one
-	public void drawRectangle(Vector2i leftUp, Vector2i size, Color4i color){
-		nativeDrawRectangle(leftUp.X, leftUp.Y, size.X, size.Y, color.r(), color.g(), color.b(), color.a());
+	public void drawRectangle(Rect4i rect, Color4i color){
+		nativeDrawRectangle(rect.Left, rect.Top, rect.Right, rect.Bottom, color.r(), color.g(), color.b(), color.a());
+	}
+	
+	/**
+	 * 绘制具有多种颜色的2D矩形
+	 * @param rect 绘制区域
+	 * @param LT 左上角颜色
+	 * @param LB 左下角颜色
+	 * @param RB 右下角颜色
+	 * @param RT 右上角颜色
+	 */
+	public void drawRectangle(Rect4i rect, Color4i LT, Color4i LB, Color4i RB, Color4i RT){
+		nativeDrawRectangleChrome(rect, LT, LB, RB, RT);
 	}
 	
 	/**
@@ -164,7 +233,6 @@ public class Scene {
 	 * @param leftUp 所要绘制的文字所在位置的左上点坐标值
 	 * @param color 所要绘制的文字的颜色
 	 */
-	//It is necessary to supply font choice?
 	public void drawText(String text, Vector2i leftUp, Color4i color){
 		nativeDrawText(text, leftUp.X, leftUp.Y, color.r(), color.g(), color.b(), color.a());
 	}
@@ -213,13 +281,14 @@ public class Scene {
 	 * 添加静态模型节点，返回所添加的模型节点对象。
 	 * @param path 所用静态模型的路径
 	 * @param pos 所添加节点的位置
+	 * @param optimizedByOctree 是否使用八叉树优化显示
 	 * @param parent 所添加节点的父节点对象
 	 * @return 所添加的节点对象
 	 */
-	public MeshSceneNode addMeshSceneNode(String path, Vector3d pos, SceneNode parent){
+	public MeshSceneNode addMeshSceneNode(String path, Vector3d pos, boolean optimizedByOctree,SceneNode parent){
 		MeshSceneNode node = new MeshSceneNode();
 		if (nativeAddMeshSceneNode(getFullPath(path), pos.X, pos.Y, pos.Z,
-				getId(node), getId(parent), mEnableLighting) != 0)
+				getId(node), getId(parent), mEnableLighting, optimizedByOctree) != 0)
 			return null;
 		
 		node.javaLoadDataAndInit(pos, parent);
@@ -315,7 +384,6 @@ public class Scene {
 			return null;
 		}
 		node.javaLoadDataAndInit(pos, parent);
-		mBBGroup.add(node);
 		return node;
 	}
 	
@@ -353,6 +421,26 @@ public class Scene {
 		return node;
 	}
 	
+	public NineCubeLayout addNineCubeLayoutSceneNode(Vector3d pos,
+			Vector3d size, double dx, double dy, SceneNode parent){
+		NineCubeLayout res = new NineCubeLayout(pos, size, dx, dy, parent);
+		registerNode(res);
+		return res;
+	}
+	
+	/**
+	 * 仅支持OpenGL ES 1.0，向引擎申请一个外部纹理的存储空间，并为之取名，名字必须是唯
+	 * 一的。该方法会返回一个opengGL ES Id号，用户可以保存这个Id号将openGL ES与视频
+	 * 解码器，相机等流媒体连接起来。<br>
+	 * 注意：这个材质是GL_TEXTURE_EXTERNAL_OES类，而非GL_TEXTURE_2D。
+	 * @param name 名字，使用者必须将这个名字存储起来，因为它是指向这个材质的唯一标识
+	 * @return 纹理的opengGL ES Id号，若为正整数，则表示申请成功。
+	 */
+	public int applyNewExternalTexture(String name){
+		return nativeApplyNewExternalTex(name);
+	}
+	
+	@Deprecated
 	/**
 	 * 返回添视频播放器。
 	 * @return 视频播放器对象
@@ -369,6 +457,7 @@ public class Scene {
 	 * @param node 所要删除的节点对象
 	 */
 	public void removeNode(SceneNode node){
+		node.getParent().removeChild2(node);
 		unregisterNode(node);
 		nativeRemoveNode(node.getId());
 	}
@@ -380,6 +469,34 @@ public class Scene {
 		mNodeList.clear();
 		nativeClear();
 		_NewId = 0;
+	}
+	
+	/**
+	 * 这是个不安全的方法，程序员【必须】确保移除的贴图并不被当前场景
+	 * 所使用，否则程序将在渲染时崩溃。然而，因为贴图会占据大量的图像
+	 * 缓存和内存（如果在内存中留有备份的话，目前的设置下是没有备份的），
+	 * 所以及时的清理贴图是减少系统资源消耗的有效方法。然而，反复加载
+	 * 贴图是非常耗时的，因此建议删除那些不会再用到的贴图。
+	 * @param path 贴图的路径（必须跟创建时所用的路径一致）
+	 */
+	public void removeTexture(String path){
+		nativeRemoveTexture(getFullPath(path));
+	}
+	
+	/**
+	 * 这是个不安全的方法，程序员【必须】确保移除的贴图并不被当前场景
+	 * 所使用，否则程序将在渲染时崩溃。然而，因为贴图会占据大量的图像
+	 * 缓存和内存（如果在内存中留有备份的话，目前的设置下是没有备份的），
+	 * 所以及时的清理贴图是减少系统资源消耗的有效方法。然而，反复加载
+	 * 贴图是非常耗时的，因此建议删除那些不会再用到的贴图。
+	 * @param name 贴图的名称（必须跟创建时所用的名称一致）
+	 */
+	public void removeBitmapTexture(String name){
+		nativeRemoveTexture(name);
+	}
+	
+	public void removeUnusedMesh(){
+		nativeRemoveUnusedMesh();
 	}
 	
 	/**
@@ -396,8 +513,8 @@ public class Scene {
 	 * 帧绘制函数，更新公告板组和相机位置。
 	 */
 	public void onDrawFrame(){
-		for (BillboardGroup itr:mBBGroup){
-			itr.updateVisible(getActiveCamera());
+		for (Updatable itr:mUpdateList){
+			itr.updateFromCamera(getActiveCamera());
 		}
 		getActiveCamera().resetPosChangedFlag();
 	}
@@ -408,7 +525,7 @@ public class Scene {
 	 */
 	public void javaReset(){
 		mNodeList.clear();
-		mBBGroup.clear();
+		mUpdateList.clear();
 		
 		if (mMediaPlayer != null){
 			mMediaPlayer.release();
@@ -420,6 +537,7 @@ public class Scene {
 		addCameraSceneNode(
 				new Vector3d(0, 0, 0), 
 				new Vector3d(0, 0, 100), true, null);
+		setFont("buildinfont.png");
 	}
 	
 	/**
@@ -469,7 +587,7 @@ public class Scene {
 		}else {
 			_UniInstance.mEngine = engine;
 		}
-		return _UniInstance;
+		return _UniInstance;	
 	}
 	
 	/**
@@ -496,6 +614,9 @@ public class Scene {
 	 * @return 给定相对路径返回其绝对路径值
 	 */
 	public String getFullPath(String path){
+		if (path.substring(0, Engine.ASSETS_PATH.length()).compareTo(Engine.ASSETS_PATH)==0){
+			return path.substring(Engine.ASSETS_PATH.length());
+		}
 		if (Utils.isAbsolutePath(path)){
 			return path; 
 		} else {
@@ -513,12 +634,12 @@ public class Scene {
 	private boolean mEnableLighting = true;
 	private String mResourceDir;
 	private TexMediaPlayer mMediaPlayer;
-	private ArrayList<BillboardGroup> mBBGroup;
+	private ArrayList<Updatable> mUpdateList;
 	
 	private Scene(Engine engine){
 		mEngine = engine;
 		mNodeList = new ArrayList<SceneNode>();
-		mBBGroup = new ArrayList<BillboardGroup>();
+		mUpdateList = new ArrayList<Updatable>();
 	}
 	
 	private native void nativeSetClearColor(int r, int g, int b, int a);
@@ -527,15 +648,20 @@ public class Scene {
     private native int nativeGetTouchedSceneNode(float x, float y, int root);
     
     //native draw API
-	private native void nativeDrawImage(
-			String path, int left, int up, 
-			int width, int height);
+	private native int nativeDrawImage(
+			String path, Rect4i des, double left, double up, 
+			double width, double height, boolean alpha);
+	
+	private native int nativeDrawBitmap(
+			String name, Bitmap bit, Rect4i des, double left, double up, 
+			double width, double height, boolean alpha);
 	
 	private native void nativeDrawRectangle(
 			int left, int up, int width, int height, 
 			int r, int g, int b,int a);
 	
-	private native void nativeDrawRectangleChrome(Rect4i rect, Color4i[]color) ;
+	private native void nativeDrawRectangleChrome(Rect4i rect,
+			Color4i LT, Color4i LB, Color4i RB, Color4i RT);
 	
 	private native void nativeDrawText(
 			String text, int left, int up,
@@ -554,7 +680,7 @@ public class Scene {
 	
 	private native int nativeAddMeshSceneNode(
 			String path, double x, double y, double z, 
-			int id, int parent, boolean isLight);
+			int id, int parent, boolean isLight, boolean optimizedByOctree);
 	
 	private native int nativeAddTextNode(
 			String text, double x, double y, double z, 
@@ -586,4 +712,7 @@ public class Scene {
 	private native void nativeClear();
 	private native void nativeSetFontPath(String path);
 	private native int nativeGetMediaTextureId();
+	private native int nativeApplyNewExternalTex(String name);
+	private native void nativeRemoveTexture(String name);
+	private native void nativeRemoveUnusedMesh();
 }

@@ -37,7 +37,7 @@ public class CameraSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * 设置视口的宽高比。（默认值：4.0f / 3.0f）
+	 * 设置视口的宽高比
 	 * @param ratio 视口宽高比的值
 	 */
 	public void setAspectRatio(double ratio){
@@ -45,8 +45,8 @@ public class CameraSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * 设置视弧度值。（默认值：PI/2.5f）
-	 * @param fovy 视域弧度值
+	 * 视景体张角的弧度值（默认值：PI/2.5f）
+	 * @param fovy 视景体张角的弧度值
 	 */
 	public void setFovy(double fovy){
 		nativeSetFovy(fovy, getId());
@@ -92,6 +92,26 @@ public class CameraSceneNode extends SceneNode{
 	 */
 	public Vector3d getLookAt(){
 		return new Vector3d(mLookAt);
+	}
+	
+	@Override
+	public CameraSceneNode clone(){
+		CameraSceneNode res = softClone();
+		cloneInNativeAndSetupNodesId(res);
+		return res;
+	}
+	
+	@Override
+	protected CameraSceneNode softClone(){
+		CameraSceneNode res = new CameraSceneNode(this);
+		softCopyChildren(res);
+		return res;
+	}
+	
+	protected CameraSceneNode(CameraSceneNode node){
+		super(node);
+		mLookAt = new Vector3d(node.mLookAt);
+		mIsPosChanged = node.mIsPosChanged;
 	}
 	
 	CameraSceneNode(){

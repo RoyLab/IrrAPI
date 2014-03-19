@@ -103,7 +103,7 @@ namespace irr
             };
 
 			c8 VertexShaderFile[128];
-        	c8 FragmentShadeFile[128];
+        	c8 FragmentShaderFile[128];
 
             float Normalize;
 
