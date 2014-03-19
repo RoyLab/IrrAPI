@@ -278,6 +278,22 @@ public class Scene {
 	}
 	
 	/**
+	 * 添加球体节点，返回所添加的节点对象
+	 * @param pos 所添加球体节点所在的位置
+	 * @param radius 所添加球体节点的半径
+	 * @param polyCount 所添加球体节点垂直方向、水平方向的顶点数目。球体总共有polyCount*polyCount个片面。polyCount必须小于256。
+	 * @param parent 所添加球体节点的父节点对象
+	 * @return 所添加的节点对象
+	 */
+	public MeshSceneNode addSphereSceneNode(Vector3d pos, double radius, int polyCount, SceneNode parent){
+		MeshSceneNode node = new MeshSceneNode();
+		if(nativeAddSphereSceneNode(pos.X, pos.Y, pos.Z, 
+				radius, polyCount, getId(node), getId(parent), mEnableLighting) !=0)
+			return null;
+		node.javaLoadDataAndInit(pos, parent);
+		return node;
+	}
+	/**
 	 * 添加静态模型节点，返回所添加的模型节点对象。
 	 * @param path 所用静态模型的路径
 	 * @param pos 所添加节点的位置
@@ -415,6 +431,42 @@ public class Scene {
 		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
 		if (nativeAddParticleSystemSceneNode(pos.X, pos.Y, pos.Z, 
 				withDefaultEmitter, getId(node), getId(parent), mEnableLighting) != 0){
+			return null;
+		}
+		node.javaLoadDataAndInit(pos, parent);
+		return node;
+	}
+	
+	/**
+	 * 添加彗星拖尾效果粒子发射节点
+	 * @param pos 粒子发射节点的位置
+	 * @param parent 粒子发射节点的父节点
+	 * @return 所添加的粒子发射节点对象
+	 */
+	public ParticleSystemSceneNode addCometTailSceneNode(Vector3d pos, double radius, double length, 
+			Vector3d dir, SceneNode parent){
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		if(nativeAddCometTailSceneNode(pos.X, pos.Y, pos.Z, radius, length, dir.X, dir.Y, dir.Z, getId(node), getId(parent), mEnableLighting) != 0){
+			return null;
+		}
+		node.javaLoadDataAndInit(pos, parent);
+		return node;
+	}
+	
+	public ParticleSystemSceneNode addStarsParticleSceneNode(Vector3d pos, double radius, SceneNode parent){
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		if(nativeAddStarsParticleSceneNode(pos.X, pos.Y, pos.Z, radius, getId(node), getId(parent), mEnableLighting)!=0){
+			return null;
+		}
+		node.javaLoadDataAndInit(pos, parent);
+		return node;
+	}
+	
+	public ParticleSystemSceneNode addExplosionParticleSceneNode(Vector3d pos, double radius, double speed,
+			SceneNode parent){
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		if(nativeAddExplosionParticleSceneNode(pos.X, pos.Y, pos.Z,
+				radius, speed, getId(node), getId(parent), mEnableLighting)!=0){
 			return null;
 		}
 		node.javaLoadDataAndInit(pos, parent);
@@ -677,6 +729,9 @@ public class Scene {
 	private native int nativeAddCubeSceneNode(
 			double x, double y, double z, 
 			double size, int id, int parent, boolean isLight);
+	private native int nativeAddSphereSceneNode(
+			double x, double y, double z, double radius,
+			int polyCount, int id, int parent, boolean isLight);
 	
 	private native int nativeAddMeshSceneNode(
 			String path, double x, double y, double z, 
@@ -706,6 +761,18 @@ public class Scene {
 	private native int nativeAddParticleSystemSceneNode(
 			double x, double y, double z, boolean withDefaultEmitter, 
 			int id, int parent, boolean isLight);
+	
+	private native int nativeAddCometTailSceneNode(
+			double x, double y, double z, double radius, double length, 
+			double dirx, double diry, double dirz,
+			int id, int parent, boolean isLight);
+	
+	private native int nativeAddStarsParticleSceneNode(
+			double x, double y, double z, double radius,
+			int id, int parent, boolean isLight);
+	private native int nativeAddExplosionParticleSceneNode(
+			double x, double y, double z, double radius,
+			double speed, int id, int parent, boolean isLight);
 	
 	//native remove node
 	private native void nativeRemoveNode(int id);

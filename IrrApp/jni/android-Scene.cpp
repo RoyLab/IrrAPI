@@ -221,6 +221,36 @@ extern "C"
 		}
 	}
 
+	int Java_zte_irrlib_scene_Scene_nativeAddSphereSceneNode(
+		JNIEnv*  env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
+		jdouble radius, jint polyCount,  jint id, jint parent, jboolean isLight)
+	{
+		core::vector3df pos = core::vector3df(x,y,z);
+
+		ISceneNode* node = NULL;
+		ISceneNode* parentNode = NULL;
+		if(parent != 0){
+			parentNode = smgr->getSceneNodeFromId(parent);
+			if (!parentNode)
+			{
+				WARN_PARENT_NOT_FOUND(parent, AddCubeSceneNode);
+				return -2;
+			}
+		}
+		node = smgr->addSphereSceneNode(radius, polyCount, parentNode,id,pos);
+
+		if (node)
+		{
+			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
+			return 0;
+		}
+		else
+		{
+			ERROR_ADD_FAILD(id, AddCubeSceneNode);
+			return -3;
+		}
+	}
+
 	int Java_zte_irrlib_scene_Scene_nativeAddMeshSceneNode(
 		JNIEnv*  env, jobject defaultObj, jstring path, 
 		jdouble x, jdouble y, jdouble z, jint id, 
@@ -440,7 +470,6 @@ extern "C"
 		}
 	}
 
-	//how to make it?
 	int Java_zte_irrlib_scene_Scene_nativeAddParticleSystemSceneNode(
 		JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
 		jboolean withDefaultEmitter, jint id, jint parent, jboolean isLight)
@@ -465,6 +494,130 @@ extern "C"
 		else return -1;
 	}
 
+	int Java_zte_irrlib_scene_Scene_nativeAddCometTailSceneNode(
+			JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
+			jdouble radius, jdouble length, jdouble dx, jdouble dy, jdouble dz,
+			jint id, jint parent, jboolean isLight)
+	{
+		core::vector3df pos = core::vector3df(x,y,z);
+		scene::IParticleSystemSceneNode* ps = NULL;
+		if(parent != 0){
+			scene::ISceneNode* parentNode = smgr->getSceneNodeFromId(parent);
+			ps = smgr->addParticleSystemSceneNode(true, parentNode, id, pos);
+		}
+		else ps = smgr->addParticleSystemSceneNode(true, 0, id, pos);
+		scene::IParticleEmitter* emCT = ps->createCylinderEmitter(
+				/*center*/			vector3df(0,0,0),
+				/*radius*/			radius,
+				/*normal*/		vector3df(0, 0, 0),
+				/*length*/			length,
+				/*outlineOnly*/	false,
+				/*direction*/		vector3df(dx,dy,dz),
+				/*minNum*/		1000,
+				/*maxNum*/	2000,
+				/*minColor*/	SColor(255,0,0,0),
+				/*maxColor*/	SColor(255,255,255,255),
+				/*minLife*/		500,
+				/*maxLife*/		1000,
+				/*maxAngle*/	20,
+				/*minSize*/		dimension2df(1.0,1.0),
+				/*maxSize*/		dimension2df(2.0,2.0)
+		);
+		ps->setEmitter(emCT);
+		emCT->drop();
+		ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+		ps->setMaterialFlag(video::EMF_LIGHTING,false);
+		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE,false);
+		scene::IParticleAffector* fadeAff = ps->createFadeOutParticleAffector(SColor(0,0,0,0),500);
+		ps->addAffector(fadeAff);
+		fadeAff->drop();
+
+		if(ps) return 0;
+		else return -1;
+	}
+
+	int Java_zte_irrlib_scene_Scene_nativeAddStarsParticleSceneNode(
+				JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
+				jdouble radius, jint id, jint parent, jboolean isLight)
+		{
+			core::vector3df pos = core::vector3df(x,y,z);
+			scene::IParticleSystemSceneNode* ps = NULL;
+			if(parent != 0){
+				scene::ISceneNode* parentNode = smgr->getSceneNodeFromId(parent);
+				ps = smgr->addParticleSystemSceneNode(true, parentNode, id, pos);
+			}
+			else ps = smgr->addParticleSystemSceneNode(true, 0, id, pos);
+			scene::IParticleEmitter* emStars = ps->createSphereEmitter(
+				/*center*/			vector3df(0,0,0),
+				/*radius*/			radius,
+				/*direction*/		vector3df(0.0,0.0,0.0),
+				/*minNum*/		100,
+				/*maxNum*/	200,
+				/*minColor*/	SColor(0,0,0,0),
+				/*maxColor*/	SColor(255,255,255,255),
+				/*minTime*/		5000,
+				/*maxTime*/		10000,
+				/*maxAngle*/	0,
+				/*minSize*/		dimension2df(1.0,1.0),
+				/*maxSize*/		dimension2df(2.0,2.0)
+			);
+
+			ps->setEmitter(emStars);
+			emStars->drop();
+			ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+			ps->setMaterialFlag(video::EMF_LIGHTING,false);
+			ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE,false);
+			scene::IParticleAffector* fadeAff = ps->createFadeOutParticleAffector(SColor(0,0,0,0),500);
+			ps->addAffector(fadeAff);
+			fadeAff->drop();
+
+			if(ps) return 0;
+			else return -1;
+		}
+
+	int Java_zte_irrlib_scene_Scene_nativeAddExplosionParticleSceneNode(
+			JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
+			jdouble radius, jdouble speed, jint id, jint parent, jboolean isLight)
+	{
+		core::vector3df pos = core::vector3df(x,y,z);
+		scene::IParticleSystemSceneNode* ps = NULL;
+		if(parent != 0){
+			scene::ISceneNode* parentNode = smgr->getSceneNodeFromId(parent);
+			ps = smgr->addParticleSystemSceneNode(true, parentNode, id, pos);
+		}
+		else ps = smgr->addParticleSystemSceneNode(true, 0, id, pos);
+		scene::IParticleEmitter* emExp = ps->createSphereEmitter(
+			/*center*/			vector3df(0,0,0),
+			/*radius*/			radius,
+			/*direction*/		vector3df(0.0,0.0,0.0),
+			/*minNum*/		500,
+			/*maxNum*/	1000,
+			/*minColor*/	SColor(0,0,0,0),
+			/*maxColor*/	SColor(255,255,255,255),
+			/*minTime*/		500,
+			/*maxTime*/		1000,
+			/*maxAngle*/	0,
+			/*minSize*/		dimension2df(1.0,1.0),
+			/*maxSize*/		dimension2df(2.0,2.0)
+		);
+
+		ps->setEmitter(emExp);
+		emExp->drop();
+		ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+		ps->setMaterialFlag(video::EMF_LIGHTING,false);
+		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE,false);
+		ps->addAnimator(smgr->createDeleteAnimator(5000));
+		scene::IParticleAffector* fadeAff = ps->createFadeOutParticleAffector(SColor(0,0,0,0),500);
+		scene::IParticleAffector* attrAff = ps->createAttractionAffector(pos,speed,false);
+		ps->addAffector(fadeAff);
+		ps->addAffector(attrAff);
+		fadeAff->drop();
+		attrAff->drop();
+
+
+		if(ps) return 0;
+		else return -1;
+	}
 	void Java_zte_irrlib_scene_Scene_nativeRemoveNode(
 		JNIEnv *env, jobject defaultObj, jint id)
 	{
