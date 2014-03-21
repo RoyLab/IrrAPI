@@ -107,7 +107,7 @@ public class Engine{
 	
 	public synchronized void onSurfaceCreated(IrrlichtView view){
 		//nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
-		nativeInitAssetManager(view.getActivity().getAssets());
+		nativeInitAssetManager(view.getContext().getAssets());
 		nativeCreateDevice(view.IsGLES2Enabled()?
 				EGL10Ext.EGL_OPENGL_ES2_BIT:EGL10Ext.EGL_OPENGL_ES1_BIT);
 		initJNIFieldID();

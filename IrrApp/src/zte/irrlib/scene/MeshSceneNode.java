@@ -217,7 +217,15 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * 为模型材质设定动画贴图
+	 * 为模型材质设定动画贴图<br>
+	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
+	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
+	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
 	 * @param path 所用贴图组的路径
 	 * @param timePerFrame 贴图动画播放速率，单位frame/second
 	 * @param loop 值为true时循环播放贴图动画，否则单次播放
@@ -227,20 +235,30 @@ public class MeshSceneNode extends SceneNode{
 		for (int i = 0; i < text.length; i++){
 			text[i] = mScene.getFullPath(text[i]);
 		}
-		nativeAddTextureAnimator(text, timePerFrame, loop, getId());    
+		if (nativeAddTextureAnimator(text, timePerFrame, loop, getId()) == 0)
+			addAnimator();
 	}
 	
 	/**
-	 * 添加对指定节点的碰撞检测响应。注意，参数selNode将会被自动设定可以点选
+	 * 添加对指定节点的碰撞检测响应。<br>
+	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
+	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
+	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
 	 * @param selNode 指定的世界对象（通常是静止的场景）
 	 * @param fromBoundingBox 是否从粗略的用模型的包围盒做碰撞检测
 	 * @param optimizedByOctree 是否用八叉树优化检测算法（fromBoundingBox为真时强制不优化）
 	 */
 	public void addCollisionResponseAnimator(SceneNode selNode, 
 			boolean fromBoundingBox, boolean optimizedByOctree){
-		nativeAddCollisionResponseAnimator(
+		if (nativeAddCollisionResponseAnimator(
 				mScene.getId(selNode), fromBoundingBox,
-				optimizedByOctree, getId());
+				optimizedByOctree, getId()) == 0)
+			addAnimator();
 	}
 	
 	/**

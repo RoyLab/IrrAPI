@@ -139,7 +139,8 @@ public class SceneNode {
 	 * @return 相对于父节点的位置坐标
 	 */
 	public Vector3d getPosition(){
-		return new Vector3d(mPosition[0]);
+		if (mParent == null) return new Vector3d(mPosition[0]);
+		return new Vector3d(mPosition[0]).plus(mParent.getAbsolutePosition());
 	}
 	
 	/**
@@ -147,8 +148,7 @@ public class SceneNode {
 	 * @return 绝对位置坐标
 	 */
 	public Vector3d getAbsolutePosition(){
-		if (mParent == null) return new Vector3d(mPosition[0]);
-		return new Vector3d(mPosition[0]).plus(mParent.getAbsolutePosition());
+		return new Vector3d(mPosition[0]);
 	}
 	
 	/**
@@ -165,7 +165,7 @@ public class SceneNode {
 	 */
 	public Vector3d getAbsoluteRotation(){
 		if (mParent == null) return new Vector3d(mRotation[0]);
-		return new Vector3d(mRotation[0]).plus(mParent.getAbsolutePosition());
+		return new Vector3d(mRotation[0]).plus(mParent.getAbsoluteRotation());
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public class SceneNode {
 	 */
 	public Vector3d getAbsoluteScale(){
 		if (mParent == null) return new Vector3d(mScale[0]);
-		return new Vector3d(mScale[0]).plus(mParent.getAbsolutePosition());
+		return new Vector3d(mScale[0]).plus(mParent.getAbsoluteScale());
 	}
 	
 	/**
@@ -238,7 +238,15 @@ public class SceneNode {
 	}
 	
 	/**
-	 * 添加平移动画。
+	 * 添加平移动画<br>
+	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
+	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
+	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
 	 * @param start 平移动画起始点坐标
 	 * @param end 平移动画目标点坐标
 	 * @param time 平移动画所用时间，单位：毫秒（ms）
@@ -247,12 +255,21 @@ public class SceneNode {
 	 */
 	public void addFlyStraightAnimator(Vector3d start, Vector3d end, 
 			double time, boolean loop, boolean pingpong){
-		nativeAddFlyStraightAnimator(start.X, start.Y, start.Z, 
-				end.X, end.Y, end.Z, time, loop, pingpong, getId());
+		if (nativeAddFlyStraightAnimator(start.X, start.Y, start.Z, 
+				end.X, end.Y, end.Z, time, loop, pingpong, getId()) == 0)
+			addAnimator();
 	}
 	
 	/**
-	 * 添加环形运动动画。
+	 * 添加环形运动动画<br>
+	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
+	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
+	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
 	 * @param center 运动所绕圆环的圆心坐标
 	 * @param radius 运动所绕圆环的半径
 	 * @param speed 运动速率，单位：弧度/毫秒
@@ -262,45 +279,76 @@ public class SceneNode {
 	 */
 	public void addFlyCircleAnimator(Vector3d center, double radius,
 			double speed, Vector3d axis, double startPoint, double radiusEllipsoid){
-		nativeAddFlyCircleAnimator(center.X, center.Y, center.Z, radius, speed, 
-				axis.X, axis.Y, axis.Z, startPoint, startPoint, getId());
+		if (nativeAddFlyCircleAnimator(center.X, center.Y, center.Z, radius, speed, 
+				axis.X, axis.Y, axis.Z, startPoint, startPoint, getId()) == 0)
+				addAnimator();
 	}
 	
 	/**
-	 * 添加旋转动画。
+	 * 添加旋转动画<br>
+	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
+	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
+	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
 	 * @param speed 绕各个轴向的旋转速率，单位：度/10毫秒
 	 */
 	public void addRotationAnimator(Vector3d speed){
-		nativeAddRotationAnimator(speed.X, speed.Y, speed.Z, getId());
+		if (nativeAddRotationAnimator(speed.X, speed.Y, speed.Z, getId()) == 0)
+			addAnimator();
 	}
 	
 	/**
-	 * 添加消失动画，节点将于指定时间内消失。
+	 * 添加消失动画，节点将于指定时间内消失<br>
+	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
+	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
+	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
 	 * @param ms 消失动画的时间，单位毫秒
 	 */
 	public void addDeleteAnimator(int ms){
-		nativeAddDeleteAnimator(ms, getId());
+		if (nativeAddDeleteAnimator(ms, getId()) == 0)
+			addAnimator();
 	}
 	
 	/**
 	 * 删除节点上的所有动画
 	 */
-	//单个去除动画的函数实现所需代码略多，暂不管
 	public void removeAllAnimator(){
 		nativeRemoveAllAnimator(getId());
+		mHasAnimator = 0;
+	}
+	
+	/**
+	 * 去除上次添加的动画
+	 * @return 若节点上已经没有动画，则返回false
+	 */
+	public boolean removeLastAnimator(){
+		if (nativeRemoveLastAnimator(getId()) == 0){
+			mHasAnimator -= 1;
+			return true;
+		}
+		else return false;
 	}
 	
 	/**
 	 * 将节点从场景中移除
 	 */
-	public void remove(){
-		mScene.removeNode(this);
+	public boolean remove(){
+		return mScene.removeNode(this);
 	}
 	
 	/**
 	 * 将指定的一级子节点变为当前节点的兄弟节点
 	 * @param child 子节点的指针
-	 * @return
+	 * @return 为真则表示移除成功
 	 */
 	public boolean removeChild(SceneNode child){
 		if (child == null || mChild == null || 
@@ -316,6 +364,24 @@ public class SceneNode {
 		return res;
 	}
 	
+	/**
+	 * 返回节点上是否存在Animator
+	 * @return 为真则表示存在
+	 */
+	public boolean hasAnimator(){
+		return (mHasAnimator > 0);
+	}
+	
+	void addAnimator(){
+		mHasAnimator += 1;
+	}
+	
+	void onAnimate(){
+		if (hasAnimator()){
+			nativeUpdatePosition(mPosition[0], false, getId());
+		}
+	}
+
 	/**
 	 * 在Java层保存及初始化节点信息
 	 * param pos 节点的初始位置
@@ -428,6 +494,7 @@ public class SceneNode {
 	protected Vector3d []mPosition;
 	protected Vector3d []mRotation;
 	protected Vector3d []mScale;
+	protected int mHasAnimator;
 	
 	protected int mNodeType;
 	protected ArrayList<SceneNode> mChild;
@@ -438,6 +505,7 @@ public class SceneNode {
 	private native int nativeSetRotation(double x, double y, double z, int Id);
 	private native int nativeSetScale(double x, double y, double z, int Id);
 	private native int nativeSetPosition(double x, double y, double z, int Id);
+	private native int nativeUpdatePosition(Vector3d pos, boolean isAbsolute, int Id);
 	
 	//! animator native method.
 	private native int nativeAddRotationAnimator(
@@ -454,6 +522,7 @@ public class SceneNode {
 			
 	private native int nativeAddDeleteAnimator(int ms, int Id);
 	private native int nativeRemoveAllAnimator(int Id);
+	protected native int nativeRemoveLastAnimator(int Id);
 	//private native int nativeAddCollisionResponseAnimator(int selId, int Id);
 	
 	protected native int nativeCreateEmptySceneNode(int Id, boolean isLight);

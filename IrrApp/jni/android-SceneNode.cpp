@@ -178,6 +178,22 @@ extern "C"
 		node->removeAnimators();
 		return 0;
 	}
+
+	int Java_zte_irrlib_scene_SceneNode_nativeRemoveLastAnimator(
+		JNIEnv *env, jobject defaultObj, jint id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(id, RemoveAllAnimator);
+			return -1;
+		}
+		
+		const core::list<ISceneNodeAnimator*> anims = node->getAnimators();
+		if (anims.empty()) return -2;
+		node->removeAnimator(*(anims.getLast()));
+		return 0;
+	}
 	
 	int Java_zte_irrlib_scene_SceneNode_nativeCreateEmptySceneNode(
 		JNIEnv*  env, jobject defaultObj, jint id, jboolean isLight)
@@ -225,4 +241,24 @@ extern "C"
 		node->setID(des);
 		return 0;
 	}
+
+	int Java_zte_irrlib_scene_SceneNode_nativeUpdatePosition(
+		JNIEnv*  env, jobject defaultObj, jobject jvec, jboolean isAbsolute, jint Id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(Id);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(Id, UpdatePosition);
+			return -1;
+		}
+		if (isAbsolute)
+		{
+			node->updateAbsolutePosition();
+			utils->setVector3dFromvector3df(env, jvec, node->getAbsolutePosition());
+		}
+		else utils->setVector3dFromvector3df(env, jvec, node->getPosition());
+		return 0;
+	}
+	
+	
 }

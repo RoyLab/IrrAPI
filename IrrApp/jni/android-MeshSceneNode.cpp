@@ -352,7 +352,7 @@ extern "C"
 	}
 
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeGetBoundingBox(
-		JNIEnv *env, jobject defaultObj, jobject bbox, jboolean isAbsolute, jint id)
+		JNIEnv *env, jobject defaultObj, jobject jbbox, jboolean isAbsolute, jint id)
 	{
 		ISceneNode* node = smgr->getSceneNodeFromId(id);
 		if (!node)
@@ -360,8 +360,18 @@ extern "C"
 			WARN_NODE_NOT_FOUND(id, SetMediaTexture);
 			return -1;
 		}
-		utils->setBoundingBoxFromaabbox3df(env, bbox, 
-			(isAbsolute)?node->getTransformedBoundingBox():node->getBoundingBox());
+		
+		if (isAbsolute)
+		{
+			node->updateAbsolutePosition();
+			utils->setBoundingBoxFromaabbox3df(env, 
+				jbbox, node->getTransformedBoundingBox());
+		}
+		else
+		{
+			utils->setBoundingBoxFromaabbox3df(env, jbbox, 
+				node->getBoundingBox());
+		}
 		return 0;
 	}
 	
@@ -374,7 +384,7 @@ extern "C"
 			WARN_NODE_NOT_FOUND(selId, AddCollisionResponseAnimator);
 			return -1;
 		}
-
+		
 		ISceneNode* node = smgr->getSceneNodeFromId(id);
 		if (!node)
 		{
@@ -387,13 +397,17 @@ extern "C"
 		else if (!octree) selector = smgr->createTriangleSelector(((IMeshSceneNode*)selNode)->getMesh(), selNode);
 		else selector = smgr->createTriangleSelector(((IMeshSceneNode*)selNode)->getMesh(), selNode);
 		
-		vector3df radius(0,0,0),gravity(0,0,0),translation(0,0,0);
-		const aabbox3d<f32>& box = node->getBoundingBox();
-		radius = box.MaxEdge-box.getCenter();
-
+		node->updateAbsolutePosition();
+		const aabbox3d<f32>& box = node->getTransformedBoundingBox();
+		vector3df radius = box.MaxEdge-box.getCenter();
+		vector3df translation = -(box.getCenter() - node->getAbsolutePosition());
+		
+		//LOGD("max, %f, %f, %f", box.MaxEdge.X, box.MaxEdge.Y, box.MaxEdge.Z);
+		//LOGD("min, %f, %f, %f", box.MinEdge.X, box.MinEdge.Y, box.MinEdge.Z);
+		//LOGD("trans, %f, %f, %f", translation.X, translation.Y, translation.Z);
 		ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(selector, node,
 			radius,
-			gravity,
+			vector3df(),/*gravity*/
 			translation,
 			0.0005f
 		);

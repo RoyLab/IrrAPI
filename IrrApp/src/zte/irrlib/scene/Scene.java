@@ -507,28 +507,35 @@ public class Scene {
 	/**
 	 * 删除指定节点。
 	 * @param node 所要删除的节点对象
+	 * @return 是否成功删除
 	 */
-	public void removeNode(SceneNode node){
-		node.getParent().removeChild2(node);
+	public boolean removeNode(SceneNode node){
+		if (node == null) return false;
+		SceneNode pa = node.getParent();
+		if (pa != null) pa.removeChild2(node);
 		unregisterNode(node);
 		nativeRemoveNode(node.getId());
+		return true;
 	}
 	
 	/**
-	 * 删除所有节点。
+	 * 删除所有节点，<b>包括</b>相机节点
 	 */
 	public void clearAllNodes(){
 		mNodeList.clear();
+		mUpdateList.clear();
+		mActiveCamera = null;
 		nativeClear();
 		_NewId = 0;
 	}
 	
 	/**
-	 * 这是个不安全的方法，程序员【必须】确保移除的贴图并不被当前场景
+	 * 这是个不安全的方法，程序员<b>必须</b>确保移除的贴图并不被当前场景
 	 * 所使用，否则程序将在渲染时崩溃。然而，因为贴图会占据大量的图像
 	 * 缓存和内存（如果在内存中留有备份的话，目前的设置下是没有备份的），
 	 * 所以及时的清理贴图是减少系统资源消耗的有效方法。然而，反复加载
-	 * 贴图是非常耗时的，因此建议删除那些不会再用到的贴图。
+	 * 贴图是非常耗时的，因此引擎不会自动删除那些不再被使用的贴图。
+	 * 建议删除那些不会再用到的贴图。
 	 * @param path 贴图的路径（必须跟创建时所用的路径一致）
 	 */
 	public void removeTexture(String path){
@@ -536,17 +543,23 @@ public class Scene {
 	}
 	
 	/**
-	 * 这是个不安全的方法，程序员【必须】确保移除的贴图并不被当前场景
+	 * 这是个不安全的方法，程序员<b>必须</b>确保移除的贴图并不被当前场景
 	 * 所使用，否则程序将在渲染时崩溃。然而，因为贴图会占据大量的图像
 	 * 缓存和内存（如果在内存中留有备份的话，目前的设置下是没有备份的），
 	 * 所以及时的清理贴图是减少系统资源消耗的有效方法。然而，反复加载
-	 * 贴图是非常耗时的，因此建议删除那些不会再用到的贴图。
+	 * 贴图是非常耗时的，因此引擎不会自动删除那些不再被使用的贴图。
+	 * 建议删除那些不会再用到的贴图。
 	 * @param name 贴图的名称（必须跟创建时所用的名称一致）
 	 */
 	public void removeBitmapTexture(String name){
 		nativeRemoveTexture(name);
 	}
 	
+	/**
+	 * 去除目前不被使用的多边形。出于性能考虑，引擎会缓存所有已经被加载
+	 * 的多边形模型。这些模型会一直驻留在内存中，即使使用它们的节点已经
+	 * 不存在。这个方法用于清楚内存中不被使用的多边形模型。
+	 */
 	public void removeUnusedMesh(){
 		nativeRemoveUnusedMesh();
 	}
@@ -565,6 +578,9 @@ public class Scene {
 	 * 帧绘制函数，更新公告板组和相机位置。
 	 */
 	public void onDrawFrame(){
+		for (SceneNode itr: mNodeList){
+			itr.onAnimate();
+		}
 		for (Updatable itr:mUpdateList){
 			itr.updateFromCamera(getActiveCamera());
 		}

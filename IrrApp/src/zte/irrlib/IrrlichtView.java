@@ -101,10 +101,6 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	@Override@Deprecated
 	public final void setPreserveEGLContextOnPause(boolean flag){}
 	
-	protected Activity getActivity(){
-		return (Activity)getContext();
-	}
-	
 	protected Engine mEngine;
 	protected int mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 	
