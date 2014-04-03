@@ -23,7 +23,6 @@ import zte.irrlib.scene.MeshSceneNode;
 import zte.irrlib.scene.ParticleSystemSceneNode;
 import zte.irrlib.scene.Scene;
 import zte.irrlib.scene.SceneNode;
-import zte.irrlib.scene.SceneNode.E_MATERIAL_TYPE;
 
 public class DemoRenderer implements Renderer {
 	
@@ -53,7 +52,7 @@ public class DemoRenderer implements Renderer {
 
 	//这是另一个渲染场景的实现。
 	public void onCreate(Engine engine) {      
-		origin = new Vector3d(); 
+		/*origin = new Vector3d(); 
 		back = new Vector3d(0, 20, 0);
 		left = new Vector3d(-20, 0, 0);
 		right = new Vector3d(20, 0, 0);
@@ -194,13 +193,13 @@ public class DemoRenderer implements Renderer {
 		model.setAnimationSpeed(40);
 		model.setVisible(false);*/
 		
-		bill.setTexture("test2.jpg");
+		/*bill.setTexture("test2.jpg");
 		light = scene.addLightSceneNode(new Vector3d(-30,30,-30), 100, new Color3i(0x7f,0x7f,0x7f), null);
 		light.LightData.AmbientColor = new Color3i(0, 0, 0);		
 		light.LightData.DiffuseColor = new Color3i(0, 0, 0);
 		light.LightData.SpecularColor = new Color3i(0, 0, 0);
 		light.LightData.DiffuseColor = new Color3i(0x7f, 0x7f, 0x7f);
-		light.upLoadLightData();
+		light.upLoadLightData();*/
 	}
 	
 	/*public void onCreate(Engine engine){

@@ -80,7 +80,11 @@ extern "C"
 	{
 		if (device) device->drop();
 		resetGlobalValue();
-		delete utils;	utils = 0;
+		if (utils)
+		{
+			delete utils;
+			utils = 0;
+		}
 	}
 	
 	void Java_zte_irrlib_Engine_nativeInitJNI(

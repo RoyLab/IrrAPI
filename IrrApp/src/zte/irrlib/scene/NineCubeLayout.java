@@ -5,6 +5,11 @@ import zte.irrlib.core.Vector3d;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+/**
+ * 一个布局类，包含9个立方体，assets读取被禁用时不可用
+ * @author Roy
+ *
+ */
 public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	
 	/** 长方体各个面的材质序号*/

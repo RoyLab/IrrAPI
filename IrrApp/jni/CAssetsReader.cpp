@@ -66,6 +66,7 @@ CAssetsReader::CAssetsReader(IFileSystem * parent, const io::path& basename, boo
 {
 	buildDirectory(basename);
 	sort();
+	os::Printer::log(basename.c_str());
 }
 
 
@@ -80,7 +81,7 @@ void CAssetsReader::buildDirectory(const io::path& basename)
 	AAssetDir *cDir = AAssetManager_openDir(_assetManager, basename.c_str());
 	if (!cDir) return;
 		
-	AAssetDir_rewind(cDir);
+	//AAssetDir_rewind(cDir);
 	while(true)
 	{
 		const char* fName = AAssetDir_getNextFileName(cDir);

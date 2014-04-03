@@ -656,7 +656,7 @@ extern "C"
 		JNIEnv *env, jobject defaultObj, jstring name)
 	{
 		const char* ch = env->GetStringUTFChars(name, 0);
-		driver->removeTexture(driver->getTexture(ch));
+		driver->removeTexture(driver->findTexture(ch));
 		env->ReleaseStringUTFChars(name, ch);
 	}
 	
@@ -664,6 +664,14 @@ extern "C"
 		JNIEnv *env, jobject defaultObj)
 	{
 		smgr->getMeshCache()->clearUnusedMeshes();
+	}
+	
+	void Java_zte_irrlib_scene_Scene_nativeRemoveMesh(
+		JNIEnv *env, jobject defaultObj, jstring path)
+	{
+		const char* ch = env->GetStringUTFChars(path, 0);
+		smgr->getMeshCache()->removeMesh(smgr->getMesh(ch));
+		env->ReleaseStringUTFChars(path, ch);
 	}
 	
 	int Java_zte_irrlib_scene_Scene_nativeApplyNewExternalTex(

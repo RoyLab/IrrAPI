@@ -13,12 +13,15 @@ public class Engine{
 	
 	/** 日志标签*/
 	public static final String TAG = "IrrEngine";
-	/** assets目录前缀*/
+	
+	/** assets目录前缀，所有assets目录下的资源必须以此为前缀*/
 	public static final String ASSETS_PATH = "<assets>/";
+	
 	/** 系统内置资源assets目录名*/
 	public static final String SYSTEM_MEDIA = "sysmedia";
+	
 	/** 系统内置资源assets目录完整路径*/
-	public static final String SYSTEM_MEDIA_FULL = "<assets>/sysmedia/";
+	public static final String SYSTEM_MEDIA_FULL = ASSETS_PATH + SYSTEM_MEDIA + "/"; ;
 	
 	/**
 	 * 构造器不可以被直接调用，本方法替代构造方法，用于取得
@@ -86,6 +89,14 @@ public class Engine{
 	}
 	
 	/**
+	 * 查询native层读取assets的开关是否打开
+	 * @return 如为true，则表示已经打开
+	 */
+	public boolean isNativeAssetsReaderEnabled(){
+		return mEnableAssets;
+	}
+	
+	/**
 	 * 取得当前渲染的帧率。
 	 * @return 帧率（fps）
 	 */
@@ -102,18 +113,35 @@ public class Engine{
 	 * @return 是否成功添加
 	 */
 	public boolean addAssetsDir(String dirname, boolean ignorePath){
+		if (mEnableAssets == false){
+			Log.e(TAG, "assets is not allowed to be opened!");
+			return false;
+		}
 		return nativeAddAssetsDir(dirname, ignorePath);
 	}
 	
 	public synchronized void onSurfaceCreated(IrrlichtView view){
-		//nativeInit(mRenderType, new Vector3d(), new Color4i(), new Color3i(), new Rect4i(), new BoundingBox());
-		nativeInitAssetManager(view.getContext().getAssets());
-		nativeCreateDevice(view.IsGLES2Enabled()?
-				EGL10Ext.EGL_OPENGL_ES2_BIT:EGL10Ext.EGL_OPENGL_ES1_BIT);
-		initJNIFieldID();
+		
+		mRenderType = view.IsGLES2Enabled()?
+				EGL10Ext.EGL_OPENGL_ES2_BIT:EGL10Ext.EGL_OPENGL_ES1_BIT;
+		
+		mEnableAssets = view.isNativeAssetsReaderEnabled();
+		mRenderer = view.getRenderer();
+		
 		nativeSetAssetsPath(ASSETS_PATH);
-		addAssetsDir(SYSTEM_MEDIA, false);
-		javaReset();
+		nativeInitAssetManager(view.getContext().getAssets());
+		
+		nativeCreateDevice(mRenderType);
+		
+		initJNIFieldID();
+		
+		if (isNativeAssetsReaderEnabled() == true){
+			addAssetsDir(SYSTEM_MEDIA, false);
+		}
+		
+		mScene = Scene.getInstance(this);
+		mScene.javaReset();
+		
 		//nativeTest();
 		mRenderer.onCreate(this);
 		Log.d(TAG, "OnSurfaceCreated");
@@ -175,19 +203,20 @@ public class Engine{
 		mJNIIsInit = true;
 	}
 	
-	private void javaReset(){
-		mScene = Scene.getInstance(this);
-		mScene.javaReset();
-	}
-	
 	private Engine(){
 	}
-	
+
+	static {
+		System.loadLibrary("irrlicht");
+	}
+
 	private static Engine mUniInstance;
 	private static boolean mJNIIsInit;
 	
 	private Scene mScene;
 	private Renderer mRenderer;
+	private boolean mEnableAssets;
+	private int mRenderType;
 	
 	private native void nativeResize(int w, int h);
 	private native double nativeGetFPS();
@@ -209,8 +238,22 @@ public class Engine{
 	 * 引擎的渲染器接口，用于场景渲染，需要用户自己实现。 
 	 */
 	public interface Renderer {
+		/**
+		 * 绘制循环，当绘制开始后，被连续地调用，绘制频率与场景复杂度和上下文环境相关。
+		 * @param engine
+		 */
 		void onDrawFrame(Engine engine);
+		/**
+		 * 场景初始化方法，在openGL ES上下文被建立后自动调用
+		 * @param engine
+		 */
 		void onCreate(Engine engine);
+		/**
+		 * 当窗口大小改变时被调用
+		 * @param engine
+		 * @param width
+		 * @param height
+		 */
 		void onResize(Engine engine, int width, int height);
 	}
 }

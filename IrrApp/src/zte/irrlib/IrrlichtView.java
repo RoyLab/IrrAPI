@@ -1,11 +1,10 @@
-﻿package zte.irrlib;
+package zte.irrlib;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
@@ -48,6 +47,7 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	
 	/**
 	 * openGL ES2.0的开关，默认关闭。替代{@link #setEGLContextClientVersion(int)}。
+	 * 如非必要，请使用openGL ES1.x进行渲染，因为它更快，并且引擎对它的支持更为完善。
 	 * @param flag 为true时打开开关
 	 */
 	public void enableGLES2(boolean flag){
@@ -70,6 +70,25 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 	
 	/**
+	 * native层读取assets的开关。由于native层读取assets的速度非常慢，因此我们提供了禁用
+	 * 的手段。关闭此开关之后，将显著降低启动和运行过程中的延迟，但程序员也不能再享受assets
+	 * 读取所带来的便利。关闭此开关之后，内置文字处理，NineCubeLayout类，以及与assets相关
+	 * 的操作将不可用，并且产生报警日志。程序员必须通过其他方法指定资源路径和访问资源
+	 * @param flag 如为true，则打开assets读取功能。默认设置为true
+	 */
+	public void enableNativeAssetsReader(boolean flag){
+		mEnableAssets = flag;
+	}
+	
+	/**
+	 * 查询native层读取assets的开关是否打开
+	 * @return 如为true，则表示已经打开
+	 */
+	public boolean isNativeAssetsReaderEnabled(){
+		return mEnableAssets;
+	}
+	
+	/**
 	 * 替代了{@link #setRenderer(Renderer)}，用于指定视图类的渲染回调
 	 * 方法。该方法在整个视图类的生命周期中必须调用一次且只能调用一次。<br>
 	 * 以下方法必须在该方法之前被调用：<br>
@@ -89,9 +108,17 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	 * @param renderer 渲染器，需要用户实现{@link Engine.Renderer}接口
 	 */
 	public void setEngineRenderer(Engine.Renderer renderer){
-		mEngine.setRenderer(renderer);
+		mRenderer = renderer;
 		super.setRenderer(this);
 		//super.setPreserveEGLContextOnPause(true);
+	}
+	
+	/**
+	 * 取得该视图类的渲染器
+	 * @return 渲染器指针
+	 */
+	public Engine.Renderer getRenderer(){
+		return mRenderer;
 	}
 	
 	@Override@Deprecated
@@ -102,12 +129,10 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	public final void setPreserveEGLContextOnPause(boolean flag){}
 	
 	protected Engine mEngine;
+	protected boolean mEnableAssets = true;
+	protected Engine.Renderer mRenderer;
 	protected int mRenderType = EGL10Ext.EGL_OPENGL_ES1_BIT;
 	
-	static {
-		System.loadLibrary("irrlicht");
-	}
-
 	public void onDrawFrame(GL10 gl) {
 		mEngine.onDrawFrame();
 	}

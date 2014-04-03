@@ -167,8 +167,8 @@ public class MeshSceneNode extends SceneNode{
 	 * @param name 该位图的命名，必须唯一！
 	 * @param materialId 指定材质的ID值
 	 */
-	public void setTexture(Bitmap bitmap, String name, int materialId){
-		nativeSetBitmapTexture(name, bitmap, materialId, getId());
+	public void setTexture(Bitmap bitmap, String bitmapName, int materialId){
+		nativeSetBitmapTexture(bitmapName, bitmap, materialId, getId());
 	}
 	
 	@Deprecated
@@ -193,8 +193,8 @@ public class MeshSceneNode extends SceneNode{
 	 * @param bitmap 所使用的位图对象
 	 * @param texName 贴图的名称（必须唯一）
 	 */
-	public void setTexture(Bitmap bitmap, String texName){
-		nativeAllSetBitmapTexture(texName, bitmap, getId());
+	public void setTexture(Bitmap bitmap, String bitmapName){
+		nativeAllSetBitmapTexture(bitmapName, bitmap, getId());
 	}
 	
 	/**

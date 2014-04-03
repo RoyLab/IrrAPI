@@ -12,6 +12,7 @@ import zte.irrlib.core.Vector2d;
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * 场景类，在zte.irrlib.scene包内，所有的类的构造方法均不可见，请使用
@@ -57,7 +58,7 @@ public class Scene {
 	}
 	
 	/**
-	 * 设置是否打开光照。
+	 * 设置是否打开光照（默认打开）
 	 * @param flag 值为true时光照打开，否则关闭
 	 */
 	public void enableLighting(boolean flag){
@@ -74,9 +75,14 @@ public class Scene {
 	
 	/**
 	 * 设置字体文件，字体文件必须放置在assets下的sysmedia里
+	 * assets读取被禁用时不可用
 	 * @param path 字体图片文件名
 	 */
 	public void setFont(String font){
+		if (mEngine.isNativeAssetsReaderEnabled() == false){
+			Log.e(TAG, "assets is not allowed to be opened!");
+			return;
+		}
 		nativeSetFontPath(Engine.SYSTEM_MEDIA + "/" + font);
 	}
 	
@@ -228,12 +234,16 @@ public class Scene {
 	}
 	
 	/**
-	 * 绘制文字。
+	 * 绘制文字，assets开关关闭时被禁用
 	 * @param text 所要绘制的文字内容
 	 * @param leftUp 所要绘制的文字所在位置的左上点坐标值
 	 * @param color 所要绘制的文字的颜色
 	 */
 	public void drawText(String text, Vector2i leftUp, Color4i color){
+		if (mEngine.isNativeAssetsReaderEnabled() == false){
+			Log.e(TAG, "assets is not allowed to be opened!");
+			return;
+		}
 		nativeDrawText(text, leftUp.X, leftUp.Y, color.r(), color.g(), color.b(), color.a());
 	}
 	
@@ -453,6 +463,13 @@ public class Scene {
 		return node;
 	}
 	
+	/**
+	 * 添加星光粒子系统节点
+	 * @param pos
+	 * @param radius
+	 * @param parent
+	 * @return
+	 */
 	public ParticleSystemSceneNode addStarsParticleSceneNode(Vector3d pos, double radius, SceneNode parent){
 		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
 		if(nativeAddStarsParticleSceneNode(pos.X, pos.Y, pos.Z, radius, getId(node), getId(parent), mEnableLighting)!=0){
@@ -462,6 +479,14 @@ public class Scene {
 		return node;
 	}
 	
+	/**
+	 * 添加爆炸粒子系统节点
+	 * @param pos
+	 * @param radius
+	 * @param speed
+	 * @param parent
+	 * @return
+	 */
 	public ParticleSystemSceneNode addExplosionParticleSceneNode(Vector3d pos, double radius, double speed,
 			SceneNode parent){
 		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
@@ -473,8 +498,21 @@ public class Scene {
 		return node;
 	}
 	
+	/**
+	 * 添加9个立方体组成的布局类，assets本地读取被禁用时不可用
+	 * @param pos 位置
+	 * @param size 大小
+	 * @param dx x方向的缝隙宽度
+	 * @param dy y方向的缝隙宽度
+	 * @param parent 父节点
+	 * @return
+	 */
 	public NineCubeLayout addNineCubeLayoutSceneNode(Vector3d pos,
 			Vector3d size, double dx, double dy, SceneNode parent){
+		if (mEngine.isNativeAssetsReaderEnabled() == false){
+			Log.e(TAG, "assets is not allowed to be opened!");
+			return null;
+		}
 		NineCubeLayout res = new NineCubeLayout(pos, size, dx, dy, parent);
 		registerNode(res);
 		return res;
@@ -551,17 +589,35 @@ public class Scene {
 	 * 建议删除那些不会再用到的贴图。
 	 * @param name 贴图的名称（必须跟创建时所用的名称一致）
 	 */
-	public void removeBitmapTexture(String name){
-		nativeRemoveTexture(name);
+	public void removeBitmapTexture(String bitmapName){
+		nativeRemoveTexture(bitmapName);
 	}
 	
 	/**
 	 * 去除目前不被使用的多边形。出于性能考虑，引擎会缓存所有已经被加载
 	 * 的多边形模型。这些模型会一直驻留在内存中，即使使用它们的节点已经
-	 * 不存在。这个方法用于清楚内存中不被使用的多边形模型。
+	 * 不存在。这个方法用于清除内存中不被使用的多边形模型。
 	 */
 	public void removeUnusedMesh(){
 		nativeRemoveUnusedMesh();
+	}
+	
+	/**
+	 * 在缓存中去除指定的多边形模型。这个函数仅仅在缓存中去除节点，并不影响已
+	 * 经在节点中被引用的多边形模型的渲染（就是说不会导致空指针的错误）。然而，
+	 * 由于在这种情况下，引擎仅仅是取消了该多边形模型在缓存中的指针，而非释放
+	 * 内存，由此会导致两个后果：如果再次使用到该模型，引擎会认为该模型未被加
+	 * 载而创建该模型的另一个备份，由此会导致内存的浪费；另一个较为有利的后果
+	 * 是，如果引用该模型的节点全部被删除，那么引擎将自动释放模型所占据的空间
+	 * （而不是如默认的情况下让模型驻留在缓存中供下次查询和调用）。<br>
+	 * 反之，如果该方法被调用时，没有节点引用了该模型，则模型所占用的内存将会
+	 * 被释放。<br>
+	 * 综上，我们并不建议提前从缓存中清除模型，即使这种行为通常不会导致错误。<br>
+	 * 多边形模型管理与贴图管理的区别主要是由引擎native实现的不同导致的。
+	 * @param path 模型的路径
+	 */
+	public void removeMesh(String path){
+		nativeRemoveMesh(path);
 	}
 	
 	/**
@@ -605,6 +661,10 @@ public class Scene {
 		addCameraSceneNode(
 				new Vector3d(0, 0, 0), 
 				new Vector3d(0, 0, 100), true, null);
+		
+		if (mEngine.isNativeAssetsReaderEnabled() == false){
+			return;
+		}
 		setFont("buildinfont.png");
 	}
 	
@@ -683,6 +743,10 @@ public class Scene {
 	 */
 	public String getFullPath(String path){
 		if (path.substring(0, Engine.ASSETS_PATH.length()).compareTo(Engine.ASSETS_PATH)==0){
+			if (mEngine.isNativeAssetsReaderEnabled() == false){
+				Log.e(TAG, "assets is not allowed to be opened!");
+				return null;
+			}
 			return path.substring(Engine.ASSETS_PATH.length());
 		}
 		if (Utils.isAbsolutePath(path)){
@@ -699,7 +763,7 @@ public class Scene {
 	private CameraSceneNode mActiveCamera;
 	private ArrayList<SceneNode> mNodeList;
 	private int mWidth, mHeight;
-	private boolean mEnableLighting = true;
+	private boolean mEnableLighting;
 	private String mResourceDir;
 	private TexMediaPlayer mMediaPlayer;
 	private ArrayList<Updatable> mUpdateList;
@@ -798,4 +862,5 @@ public class Scene {
 	private native int nativeApplyNewExternalTex(String name);
 	private native void nativeRemoveTexture(String name);
 	private native void nativeRemoveUnusedMesh();
+	private native void nativeRemoveMesh(String path);
 }

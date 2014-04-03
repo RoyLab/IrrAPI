@@ -100,7 +100,7 @@ extern "C"
 		jobject jbitmap, jint id)
 	{
 		const char *name = env->GetStringUTFChars(jname,0);
-		ITexture *tex = driver->getTexture(name);
+		ITexture *tex = driver->findTexture(name);
 		if (!tex)
 		{
 			IImage *image = utils->createImageFromBitmap(env, jbitmap);
@@ -276,7 +276,7 @@ extern "C"
 		jobject jbitmap, jint materialID, jint id)
 	{
 		const char *name = env->GetStringUTFChars(jname,0);
-		ITexture *tex = driver->getTexture(name);
+		ITexture *tex = driver->findTexture(name);
 		if (!tex)
 		{
 			IImage *image = utils->createImageFromBitmap(env, jbitmap);

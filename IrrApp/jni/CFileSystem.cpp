@@ -203,16 +203,31 @@ bool CFileSystem::addFileArchive(const io::path& filename, bool ignoreCase,
 	bool ret = false;
 	u32 i;
 
-	// check if the archive was already loaded
-	for (i = 0; i < FileArchives.size(); ++i)
+	if (filename.subString(0, PATH_ASSETS.size()) == PATH_ASSETS)
 	{
-		if (getAbsolutePath(filename) == FileArchives[i]->getFileList()->getPath())
-		{
-			if (password.size())
-				FileArchives[i]->Password=password;
-			return true;
+		//check if assets is already loaded.
+		for (i = 0; i < FileArchives.size(); ++i)
+		{		
+			if (FileArchives[i]->getFileList()->getPath() == filename.subString(PATH_ASSETS.size(), filename.size() - PATH_ASSETS.size()))
+			{
+				return true;
+			}
 		}
 	}
+	else 
+	{
+		// check if the archive was already loaded
+		for (i = 0; i < FileArchives.size(); ++i)
+		{		
+			if (getAbsolutePath(filename) == FileArchives[i]->getFileList()->getPath())
+			{
+				if (password.size())
+					FileArchives[i]->Password=password;
+				return true;
+			}
+		}
+	}
+	
 	// do we know what type it should be?
 	if (archiveType == EFAT_UNKNOWN || archiveType == EFAT_FOLDER)
 	{

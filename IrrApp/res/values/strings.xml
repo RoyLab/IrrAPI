@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">IrrApp</string>
+    <string name="app_name">Examples</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="left">Left</string>
@@ -12,5 +12,9 @@
     <string name="pause">Pause</string>
     <string name="play">Play</string>
     <string name="title_activity_sub">sub</string>
-
+    <string name="title_activity_example_lists">ExampleLists</string>
+    <string name="title_activity_egetting_start">EGettingStart</string>
+    <string name="title_activity_econfig">EConfig</string>
+    <string name="title_activity_etrans_and_hier">ETransformation And Hierarchy</string>
+    
 </resources>
