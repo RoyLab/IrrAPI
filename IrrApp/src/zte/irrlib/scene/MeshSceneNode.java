@@ -1,8 +1,10 @@
 package zte.irrlib.scene;
 
+import zte.irrlib.Engine;
 import zte.irrlib.core.BoundingBox;
 import zte.irrlib.core.Color4i;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * 多边形节点类
@@ -80,6 +82,7 @@ public class MeshSceneNode extends SceneNode{
 	//! ColorMaterial enum for vertex color interpretation
 	public static final int  EMF_COLOR_MATERIAL = 0x10000;
 	
+	public static final String TAG = "MeshSceneNode";
 	
 	/**
 	 * 设置模型节点是否响应光照。
@@ -162,12 +165,13 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * 设置指定材质的贴图为位图。
+	 * 设置指定材质的贴图为位图（该方法容易被误用，请使用{@link Scene#uploadBitmap(Bitmap, String)}
+	 * 然后使用{@link #setTexture(String, int)}）
 	 * @param bitmap 所使用的位图对象
 	 * @param name 该位图的命名，必须唯一！
 	 * @param materialId 指定材质的ID值
 	 */
-	public void setTexture(Bitmap bitmap, String bitmapName, int materialId){
+	@Deprecated public void setTexture(Bitmap bitmap, String bitmapName, int materialId){
 		nativeSetBitmapTexture(bitmapName, bitmap, materialId, getId());
 	}
 	
@@ -189,11 +193,12 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * 为模型所有节点指定统一位图贴图
+	 * 为模型所有节点指定统一位图贴图（该方法容易被误用，请使用{@link Scene#uploadBitmap(Bitmap, String)}
+	 * 然后使用{@link #setTexture(String)}）
 	 * @param bitmap 所使用的位图对象
-	 * @param texName 贴图的名称（必须唯一）
+	 * @param texName 贴图的名称（必须唯一），且不可与其他图片的路径重名
 	 */
-	public void setTexture(Bitmap bitmap, String bitmapName){
+	@Deprecated public void setTexture(Bitmap bitmap, String bitmapName){
 		nativeAllSetBitmapTexture(bitmapName, bitmap, getId());
 	}
 	
@@ -203,6 +208,10 @@ public class MeshSceneNode extends SceneNode{
 	 * @return 为真则设定成功
 	 */
 	public boolean setExternalTexture(String name){
+		if (Engine.getInstance().getRenderType() != 1){
+			Log.e(TAG, "Can not set external texture. Unsupported renderer type.");
+			return false;
+		}
 		if (nativeSetExternalTexture(name, -1, getId()) == 0) return true;
 		return false;
 	}
@@ -213,6 +222,10 @@ public class MeshSceneNode extends SceneNode{
 	 * @param bitmap 所使用的视频贴图对象
 	 */
 	public void setMediaTexture(){
+		if (Engine.getInstance().getRenderType() != 1){
+			Log.e(TAG, "Can not set Mediaplayer texture. Unsupported renderer type.");
+			return;
+		}
 		nativeAllSetMediaTexture(getId());
 	}
 	

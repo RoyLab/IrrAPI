@@ -16,5 +16,12 @@
     <string name="title_activity_egetting_start">EGettingStart</string>
     <string name="title_activity_econfig">EConfig</string>
     <string name="title_activity_etrans_and_hier">ETransformation And Hierarchy</string>
-    
+    <string name="title_activity_eanimator">EAnimator</string>
+    <string name="title_activity_edraw2_d">EDraw2D</string>
+    <string name="title_activity_ecamera">ECamera</string>
+    <string name="title_activity_ebitmap">EBitmap</string>
+    <string name="title_activity_elighting">ELighting</string>
+    <string name="title_activity_ecollision">ECollision</string>
+    <string name="title_activity_emedia_player">EMediaPlayer</string>
+
 </resources>

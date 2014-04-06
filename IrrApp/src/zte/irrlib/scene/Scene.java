@@ -58,7 +58,7 @@ public class Scene {
 	}
 	
 	/**
-	 * 设置是否打开光照（默认打开）
+	 * 设置是否打开光照（默认关闭）
 	 * @param flag 值为true时光照打开，否则关闭
 	 */
 	public void enableLighting(boolean flag){
@@ -378,7 +378,7 @@ public class Scene {
 	}
 	
 	/**
-	 * 添加光源节点，返回所添加的光源节点对象
+	 * 添加光源节点，返回所添加的光源节点对象，参数的意义可以参见{@link zte.irrlib.core.SLight}
 	 * @param pos 所添加光源节点的位置
 	 * @param radius 所添加光源节点的照射半径
 	 * @param color 所添加光源节点的颜色
@@ -523,11 +523,25 @@ public class Scene {
 	 * 一的。该方法会返回一个opengGL ES Id号，用户可以保存这个Id号将openGL ES与视频
 	 * 解码器，相机等流媒体连接起来。<br>
 	 * 注意：这个材质是GL_TEXTURE_EXTERNAL_OES类，而非GL_TEXTURE_2D。
-	 * @param name 名字，使用者必须将这个名字存储起来，因为它是指向这个材质的唯一标识
+	 * @param texname 名字，使用者必须将这个名字存储起来，因为它是指向这个材质的唯一标识
 	 * @return 纹理的opengGL ES Id号，若为正整数，则表示申请成功。
 	 */
-	public int applyNewExternalTexture(String name){
-		return nativeApplyNewExternalTex(name);
+	public int applyNewExternalTexture(String texname){
+		if (mEngine.getRenderType() != 1){
+			Log.e(TAG, "Can not apply new external texture. Unsupported renderer type.");
+			return -1;
+		}
+		return nativeApplyNewExternalTex(texname);
+	}
+	
+	/**
+	 * 将bitmap上传至引擎
+	 * @param bitmap 位图
+	 * @param texname 标识符
+	 * @return 如果上传失败（比如存在重名，位图不可读取等）返回false
+	 */
+	public boolean uploadBitmap(Bitmap bitmap, String texname){
+		return nativeUploadBitmap(texname, bitmap);
 	}
 	
 	@Deprecated
@@ -536,6 +550,10 @@ public class Scene {
 	 * @return 视频播放器对象
 	 */
 	public TexMediaPlayer getMediaPlayer(){
+		if (mEngine.getRenderType() != 1){
+			Log.e(TAG, "Can not getMediaPlayer. Unsupported renderer type.");
+			return null;
+		}
 		if (mMediaPlayer == null){
 			mMediaPlayer = new TexMediaPlayer(this, nativeGetMediaTextureId());
 		}
@@ -860,6 +878,7 @@ public class Scene {
 	private native void nativeSetFontPath(String path);
 	private native int nativeGetMediaTextureId();
 	private native int nativeApplyNewExternalTex(String name);
+	private native boolean nativeUploadBitmap(String name, Bitmap bitmap);
 	private native void nativeRemoveTexture(String name);
 	private native void nativeRemoveUnusedMesh();
 	private native void nativeRemoveMesh(String path);

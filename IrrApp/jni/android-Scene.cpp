@@ -20,7 +20,7 @@ extern "C"
 	int Java_zte_irrlib_scene_Scene_nativeDrawImage(
 		JNIEnv *env, jobject defaultObj, jstring path,
 		jobject des, jdouble left, jdouble top, jdouble right, 
-		jint bottom, jboolean alpha)
+		jdouble bottom, jboolean alpha)
 	{
 		const char *msg = env->GetStringUTFChars(path,0);
 		ITexture* tex = driver->getTexture(msg);
@@ -66,19 +66,19 @@ extern "C"
 	
 	void Java_zte_irrlib_scene_Scene_nativeDrawRectangle(
 		JNIEnv *env, jobject defaultObj, 
-		jint left, jint up, jint width, jint height, 
+		jint left, jint up, jint right, jint bottom, 
 		jint r, jint g, jint b, jint transparent)
 	{
 		driver->draw2DRectangle(SColor(transparent,r,g,b),
-				rect<s32>(left, up, left+width, up+height));
+				rect<s32>(left, up, right, bottom));
 	}
 	
 	void Java_zte_irrlib_scene_Scene_nativeDrawRectangleChrome(
 		JNIEnv *env, jobject defaultObj,
-		jobject rec, jobject c1, jobject c2, jobject c3, jobject c4)
+		jobject jrec, jobject c1, jobject c2, jobject c3, jobject c4)
 	{
 		driver->draw2DRectangle(
-			utils->createrectiFromRect4i(env, rec), 
+			utils->createrectiFromRect4i(env, jrec), 
 			utils->createSColorFromColor4i(env, c1),
 			utils->createSColorFromColor4i(env, c2), 
 			utils->createSColorFromColor4i(env, c3), 
@@ -686,6 +686,30 @@ extern "C"
 		}
 		env->ReleaseStringUTFChars(name, ch);
 		return utils->getGLTexId(tex);
+	}
+
+	jboolean Java_zte_irrlib_scene_Scene_nativeUploadBitmap(
+		JNIEnv *env, jobject defaultObj, jstring jname, jobject jbitmap)
+	{
+		const char* ch = env->GetStringUTFChars(jname, 0);
+		ITexture* tex = driver->findTexture(ch);
+		if (tex)
+		{
+			LOGW("Texture(%s) is already exists", ch);
+			return false;
+		}
+		
+		IImage *image = utils->createImageFromBitmap(env, jbitmap);
+		if (!image)
+		{
+			env->ReleaseStringUTFChars(jname, ch);
+			return false;
+		}
+		tex = driver->addTexture(ch, image, 0);
+		image->drop();
+		
+		env->ReleaseStringUTFChars(jname, ch);
+		return true;
 	}
 }
 	

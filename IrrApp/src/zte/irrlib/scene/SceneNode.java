@@ -111,6 +111,10 @@ public class SceneNode {
 		nativeSetRotation(mRotation[0].X, mRotation[0].Y, mRotation[0].Z, getId());
 	}
 	
+	/**
+	 * 取得父节点的指针
+	 * @return 父节点的指针
+	 */
 	public SceneNode getParent(){
 		return mParent;
 	}
@@ -139,8 +143,7 @@ public class SceneNode {
 	 * @return 相对于父节点的位置坐标
 	 */
 	public Vector3d getPosition(){
-		if (mParent == null) return new Vector3d(mPosition[0]);
-		return new Vector3d(mPosition[0]).plus(mParent.getAbsolutePosition());
+		return new Vector3d(mPosition[0]);
 	}
 	
 	/**
@@ -148,7 +151,8 @@ public class SceneNode {
 	 * @return 绝对位置坐标
 	 */
 	public Vector3d getAbsolutePosition(){
-		return new Vector3d(mPosition[0]);
+		if (mParent == null) return new Vector3d(mPosition[0]);
+		return new Vector3d(mPosition[0]).plus(mParent.getAbsolutePosition());
 	}
 	
 	/**
@@ -321,7 +325,7 @@ public class SceneNode {
 	/**
 	 * 删除节点上的所有动画
 	 */
-	public void removeAllAnimator(){
+	public void removeAllAnimators(){
 		nativeRemoveAllAnimator(getId());
 		mHasAnimator = 0;
 	}

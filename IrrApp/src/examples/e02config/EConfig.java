@@ -1,4 +1,4 @@
-package examples.config;
+package examples.e02config;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -31,6 +31,20 @@ public class EConfig extends Activity {
 		 * 来代替这个函数。该函数必须在setEngineRenderer前调用。
 		 */
 		mDemo.setRecommendEGLConfigChooser(8);
+		/**
+		 * 禁用native层读取assets的功能，可以较为明显的提升性能，但会导致部分功能不可用，并且
+		 * 不能通过native引擎直接读取assets中的资源
+		 */
+		//mDemo.enableNativeAssetsReader(false);
+		
+		/**
+		 * 除了这些外，绝大部分用于GLSurfaceView的设置也可以在这里使用，比如渲染模式（连续渲染和
+		 * 触发渲染）等，详见GLSurfaceView的文档
+		 */
+		
+		/**
+		 * 最后不要忘记，一定要设定一个渲染器
+		 */
 		mDemo.setEngineRenderer(new ECRenderer());
 	}
 	

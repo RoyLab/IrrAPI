@@ -1,4 +1,4 @@
-package examples.config;
+package examples.e02config;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -24,12 +24,12 @@ public class ECRenderer implements Renderer {
 		
 		/**
 		 * 你也可以选择从assets中读取材质，这免去了拷贝材质到指定路径下的麻烦。
-		 * 然而，这种方法将引起一定的延迟，目前测试的结果约为0.2s。
+		 * 然而，这种方法将引起一定的延迟，目前测试的结果约为0.2s~0.4s。
 		 */
 		engine.addAssetsDir("sysmedia", false);
 		
 		Scene scene = engine.getScene();
-		cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 10, null);
+		cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
 		
 		/**
 		 * 如果你已经将文件拷贝到指定目录下，则可以相对路径来取得材质。

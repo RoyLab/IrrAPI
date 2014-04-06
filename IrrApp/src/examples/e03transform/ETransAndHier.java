@@ -1,4 +1,4 @@
-package examples.transformandhierarchy;
+package examples.e03transform;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;

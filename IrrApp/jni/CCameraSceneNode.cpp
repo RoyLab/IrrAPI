@@ -25,7 +25,7 @@ CCameraSceneNode::CCameraSceneNode(ISceneNode* parent, ISceneManager* mgr, s32 i
 	#endif
 
 	// set default projection
-	Fovy = core::PI / 2.5f;	// Field of view, in radians. 
+	Fovy = core::PI / 4.0f;	// Field of view, in radians. 
 
 	const video::IVideoDriver* const d = mgr?mgr->getVideoDriver():0;
 	if (d)

@@ -20,7 +20,7 @@ public class LightSceneNode extends SceneNode {
 	/**
 	 * 获取光源参数值，通常情况下，用户不需要调用该方法
 	 */
-	public void downloadLightData(){
+	void downloadLightData(){
 		nativeGetLightData(LightData, getId());
 	}
 	

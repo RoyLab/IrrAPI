@@ -257,9 +257,28 @@ IImage* JNIUtils::createImageFromBitmap(JNIEnv* env, jobject jbitmap)
 		return 0;
 	}
 	
+	//reverse R & B channels
+	void *pixelsold = 0;
+	if (format == ECF_A8R8G8B8)
+	{
+		pixelsold = pixels;
+		pixels = new char[4*bitmapInfo.width*bitmapInfo.height];
+		for (int i = 0; i < bitmapInfo.width*bitmapInfo.height; i++)
+		{
+			((char*)pixels)[4*i] = ((char*)pixelsold)[4*i+2];
+			((char*)pixels)[4*i+1] = ((char*)pixelsold)[4*i+1];
+			((char*)pixels)[4*i+2] = ((char*)pixelsold)[4*i];
+			((char*)pixels)[4*i+3] = ((char*)pixelsold)[4*i+3];
+		}
+	}
+	
 	IImage* image = driver->createImageFromData(format, 
 		dimension2d<u32>(bitmapInfo.width, bitmapInfo.height), pixels);
-		
+	
+	if (format == ECF_A8R8G8B8)
+	{
+		delete [] (char*)pixels;
+	}
 	AndroidBitmap_unlockPixels(env, jbitmap);
 	return image;
 }

@@ -7,16 +7,37 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import examples.config.EConfig;
-import examples.gettingstart.EGettingStart;
-import examples.transformandhierarchy.ETransAndHier;
+import examples.e01gettingstart.EGettingStart;
+import examples.e02config.EConfig;
+import examples.e03transform.ETransAndHier;
+import examples.e04animator.EAnimator;
+import examples.e05draw2D.EDraw2D;
+import examples.e06camera.ECamera;
+import examples.e07bitmap.EBitmap;
+import examples.e08lighting.ELighting;
+import examples.e09collision.ECollision;
 
 public class ExampleList extends ListActivity {
 
 	public final String[] exampleName = new String[] {
 			"01.GettingStart",
 			"02.Configuration", 
-			"03.Transfrom and Hierarchy"
+			"03.Transfromation",
+			"04.Animator",
+			"05.2D Drawing",
+			"06.Camera & Response",
+			"07.Bitmap",
+			"08.Lighting",
+			"09.Collision",
+			"10.MediaPlayer",
+			"11.BillboardGroup",
+			"12.ParticleSystem",
+			"13.CubeLayout",
+			"14.Material & Texture",
+			"15.Memory Control",
+			"16.Hierarchy Structure",
+			"17.Debug & BoundingBox",
+			"18.Native Extension"
 	};
 	
 	private ArrayAdapter<String> adapter;
@@ -32,15 +53,16 @@ public class ExampleList extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id){
 		Class<?> cls = null;
-		switch(position+1){
-		case 1:
-			cls = EGettingStart.class;
-			break;
-		case 2:
-			cls = EConfig.class;
-			break;
-		case 3:
-			cls = ETransAndHier.class;
+		switch (position + 1){
+		case 1: cls = EGettingStart.class; 	break;
+		case 2: cls = EConfig.class; 		break;
+		case 3: cls = ETransAndHier.class;	break;
+		case 4: cls = EAnimator.class; 		break;
+		case 5: cls = EDraw2D.class; 		break;
+		case 6: cls = ECamera.class; 		break;
+		case 7: cls = EBitmap.class;		break;
+		case 8: cls = ELighting.class;		break;
+		case 9: cls = ECollision.class;		break;
 		default: break;
 		}
 		

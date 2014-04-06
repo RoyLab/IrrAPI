@@ -1,4 +1,4 @@
-package examples.gettingstart;
+package examples.e01gettingstart;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;

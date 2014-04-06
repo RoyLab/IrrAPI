@@ -79,7 +79,7 @@ public class CameraSceneNode extends SceneNode{
 	 * @param lookAt 相机朝向坐标值
 	 * @param parent 相机父节点对象
 	 */
-	public void javaLoadDataAndInit(Vector3d pos, Vector3d lookAt, SceneNode parent){
+	void javaLoadDataAndInit(Vector3d pos, Vector3d lookAt, SceneNode parent){
 		super.javaLoadDataAndInit(pos, parent);
 		mLookAt = new Vector3d(lookAt);
 		Vector2i size = mScene.getRenderSize();
@@ -99,6 +99,17 @@ public class CameraSceneNode extends SceneNode{
 		CameraSceneNode res = softClone();
 		cloneInNativeAndSetupNodesId(res);
 		return res;
+	}
+	
+	@Override
+	public boolean remove(){
+		if (super.remove()){
+			if (mScene.getActiveCamera() == this){
+				mScene.setActiveCamera(null);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

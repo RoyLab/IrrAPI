@@ -35,16 +35,44 @@
             android:label="@string/title_activity_example_lists" >
         </activity>
         <activity
-            android:name="examples.gettingstart.EGettingStart"
+            android:name="examples.e01gettingstart.EGettingStart"
             android:label="@string/title_activity_egetting_start" >
         </activity>
         <activity
-            android:name="examples.config.EConfig"
+            android:name="examples.e02config.EConfig"
             android:label="@string/title_activity_econfig" >
         </activity>
         <activity
-            android:name="examples.transformandhierarchy.ETransAndHier"
+            android:name="examples.e03transform.ETransAndHier"
             android:label="@string/title_activity_etrans_and_hier" >
+        </activity>
+        <activity
+            android:name="examples.e04animator.EAnimator"
+            android:label="@string/title_activity_eanimator" >
+        </activity>
+        <activity
+            android:name="examples.e05draw2D.EDraw2D"
+            android:label="@string/title_activity_edraw2_d" >
+        </activity>
+        <activity
+            android:name="examples.e06camera.ECamera"
+            android:label="@string/title_activity_ecamera" >
+        </activity>
+        <activity
+            android:name="examples.e07bitmap.EBitmap"
+            android:label="@string/title_activity_ebitmap" >
+        </activity>
+        <activity
+            android:name="examples.e08lighting.ELighting"
+            android:label="@string/title_activity_elighting" >
+        </activity>
+        <activity
+            android:name="examples.e09collision.ECollision"
+            android:label="@string/title_activity_ecollision" >
+        </activity>
+        <activity
+            android:name="examples.e10mediaplayer.EMediaPlayer"
+            android:label="@string/title_activity_emedia_player" >
         </activity>
     </application>
 

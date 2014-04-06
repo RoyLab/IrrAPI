@@ -89,6 +89,14 @@ public class Engine{
 	}
 	
 	/**
+	 * 获取绘制环境类型，如openGL ES1.x, openGL ES2.0等
+	 * @return 绘制环境类型
+	 */
+	public int getRenderType(){
+		return mRenderType;
+	}
+	
+	/**
 	 * 查询native层读取assets的开关是否打开
 	 * @return 如为true，则表示已经打开
 	 */
@@ -102,6 +110,14 @@ public class Engine{
 	 */
 	public double getFPS(){
 		return nativeGetFPS();
+	}
+	
+	/**
+	 * 取得当前引擎上下文的Assets
+	 * @return Assets管理器类
+	 */
+	public AssetManager getAssets(){
+		return mAssets;
 	}
 	
 	/**
@@ -127,6 +143,7 @@ public class Engine{
 		
 		mEnableAssets = view.isNativeAssetsReaderEnabled();
 		mRenderer = view.getRenderer();
+		mAssets = view.getContext().getAssets();
 		
 		nativeSetAssetsPath(ASSETS_PATH);
 		nativeInitAssetManager(view.getContext().getAssets());
@@ -216,6 +233,7 @@ public class Engine{
 	private Scene mScene;
 	private Renderer mRenderer;
 	private boolean mEnableAssets;
+	private AssetManager mAssets;
 	private int mRenderType;
 	
 	private native void nativeResize(int w, int h);

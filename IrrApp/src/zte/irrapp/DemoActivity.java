@@ -18,13 +18,13 @@ import android.widget.Button;
 public class DemoActivity extends Activity {
 	DemoView mDemo;
 	DemoRenderer mRenderer;
-	Button up, down, right, left, play, pause, stop;
+	Button up, down, right, left;
 	protected String TAG = "IrrActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_irr);
+		setContentView(R.layout.fpslayout);
 		  
 		Utils util = new Utils();
 		try {
@@ -47,8 +47,6 @@ public class DemoActivity extends Activity {
 		down = (Button)findViewById(R.id.down);
 		left = (Button)findViewById(R.id.left);
 		right = (Button)findViewById(R.id.right);
-		
-		play = (Button)findViewById(R.id.play);
 		
 		up.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -94,8 +92,7 @@ public class DemoActivity extends Activity {
 	}
 	
 	public void newActivity(View view){
-		Intent intent = new Intent(this, SubActivity.class);
-		startActivity(intent);
+		
 	}
 	
 	@Override
