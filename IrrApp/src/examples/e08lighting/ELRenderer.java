@@ -27,7 +27,7 @@ public class ELRenderer implements Renderer {
 		scene.enableLighting(true);
 		
 		/** 添加一个模型节点*/
-		cube = scene.addMeshSceneNode(Engine.SYSTEM_MEDIA_FULL + "ext_cube.obj",
+		cube = scene.addMeshSceneNode(Engine.SYSTEM_MEDIA + "cube.obj",
 				new Vector3d(0, 0, 20), false, null);
 		cube.addRotationAnimator(new Vector3d(0, 0.5, 0.1));
 		

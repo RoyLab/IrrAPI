@@ -217,6 +217,7 @@ public class SceneNode {
 	 * @return 对应的子节点
 	 */
 	public SceneNode getChild(int index){
+		if (mChild == null) return null;
 		return mChild.get(index);
 	}
 	
@@ -456,17 +457,17 @@ public class SceneNode {
 		}
 	}
 	
-	protected final void setupNodesId(SceneNode node){
+	protected final void setupNodesId(SceneNode res, SceneNode des){
 		if (mChild == null) return;
-		for (int i = 0; i < getChildrenCount(); i++){
-			nativeChangeId(getChild(i).getId(), node.getChild(i).getId(), getId());
-			setupNodesId(node.getChild(i));
+		for (int i = 0; i < des.getChildrenCount(); i++){
+			nativeChangeId(res.getChild(i).getId(), des.getChild(i).getId(), des.getId());
+			setupNodesId(res.getChild(i), des.getChild(i));
 		}
 	}
 	
 	protected final void cloneInNativeAndSetupNodesId(SceneNode res){
 		nativeCloneNode(getId(), res.getId());
-		setupNodesId(res);
+		setupNodesId(this, res);
 	}
 	
 	protected SceneNode(SceneNode node) {

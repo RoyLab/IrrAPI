@@ -23,5 +23,13 @@
     <string name="title_activity_elighting">ELighting</string>
     <string name="title_activity_ecollision">ECollision</string>
     <string name="title_activity_emedia_player">EMediaPlayer</string>
+    <string name="title_activity_ebillboard">EBillboard</string>
+    <string name="title_activity_eparticle_system">EParticleSystem</string>
+    <string name="title_activity_ecubelayout">ECubelayout</string>
+    <string name="title_activity_ememory">EMemory</string>
+    <string name="title_activity_ematerial">EMaterial</string>
+    <string name="title_activity_enode_mgr">ENodeMgr</string>
+    <string name="title_activity_ebounding_box">EBoundingBox</string>
+    <string name="title_activity_enative">ENative</string>
 
 </resources>

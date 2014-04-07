@@ -218,7 +218,7 @@ extern "C"
 		ISceneNode* node = smgr->getSceneNodeFromId(res);
 		if (!node) 
 		{
-			WARN_NODE_NOT_FOUND(res, AddDeleteAnimator);
+			WARN_NODE_NOT_FOUND(res, nativeCloneNode);
 			return -1;
 		}
 		
@@ -235,7 +235,7 @@ extern "C"
 		ISceneNode* node = smgr->getSceneNodeFromId(res, parentNode);
 		if (!node) 
 		{
-			WARN_NODE_NOT_FOUND(res, AddDeleteAnimator);
+			WARN_NODE_NOT_FOUND(res, nativeChangeId);
 			return -1;
 		}
 		node->setID(des);

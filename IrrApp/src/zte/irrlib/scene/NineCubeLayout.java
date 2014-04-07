@@ -13,12 +13,12 @@ import android.util.Log;
 public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	
 	/** 长方体各个面的材质序号*/
-	public static final int FRONT_MATERIAL_ID = 3;
-	public static final int BACK_MATERIAL_ID = 1;
-	public static final int LEFT_MATERIAL_ID = 5;
-	public static final int UP_MATERIAL_ID = 4;
-	public static final int RIGHT_MATERIAL_ID = 2;
-	public static final int BOTTOM_MATERIAL_ID = 0;
+	public static final int FRONT_MATERIAL_ID = 5;
+	public static final int BACK_MATERIAL_ID = 0;
+	public static final int LEFT_MATERIAL_ID = 2;
+	public static final int UP_MATERIAL_ID = 1;
+	public static final int RIGHT_MATERIAL_ID = 3;
+	public static final int BOTTOM_MATERIAL_ID = 4;
 	
 	public static final String TAG = "NineCubeLayout";
 
@@ -44,9 +44,9 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 			int v = i%3;
 					
 			SceneNode node = mScene.addMeshSceneNode(
-					Engine.SYSTEM_MEDIA_FULL + "ext_cube.obj", 
+					Engine.SYSTEM_MEDIA + "ext_cube.obj", 
 					new Vector3d(a*(-1+v), b*(-1+u), 0), false, this);
-			node.setScale(new Vector3d(x/10, y/10, size.Z/10), TRANS_ABSOLUTE);
+			node.setScale(new Vector3d(x/5, y/5, size.Z/5), TRANS_ABSOLUTE);
 			node.mark();
 		}
 	}
@@ -58,7 +58,7 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	 */
 	public void setFrontTexture(String tex, int index){
 		if (mChild == null) return;
-		((MeshSceneNode)mChild.get(index)).setTexture(tex, 3);
+		((MeshSceneNode)mChild.get(index)).setTexture(tex, FRONT_MATERIAL_ID);
 	}
 	
 	/**
@@ -67,6 +67,7 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	 * @param name 给这个材质取名，必须唯一
 	 * @param index 节点序号
 	 */
+	@Deprecated
 	public void setFrontTexture(Bitmap bitmap, String name, int index){
 		if (mChild == null || bitmap == null || name == "") return;
 		((MeshSceneNode)mChild.get(index)).setTexture(bitmap, name, FRONT_MATERIAL_ID);
@@ -91,6 +92,7 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	 * @param name 给这个材质取名，必须唯一
 	 * @param materialId 材质号
 	 */
+	@Deprecated
 	public void setUniTexture(final Bitmap bit, final String name, final int materialId){
 		do2EveryChild(new TraversalCallback(){
 			public void operate(SceneNode node){

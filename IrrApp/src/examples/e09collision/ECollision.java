@@ -4,6 +4,11 @@ import zte.test.irrapp.R;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * 演示了如何使用碰撞检测功能
+ * @author Roy
+ *
+ */
 public class ECollision extends Activity {
 
 	protected ECView mDemo;

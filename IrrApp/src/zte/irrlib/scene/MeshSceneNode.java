@@ -120,7 +120,7 @@ public class MeshSceneNode extends SceneNode{
 	
 	/**
 	 * 设置指定材质对漫反射光的颜色响应。
-	 * @param color 材质对漫反射光的响应参数，默认值为全白（255，255，255）
+	 * @param color 材质对漫反射光的响应参数，默认值为全白（255，255，255， 255）
 	 * @param materialId 指定材质的ID值
 	 */
 	public void setDiffuseColor(Color4i color, int materialId) {
@@ -158,7 +158,7 @@ public class MeshSceneNode extends SceneNode{
 	/**
 	 * 设置指定材质的贴图。
 	 * @param path 贴图的路径
-	 * @param materialId 指定材质的ID值 
+	 * @param materialId 指定材质的ID值
 	 */
 	public void setTexture(String path, int materialId) {
 		nativeSetTexture(mScene.getFullPath(path), materialId, getId());
@@ -204,15 +204,17 @@ public class MeshSceneNode extends SceneNode{
 	
 	/**
 	 * 为模型设定外部贴图
-	 * @param name 该贴图的唯一名字
+	 * @param name 该贴图的唯一名字，注意不要使用外部前缀
+	 * @param materialId 指定材质的ID值
 	 * @return 为真则设定成功
 	 */
-	public boolean setExternalTexture(String name){
+	@Deprecated
+	public boolean setExternalTexture(String name, int materialId){
 		if (Engine.getInstance().getRenderType() != 1){
 			Log.e(TAG, "Can not set external texture. Unsupported renderer type.");
 			return false;
 		}
-		if (nativeSetExternalTexture(name, -1, getId()) == 0) return true;
+		if (nativeSetExternalTexture(name, materialId, getId()) == 0) return true;
 		return false;
 	}
 	
@@ -253,7 +255,8 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * 添加对指定节点的碰撞检测响应。<br>
+	 * 添加对指定节点的碰撞检测响应。通常用于运动的节点对静止节点的碰撞响应，不适用于运动节点之间的
+	 * 碰撞检测<br>
 	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
 	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
 	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线

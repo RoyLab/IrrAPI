@@ -3,6 +3,7 @@ package zte.irrlib.scene;
 import java.util.ArrayList;
 
 import zte.irrlib.Engine;
+import zte.irrlib.TexMediaPlayer;
 import zte.irrlib.Utils;
 import zte.irrlib.core.Color3i;
 import zte.irrlib.core.Color4i;
@@ -83,7 +84,7 @@ public class Scene {
 			Log.e(TAG, "assets is not allowed to be opened!");
 			return;
 		}
-		nativeSetFontPath(Engine.SYSTEM_MEDIA + "/" + font);
+		nativeSetFontPath(getFullPath(Engine.SYSTEM_MEDIA + font));
 	}
 	
 	/**
@@ -605,9 +606,9 @@ public class Scene {
 	 * 所以及时的清理贴图是减少系统资源消耗的有效方法。然而，反复加载
 	 * 贴图是非常耗时的，因此引擎不会自动删除那些不再被使用的贴图。
 	 * 建议删除那些不会再用到的贴图。
-	 * @param name 贴图的名称（必须跟创建时所用的名称一致）
+	 * @param name 贴图的名称（必须跟创建时所用的名称一致，无需前缀）
 	 */
-	public void removeBitmapTexture(String bitmapName){
+	public void removeBitmap(String bitmapName){
 		nativeRemoveTexture(bitmapName);
 	}
 	
@@ -635,7 +636,7 @@ public class Scene {
 	 * @param path 模型的路径
 	 */
 	public void removeMesh(String path){
-		nativeRemoveMesh(path);
+		nativeRemoveMesh(getFullPath(path));
 	}
 	
 	/**
@@ -684,6 +685,7 @@ public class Scene {
 			return;
 		}
 		setFont("buildinfont.png");
+		mEnableLighting = false;
 	}
 	
 	/**
@@ -760,13 +762,32 @@ public class Scene {
 	 * @return 给定相对路径返回其绝对路径值
 	 */
 	public String getFullPath(String path){
-		if (path.substring(0, Engine.ASSETS_PATH.length()).compareTo(Engine.ASSETS_PATH)==0){
+		
+		if (path == null) return null;
+		if (path.equals("")) return "";
+		
+		if (path.length() > Engine.ASSETS_MARK.length() &&
+				path.substring(0, Engine.ASSETS_MARK.length()).equals(
+				Engine.ASSETS_MARK)){
 			if (mEngine.isNativeAssetsReaderEnabled() == false){
 				Log.e(TAG, "assets is not allowed to be opened!");
 				return null;
 			}
-			return path.substring(Engine.ASSETS_PATH.length());
+			return path.substring(Engine.ASSETS_MARK.length());
 		}
+		
+		if (path.length() > Engine.BITMAP_MARK.length() &&
+				path.substring(0, Engine.BITMAP_MARK.length()).equals(
+				Engine.BITMAP_MARK)){
+			return path.substring(Engine.ASSETS_MARK.length());
+		}
+		
+		if (path.length() > Engine.EXTERNAL_TEX_MARK.length() &&
+				path.substring(0, Engine.EXTERNAL_TEX_MARK.length()).equals(
+				Engine.EXTERNAL_TEX_MARK)){
+			return path.substring(Engine.EXTERNAL_TEX_MARK.length());
+		}
+		
 		if (Utils.isAbsolutePath(path)){
 			return path; 
 		} else {

@@ -63,19 +63,22 @@ extern "C"
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeAllSetTexture(
 		JNIEnv *env, jobject defaultObj, jstring path, jint id)
 	{
-		const char *msg = env->GetStringUTFChars(path,0);
-		core::stringc file = msg;
-
 		scene::ISceneNode* node =
 			(ISceneNode*)smgr->getSceneNodeFromId(id);
 		if (!node)
 		{
-			WARN_NODE_NOT_FOUND(id, SetAllTexture);
+			WARN_NODE_NOT_FOUND(id, SetTexture);
 			return -1;
-		}	
-		node->setMaterialTexture(0,driver->getTexture(file.c_str()));
-		env->ReleaseStringUTFChars(path,msg);
-		return 0;
+		}
+		
+		ITexture *tex = 0;
+		if (path != NULL)
+		{
+			const char *msg = env->GetStringUTFChars(path,0);
+			tex = driver->getTexture(msg);
+			env->ReleaseStringUTFChars(path,msg);
+		}
+		node->setMaterialTexture(0, tex);
 	}
 	
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeAllSetMediaTexture(
@@ -213,9 +216,6 @@ extern "C"
 		int Java_zte_irrlib_scene_MeshSceneNode_nativeSetTexture(
 		JNIEnv *env, jobject defaultObj, jstring path, jint materialID, jint id)
 	{
-		const char *msg = env->GetStringUTFChars(path,0);
-		core::stringc file = msg;
-
 		scene::ISceneNode* node =
 			(ISceneNode*)smgr->getSceneNodeFromId(id);
 		if (!node)
@@ -223,9 +223,17 @@ extern "C"
 			WARN_NODE_NOT_FOUND(id, SetTexture);
 			return -1;
 		}
-		node->getMaterial(materialID).setTexture(
-			0,driver->getTexture(file.c_str()));
-		env->ReleaseStringUTFChars(path,msg);
+		
+		ITexture *tex = 0;
+		if (path != NULL)
+		{
+			const char *msg = env->GetStringUTFChars(path,0);
+			tex = driver->getTexture(msg);
+			env->ReleaseStringUTFChars(path,msg);
+		}
+		if (materialID < 0) node->setMaterialTexture(0, tex);
+		else node->getMaterial(materialID).setTexture(0, tex);
+		
 		return 0;
 	}
 	
@@ -267,7 +275,8 @@ extern "C"
 		if (!_extTex)
 			_extTex = driver->addTexture("<external>", 0);
 		
-		node->getMaterial(mId).setTexture(0, _extTex);
+		if (mId < 0) node->setMaterialTexture(0, _extTex);
+		else node->getMaterial(mId).setTexture(0, _extTex);
 		return 0;
 	}
 

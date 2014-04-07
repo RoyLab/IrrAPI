@@ -1,5 +1,7 @@
 package zte.irrlib.core;
 
+import java.text.DecimalFormat;
+
 /**
  * 三维浮点型向量
  * @author Roy
@@ -147,6 +149,12 @@ public class Vector3d {
 	 */
 	public double length(){
 		return Math.sqrt(X*X + Y*Y + Z*Z);
+	}
+	
+	@Override
+	public String toString(){
+		DecimalFormat df = new DecimalFormat("#0.00");
+		return "(" + df.format(X) + ", " + df.format(Y) + ", " + df.format(Z) + ")";
 	}
 	
 	public double X, Y, Z;

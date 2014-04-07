@@ -25,7 +25,8 @@ public class EBRenderer implements Renderer {
 		Scene scene = engine.getScene();
 		
 		/** 将图片绘制到场景中*/
-		scene.drawImage("text", new Rect4i(100, 100, 300, 300), new Rect4d(), true);
+		scene.drawImage(Engine.BITMAP_MARK + "text",
+				new Rect4i(100, 100, 300, 300), new Rect4d(), true);
 		
 		scene.drawAllNodes();
 	}
@@ -45,10 +46,16 @@ public class EBRenderer implements Renderer {
 		Bitmap tex1 = null;
 		if (out != null){
 			tex1 = BitmapFactory.decodeStream(out);
+			
+			try {
+				out.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		try {
-			out = engine.getAssets().open("sysmedia/ext_1.png");
+			out = engine.getAssets().open("sysmedia/ext_tex1.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,27 +63,32 @@ public class EBRenderer implements Renderer {
 		Bitmap tex2 = null;
 		if (out != null){
 			tex2 = BitmapFactory.decodeStream(out);
+
+			try {
+				out.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		/** 上传这些位图*/
 		scene.uploadBitmap(tex1, "tex1");
 		scene.uploadBitmap(tex2, "tex2");
-		scene.uploadBitmap(tex2, "tex2");//ddddddddddddddddddddddddddddddddddddddddd
 		
 		/** 当然不要忘记释放内存*/
 		tex1.recycle();
 		tex2.recycle();
 		
 		/** 下面我们创建4个立方体节点*/
-		cube1 = scene.addCubeSceneNode(new Vector3d(-7, 7, 20), 5, null);
-		cube2 = scene.addCubeSceneNode(new Vector3d(7, 7, 20), 5, null);
-		cube3 = scene.addCubeSceneNode(new Vector3d(7, -7, 20), 5, null);
-		cube4 = scene.addCubeSceneNode(new Vector3d(-7, -7, 20), 5, null);
+		cube1 = scene.addCubeSceneNode(new Vector3d(-4, 4, 20), 5, null);
+		cube2 = scene.addCubeSceneNode(new Vector3d(4, 4, 20), 5, null);
+		cube3 = scene.addCubeSceneNode(new Vector3d(4, -4, 20), 5, null);
+		cube4 = scene.addCubeSceneNode(new Vector3d(-4, -4, 20), 5, null);
 		
 		/** 给这几个立方体贴图*/
-		cube1.setTexture("tex1");
-		cube2.setTexture("tex2");
-		cube3.setTexture("tex2");
+		cube1.setTexture(Engine.BITMAP_MARK + "tex1");
+		cube2.setTexture(Engine.BITMAP_MARK + "tex2");
+		cube3.setTexture(Engine.BITMAP_MARK + "tex2");
 		
 		/** 如果需要，你可以考虑使用透明贴图材质*/
 		cube3.setMaterialType(E_MATERIAL_TYPE.EMT_TRANSPARENT_ALPHA_CHANNEL);
@@ -96,7 +108,7 @@ public class EBRenderer implements Renderer {
 		scene.uploadBitmap(bitmap, "text");
 		bitmap.recycle();
 		
-		cube4.setTexture("text");
+		cube4.setTexture(Engine.BITMAP_MARK + "text");
 	}
 	
 	public void onResize(Engine engine, int width, int height) {

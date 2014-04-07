@@ -40,7 +40,7 @@ public class ECRenderer implements Renderer {
 		FPSWrapper = new CameraFPSWrapper(camera);
 		
 		cube = scene.addCubeSceneNode(new Vector3d(), 5, null);
-		cube.setTexture(Engine.SYSTEM_MEDIA_FULL + "b&w.bmp");
+		cube.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		cube.addRotationAnimator(new Vector3d(0, 0.1, 0));
 	}
 	

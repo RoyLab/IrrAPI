@@ -8,8 +8,6 @@ import zte.irrlib.scene.Scene;
 
 public class EGSRenderer implements Renderer {
 	
-	private MeshSceneNode cube;
-
 	public void onDrawFrame(Engine engine) {
 		Scene scene = engine.getScene();
 		
@@ -29,7 +27,7 @@ public class EGSRenderer implements Renderer {
 		 * 大部分场景的搭建工作可以通过场景管理类完成，这个函数向场景中添加
 		 * 了一个大小为10的立方体，位置在(0, 0, 20)。注意，引擎使用的是左手系。
 		 */
-		cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
+		MeshSceneNode cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
 		
 		/** 如果你不再需要该节点，可以将其从场景中去除。下面两个方法是等价的*/
 		//scene.removeNode(cube);
@@ -37,6 +35,7 @@ public class EGSRenderer implements Renderer {
 		
 		/** 如果你不希望该节点被显示出来，你可以设定其为不可见 */
 		//cube.setVisible(false);
+		cube.setVisible(true);
 		
 	}
 

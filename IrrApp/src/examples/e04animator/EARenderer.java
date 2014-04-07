@@ -21,7 +21,7 @@ public class EARenderer implements Renderer {
 		cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
 		
 		/** 在assets读取功能打开的情况下，assets系统材质目录会被自动加载，可以直接使用*/
-		cube.setTexture(Engine.SYSTEM_MEDIA_FULL + "b&w.bmp");
+		cube.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		
 		/** 可以给节点添加各种各样的动画效果*/
 		cube.addRotationAnimator(new Vector3d(0, 0, 0.3));

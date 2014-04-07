@@ -45,8 +45,8 @@ public class ETAHRenderer implements Renderer {
 		 */
 		cube2.setPosition(new Vector3d(0, 6, 0), SceneNode.TRANS_ABSOLUTE);
 		
-		cube1.setTexture(Engine.SYSTEM_MEDIA_FULL + "b&w.bmp");
-		cube2.setTexture(Engine.SYSTEM_MEDIA_FULL + "b&w.bmp");
+		cube1.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
+		cube2.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 	}
 
 	public void onResize(Engine engine, int width, int height) {

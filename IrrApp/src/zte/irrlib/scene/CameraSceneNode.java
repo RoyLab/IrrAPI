@@ -131,7 +131,7 @@ public class CameraSceneNode extends SceneNode{
 	}
 
 	private Vector3d mLookAt;
-	private boolean mIsPosChanged;
+	private boolean mIsPosChanged = true;
 	
 	private native int nativeSetLookAt(double x, double y, double z, int id);
 	private native int nativeSetClipPlain(double nearClip, double farClip, int id);

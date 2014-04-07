@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.content.res.AssetManager;
-import android.os.Environment;
 import android.util.Log;
 
 
@@ -44,7 +43,7 @@ public class Utils {
 	 * @return 若为true，则表示字符串为绝对路径
 	 */
 	public static boolean isAbsolutePath(String path){
-		return (path.charAt(0) == '/');
+		return (path != null && path.equals("") && path.charAt(0) == '/');
 	}
 	
 	/**
@@ -90,7 +89,7 @@ public class Utils {
 		return true;
 	}
 	
-	public void UtilsInit(AssetManager assetManager){
+	/*public void UtilsInit(AssetManager assetManager){
 		try {
             unpackOnSdCard(assetManager);
         } catch (IOException e) {
@@ -148,5 +147,5 @@ public class Utils {
 		return true;
 	}
 	
-	private native void nativeSetSdCardPath(String path);
+	private native void nativeSetSdCardPath(String path);*/
 }

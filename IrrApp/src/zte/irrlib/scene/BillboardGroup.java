@@ -2,6 +2,7 @@ package zte.irrlib.scene;
 
 
 
+
 /**
  * 公告板组节点类，管理一组公告板的位置，可见性等，同时可以设置
  * 组内公告版的可见的距离范围，可用于烟雾、植被等的模拟。
@@ -68,10 +69,10 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	
 	//Scene.Updatable
 	public void updateFromCamera(CameraSceneNode camera){
+		double nearSquare = mNear*mNear, farSquare = mFar*mFar;
 		for (SceneNode itr:mChild){
-			double disSquare = itr.getPosition().distanceSquare(camera.getPosition());
-			
-			if (disSquare < mNear*mNear || disSquare > mFar*mFar){
+			disSquare = itr.getAbsolutePosition().distanceSquare(camera.getAbsolutePosition());
+			if (disSquare < nearSquare || disSquare > farSquare){
 				itr.setVisible(false);
 			}
 			else itr.setVisible(true);
@@ -124,4 +125,5 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	}
 
 	private double mNear, mFar;
+	private double disSquare;
 }

@@ -78,7 +78,11 @@ extern "C"
 	void Java_zte_irrlib_Engine_nativeRelease(
 		JNIEnv *env, jclass clazz)
 	{
-		if (device) device->drop();
+		if (device)
+		{
+			device->drop();
+			device = 0;
+		}
 		resetGlobalValue();
 		if (utils)
 		{

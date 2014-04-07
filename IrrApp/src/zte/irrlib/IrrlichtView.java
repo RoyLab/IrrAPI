@@ -138,11 +138,11 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		mEngine.onSurfaceChanged(width, height);
+			mEngine.onSurfaceChanged(width, height);
 	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		mEngine.onSurfaceCreated(this);
+			mEngine.onSurfaceCreated(this);
 	}
 }
 

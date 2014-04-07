@@ -1,6 +1,12 @@
 package zte.irrlib.core;
 
+/**
+ * ȱdoc
+ * @author Administrator
+ *
+ */
 public class BoxEmitter {
+	
 	public double BBox[]  = new double[]{-7,-7,-7,7,7,7};
 	public Vector3d InitialDirection = new Vector3d(0.0,0.03,0.0);
 	public int MinEmitRate=5, MaxEmitRate=10;
@@ -10,4 +16,5 @@ public class BoxEmitter {
 	public int MaxAngleDegrees = 0;
 	public Vector2d MinSize = new Vector2d(5.0,5.0);
 	public Vector2d  MaxSize = new Vector2d(5.0,5.0);
+	
 }

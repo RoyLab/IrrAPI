@@ -1,5 +1,10 @@
 package zte.irrlib.core;
 
+/**
+ * °üÎ§ºĞÀà
+ * @author Roy
+ *
+ */
 public class BoundingBox {
 	
 	public Vector3d MinEdge, MaxEdge;

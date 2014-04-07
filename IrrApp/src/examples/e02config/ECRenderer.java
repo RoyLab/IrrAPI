@@ -1,5 +1,6 @@
 package examples.e02config;
 
+import android.os.Environment;
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
 import zte.irrlib.core.Vector3d;
@@ -18,9 +19,10 @@ public class ECRenderer implements Renderer {
 	public void onCreate(Engine engine) {
 		/**
 		 * 要在引擎中使用材质，模型等资源文件，则需要指定资源文件所在的路径，
-		 * 比如可以通过下面这行代码指定路径（假设资源文件放在sd卡的media目录下）
+		 * 比如可以通过下面这行代码指定路径（假设资源文件放在主sd卡的irrmedia目录下）
 		 */
-		//engine.setResourceDir("/sdcard/oneDir/");
+		engine.setResourceDir(Environment.getExternalStorageDirectory(
+				).getAbsolutePath() + "/irrmedia/");
 		
 		/**
 		 * 你也可以选择从assets中读取材质，这免去了拷贝材质到指定路径下的麻烦。
@@ -37,21 +39,21 @@ public class ECRenderer implements Renderer {
 		//cube.setTexture("tex.bmp");
 		
 		/**
-		 * 你也可以使用绝对路径来指向其他位置的材质。
+		 * 你也可以使用绝对路径来指向其他位置的材质，绝对路径必须以'/'开头。
 		 */
-		//cube.setTexture("/sdcard/anotherDir/tex.bmp");
+		//cube.setTexture("/mnt/sdcard/irrmedia/tex.bmp");
 		
 		/**
 		 * 或者使用已经添加的assets目录中的资源。
 		 */
-		cube.setTexture(Engine.ASSETS_PATH + "sysmedia/b&w.bmp");
+		cube.setTexture(Engine.ASSETS_MARK + "sysmedia/b&w.bmp");
 		
 		/**
 		 * 如果你在添加assets目录的时候忽略了路径，你甚至可以这么做。
-		 * 但是我们并不建议使用忽略路径，它可能导致引擎文件系统里面出现重名，
+		 * 但是我们并不建议使用忽略路径，它可能因为引擎文件系统里面出现重名，
 		 * 而导致莫名其妙的显示错误。
 		 */
-		//cube.setTexture(Engine.ASSETS_PATH + "b&w.bmp");
+		//cube.setTexture(Engine.ASSETS_MARK + "b&w.bmp");
 	}
 
 	public void onResize(Engine engine, int width, int height) {

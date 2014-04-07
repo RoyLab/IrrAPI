@@ -115,6 +115,12 @@ extern "C"
 	int Java_zte_irrlib_scene_Scene_nativeSetActiveCamera(
 		JNIEnv *env, jobject defaultObj, jint id)
 	{
+		if (id == 0)
+		{
+			smgr->setActiveCamera(0);
+			return 0;
+		}
+		
 		scene::ISceneNode* camera = smgr->getSceneNodeFromId(id);
 		if (!camera)
 		{
@@ -656,7 +662,14 @@ extern "C"
 		JNIEnv *env, jobject defaultObj, jstring name)
 	{
 		const char* ch = env->GetStringUTFChars(name, 0);
-		driver->removeTexture(driver->findTexture(ch));
+		ITexture *tex = driver->findTexture(ch);
+		if (!tex)
+		{
+			LOGD("Texture(%s) not found, can not be removed.", ch);
+			env->ReleaseStringUTFChars(name, ch);
+			return;
+		}
+		driver->removeTexture(tex);
 		env->ReleaseStringUTFChars(name, ch);
 	}
 	
@@ -670,7 +683,18 @@ extern "C"
 		JNIEnv *env, jobject defaultObj, jstring path)
 	{
 		const char* ch = env->GetStringUTFChars(path, 0);
-		smgr->getMeshCache()->removeMesh(smgr->getMesh(ch));
+		IMeshCache *cache = smgr->getMeshCache();
+		if (cache)
+		{
+			IMesh *mesh = cache->getMeshByName(ch);
+			if (!mesh)
+			{
+				LOGD("Mesh(%s) not found, can not be removed.", ch);
+				env->ReleaseStringUTFChars(path, ch);
+				return;
+			}
+			cache->removeMesh(mesh);
+		}
 		env->ReleaseStringUTFChars(path, ch);
 	}
 	

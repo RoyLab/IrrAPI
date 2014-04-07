@@ -26,14 +26,14 @@ public class DemoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fpslayout);
 		  
-		Utils util = new Utils();
+		/*Utils util = new Utils();
 		try {
 			util.setSDCardPath();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		util.UtilsInit(getAssets());
+		util.UtilsInit(getAssets());*/
 		
 		mDemo = (DemoView)findViewById(R.id.irrview);
 		mDemo.setRecommendEGLConfigChooser(0);

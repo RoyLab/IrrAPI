@@ -2,6 +2,7 @@ package zte.irrlib;
 
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.scene.Scene;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
@@ -15,13 +16,16 @@ public class Engine{
 	public static final String TAG = "IrrEngine";
 	
 	/** assets目录前缀，所有assets目录下的资源必须以此为前缀*/
-	public static final String ASSETS_PATH = "<assets>/";
+	public static final String ASSETS_MARK = "<assets>/";
 	
-	/** 系统内置资源assets目录名*/
-	public static final String SYSTEM_MEDIA = "sysmedia";
+	/** Bitmap对象前缀，在引用Bitmap对象时必须使用次前缀*/
+	public static final String BITMAP_MARK = "<bitmap>/";
 	
-	/** 系统内置资源assets目录完整路径*/
-	public static final String SYSTEM_MEDIA_FULL = ASSETS_PATH + SYSTEM_MEDIA + "/"; ;
+	/** 外部材质前缀，在引用外部材质名时必须使用此前缀*/
+	public static final String EXTERNAL_TEX_MARK = "<bitmap>/";
+	
+	/** 系统内置资源assets目录路径*/
+	public static final String SYSTEM_MEDIA = ASSETS_MARK + "sysmedia/"; ;
 	
 	/**
 	 * 构造器不可以被直接调用，本方法替代构造方法，用于取得
@@ -46,8 +50,10 @@ public class Engine{
 	 * 可能在别的地方用到该引擎，请不要使用本方法：引擎不会因为频繁的
 	 * 初始化而造成内存溢出，而在不合适的时机调用该方法则可能造成程序
 	 * 崩溃。<br>
-	 * 注意：本方法不建议在EGL上下文中（如）时候使用，否则可能会
-	 * 出现材质丢失的问题。
+	 * 注意：使用本方法需要进行严格的测试，在一些上下文环境中调用本方法，
+	 * 会造成显示问题，尤其是通过重载诸如onDestroy方法来实现自动释放内
+	 * 存时，程序极有可能在不恰当的时刻释放内存而导致问题。这也是我们
+	 * 不将释放内存集成进引擎中自动调用的主要原因。
 	 */
 	public static void release(){
 		nativeRelease();
@@ -121,6 +127,14 @@ public class Engine{
 	}
 	
 	/**
+	 * 取得引擎的上下文环境
+	 * @return 上下文环境
+	 */
+	public Context getContext(){
+		return mContext;
+	}
+	
+	/**
 	 * 将assets中的一个文件夹添加入引擎文件系统，这个方法并不会搜索文件夹下的子文件夹，
 	 * 添加目录之后，可以在资源路径之前添加{@link #SYSTEM_MEDIA_FULL}以表示这是个
 	 * assets目录。
@@ -136,7 +150,7 @@ public class Engine{
 		return nativeAddAssetsDir(dirname, ignorePath);
 	}
 	
-	public synchronized void onSurfaceCreated(IrrlichtView view){
+	synchronized void onSurfaceCreated(IrrlichtView view){
 		
 		mRenderType = view.IsGLES2Enabled()?
 				EGL10Ext.EGL_OPENGL_ES2_BIT:EGL10Ext.EGL_OPENGL_ES1_BIT;
@@ -144,19 +158,19 @@ public class Engine{
 		mEnableAssets = view.isNativeAssetsReaderEnabled();
 		mRenderer = view.getRenderer();
 		mAssets = view.getContext().getAssets();
+		mContext = view.getContext();
 		
-		nativeSetAssetsPath(ASSETS_PATH);
+		nativeSetAssetsPath(ASSETS_MARK);
 		nativeInitAssetManager(view.getContext().getAssets());
 		
 		nativeCreateDevice(mRenderType);
-		
 		initJNIFieldID();
+	
+		mScene = Scene.getInstance(this);
 		
 		if (isNativeAssetsReaderEnabled() == true){
-			addAssetsDir(SYSTEM_MEDIA, false);
+			addAssetsDir(mScene.getFullPath(SYSTEM_MEDIA.substring(0, SYSTEM_MEDIA.length()-1)), false);
 		}
-		
-		mScene = Scene.getInstance(this);
 		mScene.javaReset();
 		
 		//nativeTest();
@@ -164,17 +178,21 @@ public class Engine{
 		Log.d(TAG, "OnSurfaceCreated");
 	}
 
-	public synchronized void onSurfaceChanged(int width, int height){
+	synchronized void onSurfaceChanged(int width, int height){
 		nativeResize(width, height);
 		mScene.onResize(width, height);
 		mRenderer.onResize(this, width, height);
 	}
 	
-	public synchronized void onDrawFrame(){
+	synchronized void onDrawFrame(){
 		nativeBeginScene();
 		mScene.onDrawFrame();
 		mRenderer.onDrawFrame(this);
 		nativeEndScene();
+	}
+	
+	synchronized void onSurfaceDestroy(){
+		nativeRelease();
 	}
 	
 	void setRenderer(Renderer renderer){
@@ -234,6 +252,7 @@ public class Engine{
 	private Renderer mRenderer;
 	private boolean mEnableAssets;
 	private AssetManager mAssets;
+	private Context mContext;
 	private int mRenderType;
 	
 	private native void nativeResize(int w, int h);

@@ -22,13 +22,13 @@ public class ED2Renderer implements Renderer {
 		/**
 		 * 绘制一张图片的全部或一部分
 		 */
-		scene.drawImage(Engine.SYSTEM_MEDIA_FULL + "b&w.bmp", 
-				new Rect4i(100, 100, 350, 400), new Rect4d(0.1, 0.2, 1.0, 0.9), false);
+		scene.drawImage(Engine.SYSTEM_MEDIA + "b&w.bmp", 
+				new Rect4i(100, 100, 300, 300), new Rect4d(0.1, 0.2, 1.0, 0.9), false);
 		
 		/**
 		 * 绘制矩形区域
 		 */
-		scene.drawRectangle(new Rect4i(100, 300, 400, 500), new Color4i(0xff, 0, 0, 0x30));
+		scene.drawRectangle(new Rect4i(200, 100, 400, 300), new Color4i(0xff, 0, 0, 0x7f));
 	}
 
 	public void onCreate(Engine engine) {
