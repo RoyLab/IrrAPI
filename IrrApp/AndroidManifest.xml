@@ -27,10 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="zte.irrapp.DemoActivity"
-            android:label="@string/title_activity_example_lists" >
-        </activity>
-        <activity
             android:name="examples.e01gettingstart.EGettingStart"
             android:label="@string/title_activity_egetting_start" >
         </activity>
@@ -97,6 +93,10 @@
         <activity
             android:name="examples.e17bbox.EBoundingBox"
             android:label="@string/title_activity_ebounding_box" >
+        </activity>
+        <activity
+            android:name="examples.e18psextension.EPSExtension"
+            android:label="@string/title_activity_eps_extension">
         </activity>
     </application>
 

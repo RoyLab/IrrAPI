@@ -612,7 +612,7 @@ extern "C"
 		ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
 		ps->setMaterialFlag(video::EMF_LIGHTING,false);
 		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE,false);
-		ps->addAnimator(smgr->createDeleteAnimator(5000));
+		//ps->addAnimator(smgr->createDeleteAnimator(5000));
 		scene::IParticleAffector* fadeAff = ps->createFadeOutParticleAffector(SColor(0,0,0,0),500);
 		scene::IParticleAffector* attrAff = ps->createAttractionAffector(pos,speed,false);
 		ps->addAffector(fadeAff);

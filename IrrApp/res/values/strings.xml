@@ -31,5 +31,6 @@
     <string name="title_activity_enode_mgr">ENodeMgr</string>
     <string name="title_activity_ebounding_box">EBoundingBox</string>
     <string name="title_activity_enative">ENative</string>
+    <string name="title_activity_eps_extension">EPSExtension</string>
 
 </resources>

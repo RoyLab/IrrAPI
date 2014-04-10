@@ -77,7 +77,7 @@ public class Scene {
 	/**
 	 * 设置字体文件，字体文件必须放置在assets下的sysmedia里
 	 * assets读取被禁用时不可用
-	 * @param path 字体图片文件名
+	 * @param font 字体图片文件名
 	 */
 	public void setFont(String font){
 		if (mEngine.isNativeAssetsReaderEnabled() == false){
@@ -465,11 +465,11 @@ public class Scene {
 	}
 	
 	/**
-	 * 添加星光粒子系统节点
-	 * @param pos
-	 * @param radius
-	 * @param parent
-	 * @return
+	 * 添加星光粒子系统节点，即在指定的星空区域内随机产生闪烁的星星粒子。
+	 * @param pos 所添加星光粒子系统节点的中心位置
+	 * @param radius 所添加星光粒子系统节点涵盖的区域半径
+	 * @param parent 所添加星光粒子系统节点的父节点对象
+	 * @return 返回所添加的星光粒子系统节点
 	 */
 	public ParticleSystemSceneNode addStarsParticleSceneNode(Vector3d pos, double radius, SceneNode parent){
 		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
@@ -482,11 +482,11 @@ public class Scene {
 	
 	/**
 	 * 添加爆炸粒子系统节点
-	 * @param pos
-	 * @param radius
-	 * @param speed
-	 * @param parent
-	 * @return
+	 * @param pos	所添加的爆炸粒子系统节点所在位置坐标
+	 * @param radius 爆炸效果波及范围的半径
+	 * @param speed 爆炸粒子飞离中心点的速度，单位：unit/秒
+	 * @param parent 爆炸利息系统节点的父节点对象
+	 * @return 返回所添加的爆炸粒子系统节点对象
 	 */
 	public ParticleSystemSceneNode addExplosionParticleSceneNode(Vector3d pos, double radius, double speed,
 			SceneNode parent){
@@ -506,7 +506,7 @@ public class Scene {
 	 * @param dx x方向的缝隙宽度
 	 * @param dy y方向的缝隙宽度
 	 * @param parent 父节点
-	 * @return
+	 * @return 返回所添加的9个立方体组成的布局类
 	 */
 	public NineCubeLayout addNineCubeLayoutSceneNode(Vector3d pos,
 			Vector3d size, double dx, double dy, SceneNode parent){
@@ -606,7 +606,7 @@ public class Scene {
 	 * 所以及时的清理贴图是减少系统资源消耗的有效方法。然而，反复加载
 	 * 贴图是非常耗时的，因此引擎不会自动删除那些不再被使用的贴图。
 	 * 建议删除那些不会再用到的贴图。
-	 * @param name 贴图的名称（必须跟创建时所用的名称一致，无需前缀）
+	 * @param bitmapName 贴图的名称（必须跟创建时所用的名称一致，无需前缀）
 	 */
 	public void removeBitmap(String bitmapName){
 		nativeRemoveTexture(bitmapName);

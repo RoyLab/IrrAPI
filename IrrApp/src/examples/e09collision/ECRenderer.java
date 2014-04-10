@@ -69,8 +69,8 @@ public class ECRenderer implements Renderer {
 		cube3.setTouchable(true);
 		
 		/** 给cube2加上来回飞行的动画，并且使得它和cube1之间进行碰撞响应，即cube2无法越过cube1*/
-		cube2.addFlyStraightAnimator(new Vector3d(-6, 0, 20), new Vector3d(6, 0, 20), 2000, true, true);
-		cube2.addCollisionResponseAnimator(cube1, false, false);
+		cube2.addFlyStraightAnimator(new Vector3d(10, -1, 20), new Vector3d(-10, 1, 20), 2000, true, true);
+		cube2.addCollisionResponseAnimator(cube1, null, false, false);
 	}
 	
 	public void onResize(Engine engine, int width, int height) {

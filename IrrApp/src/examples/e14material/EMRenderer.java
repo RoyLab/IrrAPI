@@ -39,7 +39,7 @@ public class EMRenderer implements Renderer {
 		/** 清空所有的材质*/
 		model.setTexture(null);
 		
-		/** 讲第0个材质改为ext_tex1.png，等等*/
+		/** 将第0个材质改为ext_tex1.png，等等*/
 		model.setTexture(Engine.SYSTEM_MEDIA + "ext_tex1.png", 0);
 		model.setTexture(Engine.SYSTEM_MEDIA + "grass.png", 1);
 		model.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp", 2);

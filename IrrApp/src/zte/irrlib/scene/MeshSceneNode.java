@@ -3,6 +3,7 @@ package zte.irrlib.scene;
 import zte.irrlib.Engine;
 import zte.irrlib.core.BoundingBox;
 import zte.irrlib.core.Color4i;
+import zte.irrlib.core.Vector3d;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -168,7 +169,7 @@ public class MeshSceneNode extends SceneNode{
 	 * 设置指定材质的贴图为位图（该方法容易被误用，请使用{@link Scene#uploadBitmap(Bitmap, String)}
 	 * 然后使用{@link #setTexture(String, int)}）
 	 * @param bitmap 所使用的位图对象
-	 * @param name 该位图的命名，必须唯一！
+	 * @param bitmapName 该位图的命名，必须唯一！
 	 * @param materialId 指定材质的ID值
 	 */
 	@Deprecated public void setTexture(Bitmap bitmap, String bitmapName, int materialId){
@@ -196,7 +197,7 @@ public class MeshSceneNode extends SceneNode{
 	 * 为模型所有节点指定统一位图贴图（该方法容易被误用，请使用{@link Scene#uploadBitmap(Bitmap, String)}
 	 * 然后使用{@link #setTexture(String)}）
 	 * @param bitmap 所使用的位图对象
-	 * @param texName 贴图的名称（必须唯一），且不可与其他图片的路径重名
+	 * @param bitmapName 贴图的名称（必须唯一），且不可与其他图片的路径重名
 	 */
 	@Deprecated public void setTexture(Bitmap bitmap, String bitmapName){
 		nativeAllSetBitmapTexture(bitmapName, bitmap, getId());
@@ -239,8 +240,8 @@ public class MeshSceneNode extends SceneNode{
 	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
 	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
 	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
-	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
-	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link SceneNode#removeAllAnimators()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link SceneNode#removeAllAnimators()}被调用。
 	 * @param path 所用贴图组的路径
 	 * @param timePerFrame 贴图动画播放速率，单位frame/second
 	 * @param loop 值为true时循环播放贴图动画，否则单次播放
@@ -263,16 +264,17 @@ public class MeshSceneNode extends SceneNode{
 	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
 	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
 	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
-	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
-	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link SceneNode#removeAllAnimators()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link SceneNode#removeAllAnimators()}被调用。
 	 * @param selNode 指定的世界对象（通常是静止的场景）
+	 * @param radius 半径，设定为null时使用BoundingBox的半径
 	 * @param fromBoundingBox 是否从粗略的用模型的包围盒做碰撞检测
 	 * @param optimizedByOctree 是否用八叉树优化检测算法（fromBoundingBox为真时强制不优化）
 	 */
-	public void addCollisionResponseAnimator(SceneNode selNode, 
+	public void addCollisionResponseAnimator(SceneNode selNode, Vector3d radius,
 			boolean fromBoundingBox, boolean optimizedByOctree){
 		if (nativeAddCollisionResponseAnimator(
-				mScene.getId(selNode), fromBoundingBox,
+				mScene.getId(selNode), radius, fromBoundingBox,
 				optimizedByOctree, getId()) == 0)
 			addAnimator();
 	}
@@ -575,7 +577,7 @@ public class MeshSceneNode extends SceneNode{
 	private native int nativeGetMaterialCount(int Id);
 	
 	private native int nativeGetBoundingBox(BoundingBox box, boolean isAbsolute, int id);
-	private native int nativeAddCollisionResponseAnimator(int selId, boolean bbox, boolean octree, int Id);
+	private native int nativeAddCollisionResponseAnimator(int selId, Vector3d radius, boolean bbox, boolean octree, int Id);
 	
 	private native int nativeSetMaterialType(int type, int Id);
 	private native int nativeSetMaterialFlag(int emf, boolean flag, int Id);

@@ -76,6 +76,7 @@ public final class R {
         public static final int title_activity_enative=0x7f05001d;
         public static final int title_activity_enode_mgr=0x7f05001b;
         public static final int title_activity_eparticle_system=0x7f050017;
+        public static final int title_activity_eps_extension=0x7f05001e;
         public static final int title_activity_etrans_and_hier=0x7f05000e;
         public static final int title_activity_example_lists=0x7f05000b;
         public static final int title_activity_sub=0x7f05000a;

@@ -29,7 +29,6 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	 * @param mode 移除的模式：
 	 * 		模式为 REMOVE_FROM_SCENE 则从公告板组移除并从场景中删除该节点
 	 * 		模式为 REMOVE_FROM_GROUP 则仅从公告板组移除，等同于{@link #removeChild(SceneNode)}
-	 * @return 移除成功返回true，否则返回false
 	 */
 	public void remove(BillboardSceneNode node, int mode){
 		if (node == null || node.getParent() != this)

@@ -385,7 +385,7 @@ extern "C"
 	}
 	
 	int Java_zte_irrlib_scene_MeshSceneNode_nativeAddCollisionResponseAnimator(
-		JNIEnv *env, jobject defaultObj, jint selId, jboolean bbox, jboolean octree, jint id)
+		JNIEnv *env, jobject defaultObj, jint selId, jobject jradius, jboolean bbox, jboolean octree, jint id)
 	{
 		ISceneNode* selNode = smgr->getSceneNodeFromId(selId);
 		if (!selNode)
@@ -408,7 +408,12 @@ extern "C"
 		
 		node->updateAbsolutePosition();
 		const aabbox3d<f32>& box = node->getTransformedBoundingBox();
-		vector3df radius = box.MaxEdge-box.getCenter();
+		
+		vector3df radius;
+		if (jradius == 0)
+			radius = box.MaxEdge-box.getCenter();
+		else radius = utils->createvector3dfFromVector3d(env, jradius);
+		
 		vector3df translation = -(box.getCenter() - node->getAbsolutePosition());
 		
 		//LOGD("max, %f, %f, %f", box.MaxEdge.X, box.MaxEdge.Y, box.MaxEdge.Z);

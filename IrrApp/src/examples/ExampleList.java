@@ -25,6 +25,7 @@ import examples.e14material.EMaterial;
 import examples.e15memory.EMemory;
 import examples.e16nodemgr.ENodeMgr;
 import examples.e17bbox.EBoundingBox;
+import examples.e18psextension.EPSExtension;
 
 public class ExampleList extends ListActivity {
 
@@ -45,7 +46,8 @@ public class ExampleList extends ListActivity {
 			"14.深入材质和贴图",
 			"15.内存控制",
 			"16.深入节点管理",
-			"17.包围盒"
+			"17.包围盒",
+			"18.粒子特效"
 	};
 	
 	private ArrayAdapter<String> adapter;
@@ -84,6 +86,7 @@ public class ExampleList extends ListActivity {
 		case 15:	cls = EMemory.class;		break;
 		case 16:	cls = ENodeMgr.class;		break;
 		case 17:	cls = EBoundingBox.class;	break;
+		case 18:cls = EPSExtension.class; 	break;
 		default: break;
 		}
 		

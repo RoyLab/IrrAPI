@@ -23,12 +23,12 @@ public class EBRenderer implements Renderer {
 	public void onDrawFrame(Engine engine) {
 		
 		Scene scene = engine.getScene();
+		scene.drawAllNodes();
+		
 		
 		/** 将图片绘制到场景中*/
 		scene.drawImage(Engine.BITMAP_MARK + "text",
 				new Rect4i(100, 100, 300, 300), new Rect4d(), true);
-		
-		scene.drawAllNodes();
 	}
 	
 	public void onCreate(Engine engine){

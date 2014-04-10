@@ -246,12 +246,12 @@ public class SceneNode {
 	 * 添加平移动画<br>
 	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
 	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
-	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
 	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
 	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
 	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
-	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
-	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimators()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimators()}被调用。
 	 * @param start 平移动画起始点坐标
 	 * @param end 平移动画目标点坐标
 	 * @param time 平移动画所用时间，单位：毫秒（ms）
@@ -269,12 +269,12 @@ public class SceneNode {
 	 * 添加环形运动动画<br>
 	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
 	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
-	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
 	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
 	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
 	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
-	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
-	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimators()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimators()}被调用。
 	 * @param center 运动所绕圆环的圆心坐标
 	 * @param radius 运动所绕圆环的半径
 	 * @param speed 运动速率，单位：弧度/毫秒
@@ -293,12 +293,12 @@ public class SceneNode {
 	 * 添加旋转动画<br>
 	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
 	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
-	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
 	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
 	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
 	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
-	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
-	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimators()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimators()}被调用。
 	 * @param speed 绕各个轴向的旋转速率，单位：度/10毫秒
 	 */
 	public void addRotationAnimator(Vector3d speed){
@@ -310,12 +310,12 @@ public class SceneNode {
 	 * 添加消失动画，节点将于指定时间内消失<br>
 	 * 注意，当你添加（通常情况下请不要这么做）多个Animator时，请谨慎维护
 	 * Animator的添加顺序，顺序会显著的影响每一帧的更新效果（比如，先做碰撞检测
-	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}再添加直线
 	 * 飞行动画{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
 	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}，那么碰撞检测的效果
 	 * 会被后续执行的直线飞行动画所覆盖，如果调换顺序，则碰撞检测的位置将是执行过飞行动画后的
-	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimator()}
-	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimator()}被调用。
+	 * 位置）。如果您不需要使用多个动画，请确保节点没有被添加过动画或使用{@link #removeAllAnimators()}
+	 * 清除所有动画，动画一旦被添加，它会一直存在于节点上直到{@link #removeAllAnimators()}被调用。
 	 * @param ms 消失动画的时间，单位毫秒
 	 */
 	public void addDeleteAnimator(int ms){

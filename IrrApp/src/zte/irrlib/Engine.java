@@ -136,7 +136,7 @@ public class Engine{
 	
 	/**
 	 * 将assets中的一个文件夹添加入引擎文件系统，这个方法并不会搜索文件夹下的子文件夹，
-	 * 添加目录之后，可以在资源路径之前添加{@link #SYSTEM_MEDIA_FULL}以表示这是个
+	 * 添加目录之后，可以在资源路径之前添加{@link #SYSTEM_MEDIA}以表示这是个
 	 * assets目录。
 	 * @param dirname 目录名称，根目录用用空字符串代表
 	 * @param ignorePath 在将来查找文件时，是否忽略路径

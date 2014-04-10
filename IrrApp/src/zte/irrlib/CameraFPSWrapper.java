@@ -71,14 +71,7 @@ public class CameraFPSWrapper {
 	}
 	
 	/**
-	 * 将视角数据上传到相机节点中。
-	 */
-	public void uploadSettings(){
-		mCamera.setLookAt(mCamera.getPosition().plus(pLook));
-	}
-	
-	/**
-	 * 从相机节点下载视角数据。
+	 * 用于同步wrapper与相机节点的数据，从相机节点下载视角数据到wrapper。
 	 */
 	public void downloadSettings(){
 		Vector3d d = mCamera.getLookAt().minus(mCamera.getPosition());
@@ -88,8 +81,7 @@ public class CameraFPSWrapper {
 		d.normalize();
 		
 		mFai = Math.acos(d.Y);
-		
-		mXita = Math.atan(d.X/d.Z);
+		mXita = Math.atan(d.X/d.Z) + ((d.X > 0)?0:Math.PI);
 		if (d.X < 0){
 			mXita += Math.PI;
 		}
@@ -97,6 +89,10 @@ public class CameraFPSWrapper {
 		recalculate();
 	}
 	
+	private void uploadSettings(){
+		mCamera.setLookAt(mCamera.getPosition().plus(pLook));
+	}
+
 	private void recalculate(){
 		if (mFai > Math.PI - 0.1){
 			mFai = Math.PI - 0.1;

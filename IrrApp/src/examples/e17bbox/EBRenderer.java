@@ -32,7 +32,7 @@ public class EBRenderer implements Renderer {
 		
 		Scene scene = engine.getScene();
 		model = scene.addAnimateMeshSceneNode(Engine.SYSTEM_MEDIA + "sydney.md2",
-				new Vector3d(0, 0, 100), null);
+				new Vector3d(10, 0, 100), null);
 		model.setTexture(Engine.SYSTEM_MEDIA + "sydney.bmp");
 		
 		/** 显示这个模型的BoundingBox*/

@@ -10,7 +10,7 @@ import zte.irrlib.core.BoxEmitter;
  * @author Fxx
  *
  */
-public class ParticleSystemSceneNode extends SceneNode {
+public class ParticleSystemSceneNode extends MeshSceneNode {
 	
 	public static final int EMITTER_BOX = 0x01;
 	
