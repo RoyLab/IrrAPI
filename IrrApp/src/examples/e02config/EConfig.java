@@ -28,7 +28,7 @@ public class EConfig extends Activity {
 		mDemo.enableGLES2(true);
 		/**
 		 * 进行简单的egl上下文环境配置。你可以编写自己的配置方法，并使用setEGLConfigChooser
-		 * 来代替这个函数。该函数必须在setEngineRenderer前调用。
+		 * 来代替这个函数。该函数必须在setEngineRenderer前调用。配置egl环境在某些设备中是必须的。
 		 */
 		mDemo.setRecommendEGLConfigChooser(8);
 		/**

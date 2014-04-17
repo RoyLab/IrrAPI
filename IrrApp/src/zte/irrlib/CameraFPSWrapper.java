@@ -27,7 +27,7 @@ public class CameraFPSWrapper {
 		mCamera.setUpVector(new Vector3d(0,1,0));
 		pLeft = new Vector3d();
 		pLook = new Vector3d();
-		downloadSettings();
+		syncSettings();
 	}
 	
 	/**
@@ -72,25 +72,36 @@ public class CameraFPSWrapper {
 	
 	/**
 	 * 用于同步wrapper与相机节点的数据，从相机节点下载视角数据到wrapper。
+	 * 任何不通过wrapper而改变相机位置和朝向的操作都要调用此方法将变换信息
+	 * 同步到wrapper中，比如{@link SceneNode#setPosition(Vector3d, int)}
+	 * 和节点动画等。
 	 */
-	public void downloadSettings(){
+	public void syncSettings(){
 		Vector3d d = mCamera.getLookAt().minus(mCamera.getPosition());
 		if (d.isZero()){
 			d.Z = 1.0;
 		}
 		d.normalize();
-		
 		mFai = Math.acos(d.Y);
-		mXita = Math.atan(d.X/d.Z) + ((d.X > 0)?0:Math.PI);
-		if (d.X < 0){
+		double tmp = d.X/d.Z;
+		if (Double.isNaN(tmp) || Double.isInfinite(tmp)){
+			mXita = 0.0;
+		}
+		else{
+			mXita = Math.atan(tmp);
+		}
+		
+		if (d.Z < 0){
 			mXita += Math.PI;
 		}
+		//Log.d("wang", "" + mXita + ", " + mFai);
 		
 		recalculate();
 	}
 	
 	private void uploadSettings(){
 		mCamera.setLookAt(mCamera.getPosition().plus(pLook));
+		//Log.d("wang", "" + mXita + ", " + mFai);
 	}
 
 	private void recalculate(){

@@ -165,6 +165,52 @@ extern "C"
 		anim->drop();
 		return 0;
 	}
+	
+	int Java_zte_irrlib_scene_SceneNode_nativeAddCollisionResponseAnimator(
+		JNIEnv *env, jobject defaultObj, jint selId, jobject jradius, jboolean bbox, jboolean octree, jint id)
+	{
+		ISceneNode* selNode = smgr->getSceneNodeFromId(selId);
+		if (!selNode)
+		{
+			WARN_NODE_NOT_FOUND(selId, AddCollisionResponseAnimator);
+			return -1;
+		}
+		
+		ISceneNode* node = smgr->getSceneNodeFromId(id);
+		if (!node)
+		{
+			WARN_NODE_NOT_FOUND(id, AddCollisionResponseAnimator);
+			return -1;
+		}
+		
+		ITriangleSelector* selector = 0;
+		if (bbox) selector = smgr->createTriangleSelectorFromBoundingBox(selNode);
+		else if (!octree) selector = smgr->createTriangleSelector(((IMeshSceneNode*)selNode)->getMesh(), selNode);
+		else selector = smgr->createTriangleSelector(((IMeshSceneNode*)selNode)->getMesh(), selNode);
+		
+		node->updateAbsolutePosition();
+		const aabbox3d<f32>& box = node->getTransformedBoundingBox();
+		
+		vector3df radius;
+		if (jradius == 0)
+			radius = box.MaxEdge-box.getCenter();
+		else radius = utils->createvector3dfFromVector3d(env, jradius);
+		
+		vector3df translation = -(box.getCenter() - node->getAbsolutePosition());
+		
+		//LOGD("max, %f, %f, %f", box.MaxEdge.X, box.MaxEdge.Y, box.MaxEdge.Z);
+		//LOGD("min, %f, %f, %f", box.MinEdge.X, box.MinEdge.Y, box.MinEdge.Z);
+		//LOGD("trans, %f, %f, %f", translation.X, translation.Y, translation.Z);
+		ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(selector, node,
+			radius,
+			vector3df(),/*gravity*/
+			translation,
+			0.0005f
+		);
+		selector->drop();
+		node->addAnimator(anim);
+		anim->drop();
+	}
 
 	int Java_zte_irrlib_scene_SceneNode_nativeRemoveAllAnimator(
 		JNIEnv *env, jobject defaultObj, jint id)

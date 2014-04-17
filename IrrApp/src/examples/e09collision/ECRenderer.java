@@ -19,7 +19,7 @@ public class ECRenderer implements Renderer {
 
 	public void onDrawFrame(Engine engine) {
 		
-		Scene scene = engine.getScene();	
+		Scene scene = engine.getScene();
 		scene.drawAllNodes();
 		
 		/** 显示触摸点的坐标*/
