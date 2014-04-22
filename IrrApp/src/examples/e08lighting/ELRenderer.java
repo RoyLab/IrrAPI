@@ -42,7 +42,7 @@ public class ELRenderer implements Renderer {
 		light.LightData.AmbientColor = new Color3i(0xff, 0x9f, 0x9f);
 		
 		/** 将更改提交到本地引擎*/
-		light.upLoadLightData();
+		light.uploadLightData();
 	}
 	
 	public void onResize(Engine engine, int width, int height) {

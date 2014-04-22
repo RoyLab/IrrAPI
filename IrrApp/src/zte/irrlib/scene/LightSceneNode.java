@@ -13,7 +13,7 @@ public class LightSceneNode extends SceneNode {
 	/**
 	 * 更新光源参数值，在改变灯光参数{@link #LightData}后使用
 	 */
-	public void upLoadLightData(){
+	public void uploadLightData(){
 		nativeSendLightData(LightData, getId());
 	}
 	
