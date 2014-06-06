@@ -1,19 +1,20 @@
-package zte.irrlib.scene;
+锘縫ackage zte.irrlib.scene;
 
 import zte.irrlib.core.Color4i;
+import zte.irrlib.core.Vector3d;
 
 /**
- * 公告板节点类
+ * 鍏憡鏉胯妭鐐圭被
  * @author Fxx
  *
  */
 public class BillboardSceneNode extends MeshSceneNode{
 	
 	/**
-	 * 设置公告板的颜色。注意，在灯光开启的情况下，此设置无效，
-	 * 应使用{@link MeshSceneNode#setDiffuseColor(Color4i, int)}替代
-	 * @param colorFront 公告板正面的颜色
-	 * @param colorBack 公告板反面的颜色
+	 * 璁剧疆鍏憡鏉跨殑棰滆壊銆傛敞鎰忥紝鍦ㄧ伅鍏夊紑鍚殑鎯呭喌涓嬶紝姝よ缃棤鏁堬紝
+	 * 搴斾娇鐢▄@link MeshSceneNode#setDiffuseColor(Color4i, int)}鏇夸唬
+	 * @param colorFront 鍏憡鏉挎闈㈢殑棰滆壊
+	 * @param colorBack 鍏憡鏉垮弽闈㈢殑棰滆壊
 	 */
 	public void setColor(Color4i colorFront, Color4i colorBack){
 		nativeSetColor(colorFront.r(), colorFront.g(), colorFront.b(), colorFront.a(),
@@ -38,8 +39,8 @@ public class BillboardSceneNode extends MeshSceneNode{
 		super(node);
 	}
 	
-	BillboardSceneNode(){
-		super();
+	BillboardSceneNode(Vector3d pos, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_BILLBOARD;
 	}
 	

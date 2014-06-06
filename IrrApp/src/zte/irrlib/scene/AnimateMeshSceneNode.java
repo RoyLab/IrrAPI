@@ -1,58 +1,64 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
+
+import zte.irrlib.core.Vector3d;
 
 /**
- * ¶¯Ì¬¶à±ßĞÎ½ÚµãÀà
+ * åŠ¨æ€å¤šè¾¹å½¢èŠ‚ç‚¹ç±»
  * @author Fxx
  *
  */
 public class AnimateMeshSceneNode extends MeshSceneNode {
 	
 	/**
-	 * ·µ»Ø¶¯»­Ä£ĞÍ³õÊ¼Ö¡Ö¡ºÅ¡£
-	 * @return ³õÊ¼Ö¡Ö¡ºÅ
+	 * è¿”å›åŠ¨ç”»æ¨¡å‹åˆå§‹å¸§å¸§å·ã€‚
+	 * @return åˆå§‹å¸§å¸§å·
 	 */
 	public int getStartFrame(){
 		return nativeGetStartFrame(getId());
 	}
 	
 	/**
-	 * ·µ»Ø¶¯»­Ä£ĞÍ½áÊøÖ¡Ö¡ºÅ¡£
-	 * @return ½áÊøÖ¡Ö¡ºÅ
+	 * è¿”å›åŠ¨ç”»æ¨¡å‹ç»“æŸå¸§å¸§å·ã€‚
+	 * @return ç»“æŸå¸§å¸§å·
 	 */
 	public int getEndFrame(){
 		return nativeGetEndFrame(getId());
 	}
 	
 	/**
-	 * ·µ»Ø¶¯»­Ä£Ö¡Êı¡£
-	 * @return ¶¯»­Ä£Ö¡Êı
+	 * è¿”å›åŠ¨ç”»æ¨¡å¸§æ•°ã€‚
+	 * @return åŠ¨ç”»æ¨¡å¸§æ•°
 	 */
 	public int getFrameNumber(){
 		return nativeGetFrameNumber(getId());
 	}
 	
 	/**
-	 * ÉèÖÃ¶¯»­Ä£ĞÍµ±Ç°Ö¡ºÅ¡£
-	 * @param frame Ä¿±êÖ¡Ö¡ºÅ¡£Ö¡ºÅ±ØĞëÊÇ¶ÔÓ¦¶¯»­Ä£ĞÍµÄÓĞĞ§Ö¡ºÅ¡£
+	 * è®¾ç½®åŠ¨ç”»æ¨¡å‹å½“å‰å¸§å·ã€‚
+	 * @param frame ç›®æ ‡å¸§å¸§å·ã€‚å¸§å·å¿…é¡»æ˜¯å¯¹åº”åŠ¨ç”»æ¨¡å‹çš„æœ‰æ•ˆå¸§å·ã€‚
 	 */
 	public void setCurrentFrame(int frame){
 		nativeSetCurrentFrame(frame, getId());
 	}
 	
 	/**
-	 * ÉèÖÃ¶¯»­Ä£ĞÍµÄÔË¶¯ËÙ¶È¡£
-	 * @param fps ¶¯»­ËÙ¶È²ÎÊı£¬µ¥Î»frame/second
+	 * è®¾ç½®åŠ¨ç”»æ¨¡å‹çš„è¿åŠ¨é€Ÿåº¦ã€‚
+	 * @param fps åŠ¨ç”»é€Ÿåº¦å‚æ•°ï¼Œå•ä½frame/second
 	 */
 	public void setAnimationSpeed(double fps){
 		nativeSetAnimationSpeed(fps, getId());
 	}
 	
 	/**
-	 * ÉèÖÃ¶¯»­ÊÇ·ñÑ­»·²¥·Å¡£
-	 * @param loop ÖµÎªtrueÊÇÑ­»·²¥·Å£¬·ñÔòµ¥´Î²¥·Å
+	 * è®¾ç½®åŠ¨ç”»æ˜¯å¦å¾ªç¯æ’­æ”¾ã€‚
+	 * @param loop å€¼ä¸ºtrueæ˜¯å¾ªç¯æ’­æ”¾ï¼Œå¦åˆ™å•æ¬¡æ’­æ”¾
 	 */
 	public void setLoopMode(boolean loop){
 		nativeSetLoopMode(loop, getId());
+	}
+	
+	public void setFrameLoop(int begin, int end){
+		nativeSetFrameLoop(begin, end, getId());
 	}
 	
 	@Override
@@ -74,17 +80,18 @@ public class AnimateMeshSceneNode extends MeshSceneNode {
 	}
 	
 	/**
-	 * Î¨Ò»µÄ¹¹Ôìº¯Êı¡£
+	 * å”¯ä¸€çš„æ„é€ å‡½æ•°ã€‚
 	 */
-	AnimateMeshSceneNode(){
-		super();
+	AnimateMeshSceneNode(Vector3d pos, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_ANIMATE_MESH;
 	}
 
-	private native int nativeGetStartFrame(int id);
-	private native int nativeGetEndFrame(int id);
-	private native int nativeGetFrameNumber(int id);
-	private native int nativeSetCurrentFrame(int frame, int id);
-	private native void nativeSetAnimationSpeed(double fps, int id);
-	private native void nativeSetLoopMode(boolean loop, int id);
+	private native int nativeGetStartFrame(int Id);
+	private native int nativeGetEndFrame(int Id);
+	private native int nativeGetFrameNumber(int Id);
+	private native int nativeSetCurrentFrame(int frame, int Id);
+	private native int nativeSetAnimationSpeed(double fps, int Id);
+	private native int nativeSetLoopMode(boolean loop, int Id);
+	private native int nativeSetFrameLoop(int begin, int end, int Id);
 }

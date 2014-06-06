@@ -78,8 +78,8 @@ namespace irr
             else
             {
                 // compile shaders on our own
-				strcpy(VertexShaderFile,"irrshader/COGLES2ParallaxMap.vsh");
-				strcpy( FragmentShaderFile,"irrshader/COGLES2ParallaxMap.fsh");
+				strcpy(VertexShaderFile,"COGLES2ParallaxMap.vsh");
+				strcpy( FragmentShaderFile,"COGLES2ParallaxMap.fsh");
                 initFromFiles( outMaterialTypeNr, VertexShaderFile, FragmentShaderFile );
                 useProgram();
                 int dummy = 0;

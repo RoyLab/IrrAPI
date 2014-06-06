@@ -73,8 +73,8 @@ namespace irr
             else
             {
                 // compile shaders on our own
-                strcpy(VertexShaderFile, "irrshader/COGLES2NormalMap.vsh");
-                strcpy(FragmentShaderFile, "irrshader/COGLES2NormalMap.fsh");
+                strcpy(VertexShaderFile, "COGLES2NormalMap.vsh");
+                strcpy(FragmentShaderFile, "COGLES2NormalMap.fsh");
                 initFromFiles( outMaterialTypeNr, VertexShaderFile, FragmentShaderFile );
                 useProgram();
                 int dummy = 0;

@@ -1,4 +1,4 @@
-package examples.e06camera;
+ï»¿package examples.e06camera;
 
 import zte.test.irrapp.R;
 import android.app.Activity;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 /**
- * ÑİÊ¾ÈçºÎÊ¹ÓÃÏà»ú½Úµã£¬ÒÔ¼°ÈçºÎ½øĞĞÊÂ¼ş´¦Àí£¬²¢ÇÒÊµÏÖÁËµÚÒ»ÈË³ÆÏà»ú£¬¿ÉÒÔÍ¨¹ı°´Å¥
- * ºÍ»¬¶¯À´¿ØÖÆÏà»ú
+ * æ¼”ç¤ºå¦‚ä½•ä½¿ç”¨ç›¸æœºèŠ‚ç‚¹ï¼Œä»¥åŠå¦‚ä½•è¿›è¡Œäº‹ä»¶å¤„ç†ï¼Œå¹¶ä¸”å®ç°äº†ç¬¬ä¸€äººç§°ç›¸æœºï¼Œå¯ä»¥é€šè¿‡æŒ‰é’®
+ * å’Œæ»‘åŠ¨æ¥æ§åˆ¶ç›¸æœº
  * @author Roy
  *
  */
@@ -27,6 +27,7 @@ public class ECamera extends Activity {
 		mDemo = (ECView)findViewById(R.id.irrview);
 		
 		mRenderer = new ECRenderer();
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(mRenderer);
 		
 		mReceiver = new ECReceiver(mDemo, mRenderer);
@@ -37,7 +38,7 @@ public class ECamera extends Activity {
 		left = (Button)findViewById(R.id.left);
 		right = (Button)findViewById(R.id.right);
 		
-		/** Éè¶¨ÊÂ¼ş´¦Àíº¯Êı¡£*/
+		/** è®¾å®šäº‹ä»¶å¤„ç†å‡½æ•°ã€‚*/
 		up.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				mReceiver.cameraGoUp();

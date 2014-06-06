@@ -1,4 +1,4 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
 
 import java.util.ArrayList;
 
@@ -16,9 +16,9 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
- * ³¡¾°Àà£¬ÔÚzte.irrlib.scene°üÄÚ£¬ËùÓĞµÄÀàµÄ¹¹Ôì·½·¨¾ù²»¿É¼û£¬ÇëÊ¹ÓÃ
- * ¶ÔÓ¦µÄadd·½·¨({@link #addCubeSceneNode(Vector3d, double, SceneNode)}µÈ)
- * »òÕßget·½·¨({@link #getMediaPlayer()}µÈ)À´»ñµÃÀàµÄÊµÀı¡£<br>
+ * åœºæ™¯ç±»ï¼Œåœ¨zte.irrlib.sceneåŒ…å†…ï¼Œæ‰€æœ‰çš„ç±»çš„æ„é€ æ–¹æ³•å‡ä¸å¯è§ï¼Œè¯·ä½¿ç”¨
+ * å¯¹åº”çš„addæ–¹æ³•({@link #addCubeSceneNode(Vector3d, double, SceneNode)}ç­‰)
+ * æˆ–è€…getæ–¹æ³•({@link #getMediaPlayer()}ç­‰)æ¥è·å¾—ç±»çš„å®ä¾‹ã€‚<br>
  * @author Fxx
  *
  */
@@ -30,9 +30,9 @@ public class Scene {
 	public static final String TAG = "Scene";
 	
 	/**
-	 * Èç¹ûÄ³¸öÀàĞèÒªÔÚÃ¿´Î»æÖÆÑ­»·ÖĞ¶ÔÏà»úµÄÒÆ¶¯×ö³ö·´Ó¦£¬ÄÇÃ´ĞèÒª
-	 * Íê³É¸Ä½Ó¿Ú£¬²¢Ê¹ÓÃ{@link Scene#regUpdatableObject(Updatable)}
-	 * ×¢²á£¬Ê¹ÓÃ{@link Scene#unregUpdatableObject(Updatable)}È¡Ïû×¢²á
+	 * å¦‚æœæŸä¸ªç±»éœ€è¦åœ¨æ¯æ¬¡ç»˜åˆ¶å¾ªç¯ä¸­å¯¹ç›¸æœºçš„ç§»åŠ¨åšå‡ºååº”ï¼Œé‚£ä¹ˆéœ€è¦
+	 * å®Œæˆæ”¹æ¥å£ï¼Œå¹¶ä½¿ç”¨{@link Scene#regUpdatableObject(Updatable)}
+	 * æ³¨å†Œï¼Œä½¿ç”¨{@link Scene#unregUpdatableObject(Updatable)}å–æ¶ˆæ³¨å†Œ
 	 * @author Roy
 	 *
 	 */
@@ -42,62 +42,62 @@ public class Scene {
 	}
 	
 	/**
-	 * ÔÚ³¡¾°ÖĞÒÆ³ı¿É¸ù¾İµ±Ç°Ïà»ú¸üĞÂĞÅÏ¢µÄÀà
-	 * @param obj ×¢²áµÄÀà
-	 * @return ÊÇ·ñ³É¹¦ÒÆ³ı
+	 * åœ¨åœºæ™¯ä¸­ç§»é™¤å¯æ ¹æ®å½“å‰ç›¸æœºæ›´æ–°ä¿¡æ¯çš„ç±»
+	 * @param obj æ³¨å†Œçš„ç±»
+	 * @return æ˜¯å¦æˆåŠŸç§»é™¤
 	 */
 	public boolean unregUpdatableObject(Updatable obj){
 		return mUpdateList.remove(obj);
 	}
 	
 	/**
-	 * ÔÚ³¡¾°ÖĞ×¢²á¿É¸ù¾İµ±Ç°Ïà»ú¸üĞÂĞÅÏ¢µÄÀà
-	 * @param obj ×¢²áµÄÀà
+	 * åœ¨åœºæ™¯ä¸­æ³¨å†Œå¯æ ¹æ®å½“å‰ç›¸æœºæ›´æ–°ä¿¡æ¯çš„ç±»
+	 * @param obj æ³¨å†Œçš„ç±»
 	 */
 	public void regUpdatableObject(Updatable obj){
 		mUpdateList.add(obj);
 	}
 	
 	/**
-	 * ÉèÖÃÊÇ·ñ´ò¿ª¹âÕÕ£¨Ä¬ÈÏ¹Ø±Õ£©
-	 * @param flag ÖµÎªtrueÊ±¹âÕÕ´ò¿ª£¬·ñÔò¹Ø±Õ
+	 * è®¾ç½®æ˜¯å¦æ‰“å¼€å…‰ç…§ï¼ˆé»˜è®¤å…³é—­ï¼‰
+	 * @param flag å€¼ä¸ºtrueæ—¶å…‰ç…§æ‰“å¼€ï¼Œå¦åˆ™å…³é—­
 	 */
 	public void enableLighting(boolean flag){
 		mEnableLighting = flag;
 	}
 	
 	/**
-	 * ¹âÕÕ¿ª¹ØÊÇ·ñ´ò¿ª
-	 * @return ÈôÎªÕæ£¬Ôò¹âÕÕÒÑ¾­±»´ò¿ªQFGJH 
+	 * å…‰ç…§å¼€å…³æ˜¯å¦æ‰“å¼€
+	 * @return è‹¥ä¸ºçœŸï¼Œåˆ™å…‰ç…§å·²ç»è¢«æ‰“å¼€QFGJH 
 	 */
 	public boolean isLightingEnabled(){
 		return mEnableLighting;
 	}
 	
 	/**
-	 * ÉèÖÃ×ÖÌåÎÄ¼ş£¬×ÖÌåÎÄ¼ş±ØĞë·ÅÖÃÔÚassetsÏÂµÄsysmediaÀï
-	 * assets¶ÁÈ¡±»½ûÓÃÊ±²»¿ÉÓÃ
-	 * @param font ×ÖÌåÍ¼Æ¬ÎÄ¼şÃû
+	 * è®¾ç½®å­—ä½“æ–‡ä»¶
+	 * assetsè¯»å–è¢«ç¦ç”¨æ—¶ä¸å¯ç”¨
+	 * @param font å­—ä½“å›¾ç‰‡æ–‡ä»¶å
 	 */
 	public void setFont(String font){
 		if (mEngine.isNativeAssetsReaderEnabled() == false){
 			Log.e(TAG, "assets is not allowed to be opened!");
 			return;
 		}
-		nativeSetFontPath(getFullPath(Engine.SYSTEM_MEDIA + font));
+		nativeSetFontPath(getFullPath(font));
 	}
 	
 	/**
-	 * ÉèÖÃ²ÄÖÊËùÔÚÎÄ¼ş¼ĞµÄÂ·¾¶
-	 * @param path ²ÄÖÊÎÄ¼ş¼ĞÂ·¾¶
+	 * è®¾ç½®æè´¨æ‰€åœ¨æ–‡ä»¶å¤¹çš„è·¯å¾„
+	 * @param path æè´¨æ–‡ä»¶å¤¹è·¯å¾„
 	 */
 	public void setResourceDir(String path){
 		mResourceDir = path;
 	}
 
 	/**
-	 * ÉèÖÃËùÒªÊ¹ÓÃµÄÉãÏñ»ú¡£
-	 * @param camera ËùÒªÊ¹ÓÃµÄÉãÏñ»ú¶ÔÏó
+	 * è®¾ç½®æ‰€è¦ä½¿ç”¨çš„æ‘„åƒæœºã€‚
+	 * @param camera æ‰€è¦ä½¿ç”¨çš„æ‘„åƒæœºå¯¹è±¡
 	 */
 	public void setActiveCamera(CameraSceneNode camera){
 		mActiveCamera = camera;
@@ -105,60 +105,60 @@ public class Scene {
 	}
 	
 	/**
-	 * ÉèÖÃ±³¾°ÑÕÉ«¡£
-	 * @param color ±³¾°ÑÕÉ«²ÎÊı
+	 * è®¾ç½®èƒŒæ™¯é¢œè‰²ã€‚
+	 * @param color èƒŒæ™¯é¢œè‰²å‚æ•°
 	 */
 	public void setClearColor(Color4i color){
 		nativeSetClearColor(color.r(), color.g(), color.b(), color.a());
 	}
 	
 	/**
-	 * ÉèÖÃ»·¾³¹âÑÕÉ«¡£
-	 * @param color »·¾³¹âÑÕÉ«
+	 * è®¾ç½®ç¯å¢ƒå…‰é¢œè‰²ã€‚
+	 * @param color ç¯å¢ƒå…‰é¢œè‰²
 	 */
 	public void setAmbientLight(Color4i color){
 		nativeSetAmbientLight(color.r(), color.g(), color.b(), color.a());
 	}
 	
 	/**
-	 * ·µ»Ø²ÄÖÊÄ£ĞÍËùÔÚÎÄ¼ş¼ĞµÄÂ·¾¶¡£
-	 * @return ²ÄÖÊÄ£ĞÍËùÔÚÎÄ¼ş¼ĞµÄÂ·¾¶¡£
+	 * è¿”å›æè´¨æ¨¡å‹æ‰€åœ¨æ–‡ä»¶å¤¹çš„è·¯å¾„ã€‚
+	 * @return æè´¨æ¨¡å‹æ‰€åœ¨æ–‡ä»¶å¤¹çš„è·¯å¾„ã€‚
 	 */
 	public String getResourceDir(){
 		return mResourceDir;
 	}
 	
 	/**
-	 * ·µ»Øµ±Ç°Ê¹ÓÃµÄÉãÏñ»ú¶ÔÏó¡£
-	 * @return µ±Ç°Ê¹ÓÃµÄÉãÏñ»ú¶ÔÏó
+	 * è¿”å›å½“å‰ä½¿ç”¨çš„æ‘„åƒæœºå¯¹è±¡ã€‚
+	 * @return å½“å‰ä½¿ç”¨çš„æ‘„åƒæœºå¯¹è±¡
 	 */
 	public CameraSceneNode getActiveCamera(){
 		return mActiveCamera;
 	}
 	
 	/**
-	 * ·µ»ØÖ¸¶¨¸ù½ÚµãÏÂ×Ó½ÚµãÖĞ±»Ö¸¶¨ÉäÏß»÷ÖĞµÄ½Úµã¶ÔÏó¡£¸ÃÉäÏß´ÓÉãÏñ»ú³ö·¢£¬Ö¸Ïò¸ø¶¨µÄ×ø±ê£¨x£¬y£©¡£
-	 * @param x ÉäÏßÖ¸ÏòµÄµãµÄxÖá×ø±êÖµ£¬×ø±êÖµÒÀ¾İÉè±¸ÏÔÊ¾Æ÷µÄ·Ö±æÂÊ¾ö¶¨
-	 * @param y ÉäÏßÖ¸ÏòµÄµãµÄyÖá×ø±êÖµ£¬×ø±êÖµÒÀ¾İÉè±¸ÏÔÊ¾Æ÷µÄ·Ö±æÂÊ¾ö¶¨
-	 * @param root Åö×²¼ì²âÆğÊ¼µÄ¸ù½Úµã¶ÔÏó
-	 * @return Ö¸¶¨¸ù½ÚµãÏÂ×Ó½ÚµãÖĞ±»Ö¸¶¨ÉäÏß»÷ÖĞµÄ½Úµã¶ÔÏó
+	 * è¿”å›æŒ‡å®šæ ¹èŠ‚ç‚¹ä¸‹å­èŠ‚ç‚¹ä¸­è¢«æŒ‡å®šå°„çº¿å‡»ä¸­çš„èŠ‚ç‚¹å¯¹è±¡ã€‚è¯¥å°„çº¿ä»æ‘„åƒæœºå‡ºå‘ï¼ŒæŒ‡å‘ç»™å®šçš„åæ ‡ï¼ˆxï¼Œyï¼‰ã€‚
+	 * @param x å°„çº¿æŒ‡å‘çš„ç‚¹çš„xè½´åæ ‡å€¼ï¼Œåæ ‡å€¼ä¾æ®è®¾å¤‡æ˜¾ç¤ºå™¨çš„åˆ†è¾¨ç‡å†³å®š
+	 * @param y å°„çº¿æŒ‡å‘çš„ç‚¹çš„yè½´åæ ‡å€¼ï¼Œåæ ‡å€¼ä¾æ®è®¾å¤‡æ˜¾ç¤ºå™¨çš„åˆ†è¾¨ç‡å†³å®š
+	 * @param root ç¢°æ’æ£€æµ‹èµ·å§‹çš„æ ¹èŠ‚ç‚¹å¯¹è±¡
+	 * @return æŒ‡å®šæ ¹èŠ‚ç‚¹ä¸‹å­èŠ‚ç‚¹ä¸­è¢«æŒ‡å®šå°„çº¿å‡»ä¸­çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public SceneNode getTouchedSceneNode(float x, float y, SceneNode root){
 		return queryById(nativeGetTouchedSceneNode(x, y, getId(root)));
 	}
 	
 	/**
-	 * ·µ»ØäÖÈ¾ÇøÓòµÄ³ß´ç¡£³ß´çÖµÒÀ¾İÉè±¸ÏÔÊ¾Æ÷·Ö±æÂÊ¾ö¶¨¡£
-	 * @return äÖÈ¾ÇøÓòµÄ³ß´ç¡£
+	 * è¿”å›æ¸²æŸ“åŒºåŸŸçš„å°ºå¯¸ã€‚å°ºå¯¸å€¼ä¾æ®è®¾å¤‡æ˜¾ç¤ºå™¨åˆ†è¾¨ç‡å†³å®šã€‚
+	 * @return æ¸²æŸ“åŒºåŸŸçš„å°ºå¯¸ã€‚
 	 */
 	public Vector2i getRenderSize(){
 		return new Vector2i(mWidth, mHeight);
 	}
 	
 	/**
-	 * ·µ»ØÖ¸¶¨IDÖµ¶ÔÓ¦µÄ½Úµã¶ÔÏó¡£
-	 * @param id ËùÒª²éÕÒµÄ½ÚµãIDÖµ
-	 * @return Ö¸¶¨IDÖµ¶ÔÓ¦µÄ½Úµã¶ÔÏó¡£
+	 * è¿”å›æŒ‡å®šIDå€¼å¯¹åº”çš„èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @param id æ‰€è¦æŸ¥æ‰¾çš„èŠ‚ç‚¹IDå€¼
+	 * @return æŒ‡å®šIDå€¼å¯¹åº”çš„èŠ‚ç‚¹å¯¹è±¡ã€‚
 	 */
 	public SceneNode queryById(int id){
 		if (id <= 0) return null;
@@ -171,9 +171,9 @@ public class Scene {
 	}
 	
 	/**
-	 * ·µ»ØÖ¸¶¨½ÚµãµÄIDÖµ¡£
-	 * @param node ËùÒª²éÕÒµÄ½Úµã¶ÔÏó
-	 * @return Ö¸¶¨½ÚµãµÄIDÖµ¡£
+	 * è¿”å›æŒ‡å®šèŠ‚ç‚¹çš„IDå€¼ã€‚
+	 * @param node æ‰€è¦æŸ¥æ‰¾çš„èŠ‚ç‚¹å¯¹è±¡
+	 * @return æŒ‡å®šèŠ‚ç‚¹çš„IDå€¼ã€‚
 	 */
 	public int getId(SceneNode node){
 		if (node == null){
@@ -183,11 +183,11 @@ public class Scene {
 	}
 	
 	/**
-	 * »æÖÆ2DÍ¼Ïñ¡£
-	 * @param path ËùÒª»æÖÆµÄÍ¼Æ¬ËùÔÚÂ·¾¶
-	 * @param des »æÖÆÇøÓòµÄÎ»ÖÃ
-	 * @param src ÓÃ»§ËùÏ£Íû»æÖÆµÄÍ¼Æ¬ÇøÓòÔÚÕû¸öÍ¼Æ¬ÖĞµÄ×ø±ê£¬×ø±êÊÇ¹éÒ»»¯µÄ£¬ÈçÎªnull£¬Ôò»æÖÆÕûÕÅÍ¼Æ¬
-	 * @param useAlphaAsTransparentValue ÊÇ·ñÊ¹ÓÃalphaÍ¨µÀ£¨Èç¹ûÓĞ£©×÷Îª²ÄÖÊµÄÍ¸Ã÷¶È
+	 * ç»˜åˆ¶2Då›¾åƒã€‚
+	 * @param path æ‰€è¦ç»˜åˆ¶çš„å›¾ç‰‡æ‰€åœ¨è·¯å¾„
+	 * @param des ç»˜åˆ¶åŒºåŸŸçš„ä½ç½®
+	 * @param src ç”¨æˆ·æ‰€å¸Œæœ›ç»˜åˆ¶çš„å›¾ç‰‡åŒºåŸŸåœ¨æ•´ä¸ªå›¾ç‰‡ä¸­çš„åæ ‡ï¼Œåæ ‡æ˜¯å½’ä¸€åŒ–çš„ï¼Œå¦‚ä¸ºnullï¼Œåˆ™ç»˜åˆ¶æ•´å¼ å›¾ç‰‡
+	 * @param useAlphaAsTransparentValue æ˜¯å¦ä½¿ç”¨alphaé€šé“ï¼ˆå¦‚æœæœ‰ï¼‰ä½œä¸ºæè´¨çš„é€æ˜åº¦
 	 */
 	public void drawImage(String path, Rect4i des, Rect4d src, boolean useAlphaAsTransparentValue){
 		if (src == null)
@@ -199,11 +199,11 @@ public class Scene {
 	}
 	
 	/**
-	 * »æÖÆÎ»Í¼
-	 * @param bit ËùĞèÒª»æÖÆµÄÎ»Í¼
-	 * @param des »æÖÆÇøÓòµÄÎ»ÖÃ
-	 * @param src ÓÃ»§ËùÏ£Íû»æÖÆµÄÍ¼Æ¬ÇøÓòÔÚÕû¸öÍ¼Æ¬ÖĞµÄ×ø±ê£¬×ø±êÊÇ¹éÒ»»¯µÄ£¬ÈçÎªnull£¬Ôò»æÖÆÕûÕÅÍ¼Æ¬
-	 * @param useAlphaAsTransparentValue ÊÇ·ñÊ¹ÓÃalphaÍ¨µÀ£¨Èç¹ûÓĞ£©×÷Îª²ÄÖÊµÄÍ¸Ã÷¶È
+	 * ç»˜åˆ¶ä½å›¾
+	 * @param bit æ‰€éœ€è¦ç»˜åˆ¶çš„ä½å›¾
+	 * @param des ç»˜åˆ¶åŒºåŸŸçš„ä½ç½®
+	 * @param src ç”¨æˆ·æ‰€å¸Œæœ›ç»˜åˆ¶çš„å›¾ç‰‡åŒºåŸŸåœ¨æ•´ä¸ªå›¾ç‰‡ä¸­çš„åæ ‡ï¼Œåæ ‡æ˜¯å½’ä¸€åŒ–çš„ï¼Œå¦‚ä¸ºnullï¼Œåˆ™ç»˜åˆ¶æ•´å¼ å›¾ç‰‡
+	 * @param useAlphaAsTransparentValue æ˜¯å¦ä½¿ç”¨alphaé€šé“ï¼ˆå¦‚æœæœ‰ï¼‰ä½œä¸ºæè´¨çš„é€æ˜åº¦
 	 */
 	public void drawImage(Bitmap bit, String name, Rect4i des, Rect4d src, boolean useAlphaAsTransparentValue){
 		if (src == null)
@@ -214,31 +214,31 @@ public class Scene {
 	}
 	
 	/**
-	 * »æÖÆ2D¾ØĞÎ¡£
-	 * @param rect ËùÒª»æÖÆ¾ØĞÎµÄÇøÓò
-	 * @param color ËùÒª»æÖÆµÄ¾ØĞÎµÄÑÕÉ«
+	 * ç»˜åˆ¶2DçŸ©å½¢ã€‚
+	 * @param rect æ‰€è¦ç»˜åˆ¶çŸ©å½¢çš„åŒºåŸŸ
+	 * @param color æ‰€è¦ç»˜åˆ¶çš„çŸ©å½¢çš„é¢œè‰²
 	 */
 	public void drawRectangle(Rect4i rect, Color4i color){
 		nativeDrawRectangle(rect.Left, rect.Top, rect.Right, rect.Bottom, color.r(), color.g(), color.b(), color.a());
 	}
 	
 	/**
-	 * »æÖÆ¾ßÓĞ¶àÖÖÑÕÉ«µÄ2D¾ØĞÎ
-	 * @param rect »æÖÆÇøÓò
-	 * @param LT ×óÉÏ½ÇÑÕÉ«
-	 * @param LB ×óÏÂ½ÇÑÕÉ«
-	 * @param RB ÓÒÏÂ½ÇÑÕÉ«
-	 * @param RT ÓÒÉÏ½ÇÑÕÉ«
+	 * ç»˜åˆ¶å…·æœ‰å¤šç§é¢œè‰²çš„2DçŸ©å½¢
+	 * @param rect ç»˜åˆ¶åŒºåŸŸ
+	 * @param LT å·¦ä¸Šè§’é¢œè‰²
+	 * @param LB å·¦ä¸‹è§’é¢œè‰²
+	 * @param RB å³ä¸‹è§’é¢œè‰²
+	 * @param RT å³ä¸Šè§’é¢œè‰²
 	 */
 	public void drawRectangle(Rect4i rect, Color4i LT, Color4i LB, Color4i RB, Color4i RT){
 		nativeDrawRectangleChrome(rect, LT, LB, RB, RT);
 	}
 	
 	/**
-	 * »æÖÆÎÄ×Ö£¬assets¿ª¹Ø¹Ø±ÕÊ±±»½ûÓÃ
-	 * @param text ËùÒª»æÖÆµÄÎÄ×ÖÄÚÈİ
-	 * @param leftUp ËùÒª»æÖÆµÄÎÄ×ÖËùÔÚÎ»ÖÃµÄ×óÉÏµã×ø±êÖµ
-	 * @param color ËùÒª»æÖÆµÄÎÄ×ÖµÄÑÕÉ«
+	 * ç»˜åˆ¶æ–‡å­—ï¼Œassetså¼€å…³å…³é—­æ—¶è¢«ç¦ç”¨
+	 * @param text æ‰€è¦ç»˜åˆ¶çš„æ–‡å­—å†…å®¹
+	 * @param leftUp æ‰€è¦ç»˜åˆ¶çš„æ–‡å­—æ‰€åœ¨ä½ç½®çš„å·¦ä¸Šç‚¹åæ ‡å€¼
+	 * @param color æ‰€è¦ç»˜åˆ¶çš„æ–‡å­—çš„é¢œè‰²
 	 */
 	public void drawText(String text, Vector2i leftUp, Color4i color){
 		if (mEngine.isNativeAssetsReaderEnabled() == false){
@@ -249,264 +249,270 @@ public class Scene {
 	}
 	
 	/**
-	 * »æÖÆËùÓĞ½Úµã£¬Í¨¹ı¸Ãº¯ÊıÊµÏÖ¶ÔÒ»Ö¡³¡¾°ÀïËùÓĞ½Úµã½øĞĞäÖÈ¾¡£
+	 * ç»˜åˆ¶æ‰€æœ‰èŠ‚ç‚¹ï¼Œé€šè¿‡è¯¥å‡½æ•°å®ç°å¯¹ä¸€å¸§åœºæ™¯é‡Œæ‰€æœ‰èŠ‚ç‚¹è¿›è¡Œæ¸²æŸ“ã€‚
 	 */
 	public void drawAllNodes(){
 		nativeSmgrDrawAll();
 	}
 	
 	/**
-	 * Ìí¼Ó¿Õ½Úµã¡£·µ»ØËùÌí¼ÓµÄ½Úµã¶ÔÏó¡£×¢Òâ£º¿Õ½ÚµãÃ»ÓĞ´óĞ¡¡£
-	 * @param pos ËùÌí¼Ó¿Õ½ÚµãËùÔÚÎ»ÖÃ
-	 * @param parent ËùÌí¼Ó¿Õ½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ ç©ºèŠ‚ç‚¹ã€‚è¿”å›æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡ã€‚æ³¨æ„ï¼šç©ºèŠ‚ç‚¹æ²¡æœ‰å¤§å°ã€‚
+	 * @param pos æ‰€æ·»åŠ ç©ºèŠ‚ç‚¹æ‰€åœ¨ä½ç½®
+	 * @param parent æ‰€æ·»åŠ ç©ºèŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public SceneNode addEmptySceneNode(Vector3d pos, SceneNode parent){
-		SceneNode node = new SceneNode();
+		SceneNode node = new SceneNode(pos, parent);
 		if (nativeAddEmptySceneNode(pos.X, pos.Y, pos.Z, 
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓÁ¢·½Ìå½Úµã£¬·µ»ØËùÌí¼ÓµÄ½Úµã¶ÔÏó¡£
-	 * @param pos ËùÌí¼ÓÁ¢·½Ìå½ÚµãËùÔÚÎ»ÖÃ
-	 * @param size ËùÌí¼ÓÁ¢·½Ìå½ÚµãµÄ³ß´ç£¬Á¢·½ÌåÈı¸öÎ¬¶È´óĞ¡Ò»ÖÂ¡£
-	 * @param parent ËùÌí¼ÓÁ¢·½Ìå½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ ç«‹æ–¹ä½“èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @param pos æ‰€æ·»åŠ ç«‹æ–¹ä½“èŠ‚ç‚¹æ‰€åœ¨ä½ç½®
+	 * @param size æ‰€æ·»åŠ ç«‹æ–¹ä½“èŠ‚ç‚¹çš„å°ºå¯¸ï¼Œç«‹æ–¹ä½“ä¸‰ä¸ªç»´åº¦å¤§å°ä¸€è‡´ã€‚
+	 * @param parent æ‰€æ·»åŠ ç«‹æ–¹ä½“èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public MeshSceneNode addCubeSceneNode(Vector3d pos, double size, SceneNode parent){
-		MeshSceneNode node = new MeshSceneNode();
+		MeshSceneNode node = new MeshSceneNode(pos, parent);
 		if (nativeAddCubeSceneNode(pos.X, pos.Y, pos.Z, 
 				size, getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓÇòÌå½Úµã£¬·µ»ØËùÌí¼ÓµÄ½Úµã¶ÔÏó
-	 * @param pos ËùÌí¼ÓÇòÌå½ÚµãËùÔÚµÄÎ»ÖÃ
-	 * @param radius ËùÌí¼ÓÇòÌå½ÚµãµÄ°ë¾¶
-	 * @param polyCount ËùÌí¼ÓÇòÌå½Úµã´¹Ö±·½Ïò¡¢Ë®Æ½·½ÏòµÄ¶¥µãÊıÄ¿¡£ÇòÌå×Ü¹²ÓĞpolyCount*polyCount¸öÆ¬Ãæ¡£polyCount±ØĞëĞ¡ÓÚ256¡£
-	 * @param parent ËùÌí¼ÓÇòÌå½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ çƒä½“èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
+	 * @param pos æ‰€æ·»åŠ çƒä½“èŠ‚ç‚¹æ‰€åœ¨çš„ä½ç½®
+	 * @param radius æ‰€æ·»åŠ çƒä½“èŠ‚ç‚¹çš„åŠå¾„
+	 * @param polyCount æ‰€æ·»åŠ çƒä½“èŠ‚ç‚¹å‚ç›´æ–¹å‘ã€æ°´å¹³æ–¹å‘çš„é¡¶ç‚¹æ•°ç›®ã€‚çƒä½“æ€»å…±æœ‰polyCount*polyCountä¸ªç‰‡é¢ã€‚polyCountå¿…é¡»å°äº256ã€‚
+	 * @param parent æ‰€æ·»åŠ çƒä½“èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public MeshSceneNode addSphereSceneNode(Vector3d pos, double radius, int polyCount, SceneNode parent){
-		MeshSceneNode node = new MeshSceneNode();
+		MeshSceneNode node = new MeshSceneNode(pos, parent);
 		if(nativeAddSphereSceneNode(pos.X, pos.Y, pos.Z, 
 				radius, polyCount, getId(node), getId(parent), mEnableLighting) !=0)
 			return null;
-		node.javaLoadDataAndInit(pos, parent);
+		
+		registerNode(node);
 		return node;
 	}
 	/**
-	 * Ìí¼Ó¾²Ì¬Ä£ĞÍ½Úµã£¬·µ»ØËùÌí¼ÓµÄÄ£ĞÍ½Úµã¶ÔÏó¡£
-	 * @param path ËùÓÃ¾²Ì¬Ä£ĞÍµÄÂ·¾¶
-	 * @param pos ËùÌí¼Ó½ÚµãµÄÎ»ÖÃ
-	 * @param optimizedByOctree ÊÇ·ñÊ¹ÓÃ°Ë²æÊ÷ÓÅ»¯ÏÔÊ¾
-	 * @param parent ËùÌí¼Ó½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ é™æ€æ¨¡å‹èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„æ¨¡å‹èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @param path æ‰€ç”¨é™æ€æ¨¡å‹çš„è·¯å¾„
+	 * @param pos æ‰€æ·»åŠ èŠ‚ç‚¹çš„ä½ç½®
+	 * @param optimizedByOctree æ˜¯å¦ä½¿ç”¨å…«å‰æ ‘ä¼˜åŒ–æ˜¾ç¤º
+	 * @param parent æ‰€æ·»åŠ èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public MeshSceneNode addMeshSceneNode(String path, Vector3d pos, boolean optimizedByOctree,SceneNode parent){
-		MeshSceneNode node = new MeshSceneNode();
+		MeshSceneNode node = new MeshSceneNode(pos, parent);
 		if (nativeAddMeshSceneNode(getFullPath(path), pos.X, pos.Y, pos.Z,
 				getId(node), getId(parent), mEnableLighting, optimizedByOctree) != 0)
 			return null;
 		
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓÎÄ×Ö½Úµã£¬·µ»ØËùÌí¼ÓµÄÎÄ×Ö½Úµã¶ÔÏó¡£
-	 * @param text ËùÌí¼ÓµÄÎÄ×ÖÄÚÈİ
-	 * @param pos ËùÌí¼ÓÎÄ×Ö½ÚµãµÄÎ»ÖÃ
-	 * @param size ËùÌí¼ÓÎÄ×Ö½ÚµãµÄ´óĞ¡
-	 * @param parent ËùÌí¼ÓÎÄ×Ö½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ æ–‡å­—èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„æ–‡å­—èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @param text æ‰€æ·»åŠ çš„æ–‡å­—å†…å®¹
+	 * @param pos æ‰€æ·»åŠ æ–‡å­—èŠ‚ç‚¹çš„ä½ç½®
+	 * @param size æ‰€æ·»åŠ æ–‡å­—èŠ‚ç‚¹çš„å¤§å°
+	 * @param parent æ‰€æ·»åŠ æ–‡å­—èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public SceneNode addTextNode(String text, Vector3d pos, double size, SceneNode parent){
-		SceneNode node = new SceneNode();
+		SceneNode node = new SceneNode(pos, parent);
 		if (nativeAddTextNode(text, pos.X, pos.Y, pos.Z, size, 
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓÏà»ú½Úµã£¬·µ»ØËùÌí¼ÓµÄÏà»ú½Úµã×ø±ê¡£
-	 * @param pos ËùÌí¼ÓÏà»ú½ÚµãµÄÎ»ÖÃ
-	 * @param lookAt ËùÌí¼ÓÏà»ú½ÚµãµÄ³¯Ïò×ø±ê
-	 * @param isActive ÊÇ·ñ¼¤»î¸ÃÏà»ú½Úµã£¬ÖµÎªtrueÊ±¼¤»î
-	 * @param parent ËùÌí¼ÓÏà»ú½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ ç›¸æœºèŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„ç›¸æœºèŠ‚ç‚¹åæ ‡ã€‚
+	 * @param pos æ‰€æ·»åŠ ç›¸æœºèŠ‚ç‚¹çš„ä½ç½®
+	 * @param lookAt æ‰€æ·»åŠ ç›¸æœºèŠ‚ç‚¹çš„æœå‘åæ ‡
+	 * @param isActive æ˜¯å¦æ¿€æ´»è¯¥ç›¸æœºèŠ‚ç‚¹ï¼Œå€¼ä¸ºtrueæ—¶æ¿€æ´»
+	 * @param parent æ‰€æ·»åŠ ç›¸æœºèŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public CameraSceneNode addCameraSceneNode(Vector3d pos, Vector3d lookAt, boolean isActive, SceneNode parent){
-		CameraSceneNode node = new CameraSceneNode();
+		CameraSceneNode node = new CameraSceneNode(pos, lookAt, parent);
 		if (nativeAddCameraSceneNode(pos.X, pos.Y, pos.Z, 
 				lookAt.X, lookAt.Y, lookAt.Z, isActive, 
 				getId(node), getId(parent), mEnableLighting) != 0)
 			return null;
 		
-		setActiveCamera(node);
-		node.javaLoadDataAndInit(pos, lookAt, parent);
+		Vector2i size = getRenderSize();
+		node.setAspectRatio((float)size.X/size.Y);
+		registerNode(node);
+		
+		if (isActive){
+			setActiveCamera(node);
+		}
 		return node;
 	}
 	
 	/**
-	 * Ìí¼Ó¹«¸æ°å½Úµã£¬·µ»ØËùÌí¼Ó¹«¸æ°å½Úµã¶ÔÏó¡£
-	 * @param pos ËùÌí¼Ó¹«¸æ°å½ÚµãËùÔÚÎ»ÖÃ
-	 * @param size ËùÌí¼Ó¹«¸æ°å½ÚµãµÄ¶şÎ¬³ß´ç
-	 * @param parent ËùÌí¼Ó¹«¸æ°å½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ å…¬å‘Šæ¿èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ å…¬å‘Šæ¿èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @param pos æ‰€æ·»åŠ å…¬å‘Šæ¿èŠ‚ç‚¹æ‰€åœ¨ä½ç½®
+	 * @param size æ‰€æ·»åŠ å…¬å‘Šæ¿èŠ‚ç‚¹çš„äºŒç»´å°ºå¯¸
+	 * @param parent æ‰€æ·»åŠ å…¬å‘Šæ¿èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public BillboardSceneNode addBillboardSceneNode(Vector3d pos, Vector2d size, SceneNode parent){
-		BillboardSceneNode node = new BillboardSceneNode();
+		BillboardSceneNode node = new BillboardSceneNode(pos, parent);
 		if (nativeAddBillboardSceneNode(pos.X, pos.Y, pos.Z, 
 				size.X, size.Y, getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
 		
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼Ó¹âÔ´½Úµã£¬·µ»ØËùÌí¼ÓµÄ¹âÔ´½Úµã¶ÔÏó£¬²ÎÊıµÄÒâÒå¿ÉÒÔ²Î¼û{@link zte.irrlib.core.SLight}
-	 * @param pos ËùÌí¼Ó¹âÔ´½ÚµãµÄÎ»ÖÃ
-	 * @param radius ËùÌí¼Ó¹âÔ´½ÚµãµÄÕÕÉä°ë¾¶
-	 * @param color ËùÌí¼Ó¹âÔ´½ÚµãµÄÑÕÉ«
-	 * @param parent ËùÌí¼Ó¹âÔ´½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ å…‰æºèŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„å…‰æºèŠ‚ç‚¹å¯¹è±¡ï¼Œå‚æ•°çš„æ„ä¹‰å¯ä»¥å‚è§{@link zte.irrlib.core.SLight}
+	 * @param pos æ‰€æ·»åŠ å…‰æºèŠ‚ç‚¹çš„ä½ç½®
+	 * @param radius æ‰€æ·»åŠ å…‰æºèŠ‚ç‚¹çš„ç…§å°„åŠå¾„
+	 * @param color æ‰€æ·»åŠ å…‰æºèŠ‚ç‚¹çš„é¢œè‰²
+	 * @param parent æ‰€æ·»åŠ å…‰æºèŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public LightSceneNode addLightSceneNode(Vector3d pos, double radius, Color3i color, SceneNode parent){
-		LightSceneNode node = new LightSceneNode();
+		LightSceneNode node = new LightSceneNode(pos, parent);
 		if (nativeAddLightSceneNode(pos.X, pos.Y, pos.Z, radius,
 				color.r(), color.g(), color.b(), 
 				getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
-		
-		node.javaLoadDataAndInit(pos, parent, radius);
+		node.downloadLightData();
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼Ó¹«¸æ°å×é½Úµã£¬·µ»ØËùÌí¼ÓµÄ¹«¸æ°å×é¶ÔÏó¡£
-	 * @param pos ËùÌí¼Ó½ÚµãµÄÎ»ÖÃ
-	 * @param parent ËùÌí¼Ó½ÚµãµÄ¸¸½Úµã
-	 * @return ËùÌí¼ÓµÄ¹«¸æ°å×é½Úµã
+	 * æ·»åŠ å…¬å‘Šæ¿ç»„èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„å…¬å‘Šæ¿ç»„å¯¹è±¡ã€‚
+	 * @param pos æ‰€æ·»åŠ èŠ‚ç‚¹çš„ä½ç½®
+	 * @param parent æ‰€æ·»åŠ èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
+	 * @return æ‰€æ·»åŠ çš„å…¬å‘Šæ¿ç»„èŠ‚ç‚¹
 	 */
 	public BillboardGroup addBillboardGroup(Vector3d pos, SceneNode parent){
-		BillboardGroup node = new BillboardGroup();
+		BillboardGroup node = new BillboardGroup(pos, parent);
 		if (nativeAddEmptySceneNode(pos.X, pos.Y, pos.Z, 
 				getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼Ó¶¯»­Ä£ĞÍ½Úµã£¬·µ»ØËùÌí¼ÓµÄ½Úµã¶ÔÏó¡£
-	 * @param path ËùÊ¹ÓÃ¶¯»­Ä£ĞÍÎÄ¼şËùÔÚÂ·¾¶
-	 * @param pos ËùÌí¼ÓÄ£ĞÍ½ÚµãµÄÎ»ÖÃ
-	 * @param parent ËùÌí¼ÓÄ£ĞÍ½ÚµãµÄ¸¸½Úµã
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ åŠ¨ç”»æ¨¡å‹èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @param path æ‰€ä½¿ç”¨åŠ¨ç”»æ¨¡å‹æ–‡ä»¶æ‰€åœ¨è·¯å¾„
+	 * @param pos æ‰€æ·»åŠ æ¨¡å‹èŠ‚ç‚¹çš„ä½ç½®
+	 * @param parent æ‰€æ·»åŠ æ¨¡å‹èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public AnimateMeshSceneNode addAnimateMeshSceneNode(String path, Vector3d pos, SceneNode parent){
-		AnimateMeshSceneNode node = new AnimateMeshSceneNode();
+		AnimateMeshSceneNode node = new AnimateMeshSceneNode(pos, parent);
 		if (nativeAddAnimateMeshSceneNode(getFullPath(path), pos.X, pos.Y, pos.Z,
 				getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓÁ£×Ó·¢Éä½Úµã£¬·µ»ØËùÌí¼ÓµÄÀı×Ó·¢Éä¶ÔÏó¡£
-	 * @param pos ËùÌí¼Ó½ÚµãµÄÎ»ÖÃ
-	 * @param withDefaultEmitter Ö¸¶¨ÊÇ·ñÊ¹ÓÃÄ¬ÈÏµÄ·¢ÉäÆ÷
-	 * @param parent ËùÌí¼Ó½ÚµãµÄ¸¸½Úµã
-	 * @return ËùÌí¼ÓµÄ½Úµã¶ÔÏó
+	 * æ·»åŠ ç²’å­å‘å°„èŠ‚ç‚¹ï¼Œè¿”å›æ‰€æ·»åŠ çš„ä¾‹å­å‘å°„å¯¹è±¡ã€‚
+	 * @param pos æ‰€æ·»åŠ èŠ‚ç‚¹çš„ä½ç½®
+	 * @param withDefaultEmitter æŒ‡å®šæ˜¯å¦ä½¿ç”¨é»˜è®¤çš„å‘å°„å™¨
+	 * @param parent æ‰€æ·»åŠ èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
+	 * @return æ‰€æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public ParticleSystemSceneNode addParticleSystemSceneNode(Vector3d pos, boolean withDefaultEmitter, SceneNode parent){
-		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode(pos, parent);
 		if (nativeAddParticleSystemSceneNode(pos.X, pos.Y, pos.Z, 
 				withDefaultEmitter, getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓåçĞÇÍÏÎ²Ğ§¹ûÁ£×Ó·¢Éä½Úµã
-	 * @param pos Á£×Ó·¢Éä½ÚµãµÄÎ»ÖÃ
-	 * @param parent Á£×Ó·¢Éä½ÚµãµÄ¸¸½Úµã
-	 * @return ËùÌí¼ÓµÄÁ£×Ó·¢Éä½Úµã¶ÔÏó
+	 * æ·»åŠ å½—æ˜Ÿæ‹–å°¾æ•ˆæœç²’å­å‘å°„èŠ‚ç‚¹
+	 * @param pos ç²’å­å‘å°„èŠ‚ç‚¹çš„ä½ç½®
+	 * @param parent ç²’å­å‘å°„èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
+	 * @return æ‰€æ·»åŠ çš„ç²’å­å‘å°„èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public ParticleSystemSceneNode addCometTailSceneNode(Vector3d pos, double radius, double length, 
 			Vector3d dir, SceneNode parent){
-		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode(pos, parent);
 		if(nativeAddCometTailSceneNode(pos.X, pos.Y, pos.Z, radius, length, dir.X, dir.Y, dir.Z, getId(node), getId(parent), mEnableLighting) != 0){
 			return null;
 		}
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼ÓĞÇ¹âÁ£×ÓÏµÍ³½Úµã£¬¼´ÔÚÖ¸¶¨µÄĞÇ¿ÕÇøÓòÄÚËæ»ú²úÉúÉÁË¸µÄĞÇĞÇÁ£×Ó¡£
-	 * @param pos ËùÌí¼ÓĞÇ¹âÁ£×ÓÏµÍ³½ÚµãµÄÖĞĞÄÎ»ÖÃ
-	 * @param radius ËùÌí¼ÓĞÇ¹âÁ£×ÓÏµÍ³½Úµãº­¸ÇµÄÇøÓò°ë¾¶
-	 * @param parent ËùÌí¼ÓĞÇ¹âÁ£×ÓÏµÍ³½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ·µ»ØËùÌí¼ÓµÄĞÇ¹âÁ£×ÓÏµÍ³½Úµã
+	 * æ·»åŠ æ˜Ÿå…‰ç²’å­ç³»ç»ŸèŠ‚ç‚¹ï¼Œå³åœ¨æŒ‡å®šçš„æ˜Ÿç©ºåŒºåŸŸå†…éšæœºäº§ç”Ÿé—ªçƒçš„æ˜Ÿæ˜Ÿç²’å­ã€‚
+	 * @param pos æ‰€æ·»åŠ æ˜Ÿå…‰ç²’å­ç³»ç»ŸèŠ‚ç‚¹çš„ä¸­å¿ƒä½ç½®
+	 * @param radius æ‰€æ·»åŠ æ˜Ÿå…‰ç²’å­ç³»ç»ŸèŠ‚ç‚¹æ¶µç›–çš„åŒºåŸŸåŠå¾„
+	 * @param parent æ‰€æ·»åŠ æ˜Ÿå…‰ç²’å­ç³»ç»ŸèŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return è¿”å›æ‰€æ·»åŠ çš„æ˜Ÿå…‰ç²’å­ç³»ç»ŸèŠ‚ç‚¹
 	 */
 	public ParticleSystemSceneNode addStarsParticleSceneNode(Vector3d pos, double radius, SceneNode parent){
-		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode(pos, parent);
 		if(nativeAddStarsParticleSceneNode(pos.X, pos.Y, pos.Z, radius, getId(node), getId(parent), mEnableLighting)!=0){
 			return null;
 		}
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼Ó±¬Õ¨Á£×ÓÏµÍ³½Úµã
-	 * @param pos	ËùÌí¼ÓµÄ±¬Õ¨Á£×ÓÏµÍ³½ÚµãËùÔÚÎ»ÖÃ×ø±ê
-	 * @param radius ±¬Õ¨Ğ§¹û²¨¼°·¶Î§µÄ°ë¾¶
-	 * @param speed ±¬Õ¨Á£×Ó·ÉÀëÖĞĞÄµãµÄËÙ¶È£¬µ¥Î»£ºunit/Ãë
-	 * @param parent ±¬Õ¨ÀûÏ¢ÏµÍ³½ÚµãµÄ¸¸½Úµã¶ÔÏó
-	 * @return ·µ»ØËùÌí¼ÓµÄ±¬Õ¨Á£×ÓÏµÍ³½Úµã¶ÔÏó
+	 * æ·»åŠ çˆ†ç‚¸ç²’å­ç³»ç»ŸèŠ‚ç‚¹
+	 * @param pos	æ‰€æ·»åŠ çš„çˆ†ç‚¸ç²’å­ç³»ç»ŸèŠ‚ç‚¹æ‰€åœ¨ä½ç½®åæ ‡
+	 * @param radius çˆ†ç‚¸æ•ˆæœæ³¢åŠèŒƒå›´çš„åŠå¾„
+	 * @param speed çˆ†ç‚¸ç²’å­é£ç¦»ä¸­å¿ƒç‚¹çš„é€Ÿåº¦ï¼Œå•ä½ï¼šunit/ç§’
+	 * @param parent çˆ†ç‚¸åˆ©æ¯ç³»ç»ŸèŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹å¯¹è±¡
+	 * @return è¿”å›æ‰€æ·»åŠ çš„çˆ†ç‚¸ç²’å­ç³»ç»ŸèŠ‚ç‚¹å¯¹è±¡
 	 */
 	public ParticleSystemSceneNode addExplosionParticleSceneNode(Vector3d pos, double radius, double speed,
 			SceneNode parent){
-		ParticleSystemSceneNode node = new ParticleSystemSceneNode();
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode(pos, parent);
 		if(nativeAddExplosionParticleSceneNode(pos.X, pos.Y, pos.Z,
 				radius, speed, getId(node), getId(parent), mEnableLighting)!=0){
 			return null;
 		}
-		node.javaLoadDataAndInit(pos, parent);
+		registerNode(node);
 		return node;
 	}
 	
 	/**
-	 * Ìí¼Ó9¸öÁ¢·½Ìå×é³ÉµÄ²¼¾ÖÀà£¬assets±¾µØ¶ÁÈ¡±»½ûÓÃÊ±²»¿ÉÓÃ
-	 * @param pos Î»ÖÃ
-	 * @param size ´óĞ¡
-	 * @param dx x·½ÏòµÄ·ìÏ¶¿í¶È
-	 * @param dy y·½ÏòµÄ·ìÏ¶¿í¶È
-	 * @param parent ¸¸½Úµã
-	 * @return ·µ»ØËùÌí¼ÓµÄ9¸öÁ¢·½Ìå×é³ÉµÄ²¼¾ÖÀà
+	 * æ·»åŠ 9ä¸ªç«‹æ–¹ä½“ç»„æˆçš„å¸ƒå±€ç±»ï¼Œassetsæœ¬åœ°è¯»å–è¢«ç¦ç”¨æ—¶ä¸å¯ç”¨
+	 * @param pos ä½ç½®
+	 * @param size å¤§å°
+	 * @param dx xæ–¹å‘çš„ç¼éš™å®½åº¦
+	 * @param dy yæ–¹å‘çš„ç¼éš™å®½åº¦
+	 * @param parent çˆ¶èŠ‚ç‚¹
+	 * @return è¿”å›æ‰€æ·»åŠ çš„9ä¸ªç«‹æ–¹ä½“ç»„æˆçš„å¸ƒå±€ç±»
 	 */
 	public NineCubeLayout addNineCubeLayoutSceneNode(Vector3d pos,
 			Vector3d size, double dx, double dy, SceneNode parent){
@@ -520,12 +526,75 @@ public class Scene {
 	}
 	
 	/**
-	 * ½öÖ§³ÖOpenGL ES 1.0£¬ÏòÒıÇæÉêÇëÒ»¸öÍâ²¿ÎÆÀíµÄ´æ´¢¿Õ¼ä£¬²¢ÎªÖ®È¡Ãû£¬Ãû×Ö±ØĞëÊÇÎ¨
-	 * Ò»µÄ¡£¸Ã·½·¨»á·µ»ØÒ»¸öopengGL ES IdºÅ£¬ÓÃ»§¿ÉÒÔ±£´æÕâ¸öIdºÅ½«openGL ESÓëÊÓÆµ
-	 * ½âÂëÆ÷£¬Ïà»úµÈÁ÷Ã½ÌåÁ¬½ÓÆğÀ´¡£<br>
-	 * ×¢Òâ£ºÕâ¸ö²ÄÖÊÊÇGL_TEXTURE_EXTERNAL_OESÀà£¬¶ø·ÇGL_TEXTURE_2D¡£
-	 * @param texname Ãû×Ö£¬Ê¹ÓÃÕß±ØĞë½«Õâ¸öÃû×Ö´æ´¢ÆğÀ´£¬ÒòÎªËüÊÇÖ¸ÏòÕâ¸ö²ÄÖÊµÄÎ¨Ò»±êÊ¶
-	 * @return ÎÆÀíµÄopengGL ES IdºÅ£¬ÈôÎªÕıÕûÊı£¬Ôò±íÊ¾ÉêÇë³É¹¦¡£
+	 * æ·»åŠ å¤©ç©ºç›’èŠ‚ç‚¹
+	 * @param top é¡¶éƒ¨æè´¨
+	 * @param bottom åº•éƒ¨æè´¨
+	 * @param left å·¦æ–¹æè´¨
+	 * @param right å³æ–¹æè´¨
+	 * @param front å‰æ–¹æè´¨
+	 * @param back åæ–¹æè´¨
+	 * @param parent çˆ¶èŠ‚ç‚¹
+	 * @return è¿”å›æ–°æ·»åŠ çš„èŠ‚ç‚¹
+	 */
+	public MeshSceneNode addSkyBoxSceneNode(String top, String bottom, String left, String right,
+			String front, String back, SceneNode parent){
+		MeshSceneNode node = new MeshSceneNode(new Vector3d(), parent);
+		if(nativeAddSkyBoxSceneNode(getFullPath(top), getFullPath(bottom), getFullPath(left), 
+				getFullPath(right), getFullPath(front), getFullPath(back),
+				getId(node.getParent()), node.getId()) != 0){
+			return null;
+		}
+		registerNode(node);
+		return node;
+	}
+	
+	/**
+	 * æ·»åŠ ç©¹é¡¶èŠ‚ç‚¹
+	 * @param tex ç©¹é¡¶æè´¨
+	 * @param hr æ°´å¹³æ–¹å‘çš„çƒçš„åˆ†æ®µæ•°
+	 * @param vr å‚ç›´æ–¹å‘çš„çƒçš„åˆ†æ®µæ•°
+	 * @param tp åœ¨å‚ç›´æ–¹å‘ï¼Œæè´¨éœ€è¦æ˜¾ç¤ºå¤šå°‘é«˜åº¦ï¼Œå–å€¼0~1
+	 * @param sp ç©¹é¡¶çƒçš„ç»˜åˆ¶æ¯”ä¾‹ï¼Œå–å€¼0~2ï¼›ä¸º1æ—¶ï¼Œæ­£å¥½ç»˜åˆ¶åŠçƒ
+	 * @param radius çƒçš„åŠå¾„
+	 * @param parent çˆ¶èŠ‚ç‚¹
+	 * @return è¿”å›æ–°æ·»åŠ çš„èŠ‚ç‚¹
+	 */
+	public MeshSceneNode addSkyDomeSceneNode(String tex, int hr, int vr,
+			double tp, double sp, double radius, SceneNode parent){
+		MeshSceneNode node = new MeshSceneNode(new Vector3d(), parent);
+		if(nativeAddSkyDomeSceneNode(getFullPath(tex), hr, vr, tp, sp, radius,
+				getId(node.getParent()), node.getId()) != 0){
+			return null;
+		}
+		registerNode(node);
+		return node;
+	}
+	
+	/**
+	 * æ·»åŠ åœ°å½¢èŠ‚ç‚¹
+	 * @param heightmap é«˜åº¦å›¾
+	 * @param color èŠ‚ç‚¹é¢œè‰²ï¼ˆå¦‚æœåº”ç”¨äº†è´´å›¾ï¼Œåˆ™é¢œè‰²è®¾ç½®å¤±æ•ˆï¼‰
+	 * @param smoothFactor å¹³æ»‘æ¬¡æ•°
+	 * @param parent çˆ¶èŠ‚ç‚¹
+	 * @return æ·»åŠ çš„èŠ‚ç‚¹
+	 */
+	public MeshSceneNode addTerrainSceneNode(String heightmap, Color4i color, int smoothFactor, SceneNode parent){
+		MeshSceneNode node = new MeshSceneNode(new Vector3d(), parent);
+		if(nativeAddTerrainSceneNode(getFullPath(heightmap), color, smoothFactor,
+				getId(node.getParent()), node.getId(), mEnableLighting) != 0){
+			return null;
+		}
+		registerNode(node);
+		return node;
+	}
+	
+	/**
+	 * ä»…æ”¯æŒOpenGL ES 1.0ï¼Œå‘å¼•æ“ç”³è¯·ä¸€ä¸ªå¤–éƒ¨çº¹ç†çš„å­˜å‚¨ç©ºé—´ï¼Œå¹¶ä¸ºä¹‹å–åï¼Œåå­—å¿…é¡»æ˜¯å”¯
+	 * ä¸€çš„ã€‚è¯¥æ–¹æ³•ä¼šè¿”å›ä¸€ä¸ªopengGL ES Idå·ï¼Œç”¨æˆ·å¯ä»¥ä¿å­˜è¿™ä¸ªIdå·å°†openGL ESä¸è§†é¢‘
+	 * è§£ç å™¨ï¼Œç›¸æœºç­‰æµåª’ä½“è¿æ¥èµ·æ¥ã€‚<br>
+	 * æ³¨æ„ï¼šè¿™ä¸ªæè´¨æ˜¯GL_TEXTURE_EXTERNAL_OESç±»ï¼Œè€ŒéGL_TEXTURE_2Dã€‚
+	 * @param texname åå­—ï¼Œä½¿ç”¨è€…å¿…é¡»å°†è¿™ä¸ªåå­—å­˜å‚¨èµ·æ¥ï¼Œå› ä¸ºå®ƒæ˜¯æŒ‡å‘è¿™ä¸ªæè´¨çš„å”¯ä¸€æ ‡è¯†
+	 * @return çº¹ç†çš„opengGL ES Idå·ï¼Œè‹¥ä¸ºæ­£æ•´æ•°ï¼Œåˆ™è¡¨ç¤ºç”³è¯·æˆåŠŸã€‚
 	 */
 	public int applyNewExternalTexture(String texname){
 		if (mEngine.getRenderType() != 1){
@@ -536,10 +605,10 @@ public class Scene {
 	}
 	
 	/**
-	 * ½«bitmapÉÏ´«ÖÁÒıÇæ
-	 * @param bitmap Î»Í¼
-	 * @param texname ±êÊ¶·û
-	 * @return Èç¹ûÉÏ´«Ê§°Ü£¨±ÈÈç´æÔÚÖØÃû£¬Î»Í¼²»¿É¶ÁÈ¡µÈ£©·µ»Øfalse
+	 * å°†bitmapä¸Šä¼ è‡³å¼•æ“
+	 * @param bitmap ä½å›¾
+	 * @param texname æ ‡è¯†ç¬¦
+	 * @return å¦‚æœä¸Šä¼ å¤±è´¥ï¼ˆæ¯”å¦‚å­˜åœ¨é‡åï¼Œä½å›¾ä¸å¯è¯»å–ç­‰ï¼‰è¿”å›false
 	 */
 	public boolean uploadBitmap(Bitmap bitmap, String texname){
 		return nativeUploadBitmap(texname, bitmap);
@@ -547,8 +616,8 @@ public class Scene {
 	
 	@Deprecated
 	/**
-	 * ·µ»ØÌíÊÓÆµ²¥·ÅÆ÷¡£
-	 * @return ÊÓÆµ²¥·ÅÆ÷¶ÔÏó
+	 * è¿”å›æ·»è§†é¢‘æ’­æ”¾å™¨ã€‚
+	 * @return è§†é¢‘æ’­æ”¾å™¨å¯¹è±¡
 	 */
 	public TexMediaPlayer getMediaPlayer(){
 		if (mEngine.getRenderType() != 1){
@@ -562,9 +631,9 @@ public class Scene {
 	}
 	
 	/**
-	 * É¾³ıÖ¸¶¨½Úµã¡£
-	 * @param node ËùÒªÉ¾³ıµÄ½Úµã¶ÔÏó
-	 * @return ÊÇ·ñ³É¹¦É¾³ı
+	 * åˆ é™¤æŒ‡å®šèŠ‚ç‚¹ã€‚
+	 * @param node æ‰€è¦åˆ é™¤çš„èŠ‚ç‚¹å¯¹è±¡
+	 * @return æ˜¯å¦æˆåŠŸåˆ é™¤
 	 */
 	public boolean removeNode(SceneNode node){
 		if (node == null) return false;
@@ -576,81 +645,86 @@ public class Scene {
 	}
 	
 	/**
-	 * É¾³ıËùÓĞ½Úµã£¬<b>°üÀ¨</b>Ïà»ú½Úµã
+	 * åˆ é™¤æ‰€æœ‰èŠ‚ç‚¹ï¼Œ<b>åŒ…æ‹¬</b>ç›¸æœºèŠ‚ç‚¹
 	 */
 	public void clearAllNodes(){
 		mNodeList.clear();
 		mUpdateList.clear();
+		mCameraList.clear();
 		mActiveCamera = null;
 		nativeClear();
 		_NewId = 0;
 	}
 	
 	/**
-	 * ÕâÊÇ¸ö²»°²È«µÄ·½·¨£¬³ÌĞòÔ±<b>±ØĞë</b>È·±£ÒÆ³ıµÄÌùÍ¼²¢²»±»µ±Ç°³¡¾°
-	 * ËùÊ¹ÓÃ£¬·ñÔò³ÌĞò½«ÔÚäÖÈ¾Ê±±ÀÀ£¡£È»¶ø£¬ÒòÎªÌùÍ¼»áÕ¼¾İ´óÁ¿µÄÍ¼Ïñ
-	 * »º´æºÍÄÚ´æ£¨Èç¹ûÔÚÄÚ´æÖĞÁôÓĞ±¸·İµÄ»°£¬Ä¿Ç°µÄÉèÖÃÏÂÊÇÃ»ÓĞ±¸·İµÄ£©£¬
-	 * ËùÒÔ¼°Ê±µÄÇåÀíÌùÍ¼ÊÇ¼õÉÙÏµÍ³×ÊÔ´ÏûºÄµÄÓĞĞ§·½·¨¡£È»¶ø£¬·´¸´¼ÓÔØ
-	 * ÌùÍ¼ÊÇ·Ç³£ºÄÊ±µÄ£¬Òò´ËÒıÇæ²»»á×Ô¶¯É¾³ıÄÇĞ©²»ÔÙ±»Ê¹ÓÃµÄÌùÍ¼¡£
-	 * ½¨ÒéÉ¾³ıÄÇĞ©²»»áÔÙÓÃµ½µÄÌùÍ¼¡£
-	 * @param path ÌùÍ¼µÄÂ·¾¶£¨±ØĞë¸ú´´½¨Ê±ËùÓÃµÄÂ·¾¶Ò»ÖÂ£©
+	 * è¿™æ˜¯ä¸ªä¸å®‰å…¨çš„æ–¹æ³•ï¼Œç¨‹åºå‘˜<b>å¿…é¡»</b>ç¡®ä¿ç§»é™¤çš„è´´å›¾å¹¶ä¸è¢«å½“å‰åœºæ™¯
+	 * æ‰€ä½¿ç”¨ï¼Œå¦åˆ™ç¨‹åºå°†åœ¨æ¸²æŸ“æ—¶å´©æºƒã€‚ç„¶è€Œï¼Œå› ä¸ºè´´å›¾ä¼šå æ®å¤§é‡çš„å›¾åƒ
+	 * ç¼“å­˜å’Œå†…å­˜ï¼ˆå¦‚æœåœ¨å†…å­˜ä¸­ç•™æœ‰å¤‡ä»½çš„è¯ï¼Œç›®å‰çš„è®¾ç½®ä¸‹æ˜¯æ²¡æœ‰å¤‡ä»½çš„ï¼‰ï¼Œ
+	 * æ‰€ä»¥åŠæ—¶çš„æ¸…ç†è´´å›¾æ˜¯å‡å°‘ç³»ç»Ÿèµ„æºæ¶ˆè€—çš„æœ‰æ•ˆæ–¹æ³•ã€‚ç„¶è€Œï¼Œåå¤åŠ è½½
+	 * è´´å›¾æ˜¯éå¸¸è€—æ—¶çš„ï¼Œå› æ­¤å¼•æ“ä¸ä¼šè‡ªåŠ¨åˆ é™¤é‚£äº›ä¸å†è¢«ä½¿ç”¨çš„è´´å›¾ã€‚
+	 * å»ºè®®åˆ é™¤é‚£äº›ä¸ä¼šå†ç”¨åˆ°çš„è´´å›¾ã€‚
+	 * @param path è´´å›¾çš„è·¯å¾„ï¼ˆå¿…é¡»è·Ÿåˆ›å»ºæ—¶æ‰€ç”¨çš„è·¯å¾„ä¸€è‡´ï¼‰
 	 */
 	public void removeTexture(String path){
 		nativeRemoveTexture(getFullPath(path));
 	}
 	
 	/**
-	 * ÕâÊÇ¸ö²»°²È«µÄ·½·¨£¬³ÌĞòÔ±<b>±ØĞë</b>È·±£ÒÆ³ıµÄÌùÍ¼²¢²»±»µ±Ç°³¡¾°
-	 * ËùÊ¹ÓÃ£¬·ñÔò³ÌĞò½«ÔÚäÖÈ¾Ê±±ÀÀ£¡£È»¶ø£¬ÒòÎªÌùÍ¼»áÕ¼¾İ´óÁ¿µÄÍ¼Ïñ
-	 * »º´æºÍÄÚ´æ£¨Èç¹ûÔÚÄÚ´æÖĞÁôÓĞ±¸·İµÄ»°£¬Ä¿Ç°µÄÉèÖÃÏÂÊÇÃ»ÓĞ±¸·İµÄ£©£¬
-	 * ËùÒÔ¼°Ê±µÄÇåÀíÌùÍ¼ÊÇ¼õÉÙÏµÍ³×ÊÔ´ÏûºÄµÄÓĞĞ§·½·¨¡£È»¶ø£¬·´¸´¼ÓÔØ
-	 * ÌùÍ¼ÊÇ·Ç³£ºÄÊ±µÄ£¬Òò´ËÒıÇæ²»»á×Ô¶¯É¾³ıÄÇĞ©²»ÔÙ±»Ê¹ÓÃµÄÌùÍ¼¡£
-	 * ½¨ÒéÉ¾³ıÄÇĞ©²»»áÔÙÓÃµ½µÄÌùÍ¼¡£
-	 * @param bitmapName ÌùÍ¼µÄÃû³Æ£¨±ØĞë¸ú´´½¨Ê±ËùÓÃµÄÃû³ÆÒ»ÖÂ£¬ÎŞĞèÇ°×º£©
+	 * è¿™æ˜¯ä¸ªä¸å®‰å…¨çš„æ–¹æ³•ï¼Œç¨‹åºå‘˜<b>å¿…é¡»</b>ç¡®ä¿ç§»é™¤çš„è´´å›¾å¹¶ä¸è¢«å½“å‰åœºæ™¯
+	 * æ‰€ä½¿ç”¨ï¼Œå¦åˆ™ç¨‹åºå°†åœ¨æ¸²æŸ“æ—¶å´©æºƒã€‚ç„¶è€Œï¼Œå› ä¸ºè´´å›¾ä¼šå æ®å¤§é‡çš„å›¾åƒ
+	 * ç¼“å­˜å’Œå†…å­˜ï¼ˆå¦‚æœåœ¨å†…å­˜ä¸­ç•™æœ‰å¤‡ä»½çš„è¯ï¼Œç›®å‰çš„è®¾ç½®ä¸‹æ˜¯æ²¡æœ‰å¤‡ä»½çš„ï¼‰ï¼Œ
+	 * æ‰€ä»¥åŠæ—¶çš„æ¸…ç†è´´å›¾æ˜¯å‡å°‘ç³»ç»Ÿèµ„æºæ¶ˆè€—çš„æœ‰æ•ˆæ–¹æ³•ã€‚ç„¶è€Œï¼Œåå¤åŠ è½½
+	 * è´´å›¾æ˜¯éå¸¸è€—æ—¶çš„ï¼Œå› æ­¤å¼•æ“ä¸ä¼šè‡ªåŠ¨åˆ é™¤é‚£äº›ä¸å†è¢«ä½¿ç”¨çš„è´´å›¾ã€‚
+	 * å»ºè®®åˆ é™¤é‚£äº›ä¸ä¼šå†ç”¨åˆ°çš„è´´å›¾ã€‚
+	 * @param bitmapName è´´å›¾çš„åç§°ï¼ˆå¿…é¡»è·Ÿåˆ›å»ºæ—¶æ‰€ç”¨çš„åç§°ä¸€è‡´ï¼Œæ— éœ€å‰ç¼€ï¼‰
 	 */
 	public void removeBitmap(String bitmapName){
 		nativeRemoveTexture(bitmapName);
 	}
 	
 	/**
-	 * È¥³ıÄ¿Ç°²»±»Ê¹ÓÃµÄ¶à±ßĞÎ¡£³öÓÚĞÔÄÜ¿¼ÂÇ£¬ÒıÇæ»á»º´æËùÓĞÒÑ¾­±»¼ÓÔØ
-	 * µÄ¶à±ßĞÎÄ£ĞÍ¡£ÕâĞ©Ä£ĞÍ»áÒ»Ö±×¤ÁôÔÚÄÚ´æÖĞ£¬¼´Ê¹Ê¹ÓÃËüÃÇµÄ½ÚµãÒÑ¾­
-	 * ²»´æÔÚ¡£Õâ¸ö·½·¨ÓÃÓÚÇå³ıÄÚ´æÖĞ²»±»Ê¹ÓÃµÄ¶à±ßĞÎÄ£ĞÍ¡£
+	 * å»é™¤ç›®å‰ä¸è¢«ä½¿ç”¨çš„å¤šè¾¹å½¢ã€‚å‡ºäºæ€§èƒ½è€ƒè™‘ï¼Œå¼•æ“ä¼šç¼“å­˜æ‰€æœ‰å·²ç»è¢«åŠ è½½
+	 * çš„å¤šè¾¹å½¢æ¨¡å‹ã€‚è¿™äº›æ¨¡å‹ä¼šä¸€ç›´é©»ç•™åœ¨å†…å­˜ä¸­ï¼Œå³ä½¿ä½¿ç”¨å®ƒä»¬çš„èŠ‚ç‚¹å·²ç»
+	 * ä¸å­˜åœ¨ã€‚è¿™ä¸ªæ–¹æ³•ç”¨äºæ¸…é™¤å†…å­˜ä¸­ä¸è¢«ä½¿ç”¨çš„å¤šè¾¹å½¢æ¨¡å‹ã€‚
 	 */
 	public void removeUnusedMesh(){
 		nativeRemoveUnusedMesh();
 	}
 	
 	/**
-	 * ÔÚ»º´æÖĞÈ¥³ıÖ¸¶¨µÄ¶à±ßĞÎÄ£ĞÍ¡£Õâ¸öº¯Êı½ö½öÔÚ»º´æÖĞÈ¥³ı½Úµã£¬²¢²»Ó°ÏìÒÑ
-	 * ¾­ÔÚ½ÚµãÖĞ±»ÒıÓÃµÄ¶à±ßĞÎÄ£ĞÍµÄäÖÈ¾£¨¾ÍÊÇËµ²»»áµ¼ÖÂ¿ÕÖ¸ÕëµÄ´íÎó£©¡£È»¶ø£¬
-	 * ÓÉÓÚÔÚÕâÖÖÇé¿öÏÂ£¬ÒıÇæ½ö½öÊÇÈ¡ÏûÁË¸Ã¶à±ßĞÎÄ£ĞÍÔÚ»º´æÖĞµÄÖ¸Õë£¬¶ø·ÇÊÍ·Å
-	 * ÄÚ´æ£¬ÓÉ´Ë»áµ¼ÖÂÁ½¸öºó¹û£ºÈç¹ûÔÙ´ÎÊ¹ÓÃµ½¸ÃÄ£ĞÍ£¬ÒıÇæ»áÈÏÎª¸ÃÄ£ĞÍÎ´±»¼Ó
-	 * ÔØ¶ø´´½¨¸ÃÄ£ĞÍµÄÁíÒ»¸ö±¸·İ£¬ÓÉ´Ë»áµ¼ÖÂÄÚ´æµÄÀË·Ñ£»ÁíÒ»¸ö½ÏÎªÓĞÀûµÄºó¹û
-	 * ÊÇ£¬Èç¹ûÒıÓÃ¸ÃÄ£ĞÍµÄ½ÚµãÈ«²¿±»É¾³ı£¬ÄÇÃ´ÒıÇæ½«×Ô¶¯ÊÍ·ÅÄ£ĞÍËùÕ¼¾İµÄ¿Õ¼ä
-	 * £¨¶ø²»ÊÇÈçÄ¬ÈÏµÄÇé¿öÏÂÈÃÄ£ĞÍ×¤ÁôÔÚ»º´æÖĞ¹©ÏÂ´Î²éÑ¯ºÍµ÷ÓÃ£©¡£<br>
-	 * ·´Ö®£¬Èç¹û¸Ã·½·¨±»µ÷ÓÃÊ±£¬Ã»ÓĞ½ÚµãÒıÓÃÁË¸ÃÄ£ĞÍ£¬ÔòÄ£ĞÍËùÕ¼ÓÃµÄÄÚ´æ½«»á
-	 * ±»ÊÍ·Å¡£<br>
-	 * ×ÛÉÏ£¬ÎÒÃÇ²¢²»½¨ÒéÌáÇ°´Ó»º´æÖĞÇå³ıÄ£ĞÍ£¬¼´Ê¹ÕâÖÖĞĞÎªÍ¨³£²»»áµ¼ÖÂ´íÎó¡£<br>
-	 * ¶à±ßĞÎÄ£ĞÍ¹ÜÀíÓëÌùÍ¼¹ÜÀíµÄÇø±ğÖ÷ÒªÊÇÓÉÒıÇænativeÊµÏÖµÄ²»Í¬µ¼ÖÂµÄ¡£
-	 * @param path Ä£ĞÍµÄÂ·¾¶
+	 * åœ¨ç¼“å­˜ä¸­å»é™¤æŒ‡å®šçš„å¤šè¾¹å½¢æ¨¡å‹ã€‚è¿™ä¸ªå‡½æ•°ä»…ä»…åœ¨ç¼“å­˜ä¸­å»é™¤èŠ‚ç‚¹ï¼Œå¹¶ä¸å½±å“å·²
+	 * ç»åœ¨èŠ‚ç‚¹ä¸­è¢«å¼•ç”¨çš„å¤šè¾¹å½¢æ¨¡å‹çš„æ¸²æŸ“ï¼ˆå°±æ˜¯è¯´ä¸ä¼šå¯¼è‡´ç©ºæŒ‡é’ˆçš„é”™è¯¯ï¼‰ã€‚ç„¶è€Œï¼Œ
+	 * ç”±äºåœ¨è¿™ç§æƒ…å†µä¸‹ï¼Œå¼•æ“ä»…ä»…æ˜¯å–æ¶ˆäº†è¯¥å¤šè¾¹å½¢æ¨¡å‹åœ¨ç¼“å­˜ä¸­çš„æŒ‡é’ˆï¼Œè€Œéé‡Šæ”¾
+	 * å†…å­˜ï¼Œç”±æ­¤ä¼šå¯¼è‡´ä¸¤ä¸ªåæœï¼šå¦‚æœå†æ¬¡ä½¿ç”¨åˆ°è¯¥æ¨¡å‹ï¼Œå¼•æ“ä¼šè®¤ä¸ºè¯¥æ¨¡å‹æœªè¢«åŠ 
+	 * è½½è€Œåˆ›å»ºè¯¥æ¨¡å‹çš„å¦ä¸€ä¸ªå¤‡ä»½ï¼Œç”±æ­¤ä¼šå¯¼è‡´å†…å­˜çš„æµªè´¹ï¼›å¦ä¸€ä¸ªè¾ƒä¸ºæœ‰åˆ©çš„åæœ
+	 * æ˜¯ï¼Œå¦‚æœå¼•ç”¨è¯¥æ¨¡å‹çš„èŠ‚ç‚¹å…¨éƒ¨è¢«åˆ é™¤ï¼Œé‚£ä¹ˆå¼•æ“å°†è‡ªåŠ¨é‡Šæ”¾æ¨¡å‹æ‰€å æ®çš„ç©ºé—´
+	 * ï¼ˆè€Œä¸æ˜¯å¦‚é»˜è®¤çš„æƒ…å†µä¸‹è®©æ¨¡å‹é©»ç•™åœ¨ç¼“å­˜ä¸­ä¾›ä¸‹æ¬¡æŸ¥è¯¢å’Œè°ƒç”¨ï¼‰ã€‚<br>
+	 * åä¹‹ï¼Œå¦‚æœè¯¥æ–¹æ³•è¢«è°ƒç”¨æ—¶ï¼Œæ²¡æœ‰èŠ‚ç‚¹å¼•ç”¨äº†è¯¥æ¨¡å‹ï¼Œåˆ™æ¨¡å‹æ‰€å ç”¨çš„å†…å­˜å°†ä¼š
+	 * è¢«é‡Šæ”¾ã€‚<br>
+	 * ç»¼ä¸Šï¼Œæˆ‘ä»¬å¹¶ä¸å»ºè®®æå‰ä»ç¼“å­˜ä¸­æ¸…é™¤æ¨¡å‹ï¼Œå³ä½¿è¿™ç§è¡Œä¸ºé€šå¸¸ä¸ä¼šå¯¼è‡´é”™è¯¯ã€‚<br>
+	 * å¤šè¾¹å½¢æ¨¡å‹ç®¡ç†ä¸è´´å›¾ç®¡ç†çš„åŒºåˆ«ä¸»è¦æ˜¯ç”±å¼•æ“nativeå®ç°çš„ä¸åŒå¯¼è‡´çš„ã€‚
+	 * @param path æ¨¡å‹çš„è·¯å¾„
 	 */
 	public void removeMesh(String path){
 		nativeRemoveMesh(getFullPath(path));
 	}
 	
 	/**
-	 * ¸ü¸ÄäÖÈ¾ÇøÓò³ß´ç¡£
-	 * @param width äÖÈ¾ÇøÓòµÄ¿í¶ÈÖµ£¬µ¥Î»ÎªÏñËØ
-	 * @param height äÖÈ¾ÇøÓò¸ß¶ÈÖµ£¬µ¥Î»ÎªÏñËØ
+	 * æ›´æ”¹æ¸²æŸ“åŒºåŸŸå°ºå¯¸ã€‚è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
+	 * @param width æ¸²æŸ“åŒºåŸŸçš„å®½åº¦å€¼ï¼Œå•ä½ä¸ºåƒç´ 
+	 * @param height æ¸²æŸ“åŒºåŸŸé«˜åº¦å€¼ï¼Œå•ä½ä¸ºåƒç´ 
 	 */
 	public void onResize(int width, int height){
 		mWidth = width;
 		mHeight = height;
+		for (CameraSceneNode itr:mCameraList){
+			itr.setAspectRatio((double)mWidth/mHeight);
+		}
+			
 	}
 	
 	/**
-	 * Ö¡»æÖÆº¯Êı£¬¸üĞÂ¹«¸æ°å×éºÍÏà»úÎ»ÖÃ¡£
+	 * å¸§ç»˜åˆ¶å‡½æ•°ï¼Œæ›´æ–°å…¬å‘Šæ¿ç»„å’Œç›¸æœºä½ç½®ã€‚è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
 	 */
 	public void onDrawFrame(){
 		for (SceneNode itr: mNodeList){
@@ -663,12 +737,10 @@ public class Scene {
 	}
 	
 	/**
-	 * Çå³ı´æ´¢ÔÚJava²ãµÄËùÓĞ½Úµã¡¢¹«¸æ°åºÍÊÓÆµ²¥·ÅÆ÷ĞÅÏ¢
-	 * Í¬Ê±³õÊ¼»¯³¡¾°ÉãÏñ»ú
+	 * è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
 	 */
-	public void javaReset(){
-		mNodeList.clear();
-		mUpdateList.clear();
+	public void reset(){
+		clearAllNodes();
 		
 		if (mMediaPlayer != null){
 			mMediaPlayer.release();
@@ -681,53 +753,14 @@ public class Scene {
 				new Vector3d(0, 0, 0), 
 				new Vector3d(0, 0, 100), true, null);
 		
-		if (mEngine.isNativeAssetsReaderEnabled() == false){
-			return;
+		if (mEngine.isNativeAssetsReaderEnabled()){
+			setFont(Engine.SYSTEM_MEDIA+"buildinfont.png");
 		}
-		setFont("buildinfont.png");
 		mEnableLighting = false;
 	}
 	
 	/**
-	 * ½«Ö¸¶¨½ÚµãÌí¼Óµ½½ÚµãÁĞ±í¡£
-	 * @param node ËùÒªÌí¼ÓµÄ½Úµã¶ÔÏó
-	 */
-	//this method will *NOT* automatically register node in native engine
-	//thus, it should not be used alone
-	void registerNode(SceneNode node){
-		mNodeList.add(node);
-	}
-	
-	/**
-	 * ½«Ö¸¶¨½Úµã´Ó½ÚµãÁĞ±íÖĞÒÆ³ı¡£
-	 * ÈôËùÒªÒÆ³ıµÄ½ÚµãÔÚ½ÚµãÁĞ±íÖĞ£¬Ôò½«ÆäÒÆ³ı·µ»Øtrue£¬·ñÔò·µ»Øfalse¡£
-	 * @param node ËùÒªÒÆ³ıµÄ½Úµã¶ÔÏó¡£
-	 * @return É¾³ı³É¹¦Ê±·µ»Øtrue£¬ËùÉ¾³ı½Úµã²»´æÔÚÊ±·µ»Øfalse
-	 */
-	//this method will *NOT* automatically unregister node in native engine
-	//thus, it should not be used alone
-	boolean unregisterNode(SceneNode node){
-		for (SceneNode itr:mNodeList){
-			if (getId(itr) == getId(node)){
-				mNodeList.remove(itr);
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * ¸üĞÂµ±Ç°×îĞÂµÄ½ÚµãIDÖµ£¬·µ»Ø×îĞÂµÄ½ÚµãID¡£
-	 * @return µ±Ç°×îĞÂµÄ½ÚµãIDÖµ
-	 */
-	int getNewId(){
-		return ++_NewId;
-	}
-	
-	/**
-	 * Îª³¡¾°¶ÔÏóÖ¸¶¨ÒıÇæ£¬·µ»Ø³¡¾°¶ÔÏó¡£
-	 * @param engine Ö¸¶¨µÄÒıÇæ¶ÔÏó
-	 * @return ³¡¾°¶ÔÏó
+	 * è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
 	 */
 	public static Scene getInstance(Engine engine){
 		if (_UniInstance == null){
@@ -737,19 +770,60 @@ public class Scene {
 		}
 		return _UniInstance;	
 	}
-	
+
 	/**
-	 * Õâ¸ö·½·¨²»Ó¦¸Ã±»ÓÃ»§Ëùµ÷ÓÃ
+	 * è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
 	 */
 	public static void release(){
 		
 	}
+
+	/**
+	 * å°†æŒ‡å®šèŠ‚ç‚¹æ·»åŠ åˆ°èŠ‚ç‚¹åˆ—è¡¨ã€‚
+	 * @param node æ‰€è¦æ·»åŠ çš„èŠ‚ç‚¹å¯¹è±¡
+	 */
+	//this method will *NOT* automatically register node in native engine
+	//thus, it should not be used alone
+	void registerNode(SceneNode node){
+		mNodeList.add(node);
+		if (SceneNode.TYPE_CAMERA == node.getNodeType()){
+			mCameraList.add((CameraSceneNode)node);
+		}
+	}
 	
 	/**
-	 * ·µ»Ø³¡¾°¶ÔÏó¡£
-	 * @return ³¡¾°¶ÔÏó
+	 * å°†æŒ‡å®šèŠ‚ç‚¹ä»èŠ‚ç‚¹åˆ—è¡¨ä¸­ç§»é™¤ã€‚
+	 * è‹¥æ‰€è¦ç§»é™¤çš„èŠ‚ç‚¹åœ¨èŠ‚ç‚¹åˆ—è¡¨ä¸­ï¼Œåˆ™å°†å…¶ç§»é™¤è¿”å›trueï¼Œå¦åˆ™è¿”å›falseã€‚
+	 * @param node æ‰€è¦ç§»é™¤çš„èŠ‚ç‚¹å¯¹è±¡ã€‚
+	 * @return åˆ é™¤æˆåŠŸæ—¶è¿”å›trueï¼Œæ‰€åˆ é™¤èŠ‚ç‚¹ä¸å­˜åœ¨æ—¶è¿”å›false
 	 */
-	public static Scene getInstance(){
+	//this method will *NOT* automatically unregister node in native engine
+	//thus, it should not be used alone
+	boolean unregisterNode(SceneNode node){
+		for (SceneNode itr:mNodeList){
+			if (getId(itr) == getId(node)){
+				mNodeList.remove(itr);
+				if (SceneNode.TYPE_CAMERA == node.getNodeType()){
+					mCameraList.remove(node);
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * æ›´æ–°å½“å‰æœ€æ–°çš„èŠ‚ç‚¹IDå€¼ï¼Œè¿”å›æœ€æ–°çš„èŠ‚ç‚¹IDã€‚
+	 * @return å½“å‰æœ€æ–°çš„èŠ‚ç‚¹IDå€¼
+	 */
+	int getNewId(){
+		return ++_NewId;
+	}
+	
+	/**
+	 * è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
+	 */
+	static Scene getInstance(){
 		if (_UniInstance == null || _UniInstance.mEngine == null)
 			return null;
 		
@@ -757,9 +831,7 @@ public class Scene {
 	}
 	
 	/**
-	 * ¸ù¾İ¸ø¶¨Ïà¶ÔÂ·¾¶·µ»ØÆä¾ø¶ÔÂ·¾¶Öµ¡£
-	 * @param path ¸ø¶¨µÄÏà¶ÔÂ·¾¶
-	 * @return ¸ø¶¨Ïà¶ÔÂ·¾¶·µ»ØÆä¾ø¶ÔÂ·¾¶Öµ
+	 * è¿™ä¸ªæ–¹æ³•ä¸åº”è¯¥è¢«ç”¨æˆ·æ‰€è°ƒç”¨
 	 */
 	public String getFullPath(String path){
 		
@@ -806,11 +878,13 @@ public class Scene {
 	private String mResourceDir;
 	private TexMediaPlayer mMediaPlayer;
 	private ArrayList<Updatable> mUpdateList;
+	private ArrayList<CameraSceneNode> mCameraList;
 	
 	private Scene(Engine engine){
 		mEngine = engine;
 		mNodeList = new ArrayList<SceneNode>();
 		mUpdateList = new ArrayList<Updatable>();
+		mCameraList = new ArrayList<CameraSceneNode>();
 	}
 	
 	private native void nativeSetClearColor(int r, int g, int b, int a);
@@ -892,6 +966,13 @@ public class Scene {
 	private native int nativeAddExplosionParticleSceneNode(
 			double x, double y, double z, double radius,
 			double speed, int id, int parent, boolean isLight);
+	
+	
+	private native int nativeAddSkyBoxSceneNode(String top, String bottom, String left, String right,
+			String front, String back, int parent, int id);
+	private native int nativeAddSkyDomeSceneNode(String tex, int hr, int vr,
+			double tp, double sp, double radius, int parent, int id);
+	private native int nativeAddTerrainSceneNode(String heightmap, Color4i color, int smooth, int parent, int id, boolean light);	
 	
 	//native remove node
 	private native void nativeRemoveNode(int id);

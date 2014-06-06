@@ -1,33 +1,33 @@
-package zte.irrlib.core;
+ï»¿package zte.irrlib.core;
 
 /**
- * RGBÑÕÉ«Àà£¬Ã¿¸öÑÕÉ«µÄÈ¡ÖµÇø¼äÔÚ0~255µÄÕûÊı
+ * RGBé¢œè‰²ç±»ï¼Œæ¯ä¸ªé¢œè‰²çš„å–å€¼åŒºé—´åœ¨0~255çš„æ•´æ•°
  * @author Roy
  *
  */
 public class Color4i {
 	
 	/**
-	 * ¹¹Ôì·½·¨£¬´¿°×É«
+	 * æ„é€ æ–¹æ³•ï¼Œçº¯ç™½è‰²
 	 */
 	public Color4i(){ 
 		red = green = blue = alpha = 0xff;
 	}
 	
 	/**
-	 * ¹¹Ôì·½·¨
-	 * @param v1 ºìÉ«·ÖÁ¿
-	 * @param v2 ÂÌÉ«·ÖÁ¿
-	 * @param v3 À¶É«·ÖÁ¿
-	 * @param v4 Í¸Ã÷·ÖÁ¿
+	 * æ„é€ æ–¹æ³•
+	 * @param v1 çº¢è‰²åˆ†é‡
+	 * @param v2 ç»¿è‰²åˆ†é‡
+	 * @param v3 è“è‰²åˆ†é‡
+	 * @param v4 é€æ˜åˆ†é‡
 	 */
 	public Color4i(int v1, int v2, int v3, int v4){
 		red = v1; green = v2; blue = v3; alpha = v4;
 	}
 	
 	/**
-	 * ·µ»ØºìÉ«·ÖÁ¿
-	 * @return ºìÉ«·ÖÁ¿£¨0~255£©
+	 * è¿”å›çº¢è‰²åˆ†é‡
+	 * @return çº¢è‰²åˆ†é‡ï¼ˆ0~255ï¼‰
 	 */
 	public int r() {
 		if (red < 0) return 0;
@@ -36,8 +36,8 @@ public class Color4i {
 	}
 	
 	/**
-	 * ·µ»ØÂÌÉ«·ÖÁ¿
-	 * @return ÂÌÉ«·ÖÁ¿£¨0~255£©
+	 * è¿”å›ç»¿è‰²åˆ†é‡
+	 * @return ç»¿è‰²åˆ†é‡ï¼ˆ0~255ï¼‰
 	 */
 	public int g() {
 		if (green < 0) return 0;
@@ -46,8 +46,8 @@ public class Color4i {
 	}
 	
 	/**
-	 * ·µ»ØÀ¶É«·ÖÁ¿
-	 * @return À¶É«·ÖÁ¿£¨0~255£©
+	 * è¿”å›è“è‰²åˆ†é‡
+	 * @return è“è‰²åˆ†é‡ï¼ˆ0~255ï¼‰
 	 */
 	public int b() {
 		if (blue < 0) return 0;
@@ -56,8 +56,8 @@ public class Color4i {
 	}
 	
 	/**
-	 * ·µ»ØÍ¸Ã÷·ÖÁ¿
-	 * @return Í¸Ã÷·ÖÁ¿£¨0~255£©
+	 * è¿”å›é€æ˜åˆ†é‡
+	 * @return é€æ˜åˆ†é‡ï¼ˆ0~255ï¼‰
 	 */
 	public int a() {
 		if (alpha < 0) return 0;

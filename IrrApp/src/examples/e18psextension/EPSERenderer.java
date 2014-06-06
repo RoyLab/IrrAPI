@@ -1,4 +1,4 @@
-package examples.e18psextension;
+ï»¿package examples.e18psextension;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -23,12 +23,13 @@ public class EPSERenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);	
 		Scene scene = engine.getScene();
 		
-		/** ÉèÖÃºÚÉ«±³¾°ÔöÇ¿¼ÓÉ«Í¸Ã÷Ğ§¹û */
+		/** è®¾ç½®é»‘è‰²èƒŒæ™¯å¢å¼ºåŠ è‰²é€æ˜æ•ˆæœ */
 		scene.setClearColor(new Color4i(0,0,0,255));
 		
-		/** ÉèÖÃ»ğÑæ·¢ÉäÆ÷µÄ¸÷¸ö²ÎÊıÖµ*/
+		/** è®¾ç½®ç«ç„°å‘å°„å™¨çš„å„ä¸ªå‚æ•°å€¼*/
 		em = new BoxEmitter();
 		em.MaxEmitRate = 1000;
 		em.MinEmitRate = 500;
@@ -36,54 +37,54 @@ public class EPSERenderer implements Renderer {
 		em.MaxSize = new Vector2d(2.0,2.0);
 		em.MinLifeTime = 100;
 		em.MaxLifeTime = 2000;
-		em.InitialDirection = (new Vector3d(0,0.004,0.0));	//yÖá·ÖÁ¿ÈÃ»ğÑæ³ÊÏòÉÏÈ¼ÉÕµÄÇ÷ÊÆ
-		em.MaxAngleDegrees = 30;								//ÈÃÁ£×ÓÓĞÒ»¶¨µÄ³öÉä½Ç¶È¸ü·ûºÏ×ÔÈ»½ç»ğÑæµÄÉú³ÉÇé¿ö
-		em.BBox = new double[]{-0.5,-2,-2,0.5,-1.5,2};		//°üÎ§ºĞÔÚxÖáÉÏµÄ·¶Î§´óĞ¡Ó¦È¡Ğ¡Ò»Ğ©£¬Ê¹»ğÑæ´ÓÒ»¸öµã·¢³ö
+		em.InitialDirection = (new Vector3d(0,0.004,0.0));	//yè½´åˆ†é‡è®©ç«ç„°å‘ˆå‘ä¸Šç‡ƒçƒ§çš„è¶‹åŠ¿
+		em.MaxAngleDegrees = 30;								//è®©ç²’å­æœ‰ä¸€å®šçš„å‡ºå°„è§’åº¦æ›´ç¬¦åˆè‡ªç„¶ç•Œç«ç„°çš„ç”Ÿæˆæƒ…å†µ
+		em.BBox = new double[]{-0.5,-2,-2,0.5,-1.5,2};		//åŒ…å›´ç›’åœ¨xè½´ä¸Šçš„èŒƒå›´å¤§å°åº”å–å°ä¸€äº›ï¼Œä½¿ç«ç„°ä»ä¸€ä¸ªç‚¹å‘å‡º
 		
 		flame = scene.addParticleSystemSceneNode(new Vector3d(30,-15,50), true, null);
-		flame.setBoxEmitter(em);			//½«Á£×Ó·¢ÉäÆ÷ºÍÁ£×ÓÏµÍ³½Úµã°ó¶¨
+		flame.setBoxEmitter(em);			//å°†ç²’å­å‘å°„å™¨å’Œç²’å­ç³»ç»ŸèŠ‚ç‚¹ç»‘å®š
 		
-		/**ÎªÁ£×ÓÉèÖÃ²ÄÖÊ²¢¸ù¾İ²ÄÖÊÍ¼ÏñÉèÖÃ²ÄÖÊÀàĞÍ£¬ÒÔÍ¸Ã÷»¯ºÚÉ«µÄ±³¾°²¿·Ö*
-		 * Èç¹û²ÄÖÊÀàĞÍÎª´øalphaÍ¨µÀµÄÍ¼Æ¬£¬Èç.png¸ñÊ½£¬²ÄÖÊÀàĞÍ¶ÔÓ¦¸ÄÎªEMT_TRANSPARENT_ALPHA_CHANNEL*/
+		/**ä¸ºç²’å­è®¾ç½®æè´¨å¹¶æ ¹æ®æè´¨å›¾åƒè®¾ç½®æè´¨ç±»å‹ï¼Œä»¥é€æ˜åŒ–é»‘è‰²çš„èƒŒæ™¯éƒ¨åˆ†*
+		 * å¦‚æœæè´¨ç±»å‹ä¸ºå¸¦alphaé€šé“çš„å›¾ç‰‡ï¼Œå¦‚.pngæ ¼å¼ï¼Œæè´¨ç±»å‹å¯¹åº”æ”¹ä¸ºEMT_TRANSPARENT_ALPHA_CHANNEL*/
 		flame.setTexture(Engine.SYSTEM_MEDIA+"fire.bmp");
 		flame.setMaterialType(MeshSceneNode.E_MATERIAL_TYPE.EMT_TRANSPARENT_ADD_COLOR);
 		
-		/**ÎªÁ£×ÓÌí¼Ó½¥ÒşĞ§¹û£¬È¡´úÖ±½ÓÏûÊ§¸ü·ûºÏ×ÔÈ»½ç»ğÑæµÄÏûÊ§¹ı³Ì*/
+		/**ä¸ºç²’å­æ·»åŠ æ¸éšæ•ˆæœï¼Œå–ä»£ç›´æ¥æ¶ˆå¤±æ›´ç¬¦åˆè‡ªç„¶ç•Œç«ç„°çš„æ¶ˆå¤±è¿‡ç¨‹*/
 		flame.addFadeOutAffectorParticleAffector(new Color4i(0,0,0,0), 400);
 		
-		/**ÈÃ»ğÑæÁ£×ÓÓĞ¸öÅòÕÍµÄ¹ı³Ì£¬Ê¹Ö®¸üÎª±ÆÕæ*/
+		/**è®©ç«ç„°ç²’å­æœ‰ä¸ªè†¨èƒ€çš„è¿‡ç¨‹ï¼Œä½¿ä¹‹æ›´ä¸ºé€¼çœŸ*/
 		flame.addScaleParticleAffector(new Vector2d(2,2));
 		
-		/**ÈÃ»ğÑæÁ£×Ó×îÖÕÍùÆğÊ¼µãÉÏ·½µÄÄ³¸öµã¾ÛÂ££¬Ê¹»ğÑæ²»ÖÁÓÚ³Ê·¢É¢×´*/
+		/**è®©ç«ç„°ç²’å­æœ€ç»ˆå¾€èµ·å§‹ç‚¹ä¸Šæ–¹çš„æŸä¸ªç‚¹èšæ‹¢ï¼Œä½¿ç«ç„°ä¸è‡³äºå‘ˆå‘æ•£çŠ¶*/
 		flame.addAttractionParticleAffector(new Vector3d(30,-5,50), 3, true, true, true, true);
 		
-		/**Ìí¼ÓåçĞÇÍÏÎ²ÔË¶¯Ğ§¹û£¬Ê×ÏÈÌí¼ÓÒ»¸öË®Æ½ÔË¶¯µÄÇòÌå×÷ÎªåçĞÇ*/
+		/**æ·»åŠ å½—æ˜Ÿæ‹–å°¾è¿åŠ¨æ•ˆæœï¼Œé¦–å…ˆæ·»åŠ ä¸€ä¸ªæ°´å¹³è¿åŠ¨çš„çƒä½“ä½œä¸ºå½—æ˜Ÿ*/
 		comet = scene.addSphereSceneNode(new Vector3d(0,0,30), 0.5, 16, null);
 		comet.addFlyStraightAnimator(new Vector3d(40,5,30), new Vector3d(-40,5,30), 4000, true, false);
 		
-		/**Ìí¼ÓÍÏÎ²Á£×Ó½Úµã£¬²¢½«Æä¸¸½Úµã°ó¶¨Îª¸ÕÌí¼ÓµÄåçĞÇ½Úµã£¬Ê¹ÍÏÎ²ËæåçĞÇµÄÔË¶¯¶øÔË¶¯*/
+		/**æ·»åŠ æ‹–å°¾ç²’å­èŠ‚ç‚¹ï¼Œå¹¶å°†å…¶çˆ¶èŠ‚ç‚¹ç»‘å®šä¸ºåˆšæ·»åŠ çš„å½—æ˜ŸèŠ‚ç‚¹ï¼Œä½¿æ‹–å°¾éšå½—æ˜Ÿçš„è¿åŠ¨è€Œè¿åŠ¨*/
 		cometTail = scene.addCometTailSceneNode(new Vector3d(1.0,0,0),1.0, 10.0, new Vector3d(0.01,0.0,0.0), comet);
 		
-		cometTail.setTexture(Engine.SYSTEM_MEDIA+"portal1.bmp");	//ÎªÁ£×ÓÉèÖÃ²ÄÖÊ
+		cometTail.setTexture(Engine.SYSTEM_MEDIA+"portal1.bmp");	//ä¸ºç²’å­è®¾ç½®æè´¨
 		
-		/**Ä¬ÈÏµÄ²ÄÖÊÀàĞÍEMT_TRANSPARENT_ADD_COLOR¡£
-		 * Èç¹û²ÄÖÊÀàĞÍÎª´øalphaÍ¨µÀµÄÍ¼Æ¬£¬Èç.png¸ñÊ½£¬²ÄÖÊÀàĞÍ¶ÔÓ¦¸ÄÎªEMT_TRANSPARENT_ALPHA_CHANNEL*/
+		/**é»˜è®¤çš„æè´¨ç±»å‹EMT_TRANSPARENT_ADD_COLORã€‚
+		 * å¦‚æœæè´¨ç±»å‹ä¸ºå¸¦alphaé€šé“çš„å›¾ç‰‡ï¼Œå¦‚.pngæ ¼å¼ï¼Œæè´¨ç±»å‹å¯¹åº”æ”¹ä¸ºEMT_TRANSPARENT_ALPHA_CHANNEL*/
 		//cometTail.setMaterialType(MeshSceneNode.E_MATERIAL_TYPE.EMT_TRANSPARENT_ALPHA_CHANNEL);
 		
-		/**Ìí¼Ó±¬Õ¨Ğ§¹ûµÄÁ£×ÓÏµÍ³½Úµã*/
+		/**æ·»åŠ çˆ†ç‚¸æ•ˆæœçš„ç²’å­ç³»ç»ŸèŠ‚ç‚¹*/
 		explosion = scene.addExplosionParticleSceneNode(new Vector3d(-30,-10,50), 1.0, 10.0, null);
-		explosion.setTexture(Engine.SYSTEM_MEDIA+"fire.bmp");		//ÎªÁ£×ÓÉèÖÃ²ÄÖÊ
+		explosion.setTexture(Engine.SYSTEM_MEDIA+"fire.bmp");		//ä¸ºç²’å­è®¾ç½®æè´¨
 		
-		/**Ä¬ÈÏµÄ²ÄÖÊÀàĞÍEMT_TRANSPARENT_ADD_COLOR¡£
-		 * Èç¹û²ÄÖÊÀàĞÍÎª´øalphaÍ¨µÀµÄÍ¼Æ¬£¬Èç.png¸ñÊ½£¬²ÄÖÊÀàĞÍ¶ÔÓ¦¸ÄÎªEMT_TRANSPARENT_ALPHA_CHANNEL*/
+		/**é»˜è®¤çš„æè´¨ç±»å‹EMT_TRANSPARENT_ADD_COLORã€‚
+		 * å¦‚æœæè´¨ç±»å‹ä¸ºå¸¦alphaé€šé“çš„å›¾ç‰‡ï¼Œå¦‚.pngæ ¼å¼ï¼Œæè´¨ç±»å‹å¯¹åº”æ”¹ä¸ºEMT_TRANSPARENT_ALPHA_CHANNEL*/
 		//explosion.setMaterialType(MeshSceneNode.E_MATERIAL_TYPE.EMT_TRANSPARENT_ALPHA_CHANNEL);
 		
-		/**Ìí¼ÓĞÇ¹âĞ§¹ûµÄÁ£×ÓÏµÍ³½Úµã*/
+		/**æ·»åŠ æ˜Ÿå…‰æ•ˆæœçš„ç²’å­ç³»ç»ŸèŠ‚ç‚¹*/
 		stars = scene.addStarsParticleSceneNode(new Vector3d(0,0,50), 1000, null);
-		stars.setTexture(Engine.SYSTEM_MEDIA+"portal1.bmp");		//ÎªÁ£×ÓÉèÖÃ²ÄÖÊ
+		stars.setTexture(Engine.SYSTEM_MEDIA+"portal1.bmp");		//ä¸ºç²’å­è®¾ç½®æè´¨
 		
-		/**Ä¬ÈÏµÄ²ÄÖÊÀàĞÍEMT_TRANSPARENT_ADD_COLOR¡£
-		 * Èç¹û²ÄÖÊÀàĞÍÎª´øalphaÍ¨µÀµÄÍ¼Æ¬£¬Èç.png¸ñÊ½£¬²ÄÖÊÀàĞÍ¶ÔÓ¦¸ÄÎªEMT_TRANSPARENT_ALPHA_CHANNEL*/
+		/**é»˜è®¤çš„æè´¨ç±»å‹EMT_TRANSPARENT_ADD_COLORã€‚
+		 * å¦‚æœæè´¨ç±»å‹ä¸ºå¸¦alphaé€šé“çš„å›¾ç‰‡ï¼Œå¦‚.pngæ ¼å¼ï¼Œæè´¨ç±»å‹å¯¹åº”æ”¹ä¸ºEMT_TRANSPARENT_ALPHA_CHANNEL*/
 		//stars.setMaterialType(MeshSceneNode.E_MATERIAL_TYPE.EMT_TRANSPARENT_ALPHA_CHANNEL);
 		
 	}

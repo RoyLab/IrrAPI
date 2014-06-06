@@ -1,4 +1,4 @@
-package examples.e13cubelayout;
+ï»¿package examples.e13cubelayout;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -19,25 +19,26 @@ public class ECLRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
 		
-		/** ÎªÁË·½±ã¹Û²ì£¬ÎÒÃÇÒÆ¶¯Ò»ÏÂÏà»úµÄÎ»ÖÃ*/
+		/** ä¸ºäº†æ–¹ä¾¿è§‚å¯Ÿï¼Œæˆ‘ä»¬ç§»åŠ¨ä¸€ä¸‹ç›¸æœºçš„ä½ç½®*/
 		scene.getActiveCamera().setPosition(new Vector3d(-1, 0, 0), SceneNode.TRANS_ABSOLUTE);
 		
-		/** Ìí¼ÓÒ»¸ö9·½¿é²¼¾ÖÀà*/
+		/** æ·»åŠ ä¸€ä¸ª9æ–¹å—å¸ƒå±€ç±»*/
 		layout = scene.addNineCubeLayoutSceneNode(new Vector3d(0, 0, 10),
 				new Vector3d(5, 5, 1), 0.7, 0.7, null);
 		
-		/** Ó¦ÓÃÍ¸Ã÷²ÄÖÊ*/
+		/** åº”ç”¨é€æ˜æè´¨*/
 		layout.enableTransparentTex(true);
 		
-		/** ½«µÚ4¸ö·½¿é£¨×¢Òâ£¬±àºÅÊÇ´Ó0¿ªÊ¼µÄ£©µÄÇ°·½µÄÌùÍ¼¸ÄÎªb&w.bmp*/
+		/** å°†ç¬¬4ä¸ªæ–¹å—ï¼ˆæ³¨æ„ï¼Œç¼–å·æ˜¯ä»0å¼€å§‹çš„ï¼‰çš„å‰æ–¹çš„è´´å›¾æ”¹ä¸ºb&w.bmp*/
 		layout.setFrontTexture(Engine.SYSTEM_MEDIA + "b&w.bmp", 3);
 		
-		/** ½«ËùÓĞ·½¿é×ó±ßµÄÌùÍ¼¸ÄÎªgrass.png*/
+		/** å°†æ‰€æœ‰æ–¹å—å·¦è¾¹çš„è´´å›¾æ”¹ä¸ºgrass.png*/
 		layout.setUniTexture(Engine.SYSTEM_MEDIA + "grass.png", NineCubeLayout.LEFT_MATERIAL_ID);
 		
-		/** ÎÒÃÇ¸ø³öÁËÊ¹µÃËùÓĞ½Úµã³¯ÏòÏà»úµÄÎ»ÖÃµÄ·½·¨£¬²»¹ıĞ§¹û²»ÊÇºÜºÃ*/
+		/** æˆ‘ä»¬ç»™å‡ºäº†ä½¿å¾—æ‰€æœ‰èŠ‚ç‚¹æœå‘ç›¸æœºçš„ä½ç½®çš„æ–¹æ³•ï¼Œä¸è¿‡æ•ˆæœä¸æ˜¯å¾ˆå¥½*/
 		//layout.enableUpdate(scene, true);
 	}
 	

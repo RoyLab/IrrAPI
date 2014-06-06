@@ -1,4 +1,4 @@
-package examples.e14material;
+ï»¿package examples.e14material;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ÑİÊ¾ÁËÈçºÎ¸ü¸ÄÄ£ĞÍµÄ²ÄÖÊºÍÌùÍ¼
+ * æ¼”ç¤ºäº†å¦‚ä½•æ›´æ”¹æ¨¡å‹çš„æè´¨å’Œè´´å›¾
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class EMaterial extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EMRenderer());
 	}
 	

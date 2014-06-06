@@ -72,8 +72,8 @@ namespace irr
                 ColorMaterial( 0 ), MaterialShininess( 0.f ), RenderMode( EMT_SOLID )
         {			
             s32 dummy;
-			strcpy(VertexShaderFile,"irrshader/COGLES2FixedPipeline.vsh");
-			strcpy( FragmentShaderFile,"irrshader/COGLES2FixedPipeline.fsh");
+			strcpy(VertexShaderFile,"COGLES2FixedPipeline.vsh");
+			strcpy( FragmentShaderFile,"COGLES2FixedPipeline.fsh");
             initFromFiles( dummy, VertexShaderFile, FragmentShaderFile, false );
             initData();
         };

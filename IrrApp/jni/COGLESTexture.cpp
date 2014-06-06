@@ -46,6 +46,8 @@ COGLES1Texture::COGLES1Texture(IImage* origImage, const io::path& name, COGLES1D
 	getImageValues(origImage);
 	
 	glGenTextures(1, &TextureName);
+	//os::Printer::log("texname");
+	//os::Printer::log(io::path(TextureName).c_str());
 	
 	Image = new CImage(ColorFormat, TextureSize);
 	if (ImageSize==TextureSize)
@@ -162,6 +164,15 @@ void COGLES1Texture::getImageValues(IImage* image)
 		ImageSize.Width = (u32)(Driver->MaxTextureSize*ratio);
 	}
 	TextureSize=ImageSize.getOptimalSize(!Driver->queryFeature(EVDF_TEXTURE_NPOT));
+	/*io::path tmp("size: ");
+	tmp.append(io::path(ImageSize.Width));
+	tmp.append(",");
+	tmp.append(io::path(ImageSize.Height));
+	tmp.append("....");
+	tmp.append(io::path(TextureSize.Width));
+	tmp.append(",");
+	tmp.append(io::path(TextureSize.Height));
+	os::Printer::log(tmp.c_str());*/
 
 	ColorFormat = getBestColorFormat(image->getColorFormat());
 }

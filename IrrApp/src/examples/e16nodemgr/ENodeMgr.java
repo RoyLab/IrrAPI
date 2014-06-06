@@ -1,4 +1,4 @@
-package examples.e16nodemgr;
+锘縫ackage examples.e16nodemgr;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * 演示了节点更多的管理办法
+ * 婕旂ず浜嗚妭鐐规洿澶氱殑绠＄悊鍔炴硶
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class ENodeMgr extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new ENRenderer());
 	}
 	

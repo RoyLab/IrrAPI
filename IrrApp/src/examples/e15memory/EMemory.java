@@ -1,4 +1,4 @@
-package examples.e15memory;
+锘縫ackage examples.e15memory;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * 演示了如何释放不再使用的内存和显存，主要是贴图和模型
+ * 婕旂ず浜嗗浣曢噴鏀句笉鍐嶄娇鐢ㄧ殑鍐呭瓨鍜屾樉瀛橈紝涓昏鏄创鍥惧拰妯″瀷
  * @author Administrator
  *
  */
@@ -20,6 +20,7 @@ public class EMemory extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EMRenderer());
 	}
 	

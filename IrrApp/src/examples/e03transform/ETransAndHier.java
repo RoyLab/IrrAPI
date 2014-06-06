@@ -1,4 +1,4 @@
-package examples.e03transform;
+ï»¿package examples.e03transform;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ±¾Àı³ÌÑİÊ¾ÁË½ÚµãµÄ¸¸×Ó¹ØÏµ£¬ÒÔ¼°½ÚµãµÄ»ù±¾±ä»»
+ * æœ¬ä¾‹ç¨‹æ¼”ç¤ºäº†èŠ‚ç‚¹çš„çˆ¶å­å…³ç³»ï¼Œä»¥åŠèŠ‚ç‚¹çš„åŸºæœ¬å˜æ¢
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class ETransAndHier extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new ETAHRenderer());
 	}
 	

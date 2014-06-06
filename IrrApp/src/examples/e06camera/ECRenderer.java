@@ -1,4 +1,4 @@
-package examples.e06camera;
+ï»¿package examples.e06camera;
 
 import zte.irrlib.CameraFPSWrapper;
 import zte.irrlib.Engine;
@@ -23,19 +23,20 @@ public class ECRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
 		
 		/**
-		 * Ìí¼ÓÒ»¸öÏà»ú£¬²¢ÇÒ½«ÆäÉè¶¨Îª¼¤»îµÄÏà»ú£¬³¡¾°³õÊ¼»¯Ê±£¬»áÓÐÒ»¸öÄ¬ÈÏÏà»ú£¬Î»ÖÃÎª(0, 0, 0)£¬ÏòzÖáÕý·½Ïò¿´£¬
-		 * Äã¿ÉÒÔÔÚÌí¼Ó×Ô¼ºµÄÏà»úÖ®Ç°É¾³ýËü£¬»òÕßÖ±½ÓÐÞ¸ÄÄ¬ÈÏÏà»úµÄ²ÎÊý£¬Ò²¿ÉÒÔÖ±½Ó´´½¨ÐÂÏà»ú¡£ÕâÀïÎªÁË·½±ãÆð¼û£¬ÎÒ
-		 * ÃÇÉ¾³ýÔ­À´µÄÏà»ú£¬ÐÂ½¨Ò»¸öÏà»ú£¬²¢ÇÒÉè¶¨ÆäÎª¼¤»îµÄÏà»ú¡£
+		 * æ·»åŠ ä¸€ä¸ªç›¸æœºï¼Œå¹¶ä¸”å°†å…¶è®¾å®šä¸ºæ¿€æ´»çš„ç›¸æœºï¼Œåœºæ™¯åˆå§‹åŒ–æ—¶ï¼Œä¼šæœ‰ä¸€ä¸ªé»˜è®¤ç›¸æœºï¼Œä½ç½®ä¸º(0, 0, 0)ï¼Œå‘zè½´æ­£æ–¹å‘çœ‹ï¼Œ
+		 * ä½ å¯ä»¥åœ¨æ·»åŠ è‡ªå·±çš„ç›¸æœºä¹‹å‰åˆ é™¤å®ƒï¼Œæˆ–è€…ç›´æŽ¥ä¿®æ”¹é»˜è®¤ç›¸æœºçš„å‚æ•°ï¼Œä¹Ÿå¯ä»¥ç›´æŽ¥åˆ›å»ºæ–°ç›¸æœºã€‚è¿™é‡Œä¸ºäº†æ–¹ä¾¿èµ·è§ï¼Œæˆ‘
+		 * ä»¬åˆ é™¤åŽŸæ¥çš„ç›¸æœºï¼Œæ–°å»ºä¸€ä¸ªç›¸æœºï¼Œå¹¶ä¸”è®¾å®šå…¶ä¸ºæ¿€æ´»çš„ç›¸æœºã€‚
 		 */
 		scene.getActiveCamera().remove();
 		camera = scene.addCameraSceneNode(new Vector3d(0, 0, -20), new Vector3d(), true, null);
 		
 		/**
-		 * ÎÒÃÇ½«Ïà»ú°ü×°³ÉÒ»¸öFPS£¨µÚÒ»ÈË³ÆÊÓ½Ç£©Ïà»ú£¬ÓÉ´Ë¿ÉÒÔÍ¨¹ýÕâ¸ö°ü×°ÀàÏñËùÓÐÉä»÷ÓÎÏ·ÖÐÄÇÑù¿ØÖÆ¸ÃÏà»úµÄ
-		 * Î»ÖÃºÍÊÓ½Ç¡£ÎªÁË±£Ö¤ÊÓ½ÇÉè¶¨µÄÕýÈ·ÐÔ£¬Çë²»ÒªÔ½¹ý°ü×°ÀàÖ±½ÓÉèÖÃÏà»úµÄÎ»ÖÃ¡¢Ä¿±ê¡¢ÏòÉÏÏòÁ¿µÈÓëÎ»ÖÃÓÐ¹ØµÄ²ÎÊý¡£
+		 * æˆ‘ä»¬å°†ç›¸æœºåŒ…è£…æˆä¸€ä¸ªFPSï¼ˆç¬¬ä¸€äººç§°è§†è§’ï¼‰ç›¸æœºï¼Œç”±æ­¤å¯ä»¥é€šè¿‡è¿™ä¸ªåŒ…è£…ç±»åƒæ‰€æœ‰å°„å‡»æ¸¸æˆä¸­é‚£æ ·æŽ§åˆ¶è¯¥ç›¸æœºçš„
+		 * ä½ç½®å’Œè§†è§’ã€‚ä¸ºäº†ä¿è¯è§†è§’è®¾å®šçš„æ­£ç¡®æ€§ï¼Œè¯·ä¸è¦è¶Šè¿‡åŒ…è£…ç±»ç›´æŽ¥è®¾ç½®ç›¸æœºçš„ä½ç½®ã€ç›®æ ‡ã€å‘ä¸Šå‘é‡ç­‰ä¸Žä½ç½®æœ‰å…³çš„å‚æ•°ã€‚
 		 */
 		FPSWrapper = new CameraFPSWrapper(camera);
 		

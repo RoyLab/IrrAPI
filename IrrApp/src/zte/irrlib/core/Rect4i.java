@@ -1,25 +1,25 @@
-package zte.irrlib.core;
+ï»¿package zte.irrlib.core;
 
 /**
- * ¾ØĞÎÀà£¬±ßµÄ³¤¶ÈÖ»ÄÜÎªÕûÊı£¬Í¨³£ÓÃÓÚÖ¸¶¨ÔÚÏñËØÕóÁĞµÄÇøÓò¡£
+ * çŸ©å½¢ç±»ï¼Œè¾¹çš„é•¿åº¦åªèƒ½ä¸ºæ•´æ•°ï¼Œé€šå¸¸ç”¨äºæŒ‡å®šåœ¨åƒç´ é˜µåˆ—çš„åŒºåŸŸã€‚
  * @author Roy
  *
  */
 public class Rect4i {
 	
 	/**
-	 * ¹¹Ôì·½·¨£¬Éú³ÉÒ»¸ö×óÉÏ½ÇÎ»ÓÚ(0, 0)£¬±ß³¤Îª10µÄÕı·½ĞÎ
+	 * æ„é€ æ–¹æ³•ï¼Œç”Ÿæˆä¸€ä¸ªå·¦ä¸Šè§’ä½äº(0, 0)ï¼Œè¾¹é•¿ä¸º10çš„æ­£æ–¹å½¢
 	 */
 	public Rect4i(){
 		Left = Top = 0; Right = Bottom = 10;
 	}
 	
 	/**
-	 * ¹¹Ôì·½·¨£¬Ö¸¶¨×óÉÏ½ÇºÍÓÒÏÂ½ÇµÄÎ»ÖÃ
-	 * @param left ×ó
-	 * @param up ÉÏ
-	 * @param right ÓÒ
-	 * @param bottom ÏÂ
+	 * æ„é€ æ–¹æ³•ï¼ŒæŒ‡å®šå·¦ä¸Šè§’å’Œå³ä¸‹è§’çš„ä½ç½®
+	 * @param left å·¦
+	 * @param up ä¸Š
+	 * @param right å³
+	 * @param bottom ä¸‹
 	 */
 	public Rect4i(int left, int up, int right, int bottom){
 		this.Left = left;

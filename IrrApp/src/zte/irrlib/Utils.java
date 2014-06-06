@@ -1,4 +1,4 @@
-package zte.irrlib;
+ï»¿package zte.irrlib;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,19 +11,19 @@ import android.util.Log;
 
 
 /**
- * ÒýÇæµÄ¸¨Öú¹¤¾ß¼¯£¬°üÀ¨Ò»Ð©ÎÄ¼þ´¦ÀíÏà¹ØµÄ¾²Ì¬·½·¨¡£
+ * å¼•æ“Žçš„è¾…åŠ©å·¥å…·é›†ï¼ŒåŒ…æ‹¬ä¸€äº›æ–‡ä»¶å¤„ç†ç›¸å…³çš„é™æ€æ–¹æ³•ã€‚
  */
 public class Utils {
 
 	/**
-	 * ÈÕÖ¾±êÇ©
+	 * æ—¥å¿—æ ‡ç­¾
 	 */
 	public static final String TAG = "Untils";
 	
 	/**
-	 * ÅÐ¶ÏÄ³Ò»¸öÎÄ¼þÊÇ·ñ´æÔÚ¡£
-	 * @param path ÎÄ¼þµÄ¾ø¶ÔÂ·¾¶
-	 * @return ÈôÎªtrue£¬Ôò±íÊ¾ÎÄ¼þ´æÔÚ
+	 * åˆ¤æ–­æŸä¸€ä¸ªæ–‡ä»¶æ˜¯å¦å­˜åœ¨ã€‚
+	 * @param path æ–‡ä»¶çš„ç»å¯¹è·¯å¾„
+	 * @return è‹¥ä¸ºtrueï¼Œåˆ™è¡¨ç¤ºæ–‡ä»¶å­˜åœ¨
 	 */
 	public static boolean fileIsExists(String path){
 	    try{
@@ -38,20 +38,20 @@ public class Utils {
 	}
 	
 	/**
-	 * ÅÐ¶ÏÒ»¸öÂ·¾¶ÊÇ·ñÎª¾ø¶ÔÂ·¾¶¡£Êµ¼ÊÉÏÊÇÅÐ¶Ï¸Ã×Ö·û´®ÊÇ·ñÒÔ'/'¿ªÍ·¡£
-	 * @param path Â·¾¶×Ö·û´®
-	 * @return ÈôÎªtrue£¬Ôò±íÊ¾×Ö·û´®Îª¾ø¶ÔÂ·¾¶
+	 * åˆ¤æ–­ä¸€ä¸ªè·¯å¾„æ˜¯å¦ä¸ºç»å¯¹è·¯å¾„ã€‚å®žé™…ä¸Šæ˜¯åˆ¤æ–­è¯¥å­—ç¬¦ä¸²æ˜¯å¦ä»¥'/'å¼€å¤´ã€‚
+	 * @param path è·¯å¾„å­—ç¬¦ä¸²
+	 * @return è‹¥ä¸ºtrueï¼Œåˆ™è¡¨ç¤ºå­—ç¬¦ä¸²ä¸ºç»å¯¹è·¯å¾„
 	 */
 	public static boolean isAbsolutePath(String path){
 		return (path != null && path.equals("") && path.charAt(0) == '/');
 	}
 	
 	/**
-	 * ½«ÎÄ¼þ´ÓassetÖÐÖ¸¶¨Ä¿Â¼ÏÂµÄÎÄ¼þ¸´ÖÆµ½ÁíÒ»¸öÖ¸¶¨Ä¿Â¼ÏÂ¡£¸Ã·½·¨²»»á¸´ÖÆ×ÓÎÄ¼þ¼Ð¡£
-	 * @param assetManager asset¹ÜÀíÆ÷
-	 * @param source ÐèÒª¸´ÖÆµÄÄ¿Â¼ÔÚassetÖÐµÄÏà¶ÔÂ·¾¶¡£ÈôÉèÎª""£¬Ôò±íÊ¾ÔÚ¸ùÄ¿Â¼ÏÂ
-	 * @param desPath Ä¿±êÄ¿Â¼µÄ¾ø¶ÔÂ·¾¶
-	 * @return ÈôÎªtrue£¬Ôò±íÊ¾³É¹¦¸´ÖÆ
+	 * å°†æ–‡ä»¶ä»Žassetä¸­æŒ‡å®šç›®å½•ä¸‹çš„æ–‡ä»¶å¤åˆ¶åˆ°å¦ä¸€ä¸ªæŒ‡å®šç›®å½•ä¸‹ã€‚è¯¥æ–¹æ³•ä¸ä¼šå¤åˆ¶å­æ–‡ä»¶å¤¹ã€‚
+	 * @param assetManager assetç®¡ç†å™¨
+	 * @param source éœ€è¦å¤åˆ¶çš„ç›®å½•åœ¨assetä¸­çš„ç›¸å¯¹è·¯å¾„ã€‚è‹¥è®¾ä¸º""ï¼Œåˆ™è¡¨ç¤ºåœ¨æ ¹ç›®å½•ä¸‹
+	 * @param desPath ç›®æ ‡ç›®å½•çš„ç»å¯¹è·¯å¾„
+	 * @return è‹¥ä¸ºtrueï¼Œåˆ™è¡¨ç¤ºæˆåŠŸå¤åˆ¶
 	 */
 	public static boolean copyAssets(AssetManager assetManager, String source, String desPath) 
 			throws IOException{
@@ -89,63 +89,7 @@ public class Utils {
 		return true;
 	}
 	
-	/*public void UtilsInit(AssetManager assetManager){
-		try {
-            unpackOnSdCard(assetManager);
-        } catch (IOException e) {
-            Log.i("Irrlicht", "Error in unpack "+e.getMessage());
-        }
-		try {
-            setSDCardPath();
-            Log.i("new","I want to see!");
-        } catch (IOException e) {
-            Log.i("Irrlicht", "Error in setSdCardPath  "+e.getMessage());
-        }
+	public static void log(String t){
+		Log.e("wang", t);
 	}
-	public void unpackOnSdCard(AssetManager assetManager) throws IOException {
-        if (Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED)==0) {
-            File sdcard = Environment.getExternalStorageDirectory();
-            String irrlichtPath = sdcard.getAbsoluteFile() + "/Irrlicht/";
-            File irrlichtDir = new File(irrlichtPath);
-            if (irrlichtDir.exists() && !irrlichtDir.isDirectory()) {
-                throw new IOException("Irrlicht exists and is not a directory on SD Card");
-            } else if (!irrlichtDir.exists()) {
-                irrlichtDir.mkdirs();
-            }
-            // Note: /sdcard/irrlicht dir exists
-            String[] filenames = assetManager.list("data");
-            for(String filename:filenames) {
-
-            	Log.i("Irrlicht", "filename"+filename);
-                InputStream inputStream = assetManager.open("data/" + filename);
-                OutputStream outputStream = new FileOutputStream(irrlichtPath + "/" + filename);
-                // copy
-                byte[] buffer = new byte[4096];
-                int length;
-                while ( (length = inputStream.read(buffer)) > 0 ) {
-                    outputStream.write(buffer, 0, length);
-                }
-                outputStream.flush();
-                outputStream.close();
-                inputStream.close();
-            }  
-            	
-        } else {
-            throw new IOException("SD Card not available");
-        }
-
-    }
-	
-	public boolean setSDCardPath() throws IOException{
-		if (Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED)==0) {
-			File sdcard = Environment.getExternalStorageDirectory();
-			nativeSetSdCardPath(sdcard.getAbsolutePath());
-		}
-		else {
-			throw new IOException("SD Card not available");
-		}
-		return true;
-	}
-	
-	private native void nativeSetSdCardPath(String path);*/
 }

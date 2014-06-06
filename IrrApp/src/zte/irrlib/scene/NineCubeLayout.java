@@ -1,4 +1,4 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
 
 import zte.irrlib.Engine;
 import zte.irrlib.core.Vector3d;
@@ -6,13 +6,13 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
- * Ò»¸ö²¼¾ÖÀà£¬°üº¬9¸öÁ¢·½Ìå£¬assets¶ÁÈ¡±»½ûÓÃÊ±²»¿ÉÓÃ
+ * ä¸€ä¸ªå¸ƒå±€ç±»ï¼ŒåŒ…å«9ä¸ªç«‹æ–¹ä½“ï¼Œassetsè¯»å–è¢«ç¦ç”¨æ—¶ä¸å¯ç”¨
  * @author Roy
  *
  */
 public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	
-	/** ³¤·½Ìå¸÷¸öÃæµÄ²ÄÖÊĞòºÅ*/
+	/** é•¿æ–¹ä½“å„ä¸ªé¢çš„æè´¨åºå·*/
 	public static final int FRONT_MATERIAL_ID = 5;
 	public static final int BACK_MATERIAL_ID = 0;
 	public static final int LEFT_MATERIAL_ID = 2;
@@ -24,7 +24,7 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 
 	NineCubeLayout(Vector3d pos, Vector3d size, double dx, double dy, SceneNode parent){
 		
-		super();
+		super(pos, parent);
 		
 		mSize = new Vector3d(size);
 		mX = dx;
@@ -52,9 +52,9 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * Ö¸¶¨Ä³¸ö½ÚµãµÄÕıÃæµÄ²ÄÖÊ¡£
-	 * @param tex ²ÄÖÊÂ·¾¶
-	 * @param index ½ÚµãĞòºÅ
+	 * æŒ‡å®šæŸä¸ªèŠ‚ç‚¹çš„æ­£é¢çš„æè´¨ã€‚
+	 * @param tex æè´¨è·¯å¾„
+	 * @param index èŠ‚ç‚¹åºå·
 	 */
 	public void setFrontTexture(String tex, int index){
 		if (mChild == null) return;
@@ -62,10 +62,10 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * Ö¸¶¨Ä³¸ö½ÚµãµÄÕıÃæµÄ²ÄÖÊ¡£
-	 * @param bitmap Î»Í¼
-	 * @param name ¸øÕâ¸ö²ÄÖÊÈ¡Ãû£¬±ØĞëÎ¨Ò»
-	 * @param index ½ÚµãĞòºÅ
+	 * æŒ‡å®šæŸä¸ªèŠ‚ç‚¹çš„æ­£é¢çš„æè´¨ã€‚
+	 * @param bitmap ä½å›¾
+	 * @param name ç»™è¿™ä¸ªæè´¨å–åï¼Œå¿…é¡»å”¯ä¸€
+	 * @param index èŠ‚ç‚¹åºå·
 	 */
 	@Deprecated
 	public void setFrontTexture(Bitmap bitmap, String name, int index){
@@ -74,9 +74,9 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	}
 
 	/**
-	 * ÎªËùÓĞ×Ó½ÚµãµÄÄ³Ò»¸öÃæ¸½ÉÏÍ³Ò»µÄ²ÄÖÊ
-	 * @param tex ²ÄÖÊÂ·¾¶
-	 * @param materialId ²ÄÖÊºÅ
+	 * ä¸ºæ‰€æœ‰å­èŠ‚ç‚¹çš„æŸä¸€ä¸ªé¢é™„ä¸Šç»Ÿä¸€çš„æè´¨
+	 * @param tex æè´¨è·¯å¾„
+	 * @param materialId æè´¨å·
 	 */
 	public void setUniTexture(final String tex, final int materialId){
 		do2EveryChild(new TraversalCallback(){
@@ -87,10 +87,10 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * ÎªËùÓĞ×Ó½ÚµãµÄÄ³Ò»¸öÃæ¸½ÉÏÍ³Ò»µÄ²ÄÖÊ
-	 * @param bit Î»Í¼
-	 * @param name ¸øÕâ¸ö²ÄÖÊÈ¡Ãû£¬±ØĞëÎ¨Ò»
-	 * @param materialId ²ÄÖÊºÅ
+	 * ä¸ºæ‰€æœ‰å­èŠ‚ç‚¹çš„æŸä¸€ä¸ªé¢é™„ä¸Šç»Ÿä¸€çš„æè´¨
+	 * @param bit ä½å›¾
+	 * @param name ç»™è¿™ä¸ªæè´¨å–åï¼Œå¿…é¡»å”¯ä¸€
+	 * @param materialId æè´¨å·
 	 */
 	@Deprecated
 	public void setUniTexture(final Bitmap bit, final String name, final int materialId){
@@ -102,7 +102,7 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * ÉèÖÃÊÇ·ñÆôÓÃÌùÍ¼µÄalphaÍ¨µÀÒÔÊµÏÖÍ¸Ã÷Ğ§¹û
+	 * è®¾ç½®æ˜¯å¦å¯ç”¨è´´å›¾çš„alphaé€šé“ä»¥å®ç°é€æ˜æ•ˆæœ
 	 * @param flag
 	 */
 	public void enableTransparentTex(boolean flag){
@@ -126,8 +126,8 @@ public class NineCubeLayout extends SceneNode implements Scene.Updatable{
 	
 	//Scene.Updatable
 	/**
-	 * ´ò¿ª¸üĞÂ¿ª¹Ø£¬¿ÉÒÔÊ¹µÃËùÓĞµÄ½Úµã³¯ÏòÏà»ú¿´£¬²»¹ıÃ²ËÆĞ§¹û²»ÊÇºÜºÃ¡£
-	 * ËùÒÔÓĞµ±Ã»ÓĞ£¬µ±×ödemoÒ²¿É¡£
+	 * æ‰“å¼€æ›´æ–°å¼€å…³ï¼Œå¯ä»¥ä½¿å¾—æ‰€æœ‰çš„èŠ‚ç‚¹æœå‘ç›¸æœºçœ‹ï¼Œä¸è¿‡è²Œä¼¼æ•ˆæœä¸æ˜¯å¾ˆå¥½ã€‚
+	 * æ‰€ä»¥æœ‰å½“æ²¡æœ‰ï¼Œå½“åšdemoä¹Ÿå¯ã€‚
 	 */
 	public void enableUpdate(Scene sc, boolean flag) {
 		if (flag){

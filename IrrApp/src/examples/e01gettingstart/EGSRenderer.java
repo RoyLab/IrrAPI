@@ -1,4 +1,4 @@
-package examples.e01gettingstart;
+ï»¿package examples.e01gettingstart;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -12,28 +12,28 @@ public class EGSRenderer implements Renderer {
 		Scene scene = engine.getScene();
 		
 		/**
-		 * Ìí¼ÓµÄ½ÚµãÖ»ÓĞÍ¨¹ıdrawAllNodes²Å»á±»»æÖÆµ½ÆÁÄ»ÉÏ¡£
+		 * æ·»åŠ çš„èŠ‚ç‚¹åªæœ‰é€šè¿‡drawAllNodesæ‰ä¼šè¢«ç»˜åˆ¶åˆ°å±å¹•ä¸Šã€‚
 		 */
 		scene.drawAllNodes();
 	}
 
 	public void onCreate(Engine engine) {
 		/**
-		 * Í¨¹ıgetScene·½·¨£¬¿ÉÒÔÈ¡µÃ³¡¾°¹ÜÀíÀà
+		 * é€šè¿‡getSceneæ–¹æ³•ï¼Œå¯ä»¥å–å¾—åœºæ™¯ç®¡ç†ç±»
 		 */
 		Scene scene = engine.getScene();
 		
 		/**
-		 * ´ó²¿·Ö³¡¾°µÄ´î½¨¹¤×÷¿ÉÒÔÍ¨¹ı³¡¾°¹ÜÀíÀàÍê³É£¬Õâ¸öº¯ÊıÏò³¡¾°ÖĞÌí¼Ó
-		 * ÁËÒ»¸ö´óĞ¡Îª10µÄÁ¢·½Ìå£¬Î»ÖÃÔÚ(0, 0, 20)¡£×¢Òâ£¬ÒıÇæÊ¹ÓÃµÄÊÇ×óÊÖÏµ¡£
+		 * å¤§éƒ¨åˆ†åœºæ™¯çš„æ­å»ºå·¥ä½œå¯ä»¥é€šè¿‡åœºæ™¯ç®¡ç†ç±»å®Œæˆï¼Œè¿™ä¸ªå‡½æ•°å‘åœºæ™¯ä¸­æ·»åŠ 
+		 * äº†ä¸€ä¸ªå¤§å°ä¸º10çš„ç«‹æ–¹ä½“ï¼Œä½ç½®åœ¨(0, 0, 20)ã€‚æ³¨æ„ï¼Œå¼•æ“ä½¿ç”¨çš„æ˜¯å·¦æ‰‹ç³»ã€‚
 		 */
 		MeshSceneNode cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
 		
-		/** Èç¹ûÄã²»ÔÙĞèÒª¸Ã½Úµã£¬¿ÉÒÔ½«Æä´Ó³¡¾°ÖĞÈ¥³ı¡£ÏÂÃæÁ½¸ö·½·¨ÊÇµÈ¼ÛµÄ*/
+		/** å¦‚æœä½ ä¸å†éœ€è¦è¯¥èŠ‚ç‚¹ï¼Œå¯ä»¥å°†å…¶ä»åœºæ™¯ä¸­å»é™¤ã€‚ä¸‹é¢ä¸¤ä¸ªæ–¹æ³•æ˜¯ç­‰ä»·çš„*/
 		//scene.removeNode(cube);
 		//cube.remove();
 		
-		/** Èç¹ûÄã²»Ï£Íû¸Ã½Úµã±»ÏÔÊ¾³öÀ´£¬Äã¿ÉÒÔÉè¶¨ÆäÎª²»¿É¼û */
+		/** å¦‚æœä½ ä¸å¸Œæœ›è¯¥èŠ‚ç‚¹è¢«æ˜¾ç¤ºå‡ºæ¥ï¼Œä½ å¯ä»¥è®¾å®šå…¶ä¸ºä¸å¯è§ */
 		//cube.setVisible(false);
 		cube.setVisible(true);
 		

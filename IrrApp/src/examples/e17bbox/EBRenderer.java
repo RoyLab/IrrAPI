@@ -1,4 +1,4 @@
-package examples.e17bbox;
+ï»¿package examples.e17bbox;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -19,8 +19,8 @@ public class EBRenderer implements Renderer {
 		scene.drawAllNodes();
 		scene.drawText("BoundingBox:", new Vector2i(), new Color4i());
 		
-		/** È¡µÃÕâ¸öÄ£ĞÍµÄBoundingBox£¬ÓÉÓÚÒıÇæÌá¹©µÄÅö×²¼ì²âÊ®·Ö¼òµ¥£¬ÕâÀïÊ¹ÓÃ
-		 * BoundingBox¿ÉÒÔ×öÉÔÎ¢¸´ÔÓµÄÅö×²¼ì²â
+		/** å–å¾—è¿™ä¸ªæ¨¡å‹çš„BoundingBoxï¼Œç”±äºå¼•æ“æä¾›çš„ç¢°æ’æ£€æµ‹ååˆ†ç®€å•ï¼Œè¿™é‡Œä½¿ç”¨
+		 * BoundingBoxå¯ä»¥åšç¨å¾®å¤æ‚çš„ç¢°æ’æ£€æµ‹
 		 */
 		BoundingBox bbox = model.getAbsoluteBoundingBox();
 		
@@ -30,12 +30,15 @@ public class EBRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
+		scene.setFont(Engine.SYSTEM_MEDIA+"defaultfont.png");
+		
 		model = scene.addAnimateMeshSceneNode(Engine.SYSTEM_MEDIA + "sydney.md2",
 				new Vector3d(10, 0, 100), null);
 		model.setTexture(Engine.SYSTEM_MEDIA + "sydney.bmp");
 		
-		/** ÏÔÊ¾Õâ¸öÄ£ĞÍµÄBoundingBox*/
+		/** æ˜¾ç¤ºè¿™ä¸ªæ¨¡å‹çš„BoundingBox*/
 		model.setBBoxVisibility(true);
 	}
 	

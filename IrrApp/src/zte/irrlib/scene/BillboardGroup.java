@@ -1,11 +1,13 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
+
+import zte.irrlib.core.Vector3d;
 
 
 
 
 /**
- * ¹«¸æ°å×é½ÚµãÀà£¬¹ÜÀíÒ»×é¹«¸æ°åµÄÎ»ÖÃ£¬¿É¼ûĞÔµÈ£¬Í¬Ê±¿ÉÒÔÉèÖÃ
- * ×éÄÚ¹«¸æ°æµÄ¿É¼ûµÄ¾àÀë·¶Î§£¬¿ÉÓÃÓÚÑÌÎí¡¢Ö²±»µÈµÄÄ£Äâ¡£
+ * å…¬å‘Šæ¿ç»„èŠ‚ç‚¹ç±»ï¼Œç®¡ç†ä¸€ç»„å…¬å‘Šæ¿çš„ä½ç½®ï¼Œå¯è§æ€§ç­‰ï¼ŒåŒæ—¶å¯ä»¥è®¾ç½®
+ * ç»„å†…å…¬å‘Šç‰ˆçš„å¯è§çš„è·ç¦»èŒƒå›´ï¼Œå¯ç”¨äºçƒŸé›¾ã€æ¤è¢«ç­‰çš„æ¨¡æ‹Ÿã€‚
  * @author Fxx
  *
  */
@@ -15,8 +17,8 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	public static final int REMOVE_FROM_GROUP = 0x02;
 	
 	/**
-	 * Ìí¼ÓÖ¸¶¨¹«¸æ°å½Úµãµ½¹«¸æ°å×é¡£
-	 * @param node ËùÌí¼ÓµÄ¹«¸æ°å¶ÔÏó
+	 * æ·»åŠ æŒ‡å®šå…¬å‘Šæ¿èŠ‚ç‚¹åˆ°å…¬å‘Šæ¿ç»„ã€‚
+	 * @param node æ‰€æ·»åŠ çš„å…¬å‘Šæ¿å¯¹è±¡
 	 */
 	public void add(BillboardSceneNode node){
 		node.setParent(this);
@@ -24,11 +26,11 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * ´Ó¹«¸æ°å×éÒÆ³ıÖ¸¶¨¹«¸æ°å½Úµã
-	 * @param node ËùÒªÒÆ³ıµÄ½Úµã¶ÔÏó
-	 * @param mode ÒÆ³ıµÄÄ£Ê½£º
-	 * 		Ä£Ê½Îª REMOVE_FROM_SCENE Ôò´Ó¹«¸æ°å×éÒÆ³ı²¢´Ó³¡¾°ÖĞÉ¾³ı¸Ã½Úµã
-	 * 		Ä£Ê½Îª REMOVE_FROM_GROUP Ôò½ö´Ó¹«¸æ°å×éÒÆ³ı£¬µÈÍ¬ÓÚ{@link #removeChild(SceneNode)}
+	 * ä»å…¬å‘Šæ¿ç»„ç§»é™¤æŒ‡å®šå…¬å‘Šæ¿èŠ‚ç‚¹
+	 * @param node æ‰€è¦ç§»é™¤çš„èŠ‚ç‚¹å¯¹è±¡
+	 * @param mode ç§»é™¤çš„æ¨¡å¼ï¼š
+	 * 		æ¨¡å¼ä¸º REMOVE_FROM_SCENE åˆ™ä»å…¬å‘Šæ¿ç»„ç§»é™¤å¹¶ä»åœºæ™¯ä¸­åˆ é™¤è¯¥èŠ‚ç‚¹
+	 * 		æ¨¡å¼ä¸º REMOVE_FROM_GROUP åˆ™ä»…ä»å…¬å‘Šæ¿ç»„ç§»é™¤ï¼Œç­‰åŒäº{@link #removeChild(SceneNode)}
 	 */
 	public void remove(BillboardSceneNode node, int mode){
 		if (node == null || node.getParent() != this)
@@ -41,10 +43,10 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * ½«¹«¸æ°åÖĞµÄ½ÚµãÈ«²¿ÒÆ³ı
-	 * @param mode ÒÆ³ıµÄÄ£Ê½£º
-	 * 		Ä£Ê½Îª REMOVE_FROM_SCENE Ôò´Ó¹«¸æ°å×éÒÆ³ı²¢´Ó³¡¾°ÖĞÉ¾³ı¸Ã½Úµã
-	 * 		Ä£Ê½Îª REMOVE_FROM_GRO UP Ôò½ö´Ó¹«¸æ°å×éÒÆ³ı£¬µÈÍ¬ÓÚ{@link #removeChild(SceneNode)}
+	 * å°†å…¬å‘Šæ¿ä¸­çš„èŠ‚ç‚¹å…¨éƒ¨ç§»é™¤
+	 * @param mode ç§»é™¤çš„æ¨¡å¼ï¼š
+	 * 		æ¨¡å¼ä¸º REMOVE_FROM_SCENE åˆ™ä»å…¬å‘Šæ¿ç»„ç§»é™¤å¹¶ä»åœºæ™¯ä¸­åˆ é™¤è¯¥èŠ‚ç‚¹
+	 * 		æ¨¡å¼ä¸º REMOVE_FROM_GRO UP åˆ™ä»…ä»å…¬å‘Šæ¿ç»„ç§»é™¤ï¼Œç­‰åŒäº{@link #removeChild(SceneNode)}
 	 */
 	public void removeAll(int mode){
 		if (mode == REMOVE_FROM_SCENE){
@@ -58,9 +60,9 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	}
 	
 	/**
-	 * ÉèÖÃ¹«¸æ°åµÄ¿ÉÊÓ·¶Î§
-	 * @param near ¹«¸æ°å¿ÉÊÓÇøÓò½ü¶ËµÄÖµ
-	 * @param far ¹«¸æ°å¿ÉÊÓÇøÓòÔ¶¶ËµÄÖµ
+	 * è®¾ç½®å…¬å‘Šæ¿çš„å¯è§†èŒƒå›´
+	 * @param near å…¬å‘Šæ¿å¯è§†åŒºåŸŸè¿‘ç«¯çš„å€¼
+	 * @param far å…¬å‘Šæ¿å¯è§†åŒºåŸŸè¿œç«¯çš„å€¼
 	 */
 	public void setVisibleDistance(double near, double far){
 		mFar = far; mNear = near;
@@ -94,10 +96,10 @@ public class BillboardGroup extends SceneNode implements Scene.Updatable{
 	}
 
 	/**
-	 * Î¨Ò»¹¹Ôìº¯Êı¡£
+	 * å”¯ä¸€æ„é€ å‡½æ•°ã€‚
 	 */
-	BillboardGroup(){
-		super();
+	BillboardGroup(Vector3d pos, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_BILLBOARD_GROUP;
 		mNear = 0.01;
 		mFar = 1000;

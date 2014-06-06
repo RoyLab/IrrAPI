@@ -1,4 +1,4 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
 
 import zte.irrlib.core.Color4i;
 import zte.irrlib.core.Vector2d;
@@ -6,7 +6,7 @@ import zte.irrlib.core.Vector3d;
 import zte.irrlib.core.BoxEmitter;
 
 /**
- * Á£×ÓÏµÍ³½ÚµãÀà
+ * ç²’å­ç³»ç»ŸèŠ‚ç‚¹ç±»
  * @author Fxx
  *
  */
@@ -15,64 +15,64 @@ public class ParticleSystemSceneNode extends MeshSceneNode {
 	public static final int EMITTER_BOX = 0x01;
 	
 	/**
-	 * ÎªÁ£×ÓÏµÍ³½ÚµãÉèÖÃºĞ×´·¢ÉäÆ÷
-	 * @param para ËùÊ¹ÓÃµÄ·¢ÉäÆ÷¶ÔÏó
+	 * ä¸ºç²’å­ç³»ç»ŸèŠ‚ç‚¹è®¾ç½®ç›’çŠ¶å‘å°„å™¨
+	 * @param para æ‰€ä½¿ç”¨çš„å‘å°„å™¨å¯¹è±¡
 	 */
 	public void setBoxEmitter( BoxEmitter para){
 		nativeSetBoxEmitter(para, getId());
 	}
 	
 	/**
-	 * ÎªÁ£×ÓÏµÍ³ËùÓĞ²ÄÖÊÖ¸¶¨Í³Ò»ÌùÍ¼
-	 * @param path ÌùÍ¼µÄÂ·¾¶
+	 * ä¸ºç²’å­ç³»ç»Ÿæ‰€æœ‰æè´¨æŒ‡å®šç»Ÿä¸€è´´å›¾
+	 * @param path è´´å›¾çš„è·¯å¾„
 	 */
 	public void setTexture(String path) {
 		nativeAllSetTexture(mScene.getFullPath(path), getId());
 	}
 	
 	/**
-	 * ÎªÁ£×ÓÏµÍ³Ìí¼ÓÎüÒıÓ°ÏìÒò×Ó£¬¸ÃÓ°ÏìÒò×Ó½«Á£×ÓÎüÒıÍùÖ¸¶¨µã
-	 * @param point Á£×Ó±»ÎüÒıµ½µÄÄ¿µÄµã
-	 * @param speed Á£×ÓÔË¶¯µÄËÙ¶È£¬µ¥Î»£º units per second
-	 * @param attract ÖµÎªtrueÊ±ÔË¶¯Ç÷ÊÆÎªÎüÒı£¬·ñÔòÎªÔ¶Àë
-	 * @param affectX Ö¸¶¨ÔË¶¯ÊÇ·ñÓ°ÏìXÖá
-	 * @param affectY Ö¸¶¨ÔË¶¯ÊÇ·ñÓ°ÏìYÖá
-	 * @param affectZ Ö¸¶¨ÔË¶¯ÊÇ·ñÓ°ÏìZÖá
+	 * ä¸ºç²’å­ç³»ç»Ÿæ·»åŠ å¸å¼•å½±å“å› å­ï¼Œè¯¥å½±å“å› å­å°†ç²’å­å¸å¼•å¾€æŒ‡å®šç‚¹
+	 * @param point ç²’å­è¢«å¸å¼•åˆ°çš„ç›®çš„ç‚¹
+	 * @param speed ç²’å­è¿åŠ¨çš„é€Ÿåº¦ï¼Œå•ä½ï¼š units per second
+	 * @param attract å€¼ä¸ºtrueæ—¶è¿åŠ¨è¶‹åŠ¿ä¸ºå¸å¼•ï¼Œå¦åˆ™ä¸ºè¿œç¦»
+	 * @param affectX æŒ‡å®šè¿åŠ¨æ˜¯å¦å½±å“Xè½´
+	 * @param affectY æŒ‡å®šè¿åŠ¨æ˜¯å¦å½±å“Yè½´
+	 * @param affectZ æŒ‡å®šè¿åŠ¨æ˜¯å¦å½±å“Zè½´
 	 */
 	public void addAttractionParticleAffector(Vector3d point, int speed, boolean attract, boolean affectX, boolean affectY, boolean affectZ){
 		nativeAddAttractionParticleAffector(point.X, point.Y, point.Z, speed, attract, affectX, affectY, affectZ, getId());
 	}
 	
 	/**
-	 * ÎªÁ£×ÓÏµÍ³Ìí¼Ó±äĞÎÓ°ÏìÒò×Ó£¬¸ÃÓ°ÏìÒò×Ó¸Ä±äÁ£×ÓµÄ´óĞ¡
-	 * @param scaleTo Á£×Ó´óĞ¡½«±»À©´óµÄ±¶Êı
+	 * ä¸ºç²’å­ç³»ç»Ÿæ·»åŠ å˜å½¢å½±å“å› å­ï¼Œè¯¥å½±å“å› å­æ”¹å˜ç²’å­çš„å¤§å°
+	 * @param scaleTo ç²’å­å¤§å°å°†è¢«æ‰©å¤§çš„å€æ•°
 	 */
 	 public void addScaleParticleAffector(Vector2d scaleTo){
 		 nativeAddScaleParticleAffector(scaleTo.X, scaleTo.Y, getId());
 	 }
 	 
 	 /**
-	  * ÎªÁ£×ÓÏµÍ³Ìí¼Ó½¥±äÓ°ÏìÒò×Ó£¬¸ÃÓ°ÏìÒò×ÓÊ¹Á£×ÓÍùÄ¿±êÑÕÉ«½¥±ä
-	  * @param target Á£×Ó½¥±äµÄÄ¿±êÑÕÉ«
-	  * @param time Á£×Ó½¥±äËùĞèµÄÊ±¼ä£¬µ¥Î»£ººÁÃë£¨ms£©
+	  * ä¸ºç²’å­ç³»ç»Ÿæ·»åŠ æ¸å˜å½±å“å› å­ï¼Œè¯¥å½±å“å› å­ä½¿ç²’å­å¾€ç›®æ ‡é¢œè‰²æ¸å˜
+	  * @param target ç²’å­æ¸å˜çš„ç›®æ ‡é¢œè‰²
+	  * @param time ç²’å­æ¸å˜æ‰€éœ€çš„æ—¶é—´ï¼Œå•ä½ï¼šæ¯«ç§’ï¼ˆmsï¼‰
 	  */
 	 public void addFadeOutAffectorParticleAffector(Color4i target, int time){
 		 nativeAddFadeOutAffectorParticleAffector(target.r(), target.g(), target.b(), target.a(), time, getId());
 	 }
 	 
 	 /**
-	  * ÎªÁ£×ÓÏµÍ³Ìí¼ÓÖØÁ¦Ó°ÏìÒò×Ó£¬¸ÃÓ°ÏìÒò×ÓÊ¹Á£×ÓÍùÖØÁ¦·½ÏòÔË¶¯
-	  * @param gravity ÖØÁ¦µÄÈıÎ¬´óĞ¡
-	  * @param time Á£×ÓÊÜÁ¦Ê±¼ä£¬µ¥Î»£ººÁÃë£¨ms£©
+	  * ä¸ºç²’å­ç³»ç»Ÿæ·»åŠ é‡åŠ›å½±å“å› å­ï¼Œè¯¥å½±å“å› å­ä½¿ç²’å­å¾€é‡åŠ›æ–¹å‘è¿åŠ¨
+	  * @param gravity é‡åŠ›çš„ä¸‰ç»´å¤§å°
+	  * @param time ç²’å­å—åŠ›æ—¶é—´ï¼Œå•ä½ï¼šæ¯«ç§’ï¼ˆmsï¼‰
 	  */
 	 public void addGravityAffector(Vector3d gravity, int time){
 		 nativeAddGravityAffector(gravity.X, gravity.Y, gravity.Z, time, getId());
 	 }
 	
 	/**
-	 * ÎªÁ£×ÓÏµÍ³Ìí¼ÓĞı×ªÔË¶¯Ó°ÏìÒò×Ó£¬¸ÄÓ°ÏìÒò×ÓÊ¹Á£×ÓÑØÖĞĞÄµãÒÔÒ»¶¨ËÙ¶ÈÔË¶¯ 
-	 * @param speed Á£×ÓÔË¶¯µÄËÙ¶È£¬µ¥Î»£º¶È/Ãë
-	 * @param center Á£×ÓÔË¶¯Î§ÈÆµÄÖĞĞÄµã
+	 * ä¸ºç²’å­ç³»ç»Ÿæ·»åŠ æ—‹è½¬è¿åŠ¨å½±å“å› å­ï¼Œæ”¹å½±å“å› å­ä½¿ç²’å­æ²¿ä¸­å¿ƒç‚¹ä»¥ä¸€å®šé€Ÿåº¦è¿åŠ¨ 
+	 * @param speed ç²’å­è¿åŠ¨çš„é€Ÿåº¦ï¼Œå•ä½ï¼šåº¦/ç§’
+	 * @param center ç²’å­è¿åŠ¨å›´ç»•çš„ä¸­å¿ƒç‚¹
 	 */
 	 public void addRotationAffector(Vector3d speed, Vector3d center){
 		 nativeAddRotationAffector(speed.X, speed.Y, speed.Z, center.X, center.Y, center.Z, getId());
@@ -98,10 +98,10 @@ public class ParticleSystemSceneNode extends MeshSceneNode {
 		
 	 
 	 /**
-	 * Î¨Ò»¹¹Ôìº¯Êı
+	 * å”¯ä¸€æ„é€ å‡½æ•°
 	 */
-	ParticleSystemSceneNode(){
-		super();
+	ParticleSystemSceneNode(Vector3d pos, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_PARTICLE_SYSTEM;
 	}
 

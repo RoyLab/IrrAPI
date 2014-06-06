@@ -411,4 +411,5 @@ extern "C"
 		node->setMaterialFlag(E_MATERIAL_FLAG(type), flag);
 		return 0;
 	}
+
 }

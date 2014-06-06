@@ -1,4 +1,4 @@
-package examples.e06camera;
+ï»¿package examples.e06camera;
 
 import zte.irrlib.IrrlichtView;
 import android.view.MotionEvent;
@@ -17,8 +17,8 @@ public class ECReceiver {
 			dy = cEvent.getY() - ly;
 			
 			/**
-			 * ÒòÎªäÖÈ¾Ïß³ÌÊÇ¶ÀÁ¢ÓëÖ÷Ïß³ÌµÄ£¬Òò´ËÔÚ·ÇäÖÈ¾Ïß³Ì¶ÔÒıÇæµÄ¶ÁĞ´
-			 * ¶¼ÓĞ¿ÉÄÜ²úÉú´íÎó¡£Ò»¸ö½ÏÎª°²È«µÄ°ì·¨ÊÇÊ¹ÓÃqueueEvent·½·¨¡£
+			 * å› ä¸ºæ¸²æŸ“çº¿ç¨‹æ˜¯ç‹¬ç«‹ä¸ä¸»çº¿ç¨‹çš„ï¼Œå› æ­¤åœ¨éæ¸²æŸ“çº¿ç¨‹å¯¹å¼•æ“çš„è¯»å†™
+			 * éƒ½æœ‰å¯èƒ½äº§ç”Ÿé”™è¯¯ã€‚ä¸€ä¸ªè¾ƒä¸ºå®‰å…¨çš„åŠæ³•æ˜¯ä½¿ç”¨queueEventæ–¹æ³•ã€‚
 			 */
 			mView.queueEvent(new Runnable(){
 				public void run() {

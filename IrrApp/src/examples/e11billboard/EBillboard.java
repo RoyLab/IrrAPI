@@ -1,4 +1,4 @@
-package examples.e11billboard;
+ï»¿package examples.e11billboard;
 
 import zte.test.irrapp.R;
 import android.app.Activity;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 /**
- * ÑİÊ¾ÁËÈçºÎÊ¹ÓÃ¹«¸æ°å×é¹ÜÀí¹«¸æ°å
+ * æ¼”ç¤ºäº†å¦‚ä½•ä½¿ç”¨å…¬å‘Šæ¿ç»„ç®¡ç†å…¬å‘Šæ¿
  * @author Roy
  *
  */
@@ -26,6 +26,7 @@ public class EBillboard extends Activity {
 		mDemo = (EBView)findViewById(R.id.e11view);
 		
 		mRenderer = new EBRenderer();
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(mRenderer);
 		
 		mReceiver = new EBReceiver(mDemo, mRenderer);
@@ -36,7 +37,7 @@ public class EBillboard extends Activity {
 		left = (Button)findViewById(R.id.left2);
 		right = (Button)findViewById(R.id.right2);
 		
-		/** Éè¶¨ÊÂ¼ş´¦Àíº¯Êı¡£*/
+		/** è®¾å®šäº‹ä»¶å¤„ç†å‡½æ•°ã€‚*/
 		up.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				mReceiver.cameraGoUp();

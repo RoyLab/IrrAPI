@@ -20,11 +20,11 @@
         <activity
             android:name="examples.ExampleList"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+	        <intent-filter>
+	                <action android:name="android.intent.action.MAIN" />
+	
+	                <category android:name="android.intent.category.LAUNCHER" />
+	        </intent-filter>
         </activity>
         <activity
             android:name="examples.e01gettingstart.EGettingStart"
@@ -96,8 +96,25 @@
         </activity>
         <activity
             android:name="examples.e18psextension.EPSExtension"
-            android:label="@string/title_activity_eps_extension">
+            android:label="@string/title_activity_eps_extension" >
         </activity>
+        <activity
+            android:name="examples.e19cameraswitch.ECameraSwicth"
+            android:label="@string/title_activity_ecamerawwicth" >
+        </activity>
+        <activity
+            android:name="examples.e20skydome.ESkyDome"
+            android:label="@string/title_activity_eskydome" >
+        </activity>
+        <activity
+            android:name="examples.TestActivity"
+            android:label="@string/title_activity_test" >
+
+        </activity>
+        <activity
+            android:name="examples.e21animatedmesh.EAnimateMesh"
+            android:label="@string/title_activity_eanimate_mesh" >
+        </activity> 
     </application>
 
 </manifest>

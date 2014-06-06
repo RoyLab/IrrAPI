@@ -1,4 +1,4 @@
-package examples.e04animator;
+﻿package examples.e04animator;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -15,6 +15,7 @@ public class EAnimator extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EARenderer());
 	}
 	

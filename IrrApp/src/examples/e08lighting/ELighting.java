@@ -1,4 +1,4 @@
-package examples.e08lighting;
+ï»¿package examples.e08lighting;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ÑİÊ¾ÁËÈçºÎÊ¹ÓÃµÆ¹â£¬ÈçºÎ¶¯Ì¬µØĞŞ¸ÄµÆ¹âÊôĞÔ
+ * æ¼”ç¤ºäº†å¦‚ä½•ä½¿ç”¨ç¯å…‰ï¼Œå¦‚ä½•åŠ¨æ€åœ°ä¿®æ”¹ç¯å…‰å±æ€§
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class ELighting extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new ELRenderer());
 	}
 	

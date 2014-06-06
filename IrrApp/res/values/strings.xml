@@ -32,5 +32,9 @@
     <string name="title_activity_ebounding_box">EBoundingBox</string>
     <string name="title_activity_enative">ENative</string>
     <string name="title_activity_eps_extension">EPSExtension</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_ecamerawwicth">Swicth Camera</string>
+    <string name="title_activity_eskydome">Sky Dome</string>
+    <string name="title_activity_eanimate_mesh">EAnimate</string>
 
 </resources>

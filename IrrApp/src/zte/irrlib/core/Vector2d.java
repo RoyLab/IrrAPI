@@ -1,14 +1,14 @@
-package zte.irrlib.core;
+ï»¿package zte.irrlib.core;
 
 /**
- * ¶şÎ¬¸¡µãÏòÁ¿£¬Ò»°ãÓÃÓÚÖ¸¶¨Ãæ»ı´óĞ¡
+ * äºŒç»´æµ®ç‚¹å‘é‡ï¼Œä¸€èˆ¬ç”¨äºæŒ‡å®šé¢ç§¯å¤§å°
  * @author Roy
  *
  */
 public class Vector2d {
 
 	/**
-	 * ¹¹Ôì·½·¨£¬Éú³É(0, 0)
+	 * æ„é€ æ–¹æ³•ï¼Œç”Ÿæˆ(0, 0)
 	 */
 	public Vector2d(){
 		

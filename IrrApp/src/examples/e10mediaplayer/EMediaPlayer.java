@@ -1,4 +1,4 @@
-package examples.e10mediaplayer;
+ï»¿package examples.e10mediaplayer;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * ÑİÊ¾ÁËÈçºÎ²¥·ÅÊÓÆµ
+ * æ¼”ç¤ºäº†å¦‚ä½•æ’­æ”¾è§†é¢‘
  * @author Roy
  *
  */
@@ -22,15 +22,16 @@ public class EMediaPlayer extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		/** ºáÊúÆÁµÄÇĞ»»×ÜÊÇ´øÀ´ÁîÈËÍ·ÌÛµÄÎÊÌâ£¬Òò´ËÕâÀï¾ö¶¨½ûÓÃËü*/
+		/** æ¨ªç«–å±çš„åˆ‡æ¢æ€»æ˜¯å¸¦æ¥ä»¤äººå¤´ç–¼çš„é—®é¢˜ï¼Œå› æ­¤è¿™é‡Œå†³å®šç¦ç”¨å®ƒ*/
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		setContentView(R.layout.activity_emedia_player);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.mediaplayerview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EMRenderer());
 		
-		/** ¼ÓÈë°´Å¥ÏìÓ¦*/
+		/** åŠ å…¥æŒ‰é’®å“åº”*/
 		Button play = (Button)findViewById(R.id.play);
 		play.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {

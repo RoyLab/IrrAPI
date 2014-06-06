@@ -1,11 +1,9 @@
-package examples.e11billboard;
+ï»¿package examples.e11billboard;
 
 import zte.irrlib.CameraFPSWrapper;
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
-import zte.irrlib.core.Color4i;
 import zte.irrlib.core.Vector2d;
-import zte.irrlib.core.Vector2i;
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.BillboardGroup;
 import zte.irrlib.scene.BillboardSceneNode;
@@ -24,38 +22,38 @@ public class EBRenderer implements Renderer {
 		
 		Scene scene = engine.getScene();		
 		scene.drawAllNodes();
-		scene.drawText("FPS: " + engine.getFPS(), new Vector2i(), new Color4i(0x7f, 0x7f, 0xbf, 0xff));
 	}
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
 		
-		/** ÓëµÚ6½ÚÒ»Ñù£¬ÎÒÃÇ½¨Á¢Ò»¸öµÚÒ»ÈË³ÆÏà»úÒÔ±ãÓÚ¹Û²ì*/
+		/** ä¸ç¬¬6èŠ‚ä¸€æ ·ï¼Œæˆ‘ä»¬å»ºç«‹ä¸€ä¸ªç¬¬ä¸€äººç§°ç›¸æœºä»¥ä¾¿äºè§‚å¯Ÿ*/
 		scene.getActiveCamera().remove(); 
 		camera = scene.addCameraSceneNode(new Vector3d(0, 5, -1), new Vector3d(0, 5, 0), true, null);
 		FPSWrapper = new CameraFPSWrapper(camera);
 		
-		/** ĞÂ½¨Ò»¸ö¹«¸æ°å×é*/
+		/** æ–°å»ºä¸€ä¸ªå…¬å‘Šæ¿ç»„*/
 		bbgroup = scene.addBillboardGroup(new Vector3d(0, 0, 0), null);
 		
-		/** Éè¶¨¹«¸æ°à×éµÄ¿É¼û·¶Î§*/
+		/** è®¾å®šå…¬å‘Šç­ç»„çš„å¯è§èŒƒå›´*/
 		bbgroup.setVisibleDistance(0.1, 30);
 		
-		/** Ê¹µÃ¹«¸æ°à×éÄÚ½ÚµãµÄ¿É¼ûĞÔ¸ù¾İ¿É¼û·¶Î§ÔÚ»æÖÆÑ­»·ÖĞ±»Ë¢ĞÂ*/
+		/** ä½¿å¾—å…¬å‘Šç­ç»„å†…èŠ‚ç‚¹çš„å¯è§æ€§æ ¹æ®å¯è§èŒƒå›´åœ¨ç»˜åˆ¶å¾ªç¯ä¸­è¢«åˆ·æ–°*/
 		bbgroup.enableUpdate(scene, true);
 		 
-		/** Ìí¼Ó300¸ö½Úµã*/
+		/** æ·»åŠ 300ä¸ªèŠ‚ç‚¹*/
 		for (int i = 0; i < 300; i++){
 			BillboardSceneNode node = scene.addBillboardSceneNode(
 					new Vector3d((Math.random()-0.5)*100, 0, (Math.random()-0.5)*100),
 					new Vector2d(5, 5), null);
 			
-			/** Ó¦ÓÃÌùÍ¼µÄÍ¸Ã÷Í¨µÀ£¬Èç¹ûÖÊÁ¿ÒªÇó²»¸ß£¬Ò²¿ÉÒÔÊ¹ÓÃEMT_TRANSPARENT_ALPHA_CHANNEL_REF*/
+			/** åº”ç”¨è´´å›¾çš„é€æ˜é€šé“ï¼Œå¦‚æœè´¨é‡è¦æ±‚ä¸é«˜ï¼Œä¹Ÿå¯ä»¥ä½¿ç”¨EMT_TRANSPARENT_ALPHA_CHANNEL_REF*/
 			node.setMaterialType(MeshSceneNode.E_MATERIAL_TYPE.EMT_TRANSPARENT_ALPHA_CHANNEL);
 			node.setTexture(Engine.SYSTEM_MEDIA + "grass.png");
 			
-			/** ½«½Úµã¼ÓÈë¹«¸æ°å×é*/
+			/** å°†èŠ‚ç‚¹åŠ å…¥å…¬å‘Šæ¿ç»„*/
 			bbgroup.add(node);
 		}
 	}

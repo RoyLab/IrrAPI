@@ -16,11 +16,9 @@ extern "C"
 		JNIEnv *env, jobject thiz, int type)
 	{
 		if (device) 
-		{
 			device->drop();
-			resetGlobalValue();
-		}
-	
+		
+		resetGlobalValue();
 		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
 		if (type == 0x00000001) videoType = video::EDT_OGLES1;
 		else if (type == 0x00000004) videoType = video::EDT_OGLES2;
@@ -51,7 +49,7 @@ extern "C"
 		LOGI("Engine is ready");
 		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
 		if (!utils)	utils = new JNIUtils();
-		
+		//driver->setTextureCreationFlag(video::ETCF_CREATE_MIP_MAPS, false);
 		return 0;
 	}
 	
@@ -69,7 +67,8 @@ extern "C"
 		JNIEnv *env, jobject thiz, jstring dirname, jboolean ignorePath)
 	{
 		const char *ch = env->GetStringUTFChars(dirname, 0);
-		io::path p(io::PATH_ASSETS); p.append(ch);
+		io::path p(io::PATH_ASSETS);
+		p.append(ch);
 		env->ReleaseStringUTFChars(dirname, ch);
 		
 		return device->getFileSystem()->addFileArchive(p, true, ignorePath);
@@ -98,19 +97,6 @@ extern "C"
 		utils->initJNIClass(env, name, fname, fsig, num);
 	}
 	
-	//for test only
-	void Java_zte_irrlib_Engine_nativeTest(
-		JNIEnv *env, jobject thiz)
-	{
-		LOGD("test begin");
-		ISceneNode *node = smgr->addCubeSceneNode();
-		io::path p(io::PATH_ASSETS); p.append("ext");
-		device->getFileSystem()->addFileArchive(p, true, false);
-		node->setMaterialTexture(0, driver->getTexture("ext/ext_1.png"));
-		node->setMaterialFlag(EMF_LIGHTING, false);
-		LOGD("test end");
-	}
-
 	void Java_zte_irrlib_Engine_nativeSetFontPath(
 		JNIEnv *env, jobject defaultObj, jstring path)
 	{
@@ -126,7 +112,7 @@ extern "C"
 		if (driver)
 		{
 			driver->OnResize(size);
-			smgr->getActiveCamera()->setAspectRatio((double)w/h);
+			//smgr->getActiveCamera()->setAspectRatio((double)w/h);
 			LOGI("Render size changed, width: %d height: %d", w, h);
 		}
 		else LOGE("Driver is not ready.");
@@ -159,56 +145,23 @@ extern "C"
 		PATH_ASSETS = ch;
 		env->ReleaseStringUTFChars(jname,ch);
 	}
-	
-	/*int Java_zte_irrlib_Engine_nativeInit(
-		JNIEnv *env, jobject defaultObj, int type,
-		jobject vector, jobject color4, jobject color3, jobject rect, jobject bbox)
+/**************************************************************************************/
+	//for test only
+	void Java_zte_irrlib_Engine_nativeTestCreate(
+		JNIEnv *env, jobject thiz)
 	{
-		initJNIInfo(env, vector, color4, color3, rect);
-		initBoundingBoxId(env, bbox);
-		
-		video::E_DRIVER_TYPE videoType =  video::EDT_NULL;
-		if (type == 0x00000001) videoType = video::EDT_OGLES1;
-		else if (type == 0x00000004) videoType = video::EDT_OGLES2;
-		
-		//importGLInit();
-		
-		if (device) 
-		{
-			device->drop();
-			
-			device = 0;
-			driver = 0;
-			smgr = 0;
-			_extTex = 0;
-		}
-		
-		device = createDevice( videoType, 
-			dimension2d<u32>(gWindowWidth, gWindowHeight), 16, false, false, false, 0);
+		LOGD("test begin");
+		ISceneNode *node = smgr->addCubeSceneNode();
+		io::path p(io::PATH_ASSETS); p.append("ext");
+		device->getFileSystem()->addFileArchive(p, true, false);
+		node->setMaterialTexture(0, driver->getTexture("ext/ext_1.png"));
+		node->setMaterialFlag(EMF_LIGHTING, false);
+		LOGD("test end");
+	}
 
-		if (!device)
-		{
-			LOGE("No device!");
-			return -1;
-		}
-		
-		driver = device->getVideoDriver();
-		if (!driver){
-			LOGE("No driver!"); 
-			return -2;
-		}
-		
-		smgr = device->getSceneManager();
-		if (!smgr){
-			LOGE("No scene manager!");
-			return -3;
-		}
-		
-		LOGI("Engine is ready. width: %d, height: %d", gWindowWidth, gWindowHeight);
-		smgr->setAmbientLight(video::SColor(0xff,0x3f,0x3f,0x3f));
-		LOGD("%d1", &utils);
-		if (!utils)	utils = new JNIUtils();
-		LOGD("%d2", &utils);
-		return 0;
-	}*/
+	void Java_zte_irrlib_Engine_nativeTestOnDraw(
+		JNIEnv *env, jobject thiz)
+	{
+	
+	}
 }

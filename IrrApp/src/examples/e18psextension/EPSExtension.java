@@ -1,14 +1,15 @@
-package examples.e18psextension;
+ï»¿package examples.e18psextension;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 
 /**
- * ÑİÊ¾ÁËÈçºÎ¸ü¸ÄÁ£×Ó·¢ÉäÆ÷µÄ²ÎÊıÉèÖÃÀ´²úÉúÁ£×ÓÌØĞ§£¬
- * Í¬Ê±ÑİÊ¾ÁËÈí¼ş°üÄÚ×Ô´øµÄåçĞÇÍÏÎ²¡¢ĞÇ¹â¡¢±¬Õ¨µÄÌØĞ§Ìí¼Ó
+ * æ¼”ç¤ºäº†å¦‚ä½•æ›´æ”¹ç²’å­å‘å°„å™¨çš„å‚æ•°è®¾ç½®æ¥äº§ç”Ÿç²’å­ç‰¹æ•ˆï¼Œ
+ * åŒæ—¶æ¼”ç¤ºäº†è½¯ä»¶åŒ…å†…è‡ªå¸¦çš„å½—æ˜Ÿæ‹–å°¾ã€æ˜Ÿå…‰ã€çˆ†ç‚¸çš„ç‰¹æ•ˆæ·»åŠ 
  * @author Fxx
  *
  */
@@ -19,9 +20,11 @@ public class EPSExtension extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EPSERenderer());
 	}
 	

@@ -1,4 +1,4 @@
-package examples.e06camera;
+﻿package examples.e06camera;
 
 import zte.irrlib.IrrlichtView;
 import android.content.Context;

@@ -1,27 +1,27 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
 
-import zte.irrlib.core.Vector2i;
+import zte.irrlib.core.Matrix4;
 import zte.irrlib.core.Vector3d;
 
 /**
- * Ïà»ú½ÚµãÀà
+ * ç›¸æœºèŠ‚ç‚¹ç±»
  * @author Fxx
  *
  */
 public class CameraSceneNode extends SceneNode{
 
 	/**
-	 * ÉèÖÃÏà²Ã¼ôÃæ¡£
-	 * @param nearClip ½ü¶Ë²Ã¼ôÃæµÄzÖµ
-	 * @param farClip Ô¶¶Ë²Ã¼ôÃæµÄzÖµ
+	 * è®¾ç½®ç›¸è£å‰ªé¢ã€‚
+	 * @param nearClip è¿‘ç«¯è£å‰ªé¢çš„zå€¼
+	 * @param farClip è¿œç«¯è£å‰ªé¢çš„zå€¼
 	 */
 	public void setRendererClippingPlaneLimits(double nearClip, double farClip){
 		nativeSetClipPlain(nearClip, farClip, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÏà»ú³¯Ïò×ø±ê¡£
-	 * @param vec Ïà»ú³¯µãµÄ×ø±ê
+	 * è®¾ç½®ç›¸æœºæœå‘åæ ‡ã€‚
+	 * @param vec ç›¸æœºæœç‚¹çš„åæ ‡
 	 */
 	public void setLookAt(Vector3d vec){
 		mLookAt.copy(vec);
@@ -29,39 +29,49 @@ public class CameraSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * ÉèÖÃÏà»úµÄup vector¡£
-	 * @param vec ĞÂµÄup vectorÖµ
+	 * è®¾ç½®ç›¸æœºçš„up vectorã€‚
+	 * @param vec æ–°çš„up vectorå€¼
 	 */
 	public void setUpVector(Vector3d vec){
 		nativeSetUpVector(vec, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÊÓ¿ÚµÄ¿í¸ß±È
-	 * @param ratio ÊÓ¿Ú¿í¸ß±ÈµÄÖµ
+	 * è®¾ç½®è§†å£çš„å®½é«˜æ¯”
+	 * @param ratio è§†å£å®½é«˜æ¯”çš„å€¼
 	 */
 	public void setAspectRatio(double ratio){
 		nativeSetAspectRatio(ratio, getId());
 	}
 	
 	/**
-	 * ÊÓ¾°ÌåÕÅ½ÇµÄ»¡¶ÈÖµ£¨Ä¬ÈÏÖµ£ºPI/2.5f£©
-	 * @param fovy ÊÓ¾°ÌåÕÅ½ÇµÄ»¡¶ÈÖµ
+	 * è§†æ™¯ä½“å¼ è§’çš„å¼§åº¦å€¼ï¼ˆé»˜è®¤å€¼ï¼šPI/2.5fï¼‰
+	 * @param fovy è§†æ™¯ä½“å¼ è§’çš„å¼§åº¦å€¼
 	 */
 	public void setFovy(double fovy){
 		nativeSetFovy(fovy, getId());
 	}
 	
+	public void setProjectionMatrix(Matrix4 mat){
+		nativeSetProjectionMatrix(mat, getId());
+	}
+	
+	public Matrix4 getProjectionMatrix(){
+		Matrix4 res = new Matrix4();
+		nativeGetProjectionMatrix(res, getId());
+		return res;
+	}
+	
 	/**
-	 * ·µ»ØÏà»úÊÇ·ñ·¢ÉúÎ»ÖÃ±ä»¯¡£
-	 * @return ÈôÏà»ú·¢Éú¹ıÎ»ÖÃ±ä»¯Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+	 * è¿”å›ç›¸æœºæ˜¯å¦å‘ç”Ÿä½ç½®å˜åŒ–ã€‚
+	 * @return è‹¥ç›¸æœºå‘ç”Ÿè¿‡ä½ç½®å˜åŒ–åˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
 	 */
 	public boolean isPositionChanged(){
 		return mIsPosChanged;
 	}
 	
 	/**
-	 * ÖØÖÃÏà»úÎ»ÖÃ×´Ì¬£¬ÉèÖÃÏà»úÎ»ÖÃ±ä»¯×´Ì¬ÖµÎªfalse¡£
+	 * é‡ç½®ç›¸æœºä½ç½®çŠ¶æ€ï¼Œè®¾ç½®ç›¸æœºä½ç½®å˜åŒ–çŠ¶æ€å€¼ä¸ºfalseã€‚
 	 */
 	public void resetPosChangedFlag(){
 		mIsPosChanged = false;
@@ -74,21 +84,8 @@ public class CameraSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * ÔÚJava²ã´æ´¢ºÍ³õÊ¼»¯Ïà»úµÄÎ»ÖÃ¡¢³¯ÏòºÍ¸¸½Úµã²ÎÊı¡£
-	 * @param pos Ïà»úÎ»ÖÃ×ø±êÖµ
-	 * @param lookAt Ïà»ú³¯Ïò×ø±êÖµ
-	 * @param parent Ïà»ú¸¸½Úµã¶ÔÏó
-	 */
-	void javaLoadDataAndInit(Vector3d pos, Vector3d lookAt, SceneNode parent){
-		super.javaLoadDataAndInit(pos, parent);
-		mLookAt = new Vector3d(lookAt);
-		Vector2i size = mScene.getRenderSize();
-		setAspectRatio((float)size.X/size.Y);
-	}
-	
-	/**
-	 * ·µ»ØÏà»ú³¯Ïò×ø±êÖµ
-	 * @return Ïà»ú³¯Ïò×ø±êÖµ
+	 * è¿”å›ç›¸æœºæœå‘åæ ‡å€¼
+	 * @return ç›¸æœºæœå‘åæ ‡å€¼
 	 */
 	public Vector3d getLookAt(){
 		return new Vector3d(mLookAt);
@@ -125,9 +122,10 @@ public class CameraSceneNode extends SceneNode{
 		mIsPosChanged = node.mIsPosChanged;
 	}
 	
-	CameraSceneNode(){
-		super();
+	CameraSceneNode(Vector3d pos, Vector3d lookAt, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_CAMERA;
+		mLookAt = new Vector3d(lookAt);
 	}
 
 	private Vector3d mLookAt;
@@ -138,4 +136,6 @@ public class CameraSceneNode extends SceneNode{
 	private native int nativeSetAspectRatio(double ratio, int id);
 	private native int nativeSetFovy(double fovy, int id);
 	private native int nativeSetUpVector(Vector3d upVec, int id);
+	private native int nativeSetProjectionMatrix(Matrix4 mat, int id);
+	private native int nativeGetProjectionMatrix(Matrix4 mat, int id);
 }

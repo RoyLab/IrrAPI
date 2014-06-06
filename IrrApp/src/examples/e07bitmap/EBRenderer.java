@@ -1,4 +1,4 @@
-package examples.e07bitmap;
+ï»¿package examples.e07bitmap;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,16 +26,17 @@ public class EBRenderer implements Renderer {
 		scene.drawAllNodes();
 		
 		
-		/** ½«Í¼Æ¬»æÖÆµ½³¡¾°ÖĞ*/
+		/** å°†å›¾ç‰‡ç»˜åˆ¶åˆ°åœºæ™¯ä¸­*/
 		scene.drawImage(Engine.BITMAP_MARK + "text",
 				new Rect4i(100, 100, 300, 300), new Rect4d(), true);
 	}
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);	
 		Scene scene = engine.getScene();
 		
-		/** ÏÂÃæÎÒÃÇÏÈ´ÓAssetsÖĞ¶ÁÈ¡Á½ÕÅÍ¼Æ¬£¬·Ö±ğÃüÃûÎªtex1, tex2*/
+		/** ä¸‹é¢æˆ‘ä»¬å…ˆä»Assetsä¸­è¯»å–ä¸¤å¼ å›¾ç‰‡ï¼Œåˆ†åˆ«å‘½åä¸ºtex1, tex2*/
 		InputStream out = null;
 		try {
 			out = engine.getAssets().open("sysmedia/b&w.bmp");
@@ -71,34 +72,34 @@ public class EBRenderer implements Renderer {
 			}
 		}
 		
-		/** ÉÏ´«ÕâĞ©Î»Í¼*/
+		/** ä¸Šä¼ è¿™äº›ä½å›¾*/
 		scene.uploadBitmap(tex1, "tex1");
 		scene.uploadBitmap(tex2, "tex2");
 		
-		/** µ±È»²»ÒªÍü¼ÇÊÍ·ÅÄÚ´æ*/
+		/** å½“ç„¶ä¸è¦å¿˜è®°é‡Šæ”¾å†…å­˜*/
 		tex1.recycle();
 		tex2.recycle();
 		
-		/** ÏÂÃæÎÒÃÇ´´½¨4¸öÁ¢·½Ìå½Úµã*/
+		/** ä¸‹é¢æˆ‘ä»¬åˆ›å»º4ä¸ªç«‹æ–¹ä½“èŠ‚ç‚¹*/
 		cube1 = scene.addCubeSceneNode(new Vector3d(-4, 4, 20), 5, null);
 		cube2 = scene.addCubeSceneNode(new Vector3d(4, 4, 20), 5, null);
 		cube3 = scene.addCubeSceneNode(new Vector3d(4, -4, 20), 5, null);
 		cube4 = scene.addCubeSceneNode(new Vector3d(-4, -4, 20), 5, null);
 		
-		/** ¸øÕâ¼¸¸öÁ¢·½ÌåÌùÍ¼*/
+		/** ç»™è¿™å‡ ä¸ªç«‹æ–¹ä½“è´´å›¾*/
 		cube1.setTexture(Engine.BITMAP_MARK + "tex1");
 		cube2.setTexture(Engine.BITMAP_MARK + "tex2");
 		cube3.setTexture(Engine.BITMAP_MARK + "tex2");
 		
-		/** Èç¹ûĞèÒª£¬Äã¿ÉÒÔ¿¼ÂÇÊ¹ÓÃÍ¸Ã÷ÌùÍ¼²ÄÖÊ*/
+		/** å¦‚æœéœ€è¦ï¼Œä½ å¯ä»¥è€ƒè™‘ä½¿ç”¨é€æ˜è´´å›¾æè´¨*/
 		cube3.setMaterialType(E_MATERIAL_TYPE.EMT_TRANSPARENT_ALPHA_CHANNEL);
 		
-		/** ÄãÒ²¿ÉÒÔ×Ô¼º»æÖÆÒ»¸öÎ»Í¼*/
+		/** ä½ ä¹Ÿå¯ä»¥è‡ªå·±ç»˜åˆ¶ä¸€ä¸ªä½å›¾*/
 		Bitmap bitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		bitmap.eraseColor(0);
 
-		/** »æÖÆÎÄ×Ö*/
+		/** ç»˜åˆ¶æ–‡å­—*/
 		Paint textPaint = new Paint();
 		textPaint.setTextSize(32);
 		textPaint.setAntiAlias(true);

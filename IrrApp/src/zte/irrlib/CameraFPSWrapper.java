@@ -1,4 +1,4 @@
-package zte.irrlib;
+ï»¿package zte.irrlib;
 
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.CameraSceneNode;
@@ -6,21 +6,21 @@ import zte.irrlib.scene.SceneNode;
 
 
 /**
- * <p>½«Ò»¸ö{@link CameraSceneNode}°ü×°ÎªµÚÒ»ÈË³ÆÏà»ú£¬Õâ¸öÏà»úµÄ¶¥Ê¸Á¿(Up Vector)
- * Ê¼ÖÕÖ¸Ïò£¨0,1,0£©¡£ 
- * <p>ÔÚ¸ÃÀà¹¤×÷ÆÚ¼ä£¬ĞèÒªÎ¬»¤Ïà»ú½ÚµãµÄÊÓ½ÇÊı¾İÓë¸Ã°ü×°ÀàÊÓ½ÇÊı¾İµÄÒ»ÖÂĞÔ¡£
- * {@link CameraSceneNode#setPosition(Vector3d, int)}ºÍ
- * {@link CameraSceneNode#setLookAt(Vector3d)}½«»áÆÆ»µÕâÖÖÒ»ÖÂĞÔ¡£
- * Òò´Ë£¬Çë¾¡Á¿±ÜÃâµ÷ÓÃÕâÁ½¸ö·½·¨¡£Èç±ØĞëµ÷ÓÃ£¬ÇëÊ¹ÓÃ{@link #uploadSettings()}»ò
- * {@link #downloadSettings()}À´Î¬»¤Êı¾İµÄÒ»ÖÂĞÔ¡£
- * <p>Çë²»ÒªÊ¹ÓÃ{@link CameraSceneNode#setUpVector(Vector3d)}£¬ÒÔ
- * ±£Ö¤ÔÚ¸ÃÀà¹¤×÷Ê±£¬Ïà»úÊ¼ÖÕ±£³Ö¶¥²¿³¯ÉÏµÄ×´Ì¬¡£
+ * <p>å°†ä¸€ä¸ª{@link CameraSceneNode}åŒ…è£…ä¸ºç¬¬ä¸€äººç§°ç›¸æœºï¼Œè¿™ä¸ªç›¸æœºçš„é¡¶çŸ¢é‡(Up Vector)
+ * å§‹ç»ˆæŒ‡å‘ï¼ˆ0,1,0ï¼‰ã€‚ 
+ * <p>åœ¨è¯¥ç±»å·¥ä½œæœŸé—´ï¼Œéœ€è¦ç»´æŠ¤ç›¸æœºèŠ‚ç‚¹çš„è§†è§’æ•°æ®ä¸è¯¥åŒ…è£…ç±»è§†è§’æ•°æ®çš„ä¸€è‡´æ€§ã€‚
+ * {@link CameraSceneNode#setPosition(Vector3d, int)}å’Œ
+ * {@link CameraSceneNode#setLookAt(Vector3d)}å°†ä¼šç ´åè¿™ç§ä¸€è‡´æ€§ã€‚
+ * å› æ­¤ï¼Œè¯·å°½é‡é¿å…è°ƒç”¨è¿™ä¸¤ä¸ªæ–¹æ³•ã€‚å¦‚å¿…é¡»è°ƒç”¨ï¼Œè¯·ä½¿ç”¨{@link #uploadSettings()}æˆ–
+ * {@link #downloadSettings()}æ¥ç»´æŠ¤æ•°æ®çš„ä¸€è‡´æ€§ã€‚
+ * <p>è¯·ä¸è¦ä½¿ç”¨{@link CameraSceneNode#setUpVector(Vector3d)}ï¼Œä»¥
+ * ä¿è¯åœ¨è¯¥ç±»å·¥ä½œæ—¶ï¼Œç›¸æœºå§‹ç»ˆä¿æŒé¡¶éƒ¨æœä¸Šçš„çŠ¶æ€ã€‚
  */
 public class CameraFPSWrapper {
 	
 	/**
-	 * <p>Î¨Ò»µÄ¹¹Ôìº¯Êı£¬½«{@link CameraSceneNode}°ü×°ÎªµÚÒ»ÈË³ÆÏà»ú¡£
-	 * @param cam ±»°ü×°µÄÏà»ú
+	 * <p>å”¯ä¸€çš„æ„é€ å‡½æ•°ï¼Œå°†{@link CameraSceneNode}åŒ…è£…ä¸ºç¬¬ä¸€äººç§°ç›¸æœºã€‚
+	 * @param cam è¢«åŒ…è£…çš„ç›¸æœº
 	 */
 	public CameraFPSWrapper(CameraSceneNode cam){
 		mCamera = cam;
@@ -31,8 +31,8 @@ public class CameraFPSWrapper {
 	}
 	
 	/**
-	 * ±£³ÖÏà»úµÄ³¯Ïò£¬Ïò×óÒÆ¶¯x¾àÀë¡£
-	 * @param x ÒÆ¶¯µÄ¾àÀë¡£Èçx<0£¬ÔòÏòÓÒÒÆ¶¯
+	 * ä¿æŒç›¸æœºçš„æœå‘ï¼Œå‘å·¦ç§»åŠ¨xè·ç¦»ã€‚
+	 * @param x ç§»åŠ¨çš„è·ç¦»ã€‚å¦‚x<0ï¼Œåˆ™å‘å³ç§»åŠ¨
 	 */
 	public void goLeft(double x){
 		mCamera.mark();
@@ -41,8 +41,8 @@ public class CameraFPSWrapper {
 	}
 	
 	/**
-	 * ±£³ÖÏà»úµÄ³¯Ïò£¬ÏòÇ°ÒÆ¶¯x¾àÀë¡£
-	 * @param x ÒÆ¶¯µÄ¾àÀë£¬Èçx<0£¬ÔòÏòºóÒÆ¶¯
+	 * ä¿æŒç›¸æœºçš„æœå‘ï¼Œå‘å‰ç§»åŠ¨xè·ç¦»ã€‚
+	 * @param x ç§»åŠ¨çš„è·ç¦»ï¼Œå¦‚x<0ï¼Œåˆ™å‘åç§»åŠ¨
 	 */
 	public void goAhead(double x){
 		mCamera.mark();
@@ -51,8 +51,8 @@ public class CameraFPSWrapper {
 	}
 	
 	/**
-	 * ±£³ÖÏà»úµÄÎ»ÖÃ£¬Ïò×ó×ª¶¯x»¡¶È¡£
-	 * @param x ×ª¶¯µÄ½Ç¶È£¨»¡¶ÈÖÆ£©£¬Èçx<0£¬ÔòÏòÓÒ×ª¶¯
+	 * ä¿æŒç›¸æœºçš„ä½ç½®ï¼Œå‘å·¦è½¬åŠ¨xå¼§åº¦ã€‚
+	 * @param x è½¬åŠ¨çš„è§’åº¦ï¼ˆå¼§åº¦åˆ¶ï¼‰ï¼Œå¦‚x<0ï¼Œåˆ™å‘å³è½¬åŠ¨
 	 */
 	public void turnLeft(double x){
 		mXita -= x;
@@ -61,8 +61,8 @@ public class CameraFPSWrapper {
 	}
 	
 	/**
-	 * ±£³ÖÏà»úµÄÎ»ÖÃ£¬ÏòÏÂ×ª¶¯x»¡¶È¡£
-	 * @param x ×ª¶¯µÄ½Ç¶È£¨»¡¶ÈÖÆ£©£¬Èçx<0£¬ÔòÏòÉÏ×ª¶¯
+	 * ä¿æŒç›¸æœºçš„ä½ç½®ï¼Œå‘ä¸‹è½¬åŠ¨xå¼§åº¦ã€‚
+	 * @param x è½¬åŠ¨çš„è§’åº¦ï¼ˆå¼§åº¦åˆ¶ï¼‰ï¼Œå¦‚x<0ï¼Œåˆ™å‘ä¸Šè½¬åŠ¨
 	 */
 	public void turnUp(double x){
 		mFai -= x;
@@ -71,10 +71,10 @@ public class CameraFPSWrapper {
 	}
 	
 	/**
-	 * ÓÃÓÚÍ¬²½wrapperÓëÏà»ú½ÚµãµÄÊı¾İ£¬´ÓÏà»ú½ÚµãÏÂÔØÊÓ½ÇÊı¾İµ½wrapper¡£
-	 * ÈÎºÎ²»Í¨¹ıwrapper¶ø¸Ä±äÏà»úÎ»ÖÃºÍ³¯ÏòµÄ²Ù×÷¶¼Òªµ÷ÓÃ´Ë·½·¨½«±ä»»ĞÅÏ¢
-	 * Í¬²½µ½wrapperÖĞ£¬±ÈÈç{@link SceneNode#setPosition(Vector3d, int)}
-	 * ºÍ½Úµã¶¯»­µÈ¡£
+	 * ç”¨äºåŒæ­¥wrapperä¸ç›¸æœºèŠ‚ç‚¹çš„æ•°æ®ï¼Œä»ç›¸æœºèŠ‚ç‚¹ä¸‹è½½è§†è§’æ•°æ®åˆ°wrapperã€‚
+	 * ä»»ä½•ä¸é€šè¿‡wrapperè€Œæ”¹å˜ç›¸æœºä½ç½®å’Œæœå‘çš„æ“ä½œéƒ½è¦è°ƒç”¨æ­¤æ–¹æ³•å°†å˜æ¢ä¿¡æ¯
+	 * åŒæ­¥åˆ°wrapperä¸­ï¼Œæ¯”å¦‚{@link SceneNode#setPosition(Vector3d, int)}
+	 * å’ŒèŠ‚ç‚¹åŠ¨ç”»ç­‰ã€‚
 	 */
 	public void syncSettings(){
 		Vector3d d = mCamera.getLookAt().minus(mCamera.getPosition());

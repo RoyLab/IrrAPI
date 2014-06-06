@@ -1,22 +1,23 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
 
 import zte.irrlib.Engine;
 import zte.irrlib.core.BoundingBox;
 import zte.irrlib.core.Color4i;
+import zte.irrlib.core.Vector3d;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
- * ¶à±ßĞÎ½ÚµãÀà
+ * å¤šè¾¹å½¢èŠ‚ç‚¹ç±»
  * @author Fxx
  *
  */
 public class MeshSceneNode extends SceneNode{
 	
 	/**
-	 * ÒÔÏÂ³£Á¿ÓÃÓÚ{@link #setMaterialFlag(int, boolean)}µÄÉè¶¨¡£
-	 * ÕâĞ©³£Á¿ÓÃÓÚ¿ØÖÆ½ÚµãµÄäÖÈ¾·½Ê½£¬°üÀ¨ÊÇ·ñ»æÖÆÏß¿ò£¬Òş²ØÃæÏû³ı£¬
-	 * ²ÄÖÊÂË²¨·½Ê½µÈ£¬ÏêÏ¸Çë²Î¼û¹í»ğÒıÇæËµÃ÷
+	 * ä»¥ä¸‹å¸¸é‡ç”¨äº{@link #setMaterialFlag(int, boolean)}çš„è®¾å®šã€‚
+	 * è¿™äº›å¸¸é‡ç”¨äºæ§åˆ¶èŠ‚ç‚¹çš„æ¸²æŸ“æ–¹å¼ï¼ŒåŒ…æ‹¬æ˜¯å¦ç»˜åˆ¶çº¿æ¡†ï¼Œéšè—é¢æ¶ˆé™¤ï¼Œ
+	 * æè´¨æ»¤æ³¢æ–¹å¼ç­‰ï¼Œè¯¦ç»†è¯·å‚è§é¬¼ç«å¼•æ“è¯´æ˜
 	 */
 	//! Draw as wireframe or filled triangles? Default: false
 	public static final int EMF_WIREFRAME = 0x1;
@@ -85,91 +86,91 @@ public class MeshSceneNode extends SceneNode{
 	public static final String TAG = "MeshSceneNode";
 	
 	/**
-	 * ÉèÖÃÄ£ĞÍ½ÚµãÊÇ·ñÏìÓ¦¹âÕÕ¡£
-	 * @param flag ÖµÎªtrueÊ±ÏìÓ¦¹âÕÕ£¬·ñÔòÎŞÊÓ¹âÔ´
+	 * è®¾ç½®æ¨¡å‹èŠ‚ç‚¹æ˜¯å¦å“åº”å…‰ç…§ã€‚
+	 * @param flag å€¼ä¸ºtrueæ—¶å“åº”å…‰ç…§ï¼Œå¦åˆ™æ— è§†å…‰æº
 	 */
 	public void enableLighting(boolean flag){
 		nativeEnableLighting(flag, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÄ£ĞÍ½ÚµãÊÇ·ñÏìÓ¦µãÑ¡Åö×²¼ì²â¡£
-	 * @param flag ÖµÎªtrueÊ±ÔòÏìÓ¦µãÑ¡Åö×²¼ì²â£¬·ñÔò²»ÏìÓ¦
+	 * è®¾ç½®æ¨¡å‹èŠ‚ç‚¹æ˜¯å¦å“åº”ç‚¹é€‰ç¢°æ’æ£€æµ‹ã€‚
+	 * @param flag å€¼ä¸ºtrueæ—¶åˆ™å“åº”ç‚¹é€‰ç¢°æ’æ£€æµ‹ï¼Œå¦åˆ™ä¸å“åº”
 	 */
 	public void setTouchable(boolean flag){
 		nativeSetTouchable(flag, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊÊÇ·ñÊ¹ÓÃÊ¹ÓÃÆ½»¬×ÅÉ«£¨¸ßÊÏ×ÅÉ«£ºGouraud Shading£©¡£
-	 * @param flag ÖµÎªtrueÊ±ÆôÓÃGouraud Shading£¬·ñÔò²»ÆôÓÃ¡£
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨æ˜¯å¦ä½¿ç”¨ä½¿ç”¨å¹³æ»‘ç€è‰²ï¼ˆé«˜æ°ç€è‰²ï¼šGouraud Shadingï¼‰ã€‚
+	 * @param flag å€¼ä¸ºtrueæ—¶å¯ç”¨Gouraud Shadingï¼Œå¦åˆ™ä¸å¯ç”¨ã€‚
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setSmoothShade(boolean flag, int materialId){
 		nativeSetSmoothShade(flag, materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊ¶Ô»·¾³¹âµÄÑÕÉ«ÏìÓ¦¡£
-	 * @param color ²ÄÖÊ¶Ô»·¾³¹âµÄÑÕÉ«ÏìÓ¦²ÎÊı
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨å¯¹ç¯å¢ƒå…‰çš„é¢œè‰²å“åº”ã€‚
+	 * @param color æè´¨å¯¹ç¯å¢ƒå…‰çš„é¢œè‰²å“åº”å‚æ•°
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setAmbientColor(Color4i color, int materialId) {
 		nativeSetAmbientColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊ¶ÔÂş·´Éä¹âµÄÑÕÉ«ÏìÓ¦¡£
-	 * @param color ²ÄÖÊ¶ÔÂş·´Éä¹âµÄÏìÓ¦²ÎÊı£¬Ä¬ÈÏÖµÎªÈ«°×£¨255£¬255£¬255£¬ 255£©
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨å¯¹æ¼«åå°„å…‰çš„é¢œè‰²å“åº”ã€‚
+	 * @param color æè´¨å¯¹æ¼«åå°„å…‰çš„å“åº”å‚æ•°ï¼Œé»˜è®¤å€¼ä¸ºå…¨ç™½ï¼ˆ255ï¼Œ255ï¼Œ255ï¼Œ 255ï¼‰
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setDiffuseColor(Color4i color, int materialId) {
 		nativeSetDiffuseColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊµÄ·¢Éä¹âÑÕÉ«¡£Ä¬ÈÏ²»·¢¹â¡£
-	 * @param color ²ÄÖÊµÄ·¢ÉäÉä¹â²ÎÊı
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨çš„å‘å°„å…‰é¢œè‰²ã€‚é»˜è®¤ä¸å‘å…‰ã€‚
+	 * @param color æè´¨çš„å‘å°„å°„å…‰å‚æ•°
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setEmissiveColor(Color4i color, int materialId) {
 		nativeSetEmissiveColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊµÄ¶Ô¸ß¹âµÄÑÕÉ«ÏìÓ¦¡£
-	 * @param color ²ÄÖÊµÄ¸ß¹âÏìÓ¦²ÎÊı¡£Ä¬ÈÏÖµÎªÈ«°×£¨255£¬255£¬255£©
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨çš„å¯¹é«˜å…‰çš„é¢œè‰²å“åº”ã€‚
+	 * @param color æè´¨çš„é«˜å…‰å“åº”å‚æ•°ã€‚é»˜è®¤å€¼ä¸ºå…¨ç™½ï¼ˆ255ï¼Œ255ï¼Œ255ï¼‰
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setSpecularColor(Color4i color, int materialId) {
 		nativeSetSpecularColor(color.r(), color.g(), color.b(), color.a(), materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊ¹âÇ¿²ÎÊı£¬½«Ó°Ïì²ÄÖÊµÄ¸ß¹â¡£
-	 * Í¨ÓÃÖµÎª20¡£ÖÃ0Ê±ÔòÎŞ¸ß¹â¡£Õı³£È¡Öµ·¶Î§Îª[0.5,128]¡£
-	 * @param para ²ÄÖÊ¹âÇ¿²ÎÊıÖµ
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨å…‰å¼ºå‚æ•°ï¼Œå°†å½±å“æè´¨çš„é«˜å…‰ã€‚
+	 * é€šç”¨å€¼ä¸º20ã€‚ç½®0æ—¶åˆ™æ— é«˜å…‰ã€‚æ­£å¸¸å–å€¼èŒƒå›´ä¸º[0.5,128]ã€‚
+	 * @param para æè´¨å…‰å¼ºå‚æ•°å€¼
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setShininess(double para, int materialId) {
 		nativeSetShininess(para, materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊµÄÌùÍ¼¡£
-	 * @param path ÌùÍ¼µÄÂ·¾¶
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨çš„è´´å›¾ã€‚
+	 * @param path è´´å›¾çš„è·¯å¾„
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setTexture(String path, int materialId) {
 		nativeSetTexture(mScene.getFullPath(path), materialId, getId());
 	}
 	
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊµÄÌùÍ¼ÎªÎ»Í¼£¨¸Ã·½·¨ÈİÒ×±»ÎóÓÃ£¬ÇëÊ¹ÓÃ{@link Scene#uploadBitmap(Bitmap, String)}
-	 * È»ºóÊ¹ÓÃ{@link #setTexture(String, int)}£©
-	 * @param bitmap ËùÊ¹ÓÃµÄÎ»Í¼¶ÔÏó
-	 * @param bitmapName ¸ÃÎ»Í¼µÄÃüÃû£¬±ØĞëÎ¨Ò»£¡
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨çš„è´´å›¾ä¸ºä½å›¾ï¼ˆè¯¥æ–¹æ³•å®¹æ˜“è¢«è¯¯ç”¨ï¼Œè¯·ä½¿ç”¨{@link Scene#uploadBitmap(Bitmap, String)}
+	 * ç„¶åä½¿ç”¨{@link #setTexture(String, int)}ï¼‰
+	 * @param bitmap æ‰€ä½¿ç”¨çš„ä½å›¾å¯¹è±¡
+	 * @param bitmapName è¯¥ä½å›¾çš„å‘½åï¼Œå¿…é¡»å”¯ä¸€ï¼
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	@Deprecated public void setTexture(Bitmap bitmap, String bitmapName, int materialId){
 		nativeSetBitmapTexture(bitmapName, bitmap, materialId, getId());
@@ -177,36 +178,36 @@ public class MeshSceneNode extends SceneNode{
 	
 	@Deprecated
 	/**
-	 * ÉèÖÃÖ¸¶¨²ÄÖÊÌùÍ¼ÎªÊÓÆµÍ¼Ïñ
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
+	 * è®¾ç½®æŒ‡å®šæè´¨è´´å›¾ä¸ºè§†é¢‘å›¾åƒ
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
 	 */
 	public void setMediaTexture(int materialId){
 		nativeSetMediaTexture(materialId, getId());
 	}
 	
 	/**
-	 * ÎªÄ£ĞÍ½ÚµãËùÓĞ²ÄÖÊÖ¸¶¨Í³Ò»ÌùÍ¼
-	 * @param path ÌùÍ¼µÄÂ·¾¶
+	 * ä¸ºæ¨¡å‹èŠ‚ç‚¹æ‰€æœ‰æè´¨æŒ‡å®šç»Ÿä¸€è´´å›¾
+	 * @param path è´´å›¾çš„è·¯å¾„
 	 */
 	public void setTexture(String path) {
 		nativeAllSetTexture(mScene.getFullPath(path), getId());
 	}
 	
 	/**
-	 * ÎªÄ£ĞÍËùÓĞ½ÚµãÖ¸¶¨Í³Ò»Î»Í¼ÌùÍ¼£¨¸Ã·½·¨ÈİÒ×±»ÎóÓÃ£¬ÇëÊ¹ÓÃ{@link Scene#uploadBitmap(Bitmap, String)}
-	 * È»ºóÊ¹ÓÃ{@link #setTexture(String)}£©
-	 * @param bitmap ËùÊ¹ÓÃµÄÎ»Í¼¶ÔÏó
-	 * @param bitmapName ÌùÍ¼µÄÃû³Æ£¨±ØĞëÎ¨Ò»£©£¬ÇÒ²»¿ÉÓëÆäËûÍ¼Æ¬µÄÂ·¾¶ÖØÃû
+	 * ä¸ºæ¨¡å‹æ‰€æœ‰èŠ‚ç‚¹æŒ‡å®šç»Ÿä¸€ä½å›¾è´´å›¾ï¼ˆè¯¥æ–¹æ³•å®¹æ˜“è¢«è¯¯ç”¨ï¼Œè¯·ä½¿ç”¨{@link Scene#uploadBitmap(Bitmap, String)}
+	 * ç„¶åä½¿ç”¨{@link #setTexture(String)}ï¼‰
+	 * @param bitmap æ‰€ä½¿ç”¨çš„ä½å›¾å¯¹è±¡
+	 * @param bitmapName è´´å›¾çš„åç§°ï¼ˆå¿…é¡»å”¯ä¸€ï¼‰ï¼Œä¸”ä¸å¯ä¸å…¶ä»–å›¾ç‰‡çš„è·¯å¾„é‡å
 	 */
 	@Deprecated public void setTexture(Bitmap bitmap, String bitmapName){
 		nativeAllSetBitmapTexture(bitmapName, bitmap, getId());
 	}
 	
 	/**
-	 * ÎªÄ£ĞÍÉè¶¨Íâ²¿ÌùÍ¼
-	 * @param name ¸ÃÌùÍ¼µÄÎ¨Ò»Ãû×Ö£¬×¢Òâ²»ÒªÊ¹ÓÃÍâ²¿Ç°×º
-	 * @param materialId Ö¸¶¨²ÄÖÊµÄIDÖµ
-	 * @return ÎªÕæÔòÉè¶¨³É¹¦
+	 * ä¸ºæ¨¡å‹è®¾å®šå¤–éƒ¨è´´å›¾
+	 * @param name è¯¥è´´å›¾çš„å”¯ä¸€åå­—ï¼Œæ³¨æ„ä¸è¦ä½¿ç”¨å¤–éƒ¨å‰ç¼€
+	 * @param materialId æŒ‡å®šæè´¨çš„IDå€¼
+	 * @return ä¸ºçœŸåˆ™è®¾å®šæˆåŠŸ
 	 */
 	@Deprecated
 	public boolean setExternalTexture(String name, int materialId){
@@ -220,8 +221,8 @@ public class MeshSceneNode extends SceneNode{
 	
 	@Deprecated
 	/**
-	 * ÎªÄ£ĞÍËùÓĞ½ÚµãÖ¸¶¨Í³Ò»ÊÓÆµÌùÍ¼
-	 * @param bitmap ËùÊ¹ÓÃµÄÊÓÆµÌùÍ¼¶ÔÏó
+	 * ä¸ºæ¨¡å‹æ‰€æœ‰èŠ‚ç‚¹æŒ‡å®šç»Ÿä¸€è§†é¢‘è´´å›¾
+	 * @param bitmap æ‰€ä½¿ç”¨çš„è§†é¢‘è´´å›¾å¯¹è±¡
 	 */
 	public void setMediaTexture(){
 		if (Engine.getInstance().getRenderType() != 1){
@@ -232,47 +233,49 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * ÎªÄ£ĞÍ²ÄÖÊÉè¶¨¶¯»­ÌùÍ¼<br>
-	 * ×¢Òâ£¬µ±ÄãÌí¼Ó£¨Í¨³£Çé¿öÏÂÇë²»ÒªÕâÃ´×ö£©¶à¸öAnimatorÊ±£¬Çë½÷É÷Î¬»¤
-	 * AnimatorµÄÌí¼ÓË³Ğò£¬Ë³Ğò»áÏÔÖøµÄÓ°ÏìÃ¿Ò»Ö¡µÄ¸üĞÂĞ§¹û£¨±ÈÈç£¬ÏÈ×öÅö×²¼ì²â
-	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}ÔÙÌí¼ÓÖ±Ïß
-	 * ·ÉĞĞ¶¯»­{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
-	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}£¬ÄÇÃ´Åö×²¼ì²âµÄĞ§¹û
-	 * »á±»ºóĞøÖ´ĞĞµÄÖ±Ïß·ÉĞĞ¶¯»­Ëù¸²¸Ç£¬Èç¹ûµ÷»»Ë³Ğò£¬ÔòÅö×²¼ì²âµÄÎ»ÖÃ½«ÊÇÖ´ĞĞ¹ı·ÉĞĞ¶¯»­ºóµÄ
-	 * Î»ÖÃ£©¡£Èç¹ûÄú²»ĞèÒªÊ¹ÓÃ¶à¸ö¶¯»­£¬ÇëÈ·±£½ÚµãÃ»ÓĞ±»Ìí¼Ó¹ı¶¯»­»òÊ¹ÓÃ{@link SceneNode#removeAllAnimators()}
-	 * Çå³ıËùÓĞ¶¯»­£¬¶¯»­Ò»µ©±»Ìí¼Ó£¬Ëü»áÒ»Ö±´æÔÚÓÚ½ÚµãÉÏÖ±µ½{@link SceneNode#removeAllAnimators()}±»µ÷ÓÃ¡£
-	 * @param path ËùÓÃÌùÍ¼×éµÄÂ·¾¶
-	 * @param timePerFrame ÌùÍ¼¶¯»­²¥·ÅËÙÂÊ£¬µ¥Î»frame/second
-	 * @param loop ÖµÎªtrueÊ±Ñ­»·²¥·ÅÌùÍ¼¶¯»­£¬·ñÔòµ¥´Î²¥·Å
+	 * ä¸ºæ¨¡å‹æè´¨è®¾å®šåŠ¨ç”»è´´å›¾<br>
+	 * æ³¨æ„ï¼Œå½“ä½ æ·»åŠ ï¼ˆé€šå¸¸æƒ…å†µä¸‹è¯·ä¸è¦è¿™ä¹ˆåšï¼‰å¤šä¸ªAnimatoræ—¶ï¼Œè¯·è°¨æ…ç»´æŠ¤
+	 * Animatorçš„æ·»åŠ é¡ºåºï¼Œé¡ºåºä¼šæ˜¾è‘—çš„å½±å“æ¯ä¸€å¸§çš„æ›´æ–°æ•ˆæœï¼ˆæ¯”å¦‚ï¼Œå…ˆåšç¢°æ’æ£€æµ‹
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}å†æ·»åŠ ç›´çº¿
+	 * é£è¡ŒåŠ¨ç”»{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}ï¼Œé‚£ä¹ˆç¢°æ’æ£€æµ‹çš„æ•ˆæœ
+	 * ä¼šè¢«åç»­æ‰§è¡Œçš„ç›´çº¿é£è¡ŒåŠ¨ç”»æ‰€è¦†ç›–ï¼Œå¦‚æœè°ƒæ¢é¡ºåºï¼Œåˆ™ç¢°æ’æ£€æµ‹çš„ä½ç½®å°†æ˜¯æ‰§è¡Œè¿‡é£è¡ŒåŠ¨ç”»åçš„
+	 * ä½ç½®ï¼‰ã€‚å¦‚æœæ‚¨ä¸éœ€è¦ä½¿ç”¨å¤šä¸ªåŠ¨ç”»ï¼Œè¯·ç¡®ä¿èŠ‚ç‚¹æ²¡æœ‰è¢«æ·»åŠ è¿‡åŠ¨ç”»æˆ–ä½¿ç”¨{@link SceneNode#removeAllAnimators()}
+	 * æ¸…é™¤æ‰€æœ‰åŠ¨ç”»ï¼ŒåŠ¨ç”»ä¸€æ—¦è¢«æ·»åŠ ï¼Œå®ƒä¼šä¸€ç›´å­˜åœ¨äºèŠ‚ç‚¹ä¸Šç›´åˆ°{@link SceneNode#removeAllAnimators()}è¢«è°ƒç”¨ã€‚
+	 * @param path æ‰€ç”¨è´´å›¾ç»„çš„è·¯å¾„
+	 * @param timePerFrame è´´å›¾åŠ¨ç”»æ’­æ”¾é€Ÿç‡ï¼Œå•ä½frame/second
+	 * @param loop å€¼ä¸ºtrueæ—¶å¾ªç¯æ’­æ”¾è´´å›¾åŠ¨ç”»ï¼Œå¦åˆ™å•æ¬¡æ’­æ”¾
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„Id 
 	 */
-	public void addTextureAnimator(String[] path, int timePerFrame, boolean loop) {
+	public int addTextureAnimator(String[] path, int timePerFrame, boolean loop) {
 		String text[] = path.clone();
 		for (int i = 0; i < text.length; i++){
 			text[i] = mScene.getFullPath(text[i]);
 		}
 		if (nativeAddTextureAnimator(text, timePerFrame, loop, getId()) == 0)
-			addAnimator();
+			return addAnimator();
+		return -1;
 	}
 	
 	/**
-	 * ÉèÖÃÄ£ĞÍ½ÚµãµÄ°üÎ§ºĞÊÇ·ñ¿ÉÊÓ
-	 * @param flag ÖµÎªtrueÊ±°üÎ§ºĞ¿ÉÊÓ£¬·ñÔò²»¿É¼û
+	 * è®¾ç½®æ¨¡å‹èŠ‚ç‚¹çš„åŒ…å›´ç›’æ˜¯å¦å¯è§†
+	 * @param flag å€¼ä¸ºtrueæ—¶åŒ…å›´ç›’å¯è§†ï¼Œå¦åˆ™ä¸å¯è§
 	 */
 	public void setBBoxVisibility(boolean flag){
 		nativeSetBBoxVisibility(flag, getId());
 	}
 	
 	/**
-	 * ·µ»ØÄ£ĞÍ½ÚµãµÄ²ÄÖÊÊıÄ¿
-	 * @return Ä£ĞÍ½ÚµãµÄ²ÄÖÊÊıÄ¿
+	 * è¿”å›æ¨¡å‹èŠ‚ç‚¹çš„æè´¨æ•°ç›®
+	 * @return æ¨¡å‹èŠ‚ç‚¹çš„æè´¨æ•°ç›®
 	 */
 	public int getMaterialCount(){
 		return nativeGetMaterialCount(getId());
 	}
 	
 	/**
-	 * ·µ»ØÎ´±ä»»µÄ°üÎ§ºĞ£¬¾ÍÊÇËµ£¬¼´Ê¹½ÚµãÊÇÔË¶¯µÄ£¬¾­¹ı±ä»»µÄ£¬·µ»ØµÄ°üÎ§ºĞÒÀÈ»ÊÇ×î³õµÄÄÇ¸ö¡£
-	 * @return °üÎ§ºĞµÄÊµÀı
+	 * è¿”å›æœªå˜æ¢çš„åŒ…å›´ç›’ï¼Œå°±æ˜¯è¯´ï¼Œå³ä½¿èŠ‚ç‚¹æ˜¯è¿åŠ¨çš„ï¼Œç»è¿‡å˜æ¢çš„ï¼Œè¿”å›çš„åŒ…å›´ç›’ä¾ç„¶æ˜¯æœ€åˆçš„é‚£ä¸ªã€‚
+	 * @return åŒ…å›´ç›’çš„å®ä¾‹
 	 */
 	public BoundingBox getBoundingBox(){
 		BoundingBox bbox = new BoundingBox();
@@ -281,8 +284,8 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * ·µ»Ø¾ø¶ÔµÄ°üÎ§ºĞ£¬¾ÍÊÇËµ£¬Èç¹û½ÚµãÊÇÔË¶¯µÄ£¬¾­¹ı±ä»»µÄ£¬·µ»ØµÄ°üÎ§ºĞÒ²»áÊÇ¾­¹ı±ä»»µÄ¡£
-	 * @return °üÎ§ºĞµÄÊµÀı
+	 * è¿”å›ç»å¯¹çš„åŒ…å›´ç›’ï¼Œå°±æ˜¯è¯´ï¼Œå¦‚æœèŠ‚ç‚¹æ˜¯è¿åŠ¨çš„ï¼Œç»è¿‡å˜æ¢çš„ï¼Œè¿”å›çš„åŒ…å›´ç›’ä¹Ÿä¼šæ˜¯ç»è¿‡å˜æ¢çš„ã€‚
+	 * @return åŒ…å›´ç›’çš„å®ä¾‹
 	 */
 	public BoundingBox getAbsoluteBoundingBox(){
 		BoundingBox bbox = new BoundingBox();
@@ -291,17 +294,17 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * ÉèÖÃÌùÍ¼äÖÈ¾·½·¨£¬¿ÉÓÃÓÚÉè¶¨Í¸Ã÷ÌùÍ¼
-	 * @param type äÖÈ¾·½·¨
+	 * è®¾ç½®è´´å›¾æ¸²æŸ“æ–¹æ³•ï¼Œå¯ç”¨äºè®¾å®šé€æ˜è´´å›¾
+	 * @param type æ¸²æŸ“æ–¹æ³•
 	 */
 	public void setMaterialType(E_MATERIAL_TYPE type){
 		nativeSetMaterialType(type.ordinal(), getId());
 	}
 	
 	/**
-	 * ÉèÖÃäÖÈ¾Æ÷²ÎÊı¿ª¹Ø
-	 * @param EMF äÖÈ¾Æ÷²ÎÊı£¬ÊÇÒÔEMFÎª¿ªÍ·µÄ³£Á¿
-	 * @param flag ÈçÎªtrue£¬Ôò´ò¿ª¿ª¹Ø
+	 * è®¾ç½®æ¸²æŸ“å™¨å‚æ•°å¼€å…³
+	 * @param EMF æ¸²æŸ“å™¨å‚æ•°ï¼Œæ˜¯ä»¥EMFä¸ºå¼€å¤´çš„å¸¸é‡
+	 * @param flag å¦‚ä¸ºtrueï¼Œåˆ™æ‰“å¼€å¼€å…³
 	 */
 	public void setMaterialFlag(int EMF, boolean flag){
 		nativeSetMaterialFlag(EMF, flag, getId());
@@ -327,10 +330,10 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * ²ÄÖÊÄ£Ê½µÄÃ¶¾ÙÀà£¬¿ÉÒÔÓÃÓÚÉèÖÃÌùÍ¼µÄäÖÈ¾·½Ê½¡£»ù±¾ÊÇ´Ónative²ã°áÉÏÀ´µÄ£¬ÆäÖĞ±È½Ï³£ÓÃµÄÓĞEMT_SOLID£¬
-	 * EMT_TRANSPARENT_ALPHA_CHANNEL£¬EMT_TRANSPARENT_ADD_COLOR£¬
-	 * EMT_TRANSPARENT_ALPHA_CHANNEL_REF£¬Ê¹ÓÃ{@link MeshSceneNode#setMaterialType(E_MATERIAL_TYPE)}
-	 * Éè¶¨²ÄÖÊÄ£Ê½
+	 * æè´¨æ¨¡å¼çš„æšä¸¾ç±»ï¼Œå¯ä»¥ç”¨äºè®¾ç½®è´´å›¾çš„æ¸²æŸ“æ–¹å¼ã€‚åŸºæœ¬æ˜¯ä»nativeå±‚æ¬ä¸Šæ¥çš„ï¼Œå…¶ä¸­æ¯”è¾ƒå¸¸ç”¨çš„æœ‰EMT_SOLIDï¼Œ
+	 * EMT_TRANSPARENT_ALPHA_CHANNELï¼ŒEMT_TRANSPARENT_ADD_COLORï¼Œ
+	 * EMT_TRANSPARENT_ALPHA_CHANNEL_REFï¼Œä½¿ç”¨{@link MeshSceneNode#setMaterialType(E_MATERIAL_TYPE)}
+	 * è®¾å®šæè´¨æ¨¡å¼
 	 * @author Fxx
 	 *
 	 */
@@ -520,10 +523,10 @@ public class MeshSceneNode extends SceneNode{
 	}
 	
 	/**
-	 * Î¨Ò»¹¹Ôìº¯Êı
+	 * å”¯ä¸€æ„é€ å‡½æ•°
 	 */
-	MeshSceneNode(){
-		super();
+	MeshSceneNode(Vector3d pos, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_MESH;
 	}
 

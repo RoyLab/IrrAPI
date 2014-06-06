@@ -1,51 +1,59 @@
-package zte.irrlib.scene;
+ï»¿package zte.irrlib.scene;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
+import zte.irrlib.core.Matrix4;
 import zte.irrlib.core.Vector3d;
 
 /**
- * ³¡¾°½ÚµãµÄ»ù±¾Àà¡£
+ * åœºæ™¯èŠ‚ç‚¹çš„åŸºæœ¬ç±»ã€‚
  * @author Fxx
  *
  */
 public class SceneNode {
 	
-	//½ÚµãÀàĞÍ
-	public static final int TYPE_NULL = 0x00000000;
-	public static final int TYPE_COMMON = 0x00000001;
-	public static final int TYPE_MESH = 0x00000102;
-	public static final int TYPE_ANIMATE_MESH = 0x00000103;
-	public static final int TYPE_LIGHT = 0x00000004;
-	public static final int TYPE_BILLBOARD = 0x00001005;
-	public static final int TYPE_BILLBOARD_GROUP = 0x00000006;
-	public static final int TYPE_CAMERA = 0x00000007;
-	public static final int TYPE_PARTICLE_SYSTEM = 0x00000008;
+	//èŠ‚ç‚¹ç±»å‹
+	public static final int TYPE_NULL				= 0x0000;
+	public static final int TYPE_COMMON				= 0x0100;
+	public static final int TYPE_MESH				= 0x0200;
+	public static final int TYPE_LIGHT 				= 0x0300;
+	public static final int TYPE_CAMERA 			= 0x0400;
 	
-	//±ä»»·½Ê½
+	public static final int TYPE_ANIMATE_MESH 		= 0x0201;
+	public static final int TYPE_BILLBOARD 			= 0x0202;
+	public static final int TYPE_PARTICLE_SYSTEM	= 0x0203;
+	public static final int TYPE_SKY_BOX 			= 0x0204;
+	public static final int TYPE_SKY_DOME 			= 0x0205;
+	
+	public static final int TYPE_BILLBOARD_GROUP	= 0x0101;
+
+	
+	//å˜æ¢æ–¹å¼
 	public static final int TRANS_ABSOLUTE = 0;
 	public static final int TRANS_RELATIVE = 1;
 	
-	public static final int FLAG_MATERIAL_OWNER = 0x00001000;
+	public static final String TAG = "SceneNode";
 	
 	/**
-	 * ÉèÖÃ³¡¾°¶ÔÏó¡£
-	 * @param scene ËùÊ¹ÓÃµÄ³¡¾°¶ÔÏó
+	 * è®¾ç½®åœºæ™¯å¯¹è±¡ã€‚
+	 * @param scene æ‰€ä½¿ç”¨çš„åœºæ™¯å¯¹è±¡
 	 */
 	public static final void setScene(Scene scene){
 		mScene = scene;
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãÀàĞÍ¡£
-	 * @return ½ÚµãÀàĞÍ
+	 * è¿”å›èŠ‚ç‚¹ç±»å‹ã€‚
+	 * @return èŠ‚ç‚¹ç±»å‹
 	 */
 	public final int getNodeType(){
 		return mNodeType;
 	}
 	
 	/**
-	 * ¶Ô³õÊ¼Î»ÖÃ¡¢Ğı×ª¼°´óĞ¡ĞÅÏ¢½øĞĞ±¸·İ¡£
+	 * å¯¹åˆå§‹ä½ç½®ã€æ—‹è½¬åŠå¤§å°ä¿¡æ¯è¿›è¡Œå¤‡ä»½ã€‚
 	 */
 	public void mark(){
 		mPosition[1].copy(mPosition[0]);
@@ -54,8 +62,8 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ÉèÖÃ½ÚµãµÄ¸¸½Úµã¡£
-	 * @param node ¸¸½Úµã¶ÔÏó
+	 * è®¾ç½®èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹ã€‚
+	 * @param node çˆ¶èŠ‚ç‚¹å¯¹è±¡
 	 */
 	public void setParent(SceneNode node){
 		if (mParent != null) mParent.removeChild2(this);
@@ -65,8 +73,8 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ÉèÖÃ½ÚµãÊÇ·ñ¿É¼û¡£
-	 * @param isVisible ÖµÎªtrueÊ±½Úµã¿É¼û£¬·ñÔò²»¿É¼û
+	 * è®¾ç½®èŠ‚ç‚¹æ˜¯å¦å¯è§ã€‚
+	 * @param isVisible å€¼ä¸ºtrueæ—¶èŠ‚ç‚¹å¯è§ï¼Œå¦åˆ™ä¸å¯è§
 	 */
 	public void setVisible(boolean isVisible){
 		mIsVisible = isVisible;
@@ -74,11 +82,11 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ÉèÖÃ½ÚµãÎ»ÖÃ×ø±ê¡£
-	 * @param para	½ÚµãÎ»ÖÃ×ø±ê
-	 * @param mode ×ø±ê±ä»»Ä£Ê½
-	 * 		TRANS_ABSOLUTE£º	ÒÀ¾İ¸¸½Úµã½øĞĞÎ»ÖÃ±ä»»
-	 * 		TRANS_RELATIVE£º		ÒÀ¾İÄ£ĞÍ½Úµã×ÔÉí³õÊ¼Î»ÖÃ½øĞĞ±ä»»
+	 * è®¾ç½®èŠ‚ç‚¹ä½ç½®åæ ‡ã€‚
+	 * @param para	èŠ‚ç‚¹ä½ç½®åæ ‡
+	 * @param mode å˜æ¢æ¨¡å¼
+	 * 		TRANS_ABSOLUTEï¼š	ä¾æ®çˆ¶èŠ‚ç‚¹è¿›è¡Œä½ç½®å˜æ¢
+	 * 		TRANS_RELATIVEï¼š		ä¾æ®æ¨¡å‹èŠ‚ç‚¹é€šè¿‡{@link #mark()}å‚¨å­˜çš„ä½ç½®è¿›è¡Œå˜æ¢
 	 */
 	public void setPosition(Vector3d para, int mode){
 		if (mode == TRANS_ABSOLUTE){
@@ -93,11 +101,11 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ÉèÖÃ½ÚµãĞı×ª½Ç¶È¡£
-	 * @param para	ÑØÈı¸öÖáÏòµÄĞı×ª½Ç¶ÈÖµ
-	 * @param mode Ğı×ªÄ£Ê½
-	 * 		TRANS_ABSOLUTE£º	ÒÀ¾İĞı×ª²ÎÊıÖ±½Ó½øĞĞĞı×ª
-	 * 		TRANS_RELATIVE£º		ÒÀ¾İÄ£ĞÍ½Úµã×ÔÉí³õÊ¼Ğı×ª½Ç¶È½øĞĞĞı×ª
+	 * è®¾ç½®èŠ‚ç‚¹æ—‹è½¬è§’åº¦ã€‚
+	 * @param para	æ²¿ä¸‰ä¸ªè½´å‘çš„æ—‹è½¬è§’åº¦å€¼
+	 * @param mode å˜æ¢æ¨¡å¼
+	 * 		TRANS_ABSOLUTEï¼š	ä¾æ®æ—‹è½¬å‚æ•°ç›´æ¥è¿›è¡Œæ—‹è½¬
+	 * 		TRANS_RELATIVEï¼š		ä¾æ®æ¨¡å‹èŠ‚ç‚¹é€šè¿‡{@link #mark()}å‚¨å­˜çš„ä½ç½®è¿›è¡Œå˜æ¢
 	 */
 	public void setRotation(Vector3d para, int mode){
 		if (mode == TRANS_ABSOLUTE){
@@ -112,19 +120,11 @@ public class SceneNode {
 	}
 	
 	/**
-	 * È¡µÃ¸¸½ÚµãµÄÖ¸Õë
-	 * @return ¸¸½ÚµãµÄÖ¸Õë
-	 */
-	public SceneNode getParent(){
-		return mParent;
-	}
-	
-	/**
-	 * ÉèÖÃ½ÚµãµÄ´óĞ¡¡£
-	 * @param para	ÑØÈı¸öÖáÏò´óĞ¡±ä»»Öµ
-	 * @param mode ±ä»»Ä£Ê½
-	 * 		TRANS_ABSOLUTE£º	ÒÀ¾İ½ÚµãµÄ¸¸½Úµã½øĞĞ´óĞ¡±ä»»
-	 * 		TRANS_RELATIVE£º		ÒÀ¾İÄ£ĞÍ½Úµã×ÔÉí³õÊ¼´óĞ¡½øĞĞ±ä»»
+	 * è®¾ç½®èŠ‚ç‚¹çš„å¤§å°ã€‚
+	 * @param para	æ²¿ä¸‰ä¸ªè½´å‘å¤§å°å˜æ¢å€¼
+	 * @param mode å˜æ¢æ¨¡å¼
+	 * 		TRANS_ABSOLUTEï¼š	ä¾æ®èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹è¿›è¡Œå¤§å°å˜æ¢
+	 * 		TRANS_RELATIVEï¼š		ä¾æ®æ¨¡å‹èŠ‚ç‚¹é€šè¿‡{@link #mark()}å‚¨å­˜çš„ä½ç½®è¿›è¡Œå˜æ¢
 	 */
 	public void setScale(Vector3d para, int mode){
 		if (mode == TRANS_ABSOLUTE){
@@ -137,18 +137,57 @@ public class SceneNode {
 		
 		nativeSetScale(mScale[0].X, mScale[0].Y, mScale[0].Z, getId());
 	}
+
+	/**
+	 * ä¸ºèŠ‚ç‚¹è®¾ç½®ä½ç½®ã€æ—‹è½¬å’Œå¤§å°çš„å˜æ¢å€¼ã€‚
+	 * @param info èŠ‚ç‚¹å˜æ¢ä¿¡æ¯å€¼
+	 */
+	public void setTransformationInfo(TransformationInfo info){
+		mPosition[0].copy(info.Position);
+		mRotation[0].copy(info.Rotation);
+		mScale[0].copy(info.Scale);
+	}
 	
 	/**
-	 * ·µ»Ø½ÚµãÏà¶ÔÓÚ¸¸½ÚµãµÄÎ»ÖÃ×ø±ê¡£
-	 * @return Ïà¶ÔÓÚ¸¸½ÚµãµÄÎ»ÖÃ×ø±ê
+	 * è®¾å®šç›¸å¯¹çˆ¶èŠ‚ç‚¹ç©ºé—´çš„å˜æ¢çŸ©é˜µ
+	 * @param mat å˜æ¢çŸ©é˜µ
+	 * @param mode å˜æ¢æ¨¡å¼
+	 * 		TRANS_ABSOLUTEï¼š	ä¾æ®æ—‹è½¬å‚æ•°ç›´æ¥è¿›è¡Œæ—‹è½¬
+	 * 		TRANS_RELATIVEï¼š		ä¾æ®æ¨¡å‹èŠ‚ç‚¹è‡ªèº«åˆå§‹æ—‹è½¬è§’åº¦è¿›è¡Œæ—‹è½¬
+	 */
+	public void setMatrix(Matrix4 mat, int mode){
+		setPosition(mat.getTranslation(), mode);
+		setRotation(mat.getRotationDegrees(), mode);
+		setScale(mat.getScale(), mode);
+	}
+
+	/**
+	 * å–å¾—çˆ¶èŠ‚ç‚¹çš„æŒ‡é’ˆ
+	 * @return çˆ¶èŠ‚ç‚¹çš„æŒ‡é’ˆ
+	 */
+	public SceneNode getParent(){
+		return mParent;
+	}
+	
+	/**
+	 * æ˜¯å¦å¯è§
+	 * @return ä¸ºçœŸï¼Œåˆ™è¡¨ç¤ºå¯è§
+	 */
+	public boolean getVisibility(){
+		return mIsVisible;
+	}
+	
+	/**
+	 * è¿”å›èŠ‚ç‚¹ç›¸å¯¹äºçˆ¶èŠ‚ç‚¹çš„ä½ç½®åæ ‡ã€‚
+	 * @return ç›¸å¯¹äºçˆ¶èŠ‚ç‚¹çš„ä½ç½®åæ ‡
 	 */
 	public Vector3d getPosition(){
 		return new Vector3d(mPosition[0]);
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄ¾ø¶ÔÎ»ÖÃ×ø±ê¡£
-	 * @return ¾ø¶ÔÎ»ÖÃ×ø±ê
+	 * è¿”å›èŠ‚ç‚¹çš„ç»å¯¹ä½ç½®åæ ‡ã€‚
+	 * @return ç»å¯¹ä½ç½®åæ ‡
 	 */
 	public Vector3d getAbsolutePosition(){
 		if (mParent == null) return new Vector3d(mPosition[0]);
@@ -156,16 +195,16 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄĞı×ª½Ç¶È¡£
-	 * @return ½ÚµãµÄĞı×ª½Ç¶È
+	 * è¿”å›èŠ‚ç‚¹çš„æ—‹è½¬è§’åº¦ã€‚
+	 * @return èŠ‚ç‚¹çš„æ—‹è½¬è§’åº¦
 	 */
 	public Vector3d getRotation(){
 		return new Vector3d(mRotation[0]); 
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄ¾ø¶ÔĞı×ª½Ç¶È¡£
-	 * @return ¾ø¶ÔĞı×ª½Ç¶È
+	 * è¿”å›èŠ‚ç‚¹çš„ç»å¯¹æ—‹è½¬è§’åº¦ã€‚
+	 * @return ç»å¯¹æ—‹è½¬è§’åº¦
 	 */
 	public Vector3d getAbsoluteRotation(){
 		if (mParent == null) return new Vector3d(mRotation[0]);
@@ -173,16 +212,16 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãÏà¶ÔÓÚ¸¸½ÚµãµÄËõ·Å¡£
-	 * @return ½ÚµãÏà¶ÔÓÚ¸¸½ÚµãµÄËõ·Å
+	 * è¿”å›èŠ‚ç‚¹ç›¸å¯¹äºçˆ¶èŠ‚ç‚¹çš„ç¼©æ”¾ã€‚
+	 * @return èŠ‚ç‚¹ç›¸å¯¹äºçˆ¶èŠ‚ç‚¹çš„ç¼©æ”¾
 	 */
 	public Vector3d getScale(){
 		return new Vector3d(mScale[0]); 
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄ¾ø¶ÔËõ·Å¡£
-	 * @return ¾ø¶ÔËõ·Å
+	 * è¿”å›èŠ‚ç‚¹çš„ç»å¯¹ç¼©æ”¾ã€‚
+	 * @return ç»å¯¹ç¼©æ”¾
 	 */
 	public Vector3d getAbsoluteScale(){
 		if (mParent == null) return new Vector3d(mScale[0]);
@@ -190,8 +229,8 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄÎ»ÖÃ¡¢Ğı×ªºÍ´óĞ¡µÄ±ä»»Öµ¡£
-	 * @return ½ÚµãµÄÎ»ÖÃ¡¢Ğı×ªºÍ´óĞ¡µÄ±ä»»Öµ
+	 * è¿”å›èŠ‚ç‚¹çš„ä½ç½®ã€æ—‹è½¬å’Œå¤§å°çš„å˜æ¢å€¼ã€‚
+	 * @return èŠ‚ç‚¹çš„ä½ç½®ã€æ—‹è½¬å’Œå¤§å°çš„å˜æ¢å€¼
 	 */
 	public TransformationInfo getTransformationInfo(){
 		TransformationInfo info = new TransformationInfo();
@@ -203,8 +242,28 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄÖ±½Ó×Ó½ÚµãµÄ¸öÊı
-	 * @return Ö±½Ó×Ó½ÚµãµÄ¸öÊı
+	 * å–å¾—ç›¸å¯¹å˜æ¢çŸ©é˜µ
+	 * @return ç›¸å¯¹å˜æ¢çŸ©é˜µ
+	 */
+	public Matrix4 getRelativeMatrix(){
+		Matrix4 res = new Matrix4();
+		nativeGetRelativeMatrix(res, getId());
+		return res;
+	}
+	
+	/**
+	 * å–å¾—ç»å¯¹å˜æ¢çŸ©é˜µ
+	 * @return ç»å¯¹å˜æ¢çŸ©é˜µ
+	 */
+	public Matrix4 getAbsoluteMatrix(){
+		Matrix4 res = new Matrix4();
+		nativeGetAbsoluteMatrix(res, getId());
+		return res;
+	}	
+	
+	/**
+	 * è¿”å›èŠ‚ç‚¹çš„ç›´æ¥å­èŠ‚ç‚¹çš„ä¸ªæ•°
+	 * @return ç›´æ¥å­èŠ‚ç‚¹çš„ä¸ªæ•°
 	 */
 	public int getChildrenCount(){
 		if (mChild == null) return 0;
@@ -212,9 +271,9 @@ public class SceneNode {
 	}
 	
 	/**
-	 * Í¨¹ıĞòºÅÈ¡µÃ×Ó½Úµã
-	 * @param index ĞòºÅ
-	 * @return ¶ÔÓ¦µÄ×Ó½Úµã
+	 * é€šè¿‡åºå·å–å¾—å­èŠ‚ç‚¹
+	 * @param index åºå·
+	 * @return å¯¹åº”çš„å­èŠ‚ç‚¹
 	 */
 	public SceneNode getChild(int index){
 		if (mChild == null) return null;
@@ -222,8 +281,8 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ±éÀúËùÓĞµÄÒ»¼¶×Ó½Úµã£¨²»µü´ú£©£¬Ë³Ğò½øĞĞÍ¬ÑùµÄ²Ù×÷
-	 * @param f ±éÀú»Øµ÷Àà£¬¸ÃÀàµÄoperate·½·¨»áÕë¶ÔÃ¿¸öÒ»¼¶×Ó½Úµã±»µ÷ÓÃÒ»´Î
+	 * éå†æ‰€æœ‰çš„ä¸€çº§å­èŠ‚ç‚¹ï¼ˆä¸è¿­ä»£ï¼‰ï¼Œé¡ºåºè¿›è¡ŒåŒæ ·çš„æ“ä½œ
+	 * @param f éå†å›è°ƒç±»ï¼Œè¯¥ç±»çš„operateæ–¹æ³•ä¼šé’ˆå¯¹æ¯ä¸ªä¸€çº§å­èŠ‚ç‚¹è¢«è°ƒç”¨ä¸€æ¬¡
 	 */
 	public void do2EveryChild(TraversalCallback f){
 		if (mChild == null) return;
@@ -233,151 +292,182 @@ public class SceneNode {
 	}
 	
 	/**
-	 * Îª½ÚµãÉèÖÃÎ»ÖÃ¡¢Ğı×ªºÍ´óĞ¡µÄ±ä»»Öµ¡£
-	 * @param info ½Úµã±ä»»ĞÅÏ¢Öµ
+	 * æ·»åŠ å¹³ç§»åŠ¨ç”»<br>
+	 * æ³¨æ„ï¼Œå½“ä½ æ·»åŠ ï¼ˆé€šå¸¸æƒ…å†µä¸‹è¯·ä¸è¦è¿™ä¹ˆåšï¼‰å¤šä¸ªAnimatoræ—¶ï¼Œè¯·è°¨æ…ç»´æŠ¤
+	 * Animatorçš„æ·»åŠ é¡ºåºï¼Œé¡ºåºä¼šæ˜¾è‘—çš„å½±å“æ¯ä¸€å¸§çš„æ›´æ–°æ•ˆæœï¼ˆæ¯”å¦‚ï¼Œå…ˆåšç¢°æ’æ£€æµ‹
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}å†æ·»åŠ ç›´çº¿
+	 * é£è¡ŒåŠ¨ç”»{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}ï¼Œé‚£ä¹ˆç¢°æ’æ£€æµ‹çš„æ•ˆæœ
+	 * ä¼šè¢«åç»­æ‰§è¡Œçš„ç›´çº¿é£è¡ŒåŠ¨ç”»æ‰€è¦†ç›–ï¼Œå¦‚æœè°ƒæ¢é¡ºåºï¼Œåˆ™ç¢°æ’æ£€æµ‹çš„ä½ç½®å°†æ˜¯æ‰§è¡Œè¿‡é£è¡ŒåŠ¨ç”»åçš„
+	 * ä½ç½®ï¼‰ã€‚å¦‚æœæ‚¨ä¸éœ€è¦ä½¿ç”¨å¤šä¸ªåŠ¨ç”»ï¼Œè¯·ç¡®ä¿èŠ‚ç‚¹æ²¡æœ‰è¢«æ·»åŠ è¿‡åŠ¨ç”»æˆ–ä½¿ç”¨{@link #removeAllAnimators()}
+	 * æ¸…é™¤æ‰€æœ‰åŠ¨ç”»ï¼ŒåŠ¨ç”»ä¸€æ—¦è¢«æ·»åŠ ï¼Œå®ƒä¼šä¸€ç›´å­˜åœ¨äºèŠ‚ç‚¹ä¸Šç›´åˆ°{@link #removeAllAnimators()}è¢«è°ƒç”¨ã€‚
+	 * @param start å¹³ç§»åŠ¨ç”»èµ·å§‹ç‚¹åæ ‡
+	 * @param end å¹³ç§»åŠ¨ç”»ç›®æ ‡ç‚¹åæ ‡
+	 * @param time å¹³ç§»åŠ¨ç”»æ‰€ç”¨æ—¶é—´ï¼Œå•ä½ï¼šæ¯«ç§’ï¼ˆmsï¼‰
+	 * @param loop å€¼ä¸ºtrueæ—¶åŠ¨ç”»å¾ªç¯è¿›è¡Œï¼Œå€¼ä¸ºfalseæ—¶åŠ¨ç”»è¿›è¡Œä¸€æ¬¡
+	 * @param pingpong å€¼ä¸ºtrueæ—¶èŠ‚ç‚¹åˆ°è¾¾ç›®æ ‡ç‚¹æ—¶ä¼šè¿”å›åˆå§‹ç‚¹ï¼Œå¦åˆ™ä¸è¿”å›
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„Id 
 	 */
-	public void setTransformationInfo(TransformationInfo info){
-		mPosition[0].copy(info.Position);
-		mRotation[0].copy(info.Rotation);
-		mScale[0].copy(info.Scale);
-	}
-	
-	/**
-	 * Ìí¼ÓÆ½ÒÆ¶¯»­<br>
-	 * ×¢Òâ£¬µ±ÄãÌí¼Ó£¨Í¨³£Çé¿öÏÂÇë²»ÒªÕâÃ´×ö£©¶à¸öAnimatorÊ±£¬Çë½÷É÷Î¬»¤
-	 * AnimatorµÄÌí¼ÓË³Ğò£¬Ë³Ğò»áÏÔÖøµÄÓ°ÏìÃ¿Ò»Ö¡µÄ¸üĞÂĞ§¹û£¨±ÈÈç£¬ÏÈ×öÅö×²¼ì²â
-	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}ÔÙÌí¼ÓÖ±Ïß
-	 * ·ÉĞĞ¶¯»­{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
-	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}£¬ÄÇÃ´Åö×²¼ì²âµÄĞ§¹û
-	 * »á±»ºóĞøÖ´ĞĞµÄÖ±Ïß·ÉĞĞ¶¯»­Ëù¸²¸Ç£¬Èç¹ûµ÷»»Ë³Ğò£¬ÔòÅö×²¼ì²âµÄÎ»ÖÃ½«ÊÇÖ´ĞĞ¹ı·ÉĞĞ¶¯»­ºóµÄ
-	 * Î»ÖÃ£©¡£Èç¹ûÄú²»ĞèÒªÊ¹ÓÃ¶à¸ö¶¯»­£¬ÇëÈ·±£½ÚµãÃ»ÓĞ±»Ìí¼Ó¹ı¶¯»­»òÊ¹ÓÃ{@link #removeAllAnimators()}
-	 * Çå³ıËùÓĞ¶¯»­£¬¶¯»­Ò»µ©±»Ìí¼Ó£¬Ëü»áÒ»Ö±´æÔÚÓÚ½ÚµãÉÏÖ±µ½{@link #removeAllAnimators()}±»µ÷ÓÃ¡£
-	 * @param start Æ½ÒÆ¶¯»­ÆğÊ¼µã×ø±ê
-	 * @param end Æ½ÒÆ¶¯»­Ä¿±êµã×ø±ê
-	 * @param time Æ½ÒÆ¶¯»­ËùÓÃÊ±¼ä£¬µ¥Î»£ººÁÃë£¨ms£©
-	 * @param loop ÖµÎªtrueÊ±¶¯»­Ñ­»·½øĞĞ£¬ÖµÎªfalseÊ±¶¯»­½øĞĞÒ»´Î
-	 * @param pingpong ÖµÎªtrueÊ±½Úµãµ½´ïÄ¿±êµãÊ±»á·µ»Ø³õÊ¼µã£¬·ñÔò²»·µ»Ø
-	 */
-	public void addFlyStraightAnimator(Vector3d start, Vector3d end, 
+	public int addFlyStraightAnimator(Vector3d start, Vector3d end, 
 			double time, boolean loop, boolean pingpong){
 		if (nativeAddFlyStraightAnimator(start.X, start.Y, start.Z, 
 				end.X, end.Y, end.Z, time, loop, pingpong, getId()) == 0)
-			addAnimator();
+			return addAnimator();
+		return -1;
 	}
 	
 	/**
-	 * Ìí¼Ó»·ĞÎÔË¶¯¶¯»­<br>
-	 * ×¢Òâ£¬µ±ÄãÌí¼Ó£¨Í¨³£Çé¿öÏÂÇë²»ÒªÕâÃ´×ö£©¶à¸öAnimatorÊ±£¬Çë½÷É÷Î¬»¤
-	 * AnimatorµÄÌí¼ÓË³Ğò£¬Ë³Ğò»áÏÔÖøµÄÓ°ÏìÃ¿Ò»Ö¡µÄ¸üĞÂĞ§¹û£¨±ÈÈç£¬ÏÈ×öÅö×²¼ì²â
-	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}ÔÙÌí¼ÓÖ±Ïß
-	 * ·ÉĞĞ¶¯»­{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
-	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}£¬ÄÇÃ´Åö×²¼ì²âµÄĞ§¹û
-	 * »á±»ºóĞøÖ´ĞĞµÄÖ±Ïß·ÉĞĞ¶¯»­Ëù¸²¸Ç£¬Èç¹ûµ÷»»Ë³Ğò£¬ÔòÅö×²¼ì²âµÄÎ»ÖÃ½«ÊÇÖ´ĞĞ¹ı·ÉĞĞ¶¯»­ºóµÄ
-	 * Î»ÖÃ£©¡£Èç¹ûÄú²»ĞèÒªÊ¹ÓÃ¶à¸ö¶¯»­£¬ÇëÈ·±£½ÚµãÃ»ÓĞ±»Ìí¼Ó¹ı¶¯»­»òÊ¹ÓÃ{@link #removeAllAnimators()}
-	 * Çå³ıËùÓĞ¶¯»­£¬¶¯»­Ò»µ©±»Ìí¼Ó£¬Ëü»áÒ»Ö±´æÔÚÓÚ½ÚµãÉÏÖ±µ½{@link #removeAllAnimators()}±»µ÷ÓÃ¡£
-	 * @param center ÔË¶¯ËùÈÆÔ²»·µÄÔ²ĞÄ×ø±ê
-	 * @param radius ÔË¶¯ËùÈÆÔ²»·µÄ°ë¾¶
-	 * @param speed ÔË¶¯ËÙÂÊ£¬µ¥Î»£º»¡¶È/ºÁÃë
-	 * @param axis ÔË¶¯ËùÈÆµÄÖá£¬¼´ÔË¶¯Æ½ÃæµÄup vector
-	 * @param startPoint ÔË¶¯Ïà¶ÔÆğÊ¼µã¡£¼´0.5Ê±´Ó°ëÔ²´¦¿ªÊ¼ÔË¶¯
-	 * @param radiusEllipsoid ÔË¶¯¹ì¼£µÄÍÖÔ²³Ì¶È¡£Ä¬ÈÏÖµÎª0£¬ÔË¶¯¹ì¼£ÎªÔ²¡£
+	 * æ·»åŠ ç¯å½¢è¿åŠ¨åŠ¨ç”»<br>
+	 * æ³¨æ„ï¼Œå½“ä½ æ·»åŠ ï¼ˆé€šå¸¸æƒ…å†µä¸‹è¯·ä¸è¦è¿™ä¹ˆåšï¼‰å¤šä¸ªAnimatoræ—¶ï¼Œè¯·è°¨æ…ç»´æŠ¤
+	 * Animatorçš„æ·»åŠ é¡ºåºï¼Œé¡ºåºä¼šæ˜¾è‘—çš„å½±å“æ¯ä¸€å¸§çš„æ›´æ–°æ•ˆæœï¼ˆæ¯”å¦‚ï¼Œå…ˆåšç¢°æ’æ£€æµ‹
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}å†æ·»åŠ ç›´çº¿
+	 * é£è¡ŒåŠ¨ç”»{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}ï¼Œé‚£ä¹ˆç¢°æ’æ£€æµ‹çš„æ•ˆæœ
+	 * ä¼šè¢«åç»­æ‰§è¡Œçš„ç›´çº¿é£è¡ŒåŠ¨ç”»æ‰€è¦†ç›–ï¼Œå¦‚æœè°ƒæ¢é¡ºåºï¼Œåˆ™ç¢°æ’æ£€æµ‹çš„ä½ç½®å°†æ˜¯æ‰§è¡Œè¿‡é£è¡ŒåŠ¨ç”»åçš„
+	 * ä½ç½®ï¼‰ã€‚å¦‚æœæ‚¨ä¸éœ€è¦ä½¿ç”¨å¤šä¸ªåŠ¨ç”»ï¼Œè¯·ç¡®ä¿èŠ‚ç‚¹æ²¡æœ‰è¢«æ·»åŠ è¿‡åŠ¨ç”»æˆ–ä½¿ç”¨{@link #removeAllAnimators()}
+	 * æ¸…é™¤æ‰€æœ‰åŠ¨ç”»ï¼ŒåŠ¨ç”»ä¸€æ—¦è¢«æ·»åŠ ï¼Œå®ƒä¼šä¸€ç›´å­˜åœ¨äºèŠ‚ç‚¹ä¸Šç›´åˆ°{@link #removeAllAnimators()}è¢«è°ƒç”¨ã€‚
+	 * @param center è¿åŠ¨æ‰€ç»•åœ†ç¯çš„åœ†å¿ƒåæ ‡
+	 * @param radius è¿åŠ¨æ‰€ç»•åœ†ç¯çš„åŠå¾„
+	 * @param speed è¿åŠ¨é€Ÿç‡ï¼Œå•ä½ï¼šå¼§åº¦/æ¯«ç§’
+	 * @param axis è¿åŠ¨æ‰€ç»•çš„è½´ï¼Œå³è¿åŠ¨å¹³é¢çš„up vector
+	 * @param startPoint è¿åŠ¨ç›¸å¯¹èµ·å§‹ç‚¹ã€‚å³0.5æ—¶ä»åŠåœ†å¤„å¼€å§‹è¿åŠ¨
+	 * @param radiusEllipsoid è¿åŠ¨è½¨è¿¹çš„æ¤­åœ†ç¨‹åº¦ã€‚é»˜è®¤å€¼ä¸º0ï¼Œè¿åŠ¨è½¨è¿¹ä¸ºåœ†ã€‚
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„Id 
 	 */
-	public void addFlyCircleAnimator(Vector3d center, double radius,
+	public int addFlyCircleAnimator(Vector3d center, double radius,
 			double speed, Vector3d axis, double startPoint, double radiusEllipsoid){
 		if (nativeAddFlyCircleAnimator(center.X, center.Y, center.Z, radius, speed, 
 				axis.X, axis.Y, axis.Z, startPoint, startPoint, getId()) == 0)
-				addAnimator();
+			return addAnimator();
+		return -1;
 	}
 	
 	/**
-	 * Ìí¼ÓĞı×ª¶¯»­<br>
-	 * ×¢Òâ£¬µ±ÄãÌí¼Ó£¨Í¨³£Çé¿öÏÂÇë²»ÒªÕâÃ´×ö£©¶à¸öAnimatorÊ±£¬Çë½÷É÷Î¬»¤
-	 * AnimatorµÄÌí¼ÓË³Ğò£¬Ë³Ğò»áÏÔÖøµÄÓ°ÏìÃ¿Ò»Ö¡µÄ¸üĞÂĞ§¹û£¨±ÈÈç£¬ÏÈ×öÅö×²¼ì²â
-	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}ÔÙÌí¼ÓÖ±Ïß
-	 * ·ÉĞĞ¶¯»­{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
-	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}£¬ÄÇÃ´Åö×²¼ì²âµÄĞ§¹û
-	 * »á±»ºóĞøÖ´ĞĞµÄÖ±Ïß·ÉĞĞ¶¯»­Ëù¸²¸Ç£¬Èç¹ûµ÷»»Ë³Ğò£¬ÔòÅö×²¼ì²âµÄÎ»ÖÃ½«ÊÇÖ´ĞĞ¹ı·ÉĞĞ¶¯»­ºóµÄ
-	 * Î»ÖÃ£©¡£Èç¹ûÄú²»ĞèÒªÊ¹ÓÃ¶à¸ö¶¯»­£¬ÇëÈ·±£½ÚµãÃ»ÓĞ±»Ìí¼Ó¹ı¶¯»­»òÊ¹ÓÃ{@link #removeAllAnimators()}
-	 * Çå³ıËùÓĞ¶¯»­£¬¶¯»­Ò»µ©±»Ìí¼Ó£¬Ëü»áÒ»Ö±´æÔÚÓÚ½ÚµãÉÏÖ±µ½{@link #removeAllAnimators()}±»µ÷ÓÃ¡£
-	 * @param speed ÈÆ¸÷¸öÖáÏòµÄĞı×ªËÙÂÊ£¬µ¥Î»£º¶È/10ºÁÃë
+	 * æ·»åŠ æ—‹è½¬åŠ¨ç”»<br>
+	 * æ³¨æ„ï¼Œå½“ä½ æ·»åŠ ï¼ˆé€šå¸¸æƒ…å†µä¸‹è¯·ä¸è¦è¿™ä¹ˆåšï¼‰å¤šä¸ªAnimatoræ—¶ï¼Œè¯·è°¨æ…ç»´æŠ¤
+	 * Animatorçš„æ·»åŠ é¡ºåºï¼Œé¡ºåºä¼šæ˜¾è‘—çš„å½±å“æ¯ä¸€å¸§çš„æ›´æ–°æ•ˆæœï¼ˆæ¯”å¦‚ï¼Œå…ˆåšç¢°æ’æ£€æµ‹
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}å†æ·»åŠ ç›´çº¿
+	 * é£è¡ŒåŠ¨ç”»{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}ï¼Œé‚£ä¹ˆç¢°æ’æ£€æµ‹çš„æ•ˆæœ
+	 * ä¼šè¢«åç»­æ‰§è¡Œçš„ç›´çº¿é£è¡ŒåŠ¨ç”»æ‰€è¦†ç›–ï¼Œå¦‚æœè°ƒæ¢é¡ºåºï¼Œåˆ™ç¢°æ’æ£€æµ‹çš„ä½ç½®å°†æ˜¯æ‰§è¡Œè¿‡é£è¡ŒåŠ¨ç”»åçš„
+	 * ä½ç½®ï¼‰ã€‚å¦‚æœæ‚¨ä¸éœ€è¦ä½¿ç”¨å¤šä¸ªåŠ¨ç”»ï¼Œè¯·ç¡®ä¿èŠ‚ç‚¹æ²¡æœ‰è¢«æ·»åŠ è¿‡åŠ¨ç”»æˆ–ä½¿ç”¨{@link #removeAllAnimators()}
+	 * æ¸…é™¤æ‰€æœ‰åŠ¨ç”»ï¼ŒåŠ¨ç”»ä¸€æ—¦è¢«æ·»åŠ ï¼Œå®ƒä¼šä¸€ç›´å­˜åœ¨äºèŠ‚ç‚¹ä¸Šç›´åˆ°{@link #removeAllAnimators()}è¢«è°ƒç”¨ã€‚
+	 * @param speed ç»•å„ä¸ªè½´å‘çš„æ—‹è½¬é€Ÿç‡ï¼Œå•ä½ï¼šåº¦/10æ¯«ç§’
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„Id 
 	 */
-	public void addRotationAnimator(Vector3d speed){
+	public int addRotationAnimator(Vector3d speed){
 		if (nativeAddRotationAnimator(speed.X, speed.Y, speed.Z, getId()) == 0)
-			addAnimator();
+			return addAnimator();
+		return -1;
 	}
 	
 	/**
-	 * Ìí¼ÓÏûÊ§¶¯»­£¬½Úµã½«ÓÚÖ¸¶¨Ê±¼äÄÚÏûÊ§<br>
-	 * ×¢Òâ£¬µ±ÄãÌí¼Ó£¨Í¨³£Çé¿öÏÂÇë²»ÒªÕâÃ´×ö£©¶à¸öAnimatorÊ±£¬Çë½÷É÷Î¬»¤
-	 * AnimatorµÄÌí¼ÓË³Ğò£¬Ë³Ğò»áÏÔÖøµÄÓ°ÏìÃ¿Ò»Ö¡µÄ¸üĞÂĞ§¹û£¨±ÈÈç£¬ÏÈ×öÅö×²¼ì²â
-	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}ÔÙÌí¼ÓÖ±Ïß
-	 * ·ÉĞĞ¶¯»­{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
-	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}£¬ÄÇÃ´Åö×²¼ì²âµÄĞ§¹û
-	 * »á±»ºóĞøÖ´ĞĞµÄÖ±Ïß·ÉĞĞ¶¯»­Ëù¸²¸Ç£¬Èç¹ûµ÷»»Ë³Ğò£¬ÔòÅö×²¼ì²âµÄÎ»ÖÃ½«ÊÇÖ´ĞĞ¹ı·ÉĞĞ¶¯»­ºóµÄ
-	 * Î»ÖÃ£©¡£Èç¹ûÄú²»ĞèÒªÊ¹ÓÃ¶à¸ö¶¯»­£¬ÇëÈ·±£½ÚµãÃ»ÓĞ±»Ìí¼Ó¹ı¶¯»­»òÊ¹ÓÃ{@link #removeAllAnimators()}
-	 * Çå³ıËùÓĞ¶¯»­£¬¶¯»­Ò»µ©±»Ìí¼Ó£¬Ëü»áÒ»Ö±´æÔÚÓÚ½ÚµãÉÏÖ±µ½{@link #removeAllAnimators()}±»µ÷ÓÃ¡£
-	 * @param ms ÏûÊ§¶¯»­µÄÊ±¼ä£¬µ¥Î»ºÁÃë
+	 * æ·»åŠ æ¶ˆå¤±åŠ¨ç”»ï¼ŒèŠ‚ç‚¹å°†äºæŒ‡å®šæ—¶é—´å†…æ¶ˆå¤±<br>
+	 * æ³¨æ„ï¼Œå½“ä½ æ·»åŠ ï¼ˆé€šå¸¸æƒ…å†µä¸‹è¯·ä¸è¦è¿™ä¹ˆåšï¼‰å¤šä¸ªAnimatoræ—¶ï¼Œè¯·è°¨æ…ç»´æŠ¤
+	 * Animatorçš„æ·»åŠ é¡ºåºï¼Œé¡ºåºä¼šæ˜¾è‘—çš„å½±å“æ¯ä¸€å¸§çš„æ›´æ–°æ•ˆæœï¼ˆæ¯”å¦‚ï¼Œå…ˆåšç¢°æ’æ£€æµ‹
+	 * {@link MeshSceneNode#addCollisionResponseAnimator(SceneNode, boolean, boolean)}å†æ·»åŠ ç›´çº¿
+	 * é£è¡ŒåŠ¨ç”»{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}ï¼Œé‚£ä¹ˆç¢°æ’æ£€æµ‹çš„æ•ˆæœ
+	 * ä¼šè¢«åç»­æ‰§è¡Œçš„ç›´çº¿é£è¡ŒåŠ¨ç”»æ‰€è¦†ç›–ï¼Œå¦‚æœè°ƒæ¢é¡ºåºï¼Œåˆ™ç¢°æ’æ£€æµ‹çš„ä½ç½®å°†æ˜¯æ‰§è¡Œè¿‡é£è¡ŒåŠ¨ç”»åçš„
+	 * ä½ç½®ï¼‰ã€‚å¦‚æœæ‚¨ä¸éœ€è¦ä½¿ç”¨å¤šä¸ªåŠ¨ç”»ï¼Œè¯·ç¡®ä¿èŠ‚ç‚¹æ²¡æœ‰è¢«æ·»åŠ è¿‡åŠ¨ç”»æˆ–ä½¿ç”¨{@link #removeAllAnimators()}
+	 * æ¸…é™¤æ‰€æœ‰åŠ¨ç”»ï¼ŒåŠ¨ç”»ä¸€æ—¦è¢«æ·»åŠ ï¼Œå®ƒä¼šä¸€ç›´å­˜åœ¨äºèŠ‚ç‚¹ä¸Šç›´åˆ°{@link #removeAllAnimators()}è¢«è°ƒç”¨ã€‚
+	 * @param ms æ¶ˆå¤±åŠ¨ç”»çš„æ—¶é—´ï¼Œå•ä½æ¯«ç§’
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„Id 
 	 */
-	public void addDeleteAnimator(int ms){
+	public int addDeleteAnimator(int ms){
 		if (nativeAddDeleteAnimator(ms, getId()) == 0)
-			addAnimator();
+			return addAnimator();
+		return -1;
 	}
 	
 	/**
-	 * Ìí¼Ó¶ÔÖ¸¶¨½ÚµãµÄÅö×²¼ì²âÏìÓ¦¡£Í¨³£ÓÃÓÚÔË¶¯µÄ½Úµã¶Ô¾²Ö¹½ÚµãµÄÅö×²ÏìÓ¦£¬²»ÊÊÓÃÓÚÔË¶¯½ÚµãÖ®¼äµÄ
-	 * Åö×²¼ì²â<br>
-	 * ×¢Òâ£¬µ±ÄãÌí¼Ó£¨Í¨³£Çé¿öÏÂÇë²»ÒªÕâÃ´×ö£©¶à¸öAnimatorÊ±£¬Çë½÷É÷Î¬»¤
-	 * AnimatorµÄÌí¼ÓË³Ğò£¬Ë³Ğò»áÏÔÖøµÄÓ°ÏìÃ¿Ò»Ö¡µÄ¸üĞÂĞ§¹û£¨±ÈÈç£¬ÏÈ×öÅö×²¼ì²â
-	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}ÔÙÌí¼ÓÖ±Ïß
-	 * ·ÉĞĞ¶¯»­{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
-	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}£¬ÄÇÃ´Åö×²¼ì²âµÄĞ§¹û
-	 * »á±»ºóĞøÖ´ĞĞµÄÖ±Ïß·ÉĞĞ¶¯»­Ëù¸²¸Ç£¬Èç¹ûµ÷»»Ë³Ğò£¬ÔòÅö×²¼ì²âµÄÎ»ÖÃ½«ÊÇÖ´ĞĞ¹ı·ÉĞĞ¶¯»­ºóµÄ
-	 * Î»ÖÃ£©¡£Èç¹ûÄú²»ĞèÒªÊ¹ÓÃ¶à¸ö¶¯»­£¬ÇëÈ·±£½ÚµãÃ»ÓĞ±»Ìí¼Ó¹ı¶¯»­»òÊ¹ÓÃ{@link SceneNode#removeAllAnimators()}
-	 * Çå³ıËùÓĞ¶¯»­£¬¶¯»­Ò»µ©±»Ìí¼Ó£¬Ëü»áÒ»Ö±´æÔÚÓÚ½ÚµãÉÏÖ±µ½{@link SceneNode#removeAllAnimators()}±»µ÷ÓÃ¡£
-	 * @param selNode Ö¸¶¨µÄÊÀ½ç¶ÔÏó£¨Í¨³£ÊÇ¾²Ö¹µÄ³¡¾°£©
-	 * @param radius °ë¾¶£¬Éè¶¨ÎªnullÊ±Ê¹ÓÃBoundingBoxµÄ°ë¾¶
-	 * @param fromBoundingBox ÊÇ·ñ´Ó´ÖÂÔµÄÓÃÄ£ĞÍµÄ°üÎ§ºĞ×öÅö×²¼ì²â
-	 * @param optimizedByOctree ÊÇ·ñÓÃ°Ë²æÊ÷ÓÅ»¯¼ì²âËã·¨£¨fromBoundingBoxÎªÕæÊ±Ç¿ÖÆ²»ÓÅ»¯£©
+	 * æ·»åŠ å¯¹æŒ‡å®šèŠ‚ç‚¹çš„ç¢°æ’æ£€æµ‹å“åº”ã€‚é€šå¸¸ç”¨äºè¿åŠ¨çš„èŠ‚ç‚¹å¯¹é™æ­¢èŠ‚ç‚¹çš„ç¢°æ’å“åº”ï¼Œä¸é€‚ç”¨äºè¿åŠ¨èŠ‚ç‚¹ä¹‹é—´çš„
+	 * ç¢°æ’æ£€æµ‹<br>
+	 * æ³¨æ„ï¼Œå½“ä½ æ·»åŠ ï¼ˆé€šå¸¸æƒ…å†µä¸‹è¯·ä¸è¦è¿™ä¹ˆåšï¼‰å¤šä¸ªAnimatoræ—¶ï¼Œè¯·è°¨æ…ç»´æŠ¤
+	 * Animatorçš„æ·»åŠ é¡ºåºï¼Œé¡ºåºä¼šæ˜¾è‘—çš„å½±å“æ¯ä¸€å¸§çš„æ›´æ–°æ•ˆæœï¼ˆæ¯”å¦‚ï¼Œå…ˆåšç¢°æ’æ£€æµ‹
+	 * {@link #addCollisionResponseAnimator(SceneNode, boolean, boolean)}å†æ·»åŠ ç›´çº¿
+	 * é£è¡ŒåŠ¨ç”»{@link #addFlyStraightAnimator(zte.irrlib.core.Vector3d, 
+	 * zte.irrlib.core.Vector3d, double, boolean, boolean)}ï¼Œé‚£ä¹ˆç¢°æ’æ£€æµ‹çš„æ•ˆæœ
+	 * ä¼šè¢«åç»­æ‰§è¡Œçš„ç›´çº¿é£è¡ŒåŠ¨ç”»æ‰€è¦†ç›–ï¼Œå¦‚æœè°ƒæ¢é¡ºåºï¼Œåˆ™ç¢°æ’æ£€æµ‹çš„ä½ç½®å°†æ˜¯æ‰§è¡Œè¿‡é£è¡ŒåŠ¨ç”»åçš„
+	 * ä½ç½®ï¼‰ã€‚å¦‚æœæ‚¨ä¸éœ€è¦ä½¿ç”¨å¤šä¸ªåŠ¨ç”»ï¼Œè¯·ç¡®ä¿èŠ‚ç‚¹æ²¡æœ‰è¢«æ·»åŠ è¿‡åŠ¨ç”»æˆ–ä½¿ç”¨{@link SceneNode#removeAllAnimators()}
+	 * æ¸…é™¤æ‰€æœ‰åŠ¨ç”»ï¼ŒåŠ¨ç”»ä¸€æ—¦è¢«æ·»åŠ ï¼Œå®ƒä¼šä¸€ç›´å­˜åœ¨äºèŠ‚ç‚¹ä¸Šç›´åˆ°{@link SceneNode#removeAllAnimators()}è¢«è°ƒç”¨ã€‚
+	 * @param selNode æŒ‡å®šçš„ä¸–ç•Œå¯¹è±¡ï¼ˆé€šå¸¸æ˜¯é™æ­¢çš„åœºæ™¯ï¼‰
+	 * @param radius åŠå¾„ï¼Œè®¾å®šä¸ºnullæ—¶ä½¿ç”¨BoundingBoxçš„åŠå¾„
+	 * @param fromBoundingBox æ˜¯å¦ä»ç²—ç•¥çš„ç”¨æ¨¡å‹çš„åŒ…å›´ç›’åšç¢°æ’æ£€æµ‹
+	 * @param optimizedByOctree æ˜¯å¦ç”¨å…«å‰æ ‘ä¼˜åŒ–æ£€æµ‹ç®—æ³•ï¼ˆfromBoundingBoxä¸ºçœŸæ—¶å¼ºåˆ¶ä¸ä¼˜åŒ–ï¼‰
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„Id 
 	 */
-	public void addCollisionResponseAnimator(SceneNode selNode, Vector3d radius,
+	public int addCollisionResponseAnimator(SceneNode selNode, Vector3d radius,
 			boolean fromBoundingBox, boolean optimizedByOctree){
 		if (nativeAddCollisionResponseAnimator(
 				mScene.getId(selNode), radius, fromBoundingBox,
 				optimizedByOctree, getId()) == 0)
-			addAnimator();
+			return addAnimator();
+		return -1;
 	}
 	
 	/**
-	 * É¾³ı½ÚµãÉÏµÄËùÓĞ¶¯»­
+	 * åˆ é™¤èŠ‚ç‚¹ä¸Šçš„æ‰€æœ‰åŠ¨ç”»
 	 */
 	public void removeAllAnimators(){
 		nativeRemoveAllAnimator(getId());
-		mHasAnimator = 0;
+		if (mAnimatorList != null){
+			mAnimatorList.clear();
+		}
 	}
 	
 	/**
-	 * È¥³ıÉÏ´ÎÌí¼ÓµÄ¶¯»­
-	 * @return Èô½ÚµãÉÏÒÑ¾­Ã»ÓĞ¶¯»­£¬Ôò·µ»Øfalse
+	 * å»é™¤ä¸Šæ¬¡æ·»åŠ çš„åŠ¨ç”»
+	 * @return è‹¥èŠ‚ç‚¹ä¸Šå·²ç»æ²¡æœ‰åŠ¨ç”»ï¼Œåˆ™è¿”å›false
 	 */
 	public boolean removeLastAnimator(){
 		if (nativeRemoveLastAnimator(getId()) == 0){
-			mHasAnimator -= 1;
+			mAnimatorList.remove(mAnimatorList.size()-1);
 			return true;
 		}
 		else return false;
 	}
 	
 	/**
-	 * ½«½Úµã´Ó³¡¾°ÖĞÒÆ³ı
+	 * å–å¾—è¯¥èŠ‚ç‚¹ä¸Šçš„èŠ‚ç‚¹åŠ¨ç”»çš„ä¸ªæ•°
+	 * @return èŠ‚ç‚¹åŠ¨ç”»çš„ä¸ªæ•°
+	 */
+	public int getAnimatorCount(){
+		if (mAnimatorList == null){
+			return 0;
+		}
+		return mAnimatorList.size();
+	}
+	
+	/**
+	 * é€šè¿‡æŒ‡å®šIdå»æ‰ä¸€ä¸ªæŒ‡å®šçš„èŠ‚ç‚¹åŠ¨ç”»
+	 * @param Id æŒ‡å®šçš„Id
+	 * @return å¦‚æœæˆåŠŸå»é™¤ï¼Œåˆ™è¿”å›true
+	 */
+	public boolean removeAnimator(int Id){
+		int count = 0;
+		for (Integer itr:mAnimatorList){
+			if (itr == Id){
+				mAnimatorList.remove(itr);
+				nativeRemoveAnimator(count, getId());
+				return true;
+			}
+			count ++;
+		}
+		return false;
+	}
+	
+	/**
+	 * å°†èŠ‚ç‚¹ä»åœºæ™¯ä¸­ç§»é™¤
 	 */
 	public boolean remove(){
 		return mScene.removeNode(this);
 	}
 	
 	/**
-	 * ½«Ö¸¶¨µÄÒ»¼¶×Ó½Úµã±äÎªµ±Ç°½ÚµãµÄĞÖµÜ½Úµã
-	 * @param child ×Ó½ÚµãµÄÖ¸Õë
-	 * @return ÎªÕæÔò±íÊ¾ÒÆ³ı³É¹¦
+	 * å°†æŒ‡å®šçš„ä¸€çº§å­èŠ‚ç‚¹å˜ä¸ºå½“å‰èŠ‚ç‚¹çš„å…„å¼ŸèŠ‚ç‚¹
+	 * @param child å­èŠ‚ç‚¹çš„æŒ‡é’ˆ
+	 * @return ä¸ºçœŸåˆ™è¡¨ç¤ºç§»é™¤æˆåŠŸ
 	 */
 	public boolean removeChild(SceneNode child){
 		if (child == null || mChild == null || 
@@ -386,7 +476,7 @@ public class SceneNode {
 		return true;
 	}
 
-	@Override/** ¿ËÂ¡½Úµã*/
+	@Override/** å…‹éš†èŠ‚ç‚¹*/
 	public SceneNode clone(){
 		SceneNode res = softClone();
 		cloneInNativeAndSetupNodesId(res);
@@ -394,15 +484,20 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãÉÏÊÇ·ñ´æÔÚAnimator
-	 * @return ÎªÕæÔò±íÊ¾´æÔÚ
+	 * è¿”å›èŠ‚ç‚¹ä¸Šæ˜¯å¦å­˜åœ¨Animator
+	 * @return ä¸ºçœŸåˆ™è¡¨ç¤ºå­˜åœ¨
 	 */
 	public boolean hasAnimator(){
-		return (mHasAnimator > 0);
+		return (mAnimatorList != null && mAnimatorList.size() != 0);
 	}
 	
-	void addAnimator(){
-		mHasAnimator += 1;
+	int addAnimator(){
+		if (mAnimatorList == null){
+			mAnimatorList = new ArrayList<Integer>();
+		}
+		int animatorId = getNewAnimatorId();
+		mAnimatorList.add(animatorId);
+		return animatorId;
 	}
 	
 	void onAnimate(){
@@ -410,44 +505,36 @@ public class SceneNode {
 			nativeUpdatePosition(mPosition[0], false, getId());
 		}
 	}
-
-	/**
-	 * ÔÚJava²ã±£´æ¼°³õÊ¼»¯½ÚµãĞÅÏ¢
-	 * param pos ½ÚµãµÄ³õÊ¼Î»ÖÃ
-	 * @param parent ½ÚµãµÄ¸¸½Úµã
-	 */
-	void javaLoadDataAndInit(Vector3d pos, SceneNode parent){
-		mPosition[0] = pos;
-		setParent(parent);
-		mark();
-		mScene.registerNode(this);
-	}
 	
 	/**
-	 * ¹¹Ôìº¯Êı
+	 * æ„é€ å‡½æ•°
 	 */
-	SceneNode() {
+	SceneNode(Vector3d pos, SceneNode parent) {
 		this.Id = mScene.getNewId();
 		
-		//µÚÒ»¸öÊÇµ±Ç°Öµ£¬µÚ¶ş¸öÊÇ±ê¼ÇÖµ
+		//ç¬¬ä¸€ä¸ªæ˜¯å½“å‰å€¼ï¼Œç¬¬äºŒä¸ªæ˜¯æ ‡è®°å€¼
 		mPosition = new Vector3d[2];
-		mPosition[0] = new Vector3d(0, 0, 0);
+		mPosition[0] = new Vector3d();
 		mPosition[1] = new Vector3d();
 		
 		mRotation = new Vector3d[2];
-		mRotation[0] = new Vector3d(0, 0, 0);
+		mRotation[0] = new Vector3d();
 		mRotation[1] = new Vector3d();
 		
 		mScale = new Vector3d[2];
 		mScale[0] = new Vector3d(1, 1, 1);
-		mScale[1] = new Vector3d();
+		mScale[1] = new Vector3d(1, 1, 1);
 		
 		mNodeType = TYPE_COMMON;
+		
+		mParent = parent;
+		if (parent != null) parent.addChild(this);
+		mPosition[0].copy(pos);
 	}
 	
 	/**
-	 * ·µ»Ø½ÚµãµÄIDÖµ
-	 * @return ½ÚµãµÄIDÖµ
+	 * è¿”å›èŠ‚ç‚¹çš„IDå€¼
+	 * @return èŠ‚ç‚¹çš„IDå€¼
 	 */
 	int getId() {return Id;}
 	
@@ -461,8 +548,8 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ÔÚjava²ã×öºÃ×Ô¼ºµÄ×¢²á£¬²¢ÇÒµ÷ÓÃ×Ó½ÚµãµÄµü´ú£¬Éè¶¨ºÃ¸¸×Ó¹ØÏµ
-	 * @return ¿ËÂ¡µÄ¸¸½Úµã
+	 * åœ¨javaå±‚åšå¥½è‡ªå·±çš„æ³¨å†Œï¼Œå¹¶ä¸”è°ƒç”¨å­èŠ‚ç‚¹çš„è¿­ä»£ï¼Œè®¾å®šå¥½çˆ¶å­å…³ç³»
+	 * @return å…‹éš†çš„çˆ¶èŠ‚ç‚¹
 	 */
 	protected SceneNode softClone(){
 		SceneNode res = new SceneNode(this);
@@ -514,8 +601,19 @@ public class SceneNode {
 		mScene.registerNode(this);
 	}
 	
-	protected static Scene mScene;
+	protected Integer getNewAnimatorId(){
+		if (mAnimatorList == null || mAnimatorList.size() == 0){
+			return Id << 8;
+		}
+		Integer last = mAnimatorList.get(mAnimatorList.size()-1);
+		if ((last & 0xff) == 0xff){
+			Log.e(TAG, "max animator number: " + Id);
+			return -1;
+		}
+		return last+1;
+	}
 	
+	protected static Scene mScene;
 	protected final int Id;
 	
 	protected SceneNode mParent = null;
@@ -523,8 +621,7 @@ public class SceneNode {
 	protected Vector3d []mPosition;
 	protected Vector3d []mRotation;
 	protected Vector3d []mScale;
-	protected int mHasAnimator;
-	
+	protected ArrayList<Integer> mAnimatorList;
 	protected int mNodeType;
 	protected ArrayList<SceneNode> mChild;
 	
@@ -560,8 +657,11 @@ public class SceneNode {
 	protected native int nativeCloneNode(int res, int des);
 	protected native int nativeChangeId(int res, int des, int parent);
 	
+	protected native int nativeGetRelativeMatrix(Matrix4 mat, int Id);
+	protected native int nativeGetAbsoluteMatrix(Matrix4 mat, int Id);
+	protected native int nativeRemoveAnimator(int count, int Id);
 	/**
-	 * ½ÚµãµÄ±ä»»ĞÅÏ¢Àà
+	 * èŠ‚ç‚¹çš„å˜æ¢ä¿¡æ¯ç±»
 	 * @author Roy
 	 *
 	 */
@@ -572,7 +672,7 @@ public class SceneNode {
 	}
 	
 	/**
-	 * ±éÀú»Øµ÷Àà£¬²Î¼û{@link SceneNode#do2EveryChild(TraversalCallback)}
+	 * éå†å›è°ƒç±»ï¼Œå‚è§{@link SceneNode#do2EveryChild(TraversalCallback)}
 	 * @author Roy
 	 *
 	 */

@@ -1,4 +1,4 @@
-package examples.e04animator;
+ï»¿package examples.e04animator;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -17,23 +17,31 @@ public class EARenderer implements Renderer {
 
 	public void onCreate(Engine engine) {
 		
+		engine.addAssetsDir("sysmedia", false);
+		
 		Scene scene = engine.getScene();
 		cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
 		
-		/** ÔÚassets¶ÁÈ¡¹¦ÄÜ´ò¿ªµÄÇé¿öÏÂ£¬assetsÏµÍ³²ÄÖÊÄ¿Â¼»á±»×Ô¶¯¼ÓÔØ£¬¿ÉÒÔÖ±½ÓÊ¹ÓÃ*/
+		/** SYSTEM_MEDIAæŒ‡å‘äº†assetsä¸‹çš„sysmediaç›®å½• */
 		cube.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		
-		/** ¿ÉÒÔ¸ø½ÚµãÌí¼Ó¸÷ÖÖ¸÷ÑùµÄ¶¯»­Ğ§¹û*/
-		cube.addRotationAnimator(new Vector3d(0, 0, 0.3));
+		/** å¯ä»¥ç»™èŠ‚ç‚¹æ·»åŠ å„ç§å„æ ·çš„åŠ¨ç”»æ•ˆæœ*/
+		@SuppressWarnings("unused")
+		int Anim1 = cube.addRotationAnimator(new Vector3d(0, 0, 0.3));
 
-		/** ¿ÉÒÔÌí¼ÓÁíÒ»¸öĞ§¹û*/
-		cube.addFlyStraightAnimator(new Vector3d(0, -10, 20), new Vector3d(0, 10, 20), 2000, true, true);
+		/** å¯ä»¥æ·»åŠ å¦ä¸€ä¸ªæ•ˆæœ*/
+		@SuppressWarnings("unused")
+		int Anim2 = cube.addFlyStraightAnimator(new Vector3d(0, -10, 20), new Vector3d(0, 10, 20), 2000, true, true);
 		
-		/** È¥³ıÉÏÒ»¸ö¼ÓÈëµÄ¶¯»­*/
+		/** å»é™¤ä¸Šä¸€ä¸ªåŠ å…¥çš„åŠ¨ç”»*/
 		//cube.removeLastAnimator();
 		
-		/** È¥³ıËùÓĞµÄ¶¯»­*/
+		/** å»é™¤æ‰€æœ‰çš„åŠ¨ç”»*/
 		//cube.removeAllAnimators();
+		
+		/** å»é™¤é€‰å®šçš„åŠ¨ç”»*/
+		//cube.removeAnimator(Anim1);
+		//cube.removeAnimator(Anim2);
 	}
 
 	public void onResize(Engine engine, int width, int height) {

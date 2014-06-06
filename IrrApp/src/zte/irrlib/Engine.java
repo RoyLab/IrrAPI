@@ -1,4 +1,4 @@
-package zte.irrlib;
+ï»¿package zte.irrlib;
 
 import zte.irrlib.core.Vector2i;
 import zte.irrlib.scene.Scene;
@@ -7,31 +7,31 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 /**
- * 3DÒıÇæÀà£¬¸ºÔğ¹ÜÀíÒıÇæµÄ´´½¨ºÍÏú»Ù£¬´¦ÀíÓëÎÄ¼şÏµÍ³Ïà¹ØµÄÊÂÎñ£¬
- * ²¢Ìá¹©½Ó¿Ú¹©ÊÓÍ¼Ààµ÷ÓÃ¡£
+ * 3Då¼•æ“ç±»ï¼Œè´Ÿè´£ç®¡ç†å¼•æ“çš„åˆ›å»ºå’Œé”€æ¯ï¼Œå¤„ç†ä¸æ–‡ä»¶ç³»ç»Ÿç›¸å…³çš„äº‹åŠ¡ï¼Œ
+ * å¹¶æä¾›æ¥å£ä¾›è§†å›¾ç±»è°ƒç”¨ã€‚
  */
 public class Engine{
 	
-	/** ÈÕÖ¾±êÇ©*/
+	/** æ—¥å¿—æ ‡ç­¾*/
 	public static final String TAG = "IrrEngine";
 	
-	/** assetsÄ¿Â¼Ç°×º£¬ËùÓĞassetsÄ¿Â¼ÏÂµÄ×ÊÔ´±ØĞëÒÔ´ËÎªÇ°×º*/
+	/** assetsç›®å½•å‰ç¼€ï¼Œæ‰€æœ‰assetsç›®å½•ä¸‹çš„èµ„æºå¿…é¡»ä»¥æ­¤ä¸ºå‰ç¼€*/
 	public static final String ASSETS_MARK = "<assets>/";
 	
-	/** Bitmap¶ÔÏóÇ°×º£¬ÔÚÒıÓÃBitmap¶ÔÏóÊ±±ØĞëÊ¹ÓÃ´ÎÇ°×º*/
+	/** Bitmapå¯¹è±¡å‰ç¼€ï¼Œåœ¨å¼•ç”¨Bitmapå¯¹è±¡æ—¶å¿…é¡»ä½¿ç”¨æ¬¡å‰ç¼€*/
 	public static final String BITMAP_MARK = "<bitmap>/";
 	
-	/** Íâ²¿²ÄÖÊÇ°×º£¬ÔÚÒıÓÃÍâ²¿²ÄÖÊÃûÊ±±ØĞëÊ¹ÓÃ´ËÇ°×º*/
+	/** å¤–éƒ¨æè´¨å‰ç¼€ï¼Œåœ¨å¼•ç”¨å¤–éƒ¨æè´¨åæ—¶å¿…é¡»ä½¿ç”¨æ­¤å‰ç¼€*/
 	public static final String EXTERNAL_TEX_MARK = "<bitmap>/";
 	
-	/** ÏµÍ³ÄÚÖÃ×ÊÔ´assetsÄ¿Â¼Â·¾¶*/
+	/** ç³»ç»Ÿå†…ç½®èµ„æºassetsç›®å½•è·¯å¾„*/
 	public static final String SYSTEM_MEDIA = ASSETS_MARK + "sysmedia/"; ;
 	
 	/**
-	 * ¹¹ÔìÆ÷²»¿ÉÒÔ±»Ö±½Óµ÷ÓÃ£¬±¾·½·¨Ìæ´ú¹¹Ôì·½·¨£¬ÓÃÓÚÈ¡µÃ
-	 * ¸ÃÀàµÄÊµÀı¡£ÔÚ³ÌĞòÔËĞĞÊ±£¬ÈÎºÎÊ±¿Ìµ÷ÓÃ±¾·½·¨È¡µÃµÄÊµ
-	 * Àı½«ÊÇÍ¬Ò»¸öÊµÀı£¨µ¥ÀıÄ£Ê½£©¡£
-	 * @return ·µ»Ø¸ÃÀàµÄÊµÀı
+	 * æ„é€ å™¨ä¸å¯ä»¥è¢«ç›´æ¥è°ƒç”¨ï¼Œæœ¬æ–¹æ³•æ›¿ä»£æ„é€ æ–¹æ³•ï¼Œç”¨äºå–å¾—
+	 * è¯¥ç±»çš„å®ä¾‹ã€‚åœ¨ç¨‹åºè¿è¡Œæ—¶ï¼Œä»»ä½•æ—¶åˆ»è°ƒç”¨æœ¬æ–¹æ³•å–å¾—çš„å®
+	 * ä¾‹å°†æ˜¯åŒä¸€ä¸ªå®ä¾‹ï¼ˆå•ä¾‹æ¨¡å¼ï¼‰ã€‚
+	 * @return è¿”å›è¯¥ç±»çš„å®ä¾‹
 	 */
 	public static Engine getInstance(){
 		if (mUniInstance == null){
@@ -41,19 +41,19 @@ public class Engine{
 	}
 	
 	/**
-	 * É÷ÖØÊ¹ÓÃ£¬ÊÍ·ÅÒıÇæËùÊ¹ÓÃµÄnativeºÍJavaÄÚ´æ£¬µ±ÇÒ½öµ±ÔÚÒ»¸ö³Ì
-	 * ĞòÖĞ²»ÔÙÊ¹ÓÃÒıÇæÊ±µ÷ÓÃ¡£<br>
-	 * ¸Ã·½·¨´æÔÚµÄÔ­ÒòÊÇÄã¿ÉÄÜ²»ÔÙĞèÒªÒıÇæ£¬ÇÒÄãĞèÒªÊÍ·ÅÒıÇæÕ¼¾İµÄÄÚ´æ
-	 * ¿Õ¼äÁô¸ø±ğµÄÄ£¿é¡£<br>
-	 * Ò»ÖÖµäĞÍµÄÇé¿öÊÇÄãÓÃÒıÇæ½ö½ö×÷Îª»¶Ó­½çÃæµÄäÖÈ¾Æ÷£¬ÄÇÃ´µ±»¶Ó­½ç
-	 * Ãæ½áÊøÊ±£¬ÄãÓ¦µ±µ÷ÓÃ¸Ã·½·¨ÊÍ·Å×ÊÔ´¡£Èç¹û»¶Ó­½çÃæ½áÊøºó£¬ÄãÈÔÓĞ
-	 * ¿ÉÄÜÔÚ±ğµÄµØ·½ÓÃµ½¸ÃÒıÇæ£¬Çë²»ÒªÊ¹ÓÃ±¾·½·¨£ºÒıÇæ²»»áÒòÎªÆµ·±µÄ
-	 * ³õÊ¼»¯¶øÔì³ÉÄÚ´æÒç³ö£¬¶øÔÚ²»ºÏÊÊµÄÊ±»úµ÷ÓÃ¸Ã·½·¨Ôò¿ÉÄÜÔì³É³ÌĞò
-	 * ±ÀÀ£¡£<br>
-	 * ×¢Òâ£ºÊ¹ÓÃ±¾·½·¨ĞèÒª½øĞĞÑÏ¸ñµÄ²âÊÔ£¬ÔÚÒ»Ğ©ÉÏÏÂÎÄ»·¾³ÖĞµ÷ÓÃ±¾·½·¨£¬
-	 * »áÔì³ÉÏÔÊ¾ÎÊÌâ£¬ÓÈÆäÊÇÍ¨¹ıÖØÔØÖîÈçonDestroy·½·¨À´ÊµÏÖ×Ô¶¯ÊÍ·ÅÄÚ
-	 * ´æÊ±£¬³ÌĞò¼«ÓĞ¿ÉÄÜÔÚ²»Ç¡µ±µÄÊ±¿ÌÊÍ·ÅÄÚ´æ¶øµ¼ÖÂÎÊÌâ¡£ÕâÒ²ÊÇÎÒÃÇ
-	 * ²»½«ÊÍ·ÅÄÚ´æ¼¯³É½øÒıÇæÖĞ×Ô¶¯µ÷ÓÃµÄÖ÷ÒªÔ­Òò¡£
+	 * æ…é‡ä½¿ç”¨ï¼Œé‡Šæ”¾å¼•æ“æ‰€ä½¿ç”¨çš„nativeå’ŒJavaå†…å­˜ï¼Œå½“ä¸”ä»…å½“åœ¨ä¸€ä¸ªç¨‹
+	 * åºä¸­ä¸å†ä½¿ç”¨å¼•æ“æ—¶è°ƒç”¨ã€‚<br>
+	 * è¯¥æ–¹æ³•å­˜åœ¨çš„åŸå› æ˜¯ä½ å¯èƒ½ä¸å†éœ€è¦å¼•æ“ï¼Œä¸”ä½ éœ€è¦é‡Šæ”¾å¼•æ“å æ®çš„å†…å­˜
+	 * ç©ºé—´ç•™ç»™åˆ«çš„æ¨¡å—ã€‚<br>
+	 * ä¸€ç§å…¸å‹çš„æƒ…å†µæ˜¯ä½ ç”¨å¼•æ“ä»…ä»…ä½œä¸ºæ¬¢è¿ç•Œé¢çš„æ¸²æŸ“å™¨ï¼Œé‚£ä¹ˆå½“æ¬¢è¿ç•Œ
+	 * é¢ç»“æŸæ—¶ï¼Œä½ åº”å½“è°ƒç”¨è¯¥æ–¹æ³•é‡Šæ”¾èµ„æºã€‚å¦‚æœæ¬¢è¿ç•Œé¢ç»“æŸåï¼Œä½ ä»æœ‰
+	 * å¯èƒ½åœ¨åˆ«çš„åœ°æ–¹ç”¨åˆ°è¯¥å¼•æ“ï¼Œè¯·ä¸è¦ä½¿ç”¨æœ¬æ–¹æ³•ï¼šå¼•æ“ä¸ä¼šå› ä¸ºé¢‘ç¹çš„
+	 * åˆå§‹åŒ–è€Œé€ æˆå†…å­˜æº¢å‡ºï¼Œè€Œåœ¨ä¸åˆé€‚çš„æ—¶æœºè°ƒç”¨è¯¥æ–¹æ³•åˆ™å¯èƒ½é€ æˆç¨‹åº
+	 * å´©æºƒã€‚<br>
+	 * æ³¨æ„ï¼šä½¿ç”¨æœ¬æ–¹æ³•éœ€è¦è¿›è¡Œä¸¥æ ¼çš„æµ‹è¯•ï¼Œåœ¨ä¸€äº›ä¸Šä¸‹æ–‡ç¯å¢ƒä¸­è°ƒç”¨æœ¬æ–¹æ³•ï¼Œ
+	 * ä¼šé€ æˆæ˜¾ç¤ºé—®é¢˜ï¼Œå°¤å…¶æ˜¯é€šè¿‡é‡è½½è¯¸å¦‚onDestroyæ–¹æ³•æ¥å®ç°è‡ªåŠ¨é‡Šæ”¾å†…
+	 * å­˜æ—¶ï¼Œç¨‹åºææœ‰å¯èƒ½åœ¨ä¸æ°å½“çš„æ—¶åˆ»é‡Šæ”¾å†…å­˜è€Œå¯¼è‡´é—®é¢˜ã€‚è¿™ä¹Ÿæ˜¯æˆ‘ä»¬
+	 * ä¸å°†é‡Šæ”¾å†…å­˜é›†æˆè¿›å¼•æ“ä¸­è‡ªåŠ¨è°ƒç”¨çš„ä¸»è¦åŸå› ã€‚
 	 */
 	public static void release(){
 		nativeRelease();
@@ -63,84 +63,84 @@ public class Engine{
 	}
 
 	/**
-	 * Éè¶¨×ÊÔ´ÎÄ¼ş£¨²ÄÖÊ£¬Ä£ĞÍµÈ£©µÄ¾ø¶ÔÂ·¾¶¡£
-	 * @param path Â·¾¶Ãû¡£ÇëÒÔ'/'Îª¿ªÍ·£¬²¢ÒÔ'/'Îª½áÎ²
+	 * è®¾å®šèµ„æºæ–‡ä»¶ï¼ˆæè´¨ï¼Œæ¨¡å‹ç­‰ï¼‰çš„ç»å¯¹è·¯å¾„ã€‚
+	 * @param path è·¯å¾„åã€‚è¯·ä»¥'/'ä¸ºå¼€å¤´ï¼Œå¹¶ä»¥'/'ä¸ºç»“å°¾
 	 */
 	public void setResourceDir(String path){
 		mScene.setResourceDir(path);
 	}
 	
 	/**
-	 * È¡µÃÒıÇæÄÚ²¿µÄ³¡¾°Àà¡£
-	 * @return ³¡¾°ÀàµÄÖ¸Õë
+	 * å–å¾—å¼•æ“å†…éƒ¨çš„åœºæ™¯ç±»ã€‚
+	 * @return åœºæ™¯ç±»çš„æŒ‡é’ˆ
 	 */
 	public Scene getScene(){
 		return mScene;
 	}
 	
 	/**
-	 * È¡µÃ×ÊÔ´ÎÄ¼şÄ¿Â¼µÄ¾ø¶ÔÂ·¾¶¡£¿ÉÒÔÍ¨¹ı{@link #setResourceDir(String)}ÉèÖÃÂ·¾¶¡£
-	 * @return Ä¿Â¼µÄ¾ø¶ÔÂ·¾¶
+	 * å–å¾—èµ„æºæ–‡ä»¶ç›®å½•çš„ç»å¯¹è·¯å¾„ã€‚å¯ä»¥é€šè¿‡{@link #setResourceDir(String)}è®¾ç½®è·¯å¾„ã€‚
+	 * @return ç›®å½•çš„ç»å¯¹è·¯å¾„
 	 */
 	public String getResourceDir(){
 		return mScene.getResourceDir();
 	}
 	
 	/**
-	 * È¡µÃ»­²¼´óĞ¡¡£
-	 * @return »­²¼´óĞ¡
+	 * å–å¾—ç”»å¸ƒå¤§å°ã€‚
+	 * @return ç”»å¸ƒå¤§å°
 	 */
 	public Vector2i getRenderSize(){
 		return mScene.getRenderSize();
 	}
 	
 	/**
-	 * »ñÈ¡»æÖÆ»·¾³ÀàĞÍ£¬ÈçopenGL ES1.x, openGL ES2.0µÈ
-	 * @return »æÖÆ»·¾³ÀàĞÍ
+	 * è·å–ç»˜åˆ¶ç¯å¢ƒç±»å‹ï¼Œå¦‚openGL ES1.x, openGL ES2.0ç­‰
+	 * @return ç»˜åˆ¶ç¯å¢ƒç±»å‹
 	 */
 	public int getRenderType(){
 		return mRenderType;
 	}
 	
 	/**
-	 * ²éÑ¯native²ã¶ÁÈ¡assetsµÄ¿ª¹ØÊÇ·ñ´ò¿ª
-	 * @return ÈçÎªtrue£¬Ôò±íÊ¾ÒÑ¾­´ò¿ª
+	 * æŸ¥è¯¢nativeå±‚è¯»å–assetsçš„å¼€å…³æ˜¯å¦æ‰“å¼€
+	 * @return å¦‚ä¸ºtrueï¼Œåˆ™è¡¨ç¤ºå·²ç»æ‰“å¼€
 	 */
 	public boolean isNativeAssetsReaderEnabled(){
 		return mEnableAssets;
 	}
 	
 	/**
-	 * È¡µÃµ±Ç°äÖÈ¾µÄÖ¡ÂÊ¡£
-	 * @return Ö¡ÂÊ£¨fps£©
+	 * å–å¾—å½“å‰æ¸²æŸ“çš„å¸§ç‡ã€‚
+	 * @return å¸§ç‡ï¼ˆfpsï¼‰
 	 */
 	public double getFPS(){
 		return nativeGetFPS();
 	}
 	
 	/**
-	 * È¡µÃµ±Ç°ÒıÇæÉÏÏÂÎÄµÄAssets
-	 * @return Assets¹ÜÀíÆ÷Àà
+	 * å–å¾—å½“å‰å¼•æ“ä¸Šä¸‹æ–‡çš„Assets
+	 * @return Assetsç®¡ç†å™¨ç±»
 	 */
 	public AssetManager getAssets(){
 		return mAssets;
 	}
 	
 	/**
-	 * È¡µÃÒıÇæµÄÉÏÏÂÎÄ»·¾³
-	 * @return ÉÏÏÂÎÄ»·¾³
+	 * å–å¾—å¼•æ“çš„ä¸Šä¸‹æ–‡ç¯å¢ƒ
+	 * @return ä¸Šä¸‹æ–‡ç¯å¢ƒ
 	 */
 	public Context getContext(){
 		return mContext;
 	}
 	
 	/**
-	 * ½«assetsÖĞµÄÒ»¸öÎÄ¼ş¼ĞÌí¼ÓÈëÒıÇæÎÄ¼şÏµÍ³£¬Õâ¸ö·½·¨²¢²»»áËÑË÷ÎÄ¼ş¼ĞÏÂµÄ×ÓÎÄ¼ş¼Ğ£¬
-	 * Ìí¼ÓÄ¿Â¼Ö®ºó£¬¿ÉÒÔÔÚ×ÊÔ´Â·¾¶Ö®Ç°Ìí¼Ó{@link #SYSTEM_MEDIA}ÒÔ±íÊ¾ÕâÊÇ¸ö
-	 * assetsÄ¿Â¼¡£
-	 * @param dirname Ä¿Â¼Ãû³Æ£¬¸ùÄ¿Â¼ÓÃÓÃ¿Õ×Ö·û´®´ú±í
-	 * @param ignorePath ÔÚ½«À´²éÕÒÎÄ¼şÊ±£¬ÊÇ·ñºöÂÔÂ·¾¶
-	 * @return ÊÇ·ñ³É¹¦Ìí¼Ó
+	 * å°†assetsä¸­çš„ä¸€ä¸ªæ–‡ä»¶å¤¹æ·»åŠ å…¥å¼•æ“æ–‡ä»¶ç³»ç»Ÿï¼Œè¿™ä¸ªæ–¹æ³•å¹¶ä¸ä¼šæœç´¢æ–‡ä»¶å¤¹ä¸‹çš„å­æ–‡ä»¶å¤¹ï¼Œ
+	 * æ·»åŠ ç›®å½•ä¹‹åï¼Œå¯ä»¥åœ¨èµ„æºè·¯å¾„ä¹‹å‰æ·»åŠ {@link #SYSTEM_MEDIA}ä»¥è¡¨ç¤ºè¿™æ˜¯ä¸ª
+	 * assetsç›®å½•ã€‚
+	 * @param dirname ç›®å½•åç§°ï¼Œæ ¹ç›®å½•ç”¨ç”¨ç©ºå­—ç¬¦ä¸²ä»£è¡¨
+	 * @param ignorePath åœ¨å°†æ¥æŸ¥æ‰¾æ–‡ä»¶æ—¶ï¼Œæ˜¯å¦å¿½ç•¥è·¯å¾„
+	 * @return æ˜¯å¦æˆåŠŸæ·»åŠ 
 	 */
 	public boolean addAssetsDir(String dirname, boolean ignorePath){
 		if (mEnableAssets == false){
@@ -167,17 +167,13 @@ public class Engine{
 		initJNIFieldID();
 	
 		mScene = Scene.getInstance(this);
+		mScene.reset();
 		
-		if (isNativeAssetsReaderEnabled() == true){
-			addAssetsDir(mScene.getFullPath(SYSTEM_MEDIA.substring(0, SYSTEM_MEDIA.length()-1)), false);
-		}
-		mScene.javaReset();
-		
-		//nativeTest();
 		mRenderer.onCreate(this);
+		//nativeTest();
 		Log.d(TAG, "OnSurfaceCreated");
 	}
-
+	
 	synchronized void onSurfaceChanged(int width, int height){
 		nativeResize(width, height);
 		mScene.onResize(width, height);
@@ -233,7 +229,10 @@ public class Engine{
 		fname[1] = "Top"; 		fsig[1] = "I";
 		fname[2] = "Right";		fsig[2] = "I";
 		fname[3] = "Bottom";	fsig[3] = "I";
-		nativeInitJNI("zte/irrlib/core/Rect4i", fname, fsig, 4);		
+		nativeInitJNI("zte/irrlib/core/Rect4i", fname, fsig, 4);
+		
+		fname[0] = "M";			fsig[0] = "[F";
+		nativeInitJNI("zte/irrlib/core/Matrix4", fname, fsig, 1);
 		
 		mJNIIsInit = true;
 	}
@@ -272,21 +271,21 @@ public class Engine{
 	private native void nativeTest();
 	
 	/**
-	 * ÒıÇæµÄäÖÈ¾Æ÷½Ó¿Ú£¬ÓÃÓÚ³¡¾°äÖÈ¾£¬ĞèÒªÓÃ»§×Ô¼ºÊµÏÖ¡£ 
+	 * å¼•æ“çš„æ¸²æŸ“å™¨æ¥å£ï¼Œç”¨äºåœºæ™¯æ¸²æŸ“ï¼Œéœ€è¦ç”¨æˆ·è‡ªå·±å®ç°ã€‚ 
 	 */
 	public interface Renderer {
 		/**
-		 * »æÖÆÑ­»·£¬µ±»æÖÆ¿ªÊ¼ºó£¬±»Á¬ĞøµØµ÷ÓÃ£¬»æÖÆÆµÂÊÓë³¡¾°¸´ÔÓ¶ÈºÍÉÏÏÂÎÄ»·¾³Ïà¹Ø¡£
+		 * ç»˜åˆ¶å¾ªç¯ï¼Œå½“ç»˜åˆ¶å¼€å§‹åï¼Œè¢«è¿ç»­åœ°è°ƒç”¨ï¼Œç»˜åˆ¶é¢‘ç‡ä¸åœºæ™¯å¤æ‚åº¦å’Œä¸Šä¸‹æ–‡ç¯å¢ƒç›¸å…³ã€‚
 		 * @param engine
 		 */
 		void onDrawFrame(Engine engine);
 		/**
-		 * ³¡¾°³õÊ¼»¯·½·¨£¬ÔÚopenGL ESÉÏÏÂÎÄ±»½¨Á¢ºó×Ô¶¯µ÷ÓÃ
+		 * åœºæ™¯åˆå§‹åŒ–æ–¹æ³•ï¼Œåœ¨openGL ESä¸Šä¸‹æ–‡è¢«å»ºç«‹åè‡ªåŠ¨è°ƒç”¨
 		 * @param engine
 		 */
 		void onCreate(Engine engine);
 		/**
-		 * µ±´°¿Ú´óĞ¡¸Ä±äÊ±±»µ÷ÓÃ
+		 * å½“çª—å£å¤§å°æ”¹å˜æ—¶è¢«è°ƒç”¨
 		 * @param engine
 		 * @param width
 		 * @param height

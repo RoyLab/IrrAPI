@@ -120,7 +120,6 @@ extern "C"
 			smgr->setActiveCamera(0);
 			return 0;
 		}
-		
 		scene::ISceneNode* camera = smgr->getSceneNodeFromId(id);
 		if (!camera)
 		{
@@ -364,11 +363,10 @@ extern "C"
 				return -1;
 			}
 		}
-		node = smgr->addCameraSceneNode(parentNode,pos,lookat,id);
+		node = smgr->addCameraSceneNode(parentNode,pos,lookat,id,isActive);
 
 		if (node)
 		{
-			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
 			return 0;
 		}
 		else 
@@ -624,6 +622,115 @@ extern "C"
 		if(ps) return 0;
 		else return -1;
 	}
+	
+	int Java_zte_irrlib_scene_Scene_nativeAddSkyBoxSceneNode(
+		JNIEnv *env, jobject thiz, jstring jtop, jstring jbottom, jstring jleft,
+		jstring jright, jstring jfront, jstring jback, jint parent, jint id)
+	{
+		const char *top = env->GetStringUTFChars(jtop,0);
+		ITexture *toptex = driver->getTexture(top);
+		env->ReleaseStringUTFChars(jtop,top);
+		
+		const char *bottom = env->GetStringUTFChars(jbottom,0);
+		ITexture *bottomtex = driver->getTexture(bottom);
+		env->ReleaseStringUTFChars(jbottom,bottom);
+
+		const char *left = env->GetStringUTFChars(jleft,0);
+		ITexture *lefttex = driver->getTexture(left);
+		env->ReleaseStringUTFChars(jleft,left);
+
+		const char *right = env->GetStringUTFChars(jright,0);
+		ITexture *righttex = driver->getTexture(right);
+		env->ReleaseStringUTFChars(jright,right);
+
+		const char *front = env->GetStringUTFChars(jfront,0);
+		ITexture *fronttex = driver->getTexture(front);
+		env->ReleaseStringUTFChars(jfront,front);
+
+		const char *back = env->GetStringUTFChars(jback,0);
+		ITexture *backtex = driver->getTexture(back);
+		env->ReleaseStringUTFChars(jback,back);	
+		
+		ISceneNode *parentNode = 0, *node = 0;
+		if (parent > 0){
+			parentNode = smgr->getSceneNodeFromId(parent);
+			if (!parentNode) 
+			{
+				WARN_PARENT_NOT_FOUND(parent, AddSkyBoxNode);
+				return -2;
+			}
+		}
+		node = smgr->addSkyBoxSceneNode(toptex, bottomtex, lefttex, righttex,
+			fronttex, backtex, parentNode,id);
+
+		if (node)
+			return 0;
+		else 
+		{
+			ERROR_ADD_FAILD(id, addSkyBoxSceneNode);
+			return -1;
+		}		
+	}
+	
+	int Java_zte_irrlib_scene_Scene_nativeAddTerrainSceneNode(
+		JNIEnv *env, jobject thiz, jstring jmap, jobject jcolor, 
+		jint smooth, jint parent, jint id, jboolean isLight)
+	{
+		ISceneNode *parentNode = 0, *node = 0;
+		if (parent > 0){
+			parentNode = smgr->getSceneNodeFromId(parent);
+			if (!parentNode) 
+			{
+				WARN_PARENT_NOT_FOUND(parent, AddSkyBoxNode);
+				return -2;
+			}
+		}
+		const char *map = env->GetStringUTFChars(jmap, 0);
+		node = smgr->addTerrainSceneNode(map, parentNode, id, core::vector3df(0.f, 0.f, 0.f),
+			core::vector3df(0.f, 0.f, 0.f), core::vector3df(1.f, 1.f, 1.f),
+			utils->createSColorFromColor4i(env, jcolor), 5, ETPS_17, smooth);
+		env->ReleaseStringUTFChars(jmap, map);	
+		if (node)
+		{
+			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
+			return 0;
+		}
+		else 
+		{
+			ERROR_ADD_FAILD(id, AddTerrainSceneNode);
+			return -1;
+		}		
+	}
+	
+	int Java_zte_irrlib_scene_Scene_nativeAddSkyDomeSceneNode(
+		JNIEnv *env, jobject thiz, jstring jpath, jint horiRes, jint vertRes, 
+		jdouble texturePercentage, jdouble spherePercentage, jdouble radius, 
+		jint parent, jint id)
+	{
+		const char *path = env->GetStringUTFChars(jpath,0);
+		ITexture *tex = driver->getTexture(path);
+		env->ReleaseStringUTFChars(jpath,path);	
+		
+		ISceneNode *parentNode = 0, *node = 0;
+		if (parent > 0){
+			parentNode = smgr->getSceneNodeFromId(parent);
+			if (!parentNode) 
+			{
+				WARN_PARENT_NOT_FOUND(parent, AddSkyDomeNode);
+				return -2;
+			}
+		}
+		node = smgr->addSkyDomeSceneNode(tex, horiRes, vertRes, texturePercentage, spherePercentage, radius, parentNode,id);
+
+		if (node)
+			return 0;
+		else 
+		{
+			ERROR_ADD_FAILD(id, AddSkyDomeNode);
+			return -1;
+		}			
+	}
+	
 	void Java_zte_irrlib_scene_Scene_nativeRemoveNode(
 		JNIEnv *env, jobject defaultObj, jint id)
 	{

@@ -34,8 +34,8 @@ namespace irr
             setDebugName( "COGLES2Renderer2d" );
 #endif
             s32 dummy = -1;
-			strcpy(VertexShaderFile,"irrshader/COGLES2Renderer2D.vsh");
-			strcpy( FragmentShaderFile,"irrshader/COGLES2Renderer2D.fsh");
+			strcpy(VertexShaderFile,"COGLES2Renderer2D.vsh");
+			strcpy( FragmentShaderFile,"COGLES2Renderer2D.fsh");
             initFromFiles( dummy, VertexShaderFile, FragmentShaderFile, false );
             useProgram();
             int texUnit = 0;

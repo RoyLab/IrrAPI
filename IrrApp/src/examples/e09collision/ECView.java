@@ -1,4 +1,4 @@
-package examples.e09collision;
+锘縫ackage examples.e09collision;
 
 import zte.irrlib.IrrlichtView;
 import android.content.Context;
@@ -17,7 +17,7 @@ public class ECView extends IrrlichtView {
 	
 	public boolean onTouchEvent(MotionEvent e){
 		
-		/** 取得视图类在屏幕中的坐标*/
+		/** 鍙栧緱瑙嗗浘绫诲湪灞忓箷涓殑鍧愭爣*/
 		int viewPos[] = new int[2];
 		getLocationOnScreen(viewPos);
 		
@@ -25,7 +25,7 @@ public class ECView extends IrrlichtView {
 		final int Y = viewPos[1];
 		final MotionEvent event = e;
 		
-		/** 计算触摸事件在视图中的坐标，并传入渲染器*/
+		/** 璁＄畻瑙︽懜浜嬩欢鍦ㄨ鍥句腑鐨勫潗鏍囷紝骞朵紶鍏ユ覆鏌撳櫒*/
 		if (MotionEvent.ACTION_DOWN == event.getAction()){
 			queueEvent(new Runnable(){
 				public void run() {

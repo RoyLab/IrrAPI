@@ -1,4 +1,4 @@
-package zte.irrlib;
+ï»¿package zte.irrlib;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -11,15 +11,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 /**
- * <p>ÓëÒıÇæ¼æÈİµÄÊÓÍ¼ÀàµÄÒ»ÖÖÊµÏÖ¡£
- * <p>¸ÃÊÓÍ¼ÀàÊÇ{@link GLSurfaceView}µÄ×ÓÀà£¬¼Ì³ĞÁËÀ´×Ô{@link GLSurfaceView}µÄ¾ø´ó²¿·Ö·½·¨¡£
- * Í¬Ê±½¨Á¢Ò»Ğ©ĞÂ·½·¨À´<b>Ìæ´ú</b>¸¸ÀàµÄ·½·¨¡£×¢Òâ£¬ÎªÁË±£Ö¤Èí¼şµÄÎÈ¶¨ĞÔ£¬Çë¾¡Á¿Ê¹ÓÃ
- * ĞÂµÄ·½·¨£¬±ÜÃâÊ¹ÓÃ±»Ìæ´úµÄ·½·¨¡£ 
+ * <p>ä¸å¼•æ“å…¼å®¹çš„è§†å›¾ç±»çš„ä¸€ç§å®ç°ã€‚
+ * <p>è¯¥è§†å›¾ç±»æ˜¯{@link GLSurfaceView}çš„å­ç±»ï¼Œç»§æ‰¿äº†æ¥è‡ª{@link GLSurfaceView}çš„ç»å¤§éƒ¨åˆ†æ–¹æ³•ã€‚
+ * åŒæ—¶å»ºç«‹ä¸€äº›æ–°æ–¹æ³•æ¥<b>æ›¿ä»£</b>çˆ¶ç±»çš„æ–¹æ³•ã€‚æ³¨æ„ï¼Œä¸ºäº†ä¿è¯è½¯ä»¶çš„ç¨³å®šæ€§ï¼Œè¯·å°½é‡ä½¿ç”¨
+ * æ–°çš„æ–¹æ³•ï¼Œé¿å…ä½¿ç”¨è¢«æ›¿ä»£çš„æ–¹æ³•ã€‚ 
  */
 public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Renderer{
 	
 	/**
-	 * ÈÕÖ¾±êÇ©
+	 * æ—¥å¿—æ ‡ç­¾
 	 */
 	public final String TAG = "IrrlichtView";
 	
@@ -36,19 +36,19 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 	
 	/**
-	 * ¿ÉÒÔºÍ{@link #setEGLConfigChooser(EGLConfigChooser)}»¥ÏàÌæ´ú¡£
-	 * ±¾·½·¨¼ò»¯ÁËÉè¶¨ÉÏÏÂÎÄ»·¾³µÄ¹¤×÷£¬¿ÉÒÔÓÃÓÚ³õÊ¼»¯Ò»¸öRGB565£¬²¢ÇÒ
-	 * ´ò¿ª¶àÖØ²ÉÑùÉÏÏÂÎÄ»·¾³¡£
-	 * @param sampleLevel ¶àÖØ²ÉÑùÖØÊı
+	 * å¯ä»¥å’Œ{@link #setEGLConfigChooser(EGLConfigChooser)}äº’ç›¸æ›¿ä»£ã€‚
+	 * æœ¬æ–¹æ³•ç®€åŒ–äº†è®¾å®šä¸Šä¸‹æ–‡ç¯å¢ƒçš„å·¥ä½œï¼Œå¯ä»¥ç”¨äºåˆå§‹åŒ–ä¸€ä¸ªRGB565ï¼Œå¹¶ä¸”
+	 * æ‰“å¼€å¤šé‡é‡‡æ ·ä¸Šä¸‹æ–‡ç¯å¢ƒã€‚
+	 * @param sampleLevel å¤šé‡é‡‡æ ·é‡æ•°
 	 */
 	public void setRecommendEGLConfigChooser(int sampleLevel){
 		setEGLConfigChooser(new RecommedEGLConfigChooser(mRenderType, sampleLevel));
 	}
 	
 	/**
-	 * openGL ES2.0µÄ¿ª¹Ø£¬Ä¬ÈÏ¹Ø±Õ¡£Ìæ´ú{@link #setEGLContextClientVersion(int)}¡£
-	 * Èç·Ç±ØÒª£¬ÇëÊ¹ÓÃopenGL ES1.x½øĞĞäÖÈ¾£¬ÒòÎªËü¸ü¿ì£¬²¢ÇÒÒıÇæ¶ÔËüµÄÖ§³Ö¸üÎªÍêÉÆ¡£
-	 * @param flag ÎªtrueÊ±´ò¿ª¿ª¹Ø
+	 * openGL ES2.0çš„å¼€å…³ï¼Œé»˜è®¤å…³é—­ã€‚æ›¿ä»£{@link #setEGLContextClientVersion(int)}ã€‚
+	 * å¦‚éå¿…è¦ï¼Œè¯·ä½¿ç”¨openGL ES1.xè¿›è¡Œæ¸²æŸ“ï¼Œå› ä¸ºå®ƒæ›´å¿«ï¼Œå¹¶ä¸”å¼•æ“å¯¹å®ƒçš„æ”¯æŒæ›´ä¸ºå®Œå–„ã€‚
+	 * @param flag ä¸ºtrueæ—¶æ‰“å¼€å¼€å…³
 	 */
 	public void enableGLES2(boolean flag){
 		if (flag){
@@ -62,50 +62,50 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 	
 	/**
-	 * ²é¿´openGL ES2.0¿ª¹ØÊÇ·ñ´ò¿ª
-	 * @return Îªtrue£¬ÔòÊ¹ÓÃES2.0äÖÈ¾
+	 * æŸ¥çœ‹openGL ES2.0å¼€å…³æ˜¯å¦æ‰“å¼€
+	 * @return ä¸ºtrueï¼Œåˆ™ä½¿ç”¨ES2.0æ¸²æŸ“
 	 */
 	public boolean IsGLES2Enabled(){
 		return mRenderType == EGL10Ext.EGL_OPENGL_ES2_BIT;
 	}
 	
 	/**
-	 * native²ã¶ÁÈ¡assetsµÄ¿ª¹Ø¡£ÓÉÓÚnative²ã¶ÁÈ¡assetsµÄËÙ¶È·Ç³£Âı£¬Òò´ËÎÒÃÇÌá¹©ÁË½ûÓÃ
-	 * µÄÊÖ¶Î¡£¹Ø±Õ´Ë¿ª¹ØÖ®ºó£¬½«ÏÔÖø½µµÍÆô¶¯ºÍÔËĞĞ¹ı³ÌÖĞµÄÑÓ³Ù£¬µ«³ÌĞòÔ±Ò²²»ÄÜÔÙÏíÊÜassets
-	 * ¶ÁÈ¡Ëù´øÀ´µÄ±ãÀû¡£¹Ø±Õ´Ë¿ª¹ØÖ®ºó£¬ÄÚÖÃÎÄ×Ö´¦Àí£¬NineCubeLayoutÀà£¬ÒÔ¼°ÓëassetsÏà¹Ø
-	 * µÄ²Ù×÷½«²»¿ÉÓÃ£¬²¢ÇÒ²úÉú±¨¾¯ÈÕÖ¾¡£³ÌĞòÔ±±ØĞëÍ¨¹ıÆäËû·½·¨Ö¸¶¨×ÊÔ´Â·¾¶ºÍ·ÃÎÊ×ÊÔ´
-	 * @param flag ÈçÎªtrue£¬Ôò´ò¿ªassets¶ÁÈ¡¹¦ÄÜ¡£Ä¬ÈÏÉèÖÃÎªtrue
+	 * nativeå±‚è¯»å–assetsçš„å¼€å…³ã€‚ç”±äºnativeå±‚è¯»å–assetsçš„é€Ÿåº¦éå¸¸æ…¢ï¼Œå› æ­¤æˆ‘ä»¬æä¾›äº†ç¦ç”¨
+	 * çš„æ‰‹æ®µã€‚å…³é—­æ­¤å¼€å…³ä¹‹åï¼Œå°†æ˜¾è‘—é™ä½å¯åŠ¨å’Œè¿è¡Œè¿‡ç¨‹ä¸­çš„å»¶è¿Ÿï¼Œä½†ç¨‹åºå‘˜ä¹Ÿä¸èƒ½å†äº«å—assets
+	 * è¯»å–æ‰€å¸¦æ¥çš„ä¾¿åˆ©ã€‚å…³é—­æ­¤å¼€å…³ä¹‹åï¼Œå†…ç½®æ–‡å­—å¤„ç†ï¼ŒNineCubeLayoutç±»ï¼Œä»¥åŠä¸assetsç›¸å…³
+	 * çš„æ“ä½œå°†ä¸å¯ç”¨ï¼Œå¹¶ä¸”äº§ç”ŸæŠ¥è­¦æ—¥å¿—ã€‚ç¨‹åºå‘˜å¿…é¡»é€šè¿‡å…¶ä»–æ–¹æ³•æŒ‡å®šèµ„æºè·¯å¾„å’Œè®¿é—®èµ„æº
+	 * @param flag å¦‚ä¸ºtrueï¼Œåˆ™æ‰“å¼€assetsè¯»å–åŠŸèƒ½ã€‚é»˜è®¤è®¾ç½®ä¸ºtrue
 	 */
 	public void enableNativeAssetsReader(boolean flag){
 		mEnableAssets = flag;
 	}
 	
 	/**
-	 * ²éÑ¯native²ã¶ÁÈ¡assetsµÄ¿ª¹ØÊÇ·ñ´ò¿ª
-	 * @return ÈçÎªtrue£¬Ôò±íÊ¾ÒÑ¾­´ò¿ª
+	 * æŸ¥è¯¢nativeå±‚è¯»å–assetsçš„å¼€å…³æ˜¯å¦æ‰“å¼€
+	 * @return å¦‚ä¸ºtrueï¼Œåˆ™è¡¨ç¤ºå·²ç»æ‰“å¼€
 	 */
 	public boolean isNativeAssetsReaderEnabled(){
 		return mEnableAssets;
 	}
 	
 	/**
-	 * Ìæ´úÁË{@link #setRenderer(Renderer)}£¬ÓÃÓÚÖ¸¶¨ÊÓÍ¼ÀàµÄäÖÈ¾»Øµ÷
-	 * ·½·¨¡£¸Ã·½·¨ÔÚÕû¸öÊÓÍ¼ÀàµÄÉúÃüÖÜÆÚÖĞ±ØĞëµ÷ÓÃÒ»´ÎÇÒÖ»ÄÜµ÷ÓÃÒ»´Î¡£<br>
-	 * ÒÔÏÂ·½·¨±ØĞëÔÚ¸Ã·½·¨Ö®Ç°±»µ÷ÓÃ£º<br>
+	 * æ›¿ä»£äº†{@link #setRenderer(Renderer)}ï¼Œç”¨äºæŒ‡å®šè§†å›¾ç±»çš„æ¸²æŸ“å›è°ƒ
+	 * æ–¹æ³•ã€‚è¯¥æ–¹æ³•åœ¨æ•´ä¸ªè§†å›¾ç±»çš„ç”Ÿå‘½å‘¨æœŸä¸­å¿…é¡»è°ƒç”¨ä¸€æ¬¡ä¸”åªèƒ½è°ƒç”¨ä¸€æ¬¡ã€‚<br>
+	 * ä»¥ä¸‹æ–¹æ³•å¿…é¡»åœ¨è¯¥æ–¹æ³•ä¹‹å‰è¢«è°ƒç”¨ï¼š<br>
 	 * {@link #enableGLES2(boolean)}<br>
 	 * {@link #setRecommendEGLConfigChooser(int)}<br>
 	 * {@link #setEGLConfigChooser(EGLConfigChooser)}<br>
 	 * {@link #setEGLConfigChooser(boolean)}<br>
 	 * {@link #setEGLConfigChooser(int, int, int, int, int, int)}<br>
 	 * {@link #setEGLConfigChooser(boolean)}<br>
-	 * ÒÔÏÂ·½·¨±ØĞëÔÚ¸Ã·½·¨Ö®ºóµ÷ÓÃ<br>
+	 * ä»¥ä¸‹æ–¹æ³•å¿…é¡»åœ¨è¯¥æ–¹æ³•ä¹‹åè°ƒç”¨<br>
 	 * {@link #setRecommendEGLConfigChooser(int)}<br>
 	 * {@link #requestRender()}<br>
 	 * {@link #onPause()}<br>
 	 * {@link #onResume()}<br>
 	 * {@link #getRenderMode()}<br>
 	 * {@link #queueEvent(Runnable)}<br>
-	 * @param renderer äÖÈ¾Æ÷£¬ĞèÒªÓÃ»§ÊµÏÖ{@link Engine.Renderer}½Ó¿Ú
+	 * @param renderer æ¸²æŸ“å™¨ï¼Œéœ€è¦ç”¨æˆ·å®ç°{@link Engine.Renderer}æ¥å£
 	 */
 	public void setEngineRenderer(Engine.Renderer renderer){
 		mRenderer = renderer;
@@ -114,8 +114,8 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	}
 	
 	/**
-	 * È¡µÃ¸ÃÊÓÍ¼ÀàµÄäÖÈ¾Æ÷
-	 * @return äÖÈ¾Æ÷Ö¸Õë
+	 * å–å¾—è¯¥è§†å›¾ç±»çš„æ¸²æŸ“å™¨
+	 * @return æ¸²æŸ“å™¨æŒ‡é’ˆ
 	 */
 	public Engine.Renderer getRenderer(){
 		return mRenderer;
@@ -135,15 +135,21 @@ public class IrrlichtView extends GLSurfaceView implements GLSurfaceView.Rendere
 	
 	public void onDrawFrame(GL10 gl) {
 		mEngine.onDrawFrame();
+		//mGL.onDrawFrame(gl);
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-			mEngine.onSurfaceChanged(width, height);
+		mEngine.onSurfaceChanged(width, height);
+		//mGL.onSurfaceChanged(gl, width, height);
 	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-			mEngine.onSurfaceCreated(this);
+		mEngine.onSurfaceCreated(this); 
+		//mGL = new TestGLRenderer(getContext());
+		//mGL.onSurfaceCreated(gl, config);
 	}
+
+	//public TestGLRenderer mGL;
 }
 
 class RecommedEGLConfigChooser implements GLSurfaceView.EGLConfigChooser{

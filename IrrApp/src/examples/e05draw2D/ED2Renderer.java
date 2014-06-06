@@ -1,4 +1,4 @@
-package examples.e05draw2D;
+锘縫ackage examples.e05draw2D;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -15,24 +15,29 @@ public class ED2Renderer implements Renderer {
 		Scene scene = engine.getScene();
 		
 		/**
-		 * 绘制文字，必须在assets读取可用(isNativeAssetsReaderEnabled)的状态下才能生效
+		 * 缁樺埗鏂囧瓧锛屽繀椤婚鍏堜娇鐢╯etFont娣诲姞瀛椾綋
 		 */
 		scene.drawText("FPS: " + engine.getFPS(), new Vector2i(), new Color4i(0x7f, 0x7f, 0xbf, 0xff));
 		
 		/**
-		 * 绘制一张图片的全部或一部分
+		 * 缁樺埗涓�寮犲浘鐗囩殑鍏ㄩ儴鎴栦竴閮ㄥ垎
 		 */
 		scene.drawImage(Engine.SYSTEM_MEDIA + "b&w.bmp", 
 				new Rect4i(100, 100, 300, 300), new Rect4d(0.1, 0.2, 1.0, 0.9), false);
 		
 		/**
-		 * 绘制矩形区域
+		 * 缁樺埗鐭╁舰鍖哄煙
 		 */
 		scene.drawRectangle(new Rect4i(200, 100, 400, 300), new Color4i(0xff, 0, 0, 0x7f));
 	}
 
 	public void onCreate(Engine engine) {
 		
+		engine.addAssetsDir("sysmedia", false);
+		
+		/** 娣诲姞瀛椾綋鏂囦欢*/
+		Scene scene = engine.getScene();
+		scene.setFont(Engine.SYSTEM_MEDIA+"defaultfont.png");
 	}
 
 	public void onResize(Engine engine, int width, int height) {

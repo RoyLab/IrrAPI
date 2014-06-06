@@ -1,4 +1,4 @@
-package examples.e08lighting;
+ï»¿package examples.e08lighting;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -21,27 +21,28 @@ public class ELRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
 		
-		/** ÒªÊ¹µÆ¹â¿ÉÒÔÉúĞ§£¬ÔòĞë´ò¿ª³¡¾°µÈĞ§¿ª¹Ø£¨Ä¬ÈÏ¹Ø±Õ£©*/
+		/** è¦ä½¿ç¯å…‰å¯ä»¥ç”Ÿæ•ˆï¼Œåˆ™é¡»æ‰“å¼€åœºæ™¯ç­‰æ•ˆå¼€å…³ï¼ˆé»˜è®¤å…³é—­ï¼‰*/
 		scene.enableLighting(true);
 		
-		/** Ìí¼ÓÒ»¸öÄ£ĞÍ½Úµã*/
+		/** æ·»åŠ ä¸€ä¸ªæ¨¡å‹èŠ‚ç‚¹*/
 		cube = scene.addMeshSceneNode(Engine.SYSTEM_MEDIA + "cube.obj",
 				new Vector3d(0, 0, 20), false, null);
 		cube.addRotationAnimator(new Vector3d(0, 0.5, 0.1));
 		
-		/** ÄãÒ²¿ÉÒÔÍ¨¹ıÏÂÃæµÄ·½·¨¿ØÖÆµ¥¸ö½ÚµãÊÇ·ñÓ¦ÓÃµÆĞ§*/
+		/** ä½ ä¹Ÿå¯ä»¥é€šè¿‡ä¸‹é¢çš„æ–¹æ³•æ§åˆ¶å•ä¸ªèŠ‚ç‚¹æ˜¯å¦åº”ç”¨ç¯æ•ˆ*/
 		//cube.enableLighting(false);
 		
-		/** Ìí¼ÓÒ»¸öµÆ¹âµÄ½Úµã*/
-		light = scene.addLightSceneNode(new Vector3d(20, 20, 0), 20, new Color3i(0xff, 0x9f, 0x9f), null);
+		/** æ·»åŠ ä¸€ä¸ªç¯å…‰çš„èŠ‚ç‚¹*/
+		light = scene.addLightSceneNode(new Vector3d(10, 10, -10), 50, new Color3i(0xff, 0x9f, 0x9f), null);
 		
-		/** ¸ü¸Ä²¿·ÖµÆ¹âÊôĞÔ*/
-		light.LightData.DiffuseColor = new Color3i(0xff, 0xff, 0xff);
-		light.LightData.AmbientColor = new Color3i(0xff, 0x9f, 0x9f);
+		/** æ›´æ”¹éƒ¨åˆ†ç¯å…‰å±æ€§*/
+		light.LightData.DiffuseColor = new Color3i(0xdf, 0x9f, 0x9f);
+		light.LightData.AmbientColor = new Color3i(0x2f, 0x1f, 0x1f);
 		
-		/** ½«¸ü¸ÄÌá½»µ½±¾µØÒıÇæ*/
+		/** å°†æ›´æ”¹æäº¤åˆ°æœ¬åœ°å¼•æ“*/
 		light.uploadLightData();
 	}
 	

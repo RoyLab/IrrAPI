@@ -1,4 +1,4 @@
-package examples;
+ï»¿package examples;
 
 import zte.irrlib.Engine;
 import android.app.ListActivity;
@@ -26,28 +26,34 @@ import examples.e15memory.EMemory;
 import examples.e16nodemgr.ENodeMgr;
 import examples.e17bbox.EBoundingBox;
 import examples.e18psextension.EPSExtension;
+import examples.e19cameraswitch.ECameraSwicth;
+import examples.e20skydome.ESkyDome;
+import examples.e21animatedmesh.EAnimateMesh;
 
 public class ExampleList extends ListActivity {
 
 	public final String[] exampleName = new String[] {
 			"01.GettingStart",
-			"02.EngineÀàµÄÉèÖÃ", 
-			"03.½Úµã±ä»»",
-			"04.½Úµã¶¯»­",
-			"05.2D»æÍ¼",
-			"06.ÊÂ¼ş´¦ÀíÓëÕÕÏà»ú",
-			"07.BitmapÀà",
-			"08.¹âÕÕ",
-			"09.Åö×²¼ì²â",
-			"10.Ã½Ìå²¥·ÅÆ÷ÓëÍâÖÃÌùÍ¼",
-			"11.¹«¸æ°å×é",
-			"12.Á£×ÓÏµÍ³",
-			"13.Ò»¸ö²¼¾ÖÀàµÄÊµÏÖ",
-			"14.ÉîÈë²ÄÖÊºÍÌùÍ¼",
-			"15.ÄÚ´æ¿ØÖÆ",
-			"16.ÉîÈë½Úµã¹ÜÀí",
-			"17.°üÎ§ºĞ",
-			"18.Á£×ÓÌØĞ§"
+			"02.Engineç±»çš„è®¾ç½®", 
+			"03.èŠ‚ç‚¹å˜æ¢ä¸çŸ©é˜µ",
+			"04.èŠ‚ç‚¹åŠ¨ç”»",
+			"05.2Dç»˜å›¾",
+			"06.äº‹ä»¶å¤„ç†ä¸ç…§ç›¸æœº",
+			"07.Bitmapç±»",
+			"08.å…‰ç…§",
+			"09.ç¢°æ’æ£€æµ‹",
+			"10.åª’ä½“æ’­æ”¾å™¨ä¸å¤–ç½®è´´å›¾",
+			"11.å…¬å‘Šæ¿ç»„",
+			"12.ç²’å­ç³»ç»Ÿ",
+			"13.ä¸€ä¸ªå¸ƒå±€ç±»çš„å®ç°",
+			"14.æ·±å…¥æè´¨å’Œè´´å›¾",
+			"15.å†…å­˜æ§åˆ¶",
+			"16.æ·±å…¥èŠ‚ç‚¹ç®¡ç†",
+			"17.åŒ…å›´ç›’",
+			"18.ç²’å­ç‰¹æ•ˆ",
+			"19.åˆ‡æ¢ç›¸æœºä¸æŠ•å½±çŸ©é˜µ",
+			"20.å¤©ç©ºç›’ç­‰",
+			"21.åŠ¨ç”»æ§åˆ¶"
 	};
 	
 	private ArrayAdapter<String> adapter;
@@ -56,7 +62,7 @@ public class ExampleList extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		/** ºáÊúÆÁµÄÇĞ»»×ÜÊÇÊ¹µÃEngine.release()¹¤×÷²»Õı³££¬Òò´ËÕâÀï¾ö¶¨½ûÓÃËü*/
+		/** æ¨ªç«–å±çš„åˆ‡æ¢æ€»æ˜¯ä½¿å¾—Engine.release()å·¥ä½œä¸æ­£å¸¸ï¼Œå› æ­¤è¿™é‡Œå†³å®šç¦ç”¨å®ƒ*/
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		//WLog.d("onCreate");
@@ -86,7 +92,10 @@ public class ExampleList extends ListActivity {
 		case 15:	cls = EMemory.class;		break;
 		case 16:	cls = ENodeMgr.class;		break;
 		case 17:	cls = EBoundingBox.class;	break;
-		case 18:cls = EPSExtension.class; 	break;
+		case 18:	cls = EPSExtension.class; 	break;
+		case 19:	cls = ECameraSwicth.class;	break;
+		case 20:	cls = ESkyDome.class;		break;
+		case 21: 	cls = EAnimateMesh.class;	break;
 		default: break;
 		}
 		
@@ -96,18 +105,18 @@ public class ExampleList extends ListActivity {
 		
 	protected void onDestroy(){
 		/**
-		 * µ±ÄãÔÙÒ²²»ĞèÒªÊ¹ÓÃÒıÇæÊ±£¬¿ÉÒÔÖ÷¶¯ÊÍ·ÅÒıÇæÕ¼ÓÃµÄ×ÊÔ´¡£
-		 * Ç¿ÁÒ½¨Òé£º½öµ±Õû¸öÓ¦ÓÃ³ÌĞòÔÙÒ²²»»áÓÃµ½ÒıÇæÊ±µ÷ÓÃ¸Ã·½·¨¡£
-		 * »ùÓÚ´ËÔ­Ôò£¬Äã»á×¢Òâµ½ÔÚËùÓĞµÄ·¶ÀıactivityÖĞ¶¼Ã»ÓĞÓÃµ½¸Ã·½·¨¡£
+		 * å½“ä½ å†ä¹Ÿä¸éœ€è¦ä½¿ç”¨å¼•æ“æ—¶ï¼Œå¯ä»¥ä¸»åŠ¨é‡Šæ”¾å¼•æ“å ç”¨çš„èµ„æºã€‚
+		 * å¼ºçƒˆå»ºè®®ï¼šä»…å½“æ•´ä¸ªåº”ç”¨ç¨‹åºå†ä¹Ÿä¸ä¼šç”¨åˆ°å¼•æ“æ—¶è°ƒç”¨è¯¥æ–¹æ³•ã€‚
+		 * åŸºäºæ­¤åŸåˆ™ï¼Œä½ ä¼šæ³¨æ„åˆ°åœ¨æ‰€æœ‰çš„èŒƒä¾‹activityä¸­éƒ½æ²¡æœ‰ç”¨åˆ°è¯¥æ–¹æ³•ã€‚
 		 * 
-		 * ×¢Òâ£ºÊ¹ÓÃ±¾·½·¨ĞèÒª½øĞĞÑÏ¸ñµÄ²âÊÔ£¬ÔÚÒ»Ğ©ÉÏÏÂÎÄ»·¾³ÖĞµ÷ÓÃ±¾·½·¨£¬
-		 * »áÔì³ÉÏÔÊ¾ÎÊÌâ£¬ÓÈÆäÊÇÍ¨¹ıÖØÔØÖîÈçonDestroy·½·¨À´ÊµÏÖ×Ô¶¯ÊÍ·ÅÄÚ
-		 * ´æÊ±£¬³ÌĞò¼«ÓĞ¿ÉÄÜÔÚ²»Ç¡µ±µÄÊ±¿ÌÊÍ·ÅÄÚ´æ¶øµ¼ÖÂÎÊÌâ¡£ÕâÒ²ÊÇÎÒÃÇ
-		 * ²»½«ÊÍ·ÅÄÚ´æ¼¯³É½øÒıÇæÖĞ×Ô¶¯µ÷ÓÃµÄÖ÷ÒªÔ­Òò¡£ÄãÉõÖÁ¿ÉÒÔ²»µ÷ÓÃRelease
-		 * ·½·¨£¬ÒòÎªÉêÇëµÄÄÚ´æ½«Ëæ×ÅÕû¸öÓ¦ÓÃµÄÏú»Ù¶ø±»ÊÍ·Å¡£
+		 * æ³¨æ„ï¼šä½¿ç”¨æœ¬æ–¹æ³•éœ€è¦è¿›è¡Œä¸¥æ ¼çš„æµ‹è¯•ï¼Œåœ¨ä¸€äº›ä¸Šä¸‹æ–‡ç¯å¢ƒä¸­è°ƒç”¨æœ¬æ–¹æ³•ï¼Œ
+		 * ä¼šé€ æˆæ˜¾ç¤ºé—®é¢˜ï¼Œå°¤å…¶æ˜¯é€šè¿‡é‡è½½è¯¸å¦‚onDestroyæ–¹æ³•æ¥å®ç°è‡ªåŠ¨é‡Šæ”¾å†…
+		 * å­˜æ—¶ï¼Œç¨‹åºææœ‰å¯èƒ½åœ¨ä¸æ°å½“çš„æ—¶åˆ»é‡Šæ”¾å†…å­˜è€Œå¯¼è‡´é—®é¢˜ã€‚è¿™ä¹Ÿæ˜¯æˆ‘ä»¬
+		 * ä¸å°†é‡Šæ”¾å†…å­˜é›†æˆè¿›å¼•æ“ä¸­è‡ªåŠ¨è°ƒç”¨çš„ä¸»è¦åŸå› ã€‚ä½ ç”šè‡³å¯ä»¥ä¸è°ƒç”¨Release
+		 * æ–¹æ³•ï¼Œå› ä¸ºç”³è¯·çš„å†…å­˜å°†éšç€æ•´ä¸ªåº”ç”¨çš„é”€æ¯è€Œè¢«é‡Šæ”¾ã€‚
 		 * 
-		 * Ò»¸ö¸üÎªºÏÀíµÄ°ì·¨ÊÇÊ¹ÓÃSurfaceView±àĞ´×Ô¼ºµÄÊÓÍ¼Àà¡£È»¶øÕâ¸ö·½·¨
-		 * ĞèÒª´óÁ¿µÄ±àÂëºÍµ÷ÊÔ¹¤×÷£¬ÈçÓĞĞèÒª£¬¿ÉÒÔ×ÔĞĞÍê³É¡£
+		 * ä¸€ä¸ªæ›´ä¸ºåˆç†çš„åŠæ³•æ˜¯ä½¿ç”¨SurfaceViewç¼–å†™è‡ªå·±çš„è§†å›¾ç±»ã€‚ç„¶è€Œè¿™ä¸ªæ–¹æ³•
+		 * éœ€è¦å¤§é‡çš„ç¼–ç å’Œè°ƒè¯•å·¥ä½œï¼Œå¦‚æœ‰éœ€è¦ï¼Œå¯ä»¥è‡ªè¡Œå®Œæˆã€‚
 		 */
 		//WLog.d("onDestroy");
 		Engine.release(); 

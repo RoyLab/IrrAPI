@@ -1,4 +1,4 @@
-package examples.e17bbox;
+Ôªøpackage examples.e17bbox;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * —› æ¡À»Á∫Œ π”√BoundingBox¿‡
+ * ÊºîÁ§∫‰∫ÜÂ¶Ç‰Ωï‰ΩøÁî®BoundingBoxÁ±ª
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class EBoundingBox extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EBRenderer());
 	}
 	

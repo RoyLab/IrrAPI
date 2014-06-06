@@ -1,69 +1,58 @@
-package zte.irrlib.core;
+ï»¿package zte.irrlib.core;
 
 /**
- * °üº¬µÆ¹âĞÅÏ¢µÄÊı¾İ½á¹¹¡£<br>
- * ×¢Òâ£¬ÕâĞ©ÊôĞÔÉèÖÃÖ»ÓĞÔÚºÏÊÊµÄµÆ¹âÀàĞÍÖĞ²ÅÓĞÓÃ£¬
- * Èç£¨{@link #OuterCone}µÄÉèÖÃ½öÔÚµÆ¹âÀàĞÍÎª{@link #SPOT_LIGHT}
- * Ê±£¬²ÅÊÇÓĞĞ§µÄ£©¡£
+ * åŒ…å«ç¯å…‰ä¿¡æ¯çš„æ•°æ®ç»“æ„ã€‚<br>
+ * æ³¨æ„ï¼Œè¿™äº›å±æ€§è®¾ç½®åªæœ‰åœ¨åˆé€‚çš„ç¯å…‰ç±»å‹ä¸­æ‰æœ‰ç”¨ï¼Œ
+ * å¦‚ï¼ˆ{@link #OuterCone}çš„è®¾ç½®ä»…åœ¨ç¯å…‰ç±»å‹ä¸º{@link #SPOT_LIGHT}
+ * æ—¶ï¼Œæ‰æ˜¯æœ‰æ•ˆçš„ï¼‰ã€‚
  * @author Roy
  *
  */
 public class SLight {
 	
-	/** µã¹âÔ´£¬ÏòÈ«·½Ïò¾ùÔÈµÄ·¢Éä¹âÏß¡£ */
+	/** ç‚¹å…‰æºï¼Œå‘å…¨æ–¹å‘å‡åŒ€çš„å‘å°„å…‰çº¿ã€‚ */
 	public static final int POINT_LIGHT = 0x01;
-	/** Ô²×¶¹âÔ´£¬Ö»ÕÕÁÁÄ³¸ö·½ÏòÉÏµÄÓĞÏŞÔ²×¶ÌåÄÚµÄÎïÌå*/
+	/** åœ†é”¥å…‰æºï¼Œåªç…§äº®æŸä¸ªæ–¹å‘ä¸Šçš„æœ‰é™åœ†é”¥ä½“å†…çš„ç‰©ä½“*/
 	public static final int SPOT_LIGHT = 0x02;
-	/** Æ½ĞĞ¹âÔ´£¬ÓĞ·½Ïò£¬Ó°Ïì¾àÀëÎŞÏŞÔ¶¡£*/
+	/** å¹³è¡Œå…‰æºï¼Œæœ‰æ–¹å‘ï¼Œå½±å“è·ç¦»æ— é™è¿œã€‚*/
 	public static final int DIRECTIONAL_LIGHT = 0x03;
 	
 	/**
-	 * µÆ¹âÀàĞÍ£¬¿ÉÑ¡£º{@link #POINT_LIGHT}, {@link #SPOT_LIGHT},
+	 * ç¯å…‰ç±»å‹ï¼Œå¯é€‰ï¼š{@link #POINT_LIGHT}, {@link #SPOT_LIGHT},
 	 * {@link #DIRECTIONAL_LIGHT}.
 	 */
 	public int Type = POINT_LIGHT;
 	
-	/** »·¾³¹â*/
+	/** ç¯å¢ƒå…‰*/
 	public Color3i AmbientColor = new Color3i(0,0,0);
-	/** Âş·´Éä¹â*/
+	/** æ¼«åå°„å…‰*/
 	public Color3i DiffuseColor = new Color3i();
-	/** ¸ß¹â*/
+	/** é«˜å…‰*/
 	public Color3i SpecularColor = new Color3i();
 	
 	/** 
-	 * Ë¥¼õÒò×Ó£º(³£Á¿ÏµÊıa£¬Ò»½×ÏµÊıb£¬¶ş½×ÏµÊıc)<br>
-	 * ¼ÆËã¹«Ê½Îª: L = L0/(a+b*r+c*r*r).<br>
-	 * ÆäÖĞLÊÇ¾àÀër´¦µÄ¹âÇ¿£¬L0³õÊ¼¹âÇ¿¡£<br>
-	 * Õâ¸öÏµÊı»áÔÚÊ¹ÓÃ{@link #setRadius(double)}ºó
-	 * ±»¸²¸Ç¡£¸²¸ÇÖµÎª(0, 1/radius, 0)
+	 * è¡°å‡å› å­ï¼š(å¸¸é‡ç³»æ•°aï¼Œä¸€é˜¶ç³»æ•°bï¼ŒäºŒé˜¶ç³»æ•°c)<br>
+	 * è®¡ç®—å…¬å¼ä¸º: L = L0/(a+b*r+c*r*r).<br>
+	 * å…¶ä¸­Læ˜¯è·ç¦»rå¤„çš„å…‰å¼ºï¼ŒL0åˆå§‹å…‰å¼ºã€‚<br>
+	 * è¿™ä¸ªç³»æ•°ä¼šåœ¨ä½¿ç”¨{@link #setRadius(double)}å
+	 * è¢«è¦†ç›–ã€‚è¦†ç›–å€¼ä¸º(0, 1/radius, 0)
 	 */
 	public Vector3d Attenuation = new Vector3d(0, 0.01, 0);
 	
-	/**Íâ¾¶½Ç¶È£¬½öÓÃÓÚ{@link #SPOT_LIGHT}*/
+	/**å¤–å¾„è§’åº¦ï¼Œä»…ç”¨äº{@link #SPOT_LIGHT}*/
 	public double OuterCone = 45.0;
-	/**ÄÚ¾¶½Ç¶È£¬½öÓÃÓÚ{@link #SPOT_LIGHT}*/
+	/**å†…å¾„è§’åº¦ï¼Œä»…ç”¨äº{@link #SPOT_LIGHT}*/
 	public double InnerCone = 0.0;
-	/**ÓÉÄÚ¾¶µ½Íâ¾¶µÄË¥¼õËÙ¶È£¬½öÓÃÓÚ{@link #SPOT_LIGHT}*/
+	/**ç”±å†…å¾„åˆ°å¤–å¾„çš„è¡°å‡é€Ÿåº¦ï¼Œä»…ç”¨äº{@link #SPOT_LIGHT}*/
 	public double Falloff = 2.0;
 	
 	/**
-	 * Éè¶¨µÆ¹âµÄÃûÒå×÷ÓÃ°ë¾¶£¬¸Ã°ë¾¶´¦µÄ¹âÇ¿ÎªÖ¸¶¨µÄ¹âÇ¿Öµ
-	 * @param radius ÃûÒå×÷ÓÃ°ë¾¶
+	 * è®¾å®šç¯å…‰çš„åä¹‰ä½œç”¨åŠå¾„ï¼Œè¯¥åŠå¾„å¤„çš„å…‰å¼ºä¸ºæŒ‡å®šçš„å…‰å¼ºå€¼
+	 * @param radius åä¹‰ä½œç”¨åŠå¾„
 	 */
 	public void setRadius(double radius){
-		mRadius = radius;
 		Attenuation.X = 0;
-		Attenuation.Y = 1/mRadius;
+		Attenuation.Y = 1/radius;
 		Attenuation.Z = 0;
 	}
-	
-	/**
-	 * È¡µÃÃûÒå×÷ÓÃ°ë¾¶µÄÖµ
-	 * @return ÃûÒå×÷ÓÃ°ë¾¶
-	 */
-	public double getRadius(){
-		return mRadius;
-	}
-	
-	private double mRadius;
 }

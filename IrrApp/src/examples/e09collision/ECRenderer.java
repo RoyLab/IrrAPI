@@ -1,4 +1,4 @@
-package examples.e09collision;
+ï»¿package examples.e09collision;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -22,15 +22,15 @@ public class ECRenderer implements Renderer {
 		Scene scene = engine.getScene();
 		scene.drawAllNodes();
 		
-		/** ÏÔÊ¾´¥ÃşµãµÄ×ø±ê*/
+		/** æ˜¾ç¤ºè§¦æ‘¸ç‚¹çš„åæ ‡*/
 		scene.drawText("Point: " + (int)X + ", " + (int)Y,
 				new Vector2i(10, 10), new Color4i());
 		
-		/** ÏÔÊ¾´¥ÃşµãµÄÎ»ÖÃ*/
+		/** æ˜¾ç¤ºè§¦æ‘¸ç‚¹çš„ä½ç½®*/
 		scene.drawRectangle(new Rect4i((int)X-2, (int)Y-2, (int)X+2, (int)Y+2), 
 				new Color4i(0xff, 0x00, 0x00, 0xff));
 		
-		/** ÅĞ¶Ï´¥Ãşµ½µÄ½Úµã*/
+		/** åˆ¤æ–­è§¦æ‘¸åˆ°çš„èŠ‚ç‚¹*/
 		cubeTouched = scene.getTouchedSceneNode(X, Y, null);
 		String title = "";
 		
@@ -53,7 +53,9 @@ public class ECRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
+		scene.setFont(Engine.SYSTEM_MEDIA+"defaultfont.png");
 		
 		cube1 = scene.addCubeSceneNode(new Vector3d(-6, 0, 20), 3, null);
 		cube2 = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 3, null);
@@ -63,12 +65,12 @@ public class ECRenderer implements Renderer {
 		cube2.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		cube3.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		
-		/** Ê¹µÃÕâ¼¸¸ö½Úµã³ÉÎª¿É´¥ÃşµÄ½Úµã*/
+		/** ä½¿å¾—è¿™å‡ ä¸ªèŠ‚ç‚¹æˆä¸ºå¯è§¦æ‘¸çš„èŠ‚ç‚¹*/
 		cube1.setTouchable(true);
 		cube2.setTouchable(true);
 		cube3.setTouchable(true);
 		
-		/** ¸øcube2¼ÓÉÏÀ´»Ø·ÉĞĞµÄ¶¯»­£¬²¢ÇÒÊ¹µÃËüºÍcube1Ö®¼ä½øĞĞÅö×²ÏìÓ¦£¬¼´cube2ÎŞ·¨Ô½¹ıcube1*/
+		/** ç»™cube2åŠ ä¸Šæ¥å›é£è¡Œçš„åŠ¨ç”»ï¼Œå¹¶ä¸”ä½¿å¾—å®ƒå’Œcube1ä¹‹é—´è¿›è¡Œç¢°æ’å“åº”ï¼Œå³cube2æ— æ³•è¶Šè¿‡cube1*/
 		cube2.addFlyStraightAnimator(new Vector3d(10, -1, 20), new Vector3d(-10, 1, 20), 2000, true, true);
 		cube2.addCollisionResponseAnimator(cube1, null, false, false);
 	}

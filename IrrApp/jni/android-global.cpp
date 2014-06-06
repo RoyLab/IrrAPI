@@ -174,6 +174,17 @@ recti JNIUtils::createrectiFromRect4i(JNIEnv *env, jobject rec)
 		env->GetIntField(rec, info->FieldID[3])
 		);
 }
+core::matrix4 JNIUtils::creatematrix4FromMatrix4(JNIEnv *env, jobject obj)
+{
+	const JavaClassInfo* info = getClassInfo("Matrix4");
+	jobject M = env->GetObjectField(obj, info->FieldID[0]);
+	jfloatArray *arr = (jfloatArray*)(&M);
+	float *p = env->GetFloatArrayElements(*arr, 0);
+	matrix4 res;
+	res.setM(p);
+	env->ReleaseFloatArrayElements(*arr, p, 0);
+	return res;
+}
 
 dimension2df JNIUtils::createdimension2dfFromVector2d(JNIEnv *env, jobject vec)
 {
@@ -182,6 +193,18 @@ dimension2df JNIUtils::createdimension2dfFromVector2d(JNIEnv *env, jobject vec)
 		env->GetDoubleField(vec, info->FieldID[0]), 
 		env->GetDoubleField(vec, info->FieldID[1])
 		);
+}
+
+void JNIUtils::setMatrix4Frommatrix4(JNIEnv* env, jobject obj, const matrix4& m)
+{
+	const JavaClassInfo* info = getClassInfo("Matrix4");
+	jobject M = env->GetObjectField(obj, info->FieldID[0]);
+	//cast it into float array
+	jfloatArray *arr = (jfloatArray*)(&M);
+	float *mat = env->GetFloatArrayElements(*arr, 0);
+	for (int i = 0; i < 16; i++)
+		mat[i] = m[i];
+	env->ReleaseFloatArrayElements(*arr, mat, 0);
 }
 
 void JNIUtils::setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vec)

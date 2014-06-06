@@ -1,4 +1,4 @@
-package examples.e12ps;
+ï»¿package examples.e12ps;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -22,12 +22,13 @@ public class EPRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
 		
-		/** ÉèÖÃºÚÉ«±³¾°ÔöÇ¿¼ÓÉ«Í¸Ã÷Ğ§¹û */
+		/** è®¾ç½®é»‘è‰²èƒŒæ™¯å¢å¼ºåŠ è‰²é€æ˜æ•ˆæœ */
 		scene.setClearColor(new Color4i(0,0,0,255));
 		
-		/** ÉèÖÃ·¢ÉäÆ÷µÄ¸÷¸ö²ÎÊıÖµ*/
+		/** è®¾ç½®å‘å°„å™¨çš„å„ä¸ªå‚æ•°å€¼*/
 		em = new BoxEmitter();
 		em.MaxEmitRate = 100;
 		em.MinEmitRate = 50;
@@ -38,25 +39,25 @@ public class EPRenderer implements Renderer {
 		em.InitialDirection = (new Vector3d(0,0.0,0.0));
 		em.BBox = new double[]{-2,-2,-1,2,2,1};
 		
-		/** ³õÊ¼»¯Á£×ÓÏµÍ³½Úµã */
+		/** åˆå§‹åŒ–ç²’å­ç³»ç»ŸèŠ‚ç‚¹ */
 		circles = new ParticleSystemSceneNode[5];
 		
 		for(int i=0;i<5;++i){
-			/**Ìí¼ÓÁ£×ÓÏµÍ³½Úµã*/
+			/**æ·»åŠ ç²’å­ç³»ç»ŸèŠ‚ç‚¹*/
 			circles[i] = scene.addParticleSystemSceneNode(new Vector3d(0,10,0), true, null);
 			
-			/**½«Á£×ÓÏµÍ³½ÚµãºÍ·¢ÉäÆ÷°ó¶¨*/
+			/**å°†ç²’å­ç³»ç»ŸèŠ‚ç‚¹å’Œå‘å°„å™¨ç»‘å®š*/
 			circles[i].setBoxEmitter(em);
 			
-			/**ÉèÖÃ¼ÓÉ«Í¸Ã÷µÄ²ÄÖÊÀàĞÍ½«²ÄÖÊºÚÉ«²¿·ÖÊÓÎªÍ¸Ã÷*/
+			/**è®¾ç½®åŠ è‰²é€æ˜çš„æè´¨ç±»å‹å°†æè´¨é»‘è‰²éƒ¨åˆ†è§†ä¸ºé€æ˜*/
 			circles[i].setMaterialType(MeshSceneNode.E_MATERIAL_TYPE.EMT_TRANSPARENT_ADD_COLOR);
 			
-			/**ÉèÖÃ²ÄÖÊÌùÍ¼*/
+			/**è®¾ç½®æè´¨è´´å›¾*/
 			circles[i].setTexture(Engine.SYSTEM_MEDIA + "portal1.bmp");
 		}
 		
-		/** ÅÅÁĞ³öÎå»·Í¼Ïñ ,²¢ÇÒÎªÃ¿¸öÁ£×ÓÏµÍ³½ÚµãÌí¼ÓĞı×ªÓ°ÏìÒò×Ó
-		 * Ê¹µÃÁ£×ÓÔË¶¯¹ì¼£ÎªÎ§ÈÆÔ²ĞÄµÄ»·×´ÔË¶¯ */
+		/** æ’åˆ—å‡ºäº”ç¯å›¾åƒ ,å¹¶ä¸”ä¸ºæ¯ä¸ªç²’å­ç³»ç»ŸèŠ‚ç‚¹æ·»åŠ æ—‹è½¬å½±å“å› å­
+		 * ä½¿å¾—ç²’å­è¿åŠ¨è½¨è¿¹ä¸ºå›´ç»•åœ†å¿ƒçš„ç¯çŠ¶è¿åŠ¨ */
 		float zVal = 30;
 		circles[0].setPosition(new Vector3d(-6,10,zVal), 0);
 		circles[0].addRotationAffector(new Vector3d(0.0,0.0,50), new Vector3d(-6,5.0,zVal));

@@ -1,4 +1,4 @@
-package examples.e15memory;
+ï»¿package examples.e15memory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,21 +23,22 @@ public class EMRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
 		
-		/** ÔØÈëÒ»¸öÄ£ĞÍ*/
+		/** è½½å…¥ä¸€ä¸ªæ¨¡å‹*/
 		model = scene.addMeshSceneNode(Engine.SYSTEM_MEDIA + "ext_cube.obj", 
 				new Vector3d(0, 0, 20), false, null);
 		
-		/** ÔÙ°ÑËüÉ¾³ı*/
+		/** å†æŠŠå®ƒåˆ é™¤*/
 		model.remove();
 		
-		/** µ«ÊÇÎªÁËÊÍ·ÅËùÓĞ±»Õ¼ÓÃµÄ×ÊÔ´£¬ÎÒÃÇĞèÒª´Ó»º´æºÍÏÔ´æÖĞÉ¾³ıËüµÄÄ£ĞÍºÍ¼ÓÔØµÄÌùÍ¼*/
+		/** ä½†æ˜¯ä¸ºäº†é‡Šæ”¾æ‰€æœ‰è¢«å ç”¨çš„èµ„æºï¼Œæˆ‘ä»¬éœ€è¦ä»ç¼“å­˜å’Œæ˜¾å­˜ä¸­åˆ é™¤å®ƒçš„æ¨¡å‹å’ŒåŠ è½½çš„è´´å›¾*/
 		scene.removeMesh(Engine.SYSTEM_MEDIA + "ext_cube.obj");
 		scene.removeTexture(Engine.SYSTEM_MEDIA + "ext_tex1.png");
 		scene.removeTexture(Engine.SYSTEM_MEDIA + "ext_tex2.png");
 		
-		/** ËüÒ²¿ÉÒÔÊÍ·Å²»±»Ê¹ÓÃµÄÄ£ĞÍ*/
+		/** å®ƒä¹Ÿå¯ä»¥é‡Šæ”¾ä¸è¢«ä½¿ç”¨çš„æ¨¡å‹*/
 		scene.removeUnusedMesh();
 		
 		cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
@@ -46,19 +47,19 @@ public class EMRenderer implements Renderer {
 		cube.setTexture(Engine.SYSTEM_MEDIA + "grass.png");
 		cube.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		
-		/** Í¬Ñù£¬ÎÒÃÇÉ¾³ı²»ÔÙÊ¹ÓÃµÄÌùÍ¼*/
+		/** åŒæ ·ï¼Œæˆ‘ä»¬åˆ é™¤ä¸å†ä½¿ç”¨çš„è´´å›¾*/
 		scene.removeTexture(Engine.SYSTEM_MEDIA + "grass.png");
 		
 		InputStream input = null;
 		try {
-			/** ÏÂÃæÁ½¾ä»°ÊÇÒ»ÑùµÄÒâË¼*/
+			/** ä¸‹é¢ä¸¤å¥è¯æ˜¯ä¸€æ ·çš„æ„æ€*/
 			input = engine.getContext().getAssets().open("sysmedia/grass.png");
 			//input = engine.getAssets().open("sysmedia/grass.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		/** ½¨Á¢Ò»¸öBitmap²¢ÇÒÉÏ´«µ½ÒıÇæ*/
+		/** å»ºç«‹ä¸€ä¸ªBitmapå¹¶ä¸”ä¸Šä¼ åˆ°å¼•æ“*/
 		Bitmap bitmap = BitmapFactory.decodeStream(input);
 		
 		if (bitmap != null){
@@ -66,10 +67,10 @@ public class EMRenderer implements Renderer {
 			bitmap.recycle();
 		}
 		
-		/** É¾³ıÕâ¸öBitmap*/
+		/** åˆ é™¤è¿™ä¸ªBitmap*/
 		scene.removeBitmap("myBitmap");
 		
-		/** Õâ¾ä¸úÉÏ¾äÓĞÍ¬ÑùµÄ×÷ÓÃ£¬µÚ¶ş´ÎÉ¾³ıÊ±£¬ÒòÎªÏÔ´æÖĞÒÑ¾­²»´æÔÚ¸ÃÌùÍ¼£¬Òò´ËÈÕÖ¾»á±¨¾¯*/
+		/** è¿™å¥è·Ÿä¸Šå¥æœ‰åŒæ ·çš„ä½œç”¨ï¼Œç¬¬äºŒæ¬¡åˆ é™¤æ—¶ï¼Œå› ä¸ºæ˜¾å­˜ä¸­å·²ç»ä¸å­˜åœ¨è¯¥è´´å›¾ï¼Œå› æ­¤æ—¥å¿—ä¼šæŠ¥è­¦*/
 		scene.removeTexture(Engine.BITMAP_MARK + "myBitmap");
 	}
 	

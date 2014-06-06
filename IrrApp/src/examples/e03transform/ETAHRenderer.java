@@ -1,7 +1,8 @@
-package examples.e03transform;
+ï»¿package examples.e03transform;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
+import zte.irrlib.core.Matrix4;
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.MeshSceneNode;
 import zte.irrlib.scene.Scene;
@@ -15,13 +16,13 @@ public class ETAHRenderer implements Renderer {
 		Scene scene = engine.getScene();
 		
 		/**
-		 * ½«µ±Ç°±ä»»¼ÇÂ¼ÏÂÀ´¡£mark()»á¸²¸ÇÖ®Ç°µÄ¼ÇÂ¼£¬ÒÔºóµÄ±ä»»£¬Èç¹ûÊ¹ÓÃTRANS_RELATIVE
-		 * Ä£Ê½£¬ÔòÏà¶ÔÓÚ¼ÇÂ¼µÄÕâ¸ö×´Ì¬½øĞĞ±ä»»
+		 * å°†å½“å‰å˜æ¢è®°å½•ä¸‹æ¥ã€‚mark()ä¼šè¦†ç›–ä¹‹å‰çš„è®°å½•ï¼Œä»¥åçš„å˜æ¢ï¼Œå¦‚æœä½¿ç”¨TRANS_RELATIVE
+		 * æ¨¡å¼ï¼Œåˆ™ç›¸å¯¹äºè®°å½•çš„è¿™ä¸ªçŠ¶æ€è¿›è¡Œå˜æ¢
 		 */
 		cube1.mark();
 		
 		/**
-		 * mark()ºÍTRANS_RELATIVEÒ»Æğ£¬¿ÉÒÔ²úÉú²½½øµÄĞ§¹û
+		 * mark()å’ŒTRANS_RELATIVEä¸€èµ·ï¼Œå¯ä»¥äº§ç”Ÿæ­¥è¿›çš„æ•ˆæœ
 		 */
 		cube1.setRotation(new Vector3d(0, 0.1, 0), SceneNode.TRANS_RELATIVE);
 		
@@ -29,22 +30,34 @@ public class ETAHRenderer implements Renderer {
 	}
 
 	public void onCreate(Engine engine) {
+		engine.addAssetsDir("sysmedia", false);
+		
 		Scene scene = engine.getScene();
 		cube1 = scene.addCubeSceneNode(new Vector3d(-3, 0, 20), 5, null);
 		
 		/**
-		 * ½«cube2Éè¶¨Îªcube1µÄ×Ó½Úµã
+		 * å°†cube2è®¾å®šä¸ºcube1çš„å­èŠ‚ç‚¹
 		 */
 		cube2 = scene.addCubeSceneNode(new Vector3d(), 2, cube1);
 		
 		/**
-		 * ¶Ôcube2½øĞĞÒ»Ğ©±ä»»£º×¢Òâ£¬±ä»»ÓĞÁ½ÖÖÄ£Ê½£¬Ò»ÖÖÊÇÏà¶Ô±ê¶¨µÄ×´Ì¬½øĞĞ±ä»»£¬
-		 * ³ÆÎªTRANS_RELATIVE£¬Ò»ÖÖÊÇÏà¶ÔÁãµã£¨¼´Î»ÖÃ(0, 0, 0)£¬ÎŞĞı×ª£¬ÎŞËõ·Å£©
-		 * ½øĞĞµÄ±ä»»£¬³ÆÎªTRANS_ABSOLUTE¡£ÕâÁ½ÖÖ±ä»»¾ùÊÇÏà¶ÔÓÚ¸¸½Úµã¿Õ¼äµÄ¡£¸¸½Ú
-		 * µãµÄ±ä»»ºÍ×Ó½ÚµãµÄ±ä»»µş¼ÓÖ®ºó²ÅÊÇ×Ó½ÚµãÔÚÊÀ½ç×ø±êÏµÖĞµÄÕæÕı±ä»»
+		 * å¯¹cube2è¿›è¡Œä¸€äº›å˜æ¢ï¼šæ³¨æ„ï¼Œå˜æ¢æœ‰ä¸¤ç§æ¨¡å¼ï¼Œä¸€ç§æ˜¯ç›¸å¯¹æ ‡å®šçš„çŠ¶æ€è¿›è¡Œå˜æ¢ï¼Œ
+		 * ç§°ä¸ºTRANS_RELATIVEï¼Œä¸€ç§æ˜¯ç›¸å¯¹é›¶ç‚¹ï¼ˆå³ä½ç½®(0, 0, 0)ï¼Œæ— æ—‹è½¬ï¼Œæ— ç¼©æ”¾ï¼‰
+		 * è¿›è¡Œçš„å˜æ¢ï¼Œç§°ä¸ºTRANS_ABSOLUTEã€‚è¿™ä¸¤ç§å˜æ¢å‡æ˜¯ç›¸å¯¹äºçˆ¶èŠ‚ç‚¹ç©ºé—´çš„ã€‚çˆ¶èŠ‚
+		 * ç‚¹çš„å˜æ¢å’Œå­èŠ‚ç‚¹çš„å˜æ¢å åŠ ä¹‹åæ‰æ˜¯å­èŠ‚ç‚¹åœ¨ä¸–ç•Œåæ ‡ç³»ä¸­çš„çœŸæ­£å˜æ¢
 		 */
 		cube2.setPosition(new Vector3d(0, 6, 0), SceneNode.TRANS_ABSOLUTE);
 		
+		/** ä½¿ç”¨çŸ©é˜µè¿›è¡Œå˜æ¢*/
+		Matrix4 mat = new Matrix4();
+		mat.makeIdentity();
+		mat.setTranslation(new Vector3d(1, 0, 0));
+		mat.setRotationDegrees(new Vector3d());
+		mat.setScale(new Vector3d(1, 1, 3));
+		cube2.mark();
+		cube2.setMatrix(mat, SceneNode.TRANS_RELATIVE);
+		
+		/** ä¸ºäº†æ˜¾ç¤ºç¾è§‚ï¼Œè¿™é‡Œç»™ä¸¤ä¸ªç«‹æ–¹ä½“è´´å›¾*/
 		cube1.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		cube2.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 	}

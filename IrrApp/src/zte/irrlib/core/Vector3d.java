@@ -1,24 +1,24 @@
-package zte.irrlib.core;
+ï»¿package zte.irrlib.core;
 
 import java.text.DecimalFormat;
 
 /**
- * ÈıÎ¬¸¡µãĞÍÏòÁ¿
+ * ä¸‰ç»´æµ®ç‚¹å‹å‘é‡
  * @author Roy
  *
  */
 public class Vector3d {
 	
 	/**
-	 * ¹¹Ôì·½·¨£¬Éú³É£¨0,0,0£©
+	 * æ„é€ æ–¹æ³•ï¼Œç”Ÿæˆï¼ˆ0,0,0ï¼‰
 	 */
 	public Vector3d(){
 		
 	}	
 	
 	/**
-	 * ¸´ÖÆ¹¹Ôì·½·¨
-	 * @param v ±»¸´ÖÆµÄÏòÁ¿
+	 * å¤åˆ¶æ„é€ æ–¹æ³•
+	 * @param v è¢«å¤åˆ¶çš„å‘é‡
 	 */
 	public Vector3d(Vector3d v){
 		this.X = v.X;
@@ -31,54 +31,54 @@ public class Vector3d {
 	}
 	
 	/**
-	 * ÏòÁ¿µÄ¼Ó·¨£¬Öğ·ÖÁ¿×ö¼Ó·¨
-	 * @param v ÁíÒ»¸öÏòÁ¿
-	 * @return ¼Ó·¨µÄ½á¹û
+	 * å‘é‡çš„åŠ æ³•ï¼Œé€åˆ†é‡åšåŠ æ³•
+	 * @param v å¦ä¸€ä¸ªå‘é‡
+	 * @return åŠ æ³•çš„ç»“æœ
 	 */
 	public Vector3d plus(Vector3d v){
 		return new Vector3d(X+v.X, Y+v.Y, Z+v.Z);
 	}
 	
 	/**
-	 * ÏòÁ¿µÄ¼õ·¨£¬Öğ·ÖÁ¿×ö¼õ·¨
-	 * @param v ÁíÒ»¸öÏòÁ¿
-	 * @return ¼õ·¨µÄ½á¹û
+	 * å‘é‡çš„å‡æ³•ï¼Œé€åˆ†é‡åšå‡æ³•
+	 * @param v å¦ä¸€ä¸ªå‘é‡
+	 * @return å‡æ³•çš„ç»“æœ
 	 */
 	public Vector3d minus(Vector3d v){
 		return new Vector3d(X-v.X, Y-v.Y, Z-v.Z);
 	}
 	
 	/**
-	 * ÏòÁ¿µÄ³Ë·¨£¬Öğ·ÖÁ¿×ö³Ë·¨£¨²»ÊÇµã»ı£¬Ò²²»ÊÇ²æ»ı£¬¶øÊÇ³Ë·¨£¡£©
-	 * @param v ÁíÒ»¸öÏòÁ¿
-	 * @return ³Ë·¨µÄ½á¹û
+	 * å‘é‡çš„ä¹˜æ³•ï¼Œé€åˆ†é‡åšä¹˜æ³•ï¼ˆä¸æ˜¯ç‚¹ç§¯ï¼Œä¹Ÿä¸æ˜¯å‰ç§¯ï¼Œè€Œæ˜¯ä¹˜æ³•ï¼ï¼‰
+	 * @param v å¦ä¸€ä¸ªå‘é‡
+	 * @return ä¹˜æ³•çš„ç»“æœ
 	 */
 	public Vector3d multi(Vector3d v){
 		return new Vector3d(X*v.X, Y*v.Y, Z*v.Z);
 	}
 	
 	/**
-	 * ÏòÁ¿µÄÊı³Ë
-	 * @param k ÏµÊı
-	 * @return Êı³ËµÄ½á¹û
+	 * å‘é‡çš„æ•°ä¹˜
+	 * @param k ç³»æ•°
+	 * @return æ•°ä¹˜çš„ç»“æœ
 	 */
 	public Vector3d multi(double k){
 		return new Vector3d(X*k, Y*k, Z*k);
 	}
 	
 	/**
-	 * Á½µãÖ®¼ä¾àÀëµÄÆ½·½
-	 * @param v ÁíÒ»¸öµã
-	 * @return ¾àÀëµÄÆ½·½
+	 * ä¸¤ç‚¹ä¹‹é—´è·ç¦»çš„å¹³æ–¹
+	 * @param v å¦ä¸€ä¸ªç‚¹
+	 * @return è·ç¦»çš„å¹³æ–¹
 	 */
 	public double distanceSquare(Vector3d v){
 		return (v.X-X)*(v.X-X) + (v.Y-Y)*(v.Y-Y) + (v.Z-Z)*(v.Z-Z);
 	}
 	
 	/**
-	 * ÏòÁ¿µÄ¸³Öµ
-	 * @param v Ô´ÏòÁ¿
-	 * @return ¸³ÖµºóµÄÄ¿±êÏòÁ¿(this)
+	 * å‘é‡çš„èµ‹å€¼
+	 * @param v æºå‘é‡
+	 * @return èµ‹å€¼åçš„ç›®æ ‡å‘é‡(this)
 	 */
 	public Vector3d copy(Vector3d v){
 		X = v.X; Y = v.Y; Z = v.Z;
@@ -86,8 +86,8 @@ public class Vector3d {
 	}
 	
 	/**
-	 * ÇóÏòÁ¿µÄ·´×ª£¨Öğ·ÖÁ¿Çó·´£©
-	 * @return ·´×ªºóµÄÏòÁ¿(this)
+	 * æ±‚å‘é‡çš„åè½¬ï¼ˆé€åˆ†é‡æ±‚åï¼‰
+	 * @return åè½¬åçš„å‘é‡(this)
 	 */
 	public Vector3d reverse(){
 		X = -X; Y = -Y; Z = -Z;
@@ -95,18 +95,18 @@ public class Vector3d {
 	}
 	
 	/**
-	 * ÏòÁ¿µÄµã»ı
-	 * @param v ÁíÒ»¸öÏòÁ¿
-	 * @return µã»ıµÄ½á¹û
+	 * å‘é‡çš„ç‚¹ç§¯
+	 * @param v å¦ä¸€ä¸ªå‘é‡
+	 * @return ç‚¹ç§¯çš„ç»“æœ
 	 */
 	public double dot(Vector3d v){
 		return v.X*X + v.Y*Y + v.Z*Z;
 	}
 	
 	/**
-	 * ÏòÁ¿µÄ²æ»ı
-	 * @param v ÁíÒ»¸öÏòÁ¿
-	 * @return ²æ»ıµÄ½á¹û
+	 * å‘é‡çš„å‰ç§¯
+	 * @param v å¦ä¸€ä¸ªå‘é‡
+	 * @return å‰ç§¯çš„ç»“æœ
 	 */
 	public Vector3d cross(Vector3d v){
 		return new Vector3d(
@@ -117,8 +117,8 @@ public class Vector3d {
 	}
 	
 	/**
-	 * ¶ÔÏòÁ¿×÷¹éÒ»»¯²Ù×÷
-	 * @return ¹éÒ»»¯ºóµÄÏòÁ¿(this)
+	 * å¯¹å‘é‡ä½œå½’ä¸€åŒ–æ“ä½œ
+	 * @return å½’ä¸€åŒ–åçš„å‘é‡(this)
 	 */
 	public Vector3d normalize(){
 		double d = Math.sqrt(X*X+Y*Y+Z*Z);
@@ -127,25 +127,25 @@ public class Vector3d {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÏòÁ¿ÊÇ·ñÔ¼µÈÓÚ0ÏòÁ¿£¬ÒÔ{@link #ZERO}Îª±ê×¼
-	 * @return ÈçÎªtrueÔò±íÊ¾Ô¼µÈÓÚ0ÏòÁ¿
+	 * åˆ¤æ–­å‘é‡æ˜¯å¦çº¦ç­‰äº0å‘é‡ï¼Œä»¥{@link #ZERO}ä¸ºæ ‡å‡†
+	 * @return å¦‚ä¸ºtrueåˆ™è¡¨ç¤ºçº¦ç­‰äº0å‘é‡
 	 */
 	public boolean isZero(){
 		return ((Math.abs(X) < ZERO) && (Math.abs(Y) < ZERO) && (Math.abs(Z) < ZERO));
 	}
 	
 	/**
-	 * ÅĞ¶ÏÁ½¸öÏòÁ¿´óÔ¼ÊÇ·ñÏàµÈ£¬ÒÔ{@link #ZERO}Îª±ê×¼
-	 * @param v ÁíÒ»¸öÏòÁ¿
-	 * @return ÈçÎªtrueÔò±íÊ¾Á½¸öÏòÁ¿´óÔ¼ÏàµÈ
+	 * åˆ¤æ–­ä¸¤ä¸ªå‘é‡å¤§çº¦æ˜¯å¦ç›¸ç­‰ï¼Œä»¥{@link #ZERO}ä¸ºæ ‡å‡†
+	 * @param v å¦ä¸€ä¸ªå‘é‡
+	 * @return å¦‚ä¸ºtrueåˆ™è¡¨ç¤ºä¸¤ä¸ªå‘é‡å¤§çº¦ç›¸ç­‰
 	 */
 	public boolean isEqual(Vector3d v){
 		return minus(v).isZero();
 	}
 	
 	/**
-	 * È¡µÃÏòÁ¿µÄ³¤¶È
-	 * @return ÏòÁ¿µÄ³¤¶È
+	 * å–å¾—å‘é‡çš„é•¿åº¦
+	 * @return å‘é‡çš„é•¿åº¦
 	 */
 	public double length(){
 		return Math.sqrt(X*X + Y*Y + Z*Z);

@@ -306,5 +306,46 @@ extern "C"
 		return 0;
 	}
 	
+	int Java_zte_irrlib_scene_SceneNode_nativeGetRelativeMatrix(
+		JNIEnv*  env, jobject thiz, jobject jmat, jint Id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(Id);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(Id, GetRelativeMatrix);
+			return -1;
+		}
+		utils->setMatrix4Frommatrix4(env, jmat, node->getRelativeTransformation());
+		return 0;
+	}
 	
+	int Java_zte_irrlib_scene_SceneNode_nativeGetAbsoluteMatrix(
+		JNIEnv*  env, jobject thiz, jobject jmat, jint Id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(Id);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(Id, GetAbsoluteMatrix);
+			return -1;
+		}
+		utils->setMatrix4Frommatrix4(env, jmat, node->getAbsoluteTransformation());
+		return 0;
+	}
+	
+	int Java_zte_irrlib_scene_SceneNode_nativeRemoveAnimator(
+		JNIEnv*  env, jobject thiz, jint count, jint Id)
+	{
+		ISceneNode* node = smgr->getSceneNodeFromId(Id);
+		if (!node) 
+		{
+			WARN_NODE_NOT_FOUND(Id, RemoveAnimator);
+			return -1;
+		}
+		const core::list<ISceneNodeAnimator*> anims = node->getAnimators();
+		core::list<ISceneNodeAnimator*>::ConstIterator itr = anims.begin();
+		while (count--) itr++;
+		node->removeAnimator(*itr);
+		return 0;
+	}
 }
+

@@ -1,4 +1,4 @@
-package examples.e10mediaplayer;
+ï»¿package examples.e10mediaplayer;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ public class EMRenderer implements Renderer {
 
 	public void onDrawFrame(Engine engine) {
 		
-		/** ¸üĞÂÌùÍ¼*/
+		/** æ›´æ–°è´´å›¾*/
 		player.update();
 		Scene scene = engine.getScene();	
 		scene.drawAllNodes();
@@ -25,21 +25,21 @@ public class EMRenderer implements Renderer {
 	
 	public void onCreate(Engine engine){
 		
-		/** Çë½«×ÊÔ´¸´ÖÆµ½Ö÷sd¿¨µÄirrmediaÄ¿Â¼ÏÂ*/
+		/** è¯·å°†èµ„æºå¤åˆ¶åˆ°ä¸»sdå¡çš„irrmediaç›®å½•ä¸‹*/
 		engine.setResourceDir(Environment.getExternalStorageDirectory(
 				).getAbsolutePath() + "/irrmedia/");
 
 		Scene scene = engine.getScene();
 		
-		/** ÏòÒıÇæÉêÇëÒ»¸öÍâ²¿ÌùÍ¼ºÅ*/
+		/** å‘å¼•æ“ç”³è¯·ä¸€ä¸ªå¤–éƒ¨è´´å›¾å·*/
 		int TexId = scene.applyNewExternalTexture(mediaTexName);
 		
 		if (TexId > 0){
-			/** Ê¹ÓÃ¸ÃÌùÍ¼ºÅĞÂ½¨Ò»¸ö²ÄÖÊÃ½Ìå²¥·ÅÆ÷*/
+			/** ä½¿ç”¨è¯¥è´´å›¾å·æ–°å»ºä¸€ä¸ªæè´¨åª’ä½“æ’­æ”¾å™¨*/
 			player = new TexMediaPlayer(scene, TexId);
 		}
 		
-		/** ³õÊ¼»¯²¥·ÅÆ÷*/
+		/** åˆå§‹åŒ–æ’­æ”¾å™¨*/
 		if (player != null){
 			try {
 				player.setDataSource("NativeMedia.ts");
@@ -58,7 +58,7 @@ public class EMRenderer implements Renderer {
 		
 		MeshSceneNode cube = scene.addCubeSceneNode(new Vector3d(0, 0, 20), 5, null);
 		cube.addRotationAnimator(new Vector3d(0, 0.1, 0.5));
-		/** Îª½ÚµãÖ¸¶¨Íâ²¿ÌùÍ¼*/
+		/** ä¸ºèŠ‚ç‚¹æŒ‡å®šå¤–éƒ¨è´´å›¾*/
 		cube.setTexture(Engine.EXTERNAL_TEX_MARK + mediaTexName);
 	}
 	

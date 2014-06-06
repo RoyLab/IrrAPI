@@ -1,4 +1,4 @@
-package examples.e13cubelayout;
+Ôªøpackage examples.e13cubelayout;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * —› æ¡À»Á∫Œ π”√NineCubeLayout¿‡
+ * ÊºîÁ§∫‰∫ÜÂ¶Ç‰Ωï‰ΩøÁî®NineCubeLayoutÁ±ª
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class ECubelayout extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new ECLRenderer());
 	}
 	

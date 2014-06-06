@@ -234,7 +234,8 @@ namespace irr
 
             StencilBuffer = stencilBuffer;
 
-			FileSystem->addFileArchive("<assets>/irrshader", true, false);
+			FileSystem->addFileArchive("<assets>/sysmedia");
+			//FileSystem->addFileArchive("sysmedia/shader.zip", true, true);
             FixedPipeline = new COGLES2FixedPipelineShader( this, FileSystem );
             FixedPipeline->useProgram(); //For setting the default uniforms (Alpha)
             TwoDRenderer = new COGLES2Renderer2d( this, FileSystem );

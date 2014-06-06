@@ -1,4 +1,4 @@
-package examples.e12ps;
+ï»¿package examples.e12ps;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,8 +6,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ÑİÊ¾ÁËÈçºÎÌí¼ÓÁ£×ÓÏµÍ³½Úµã²¢¶ÔÆäÉèÖÃÁ£×Ó·¢ÉäÆ÷ºÍÁ£×ÓÓ°ÏìÆ÷
- * ÑİÊ¾ÄÚÈİÎªÓÃÁ£×ÓÔË¶¯»æÖÆÎå»·Í¼°¸
+ * æ¼”ç¤ºäº†å¦‚ä½•æ·»åŠ ç²’å­ç³»ç»ŸèŠ‚ç‚¹å¹¶å¯¹å…¶è®¾ç½®ç²’å­å‘å°„å™¨å’Œç²’å­å½±å“å™¨
+ * æ¼”ç¤ºå†…å®¹ä¸ºç”¨ç²’å­è¿åŠ¨ç»˜åˆ¶äº”ç¯å›¾æ¡ˆ
  * @author Fxx
  *
  */
@@ -21,6 +21,7 @@ public class EParticleSystem extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new EPRenderer());
 	}
 	

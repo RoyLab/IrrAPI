@@ -675,7 +675,6 @@ ICameraSceneNode* CSceneManager::addCameraSceneNode(ISceneNode* parent,
 	if (makeActive)
 		setActiveCamera(node);
 	node->drop();
-
 	return node;
 }
 

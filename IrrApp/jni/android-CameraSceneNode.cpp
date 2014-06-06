@@ -79,4 +79,32 @@ extern "C"
 		camera->setUpVector(utils->createvector3dfFromVector3d(env, upVec));
 		return 0;
 	}
+	
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeSetProjectionMatrix(
+		JNIEnv *env, jobject defaultObj, jobject jmat, jint id)
+	{
+		scene::ICameraSceneNode* camera =
+			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
+			
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, SetProjectionMatrix);	
+			return -1;
+		}
+		camera->setProjectionMatrix(utils->creatematrix4FromMatrix4(env, jmat));
+		return 0;
+	}
+	
+	int Java_zte_irrlib_scene_CameraSceneNode_nativeGetProjectionMatrix(
+		JNIEnv *env, jobject defaultObj, jobject jres, jint id)
+	{
+		scene::ICameraSceneNode* camera =
+			(scene::ICameraSceneNode*)smgr->getSceneNodeFromId(id);
+			
+		if(!camera){
+			WARN_NODE_NOT_FOUND(id, GetProjectionMatrix);	
+			return -1;
+		}
+		utils->setMatrix4Frommatrix4(env, jres, camera->getProjectionMatrix());
+		return 0;
+	}
 }

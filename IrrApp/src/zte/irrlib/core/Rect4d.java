@@ -1,26 +1,26 @@
-package zte.irrlib.core;
+ï»¿package zte.irrlib.core;
 
 /**
- * ¾ØĞÎÀà£¬±ßµÄ³¤¶ÈÎª¹éÒ»»¯µÄ¸¡µãÊı¡£ÓÃÓÚÖ¸¶¨ÌùÍ¼µÄÄ³Ò»¸öÇøÓò
- * ÆäÖĞ£¨0, 0, 1, 1£©´ú±íÕû¸öÌùÍ¼
+ * çŸ©å½¢ç±»ï¼Œè¾¹çš„é•¿åº¦ä¸ºå½’ä¸€åŒ–çš„æµ®ç‚¹æ•°ã€‚ç”¨äºæŒ‡å®šè´´å›¾çš„æŸä¸€ä¸ªåŒºåŸŸ
+ * å…¶ä¸­ï¼ˆ0, 0, 1, 1ï¼‰ä»£è¡¨æ•´ä¸ªè´´å›¾
  * @author Roy
  *
  */
 public class Rect4d {
 	
 	/**
-	 * ¹¹Ôì·½·¨£¬Éú³ÉÒ»¸ö×óÉÏ½ÇÎ»ÓÚ(0, 0)£¬±ß³¤Îª1.0µÄÕı·½ĞÎ
+	 * æ„é€ æ–¹æ³•ï¼Œç”Ÿæˆä¸€ä¸ªå·¦ä¸Šè§’ä½äº(0, 0)ï¼Œè¾¹é•¿ä¸º1.0çš„æ­£æ–¹å½¢
 	 */
 	public Rect4d(){
 		Left = Top = 0; Right = Bottom = 1.0;
 	}
 	
 	/**
-	 * ¹¹Ôì·½·¨£¬Ö¸¶¨×óÉÏ½ÇºÍÓÒÏÂ½ÇµÄÎ»ÖÃ
-	 * @param left ×ó
-	 * @param up ÉÏ
-	 * @param right ÓÒ
-	 * @param bottom ÏÂ
+	 * æ„é€ æ–¹æ³•ï¼ŒæŒ‡å®šå·¦ä¸Šè§’å’Œå³ä¸‹è§’çš„ä½ç½®
+	 * @param left å·¦
+	 * @param up ä¸Š
+	 * @param right å³
+	 * @param bottom ä¸‹
 	 */
 	public Rect4d(double left, double up, double right, double bottom){
 		this.Left = left;

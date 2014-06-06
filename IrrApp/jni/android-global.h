@@ -99,7 +99,11 @@ public:
 	
 	recti createrectiFromRect4i(JNIEnv *env, jobject rec);
 	
+	matrix4 creatematrix4FromMatrix4(JNIEnv *env, jobject mat);
+	
 	dimension2df createdimension2dfFromVector2d(JNIEnv *env, jobject vec);
+	
+	void setMatrix4Frommatrix4(JNIEnv* env, jobject obj, const matrix4& m);
 	
 	void setVector3dFromvector3df(JNIEnv *env, jobject obj, const vector3df& vec);
 	

@@ -1,11 +1,11 @@
-package examples.e09collision;
+ï»¿package examples.e09collision;
 
 import zte.test.irrapp.R;
 import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * ÑÝÊ¾ÁËÈçºÎÊ¹ÓÃÅö×²¼ì²â¹¦ÄÜ
+ * æ¼”ç¤ºäº†å¦‚ä½•ä½¿ç”¨ç¢°æ’žæ£€æµ‹åŠŸèƒ½
  * @author Roy
  *
  */
@@ -19,6 +19,7 @@ public class ECollision extends Activity {
 		setContentView(R.layout.activity_ecollision);
 		
 		mDemo = (ECView)findViewById(R.id.mediaplayerview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new ECRenderer());
 	}
 	

@@ -1,58 +1,49 @@
- package zte.irrlib.scene;
+ï»¿ package zte.irrlib.scene;
 
 import zte.irrlib.core.SLight;
 import zte.irrlib.core.Vector3d;
 
 /**
- * µÆ¹â½ÚµãÀà£¬Ä¬ÈÏÎªµã¹âÔ´ÀàĞÍ¡£<br>
- * ¸Ã ½ÚµãµÄ{@link #setRotation(Vector3d, int)}ÓÃÓÚ¸øÓĞÏòµÆ¹âÉèÖÃ·½Ïò¡£
+ * ç¯å…‰èŠ‚ç‚¹ç±»ï¼Œé»˜è®¤ä¸ºç‚¹å…‰æºç±»å‹ã€‚<br>
+ * è¯¥ èŠ‚ç‚¹çš„{@link #setRotation(Vector3d, int)}ç”¨äºç»™æœ‰å‘ç¯å…‰è®¾ç½®æ–¹å‘ã€‚
  * @author Fxx
  *
  */
 public class LightSceneNode extends SceneNode {
 	/**
-	 * ¸üĞÂ¹âÔ´²ÎÊıÖµ£¬ÔÚ¸Ä±äµÆ¹â²ÎÊı{@link #LightData}ºóÊ¹ÓÃ
+	 * æ›´æ–°å…‰æºå‚æ•°å€¼ï¼Œåœ¨æ”¹å˜ç¯å…‰å‚æ•°{@link #LightData}åä½¿ç”¨
 	 */
 	public void uploadLightData(){
 		nativeSendLightData(LightData, getId());
 	}
 	
 	/**
-	 * »ñÈ¡¹âÔ´²ÎÊıÖµ£¬Í¨³£Çé¿öÏÂ£¬ÓÃ»§²»ĞèÒªµ÷ÓÃ¸Ã·½·¨
+	 * è·å–å…‰æºå‚æ•°å€¼ï¼Œé€šå¸¸æƒ…å†µä¸‹ï¼Œç”¨æˆ·ä¸éœ€è¦è°ƒç”¨è¯¥æ–¹æ³•
 	 */
 	void downloadLightData(){
 		nativeGetLightData(LightData, getId());
 	}
 	
 	/**
-	 * ·µ»Ø¹âÔ´ÀàĞÍ
-	 * @return ¹âÔ´ÀàĞÍ:
-	 *		µã¹âÔ´£º 	POINT_LIGHT = 0x01;
-	 *		 ¾Û¹âµÆ£º	SPOT_LIGHT = 0x02;
-	 * 		Æ½ĞĞ¹â£º	DIRECTIONAL_LIGHT = 0x03;
+	 * è¿”å›å…‰æºç±»å‹
+	 * @return å…‰æºç±»å‹:
+	 *		ç‚¹å…‰æºï¼š 	POINT_LIGHT = 0x01;
+	 *		 èšå…‰ç¯ï¼š	SPOT_LIGHT = 0x02;
+	 * 		å¹³è¡Œå…‰ï¼š	DIRECTIONAL_LIGHT = 0x03;
 	 */
 	public int getLightType(){
 		return LightData.Type;
 	}
 	
 	/**
-	 * ¹âÔ´²ÎÊı
+	 * å…‰æºå‚æ•°
 	 */
 	public SLight LightData;
 	
-	/**
-	 * Î¨Ò»¹¹Ôìº¯Êı
-	 */
-	LightSceneNode(){
-		super();
+	LightSceneNode(Vector3d pos, SceneNode parent){
+		super(pos, parent);
 		mNodeType = TYPE_LIGHT;
 		LightData = new SLight();
-	}
-
-	void javaLoadDataAndInit(Vector3d pos, SceneNode parent, double radius){
-		super.javaLoadDataAndInit(pos, parent);
-		LightData.setRadius(radius);
-		downloadLightData();
 	}
 	
 	@Override

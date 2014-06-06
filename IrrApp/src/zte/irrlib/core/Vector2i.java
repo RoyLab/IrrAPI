@@ -1,14 +1,14 @@
-package zte.irrlib.core;
+锘縫ackage zte.irrlib.core;
 
 /**
- * 二维整型向量
+ * 浜岀淮鏁村瀷鍚戦噺
  * @author Roy
  *
  */
 public class Vector2i {
 	
 	/**
-	 * 构造方法，生成(0, 0)
+	 * 鏋勯�犳柟娉曪紝鐢熸垚(0, 0)
 	 */
 	public Vector2i(){
 		

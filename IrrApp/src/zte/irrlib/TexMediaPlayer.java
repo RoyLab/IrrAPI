@@ -1,4 +1,4 @@
-package zte.irrlib;
+ï»¿package zte.irrlib;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ public class TexMediaPlayer extends MediaPlayer
 	public static final String TAG = "TexMediaPlayer";
 	
 	/**
-	 * ¸üĞÂÊÓÆµÍ¼Ïñ
+	 * æ›´æ–°è§†é¢‘å›¾åƒ
 	 */
 	public synchronized void update(){
 		if ((mSurfaceTex!=null) && mNewFrame){
@@ -35,8 +35,8 @@ public class TexMediaPlayer extends MediaPlayer
 	}
 	
 	/**
-	 * ¹¹Ôìº¯Êı£¬Îª³¡¾°¸³Öµ¡£
-	 * @param sc ËùÊ¹ÓÃµÄ³¡¾°¶ÔÏó
+	 * æ„é€ å‡½æ•°ï¼Œä¸ºåœºæ™¯èµ‹å€¼ã€‚
+	 * @param sc æ‰€ä½¿ç”¨çš„åœºæ™¯å¯¹è±¡
 	 */
 	public TexMediaPlayer(Scene sc){
 		super();
@@ -44,9 +44,9 @@ public class TexMediaPlayer extends MediaPlayer
 	}
 
 	/**
-	 * ¹¹Ôìº¯Êı£¬Îª³¡¾°¸³Öµ²¢Ö¸¶¨²ÄÖÊIDÖµ
-	 * @param sc ËùÊ¹ÓÃµÄ³¡¾°¶ÔÏó
-	 * @param texId ²ÄÖÊµÄIDÖµ
+	 * æ„é€ å‡½æ•°ï¼Œä¸ºåœºæ™¯èµ‹å€¼å¹¶æŒ‡å®šæè´¨IDå€¼
+	 * @param sc æ‰€ä½¿ç”¨çš„åœºæ™¯å¯¹è±¡
+	 * @param texId æè´¨çš„IDå€¼
 	 */
 	public TexMediaPlayer(Scene sc, int texId){
 		this(sc);
@@ -54,9 +54,9 @@ public class TexMediaPlayer extends MediaPlayer
 	}
 
 	/**
-	 * ÉèÖÃ²ÄÖÊÏà»úµÄopenGL ESÎÆÀíID£¬Ïà»ú½«ÔÚID±»Ö¸¶¨ºóÁ¬½Óµ½openGL ES¡£
-	 * ÓÃ»§¿ÉÒÔÊ¹ÓÃ{@link TexMediaPlayer#isConnected2OGLES()}²éÑ¯Á¬½Ó×´Ì¬
-	 * @param id openGL ESÎÆÀíID
+	 * è®¾ç½®æè´¨ç›¸æœºçš„openGL ESçº¹ç†IDï¼Œç›¸æœºå°†åœ¨IDè¢«æŒ‡å®šåè¿æ¥åˆ°openGL ESã€‚
+	 * ç”¨æˆ·å¯ä»¥ä½¿ç”¨{@link TexMediaPlayer#isConnected2OGLES()}æŸ¥è¯¢è¿æ¥çŠ¶æ€
+	 * @param id openGL ESçº¹ç†ID
 	 */
 	public void setTexId(int id){
 		if (id < 0) return;
@@ -68,8 +68,8 @@ public class TexMediaPlayer extends MediaPlayer
 	}
 	
 	/**
-	 * ²éÑ¯²ÄÖÊÏà»úÊÇ·ñÒÑ¾­Á¬½Óµ½openGL ES¡£
-	 * @return ÎªtrueÔò±íÊ¾ÒÑ¾­Á¬½Ó
+	 * æŸ¥è¯¢æè´¨ç›¸æœºæ˜¯å¦å·²ç»è¿æ¥åˆ°openGL ESã€‚
+	 * @return ä¸ºtrueåˆ™è¡¨ç¤ºå·²ç»è¿æ¥
 	 */
 	public boolean isConnected2OGLES(){
 		return mIsConnected;

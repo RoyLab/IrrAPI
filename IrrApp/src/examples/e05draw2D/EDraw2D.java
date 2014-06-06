@@ -1,4 +1,4 @@
-package examples.e05draw2D;
+锘縫ackage examples.e05draw2D;
 
 import zte.irrlib.IrrlichtView;
 import zte.test.irrapp.R;
@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- *  本例程演示了如何进行2D绘图
+ *  鏈緥绋嬫紨绀轰簡濡備綍杩涜2D缁樺浘
  * @author Roy
  *
  */
@@ -20,6 +20,7 @@ public class EDraw2D extends Activity {
 		setContentView(R.layout.defaultlayout);
 		
 		mDemo = (IrrlichtView)findViewById(R.id.bview);
+		mDemo.setRecommendEGLConfigChooser(0);
 		mDemo.setEngineRenderer(new ED2Renderer());
 	}
 	

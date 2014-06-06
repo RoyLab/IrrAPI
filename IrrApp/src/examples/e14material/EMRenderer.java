@@ -1,4 +1,4 @@
-package examples.e14material;
+ï»¿package examples.e14material;
 
 import zte.irrlib.Engine;
 import zte.irrlib.Engine.Renderer;
@@ -18,17 +18,19 @@ public class EMRenderer implements Renderer {
 		Scene scene = engine.getScene();	
 		scene.drawAllNodes();
 		
-		/** ÏÔÊ¾model½Úµã°üº¬¶àÉÙ¸ö²ÄÖÊ*/
+		/** æ˜¾ç¤ºmodelèŠ‚ç‚¹åŒ…å«å¤šå°‘ä¸ªæè´¨*/
 		scene.drawText("Material Count: " + model.getMaterialCount(),
 				new Vector2i(0, 0), new Color4i());
 	}
 	
 	public void onCreate(Engine engine){
 		
+		engine.addAssetsDir("sysmedia", false);
 		Scene scene = engine.getScene();
+		scene.setFont(Engine.SYSTEM_MEDIA+"defaultfont.png");
 		scene.enableLighting(true);
 		
-		/** ÎªÁËÌåÏÖ²ÄÖÊµÄ²î±ğ£¬ÎÒÃÇ¼ÓÈëµÆĞ§*/
+		/** ä¸ºäº†ä½“ç°æè´¨çš„å·®åˆ«ï¼Œæˆ‘ä»¬åŠ å…¥ç¯æ•ˆ*/
 		scene.addLightSceneNode(
 				new Vector3d(0, 10, 0), 30, new Color3i(0xff, 0xff, 0xff), null);
 		
@@ -36,36 +38,36 @@ public class EMRenderer implements Renderer {
 				new Vector3d(0, 4, 20), false, null);
 		model.addRotationAnimator(new Vector3d(0.1, 0.5, 0.0));
 		
-		/** Çå¿ÕËùÓĞµÄ²ÄÖÊ*/
+		/** æ¸…ç©ºæ‰€æœ‰çš„æè´¨*/
 		model.setTexture(null);
 		
-		/** ½«µÚ0¸ö²ÄÖÊ¸ÄÎªext_tex1.png£¬µÈµÈ*/
+		/** å°†ç¬¬0ä¸ªæè´¨æ”¹ä¸ºext_tex1.pngï¼Œç­‰ç­‰*/
 		model.setTexture(Engine.SYSTEM_MEDIA + "ext_tex1.png", 0);
 		model.setTexture(Engine.SYSTEM_MEDIA + "grass.png", 1);
 		model.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp", 2);
 		
-		/** ÈÃµÚÈı¸ö²ÄÖÊµÄÂş·´ÉäÉ«±äÎª»ÆÉ«*/
+		/** è®©ç¬¬ä¸‰ä¸ªæè´¨çš„æ¼«åå°„è‰²å˜ä¸ºé»„è‰²*/
 		model.setDiffuseColor(new Color4i(0xff, 0xff, 0x00, 0xff), 3);
 		
 		cube1 = scene.addCubeSceneNode(new Vector3d(-4, -4, 20), 5, null);
 		
-		/** ÈÃcube1£¨ÒòÎªËüÖ»ÓĞÒ»¸ö²ÄÖÊ£©ËùÓĞ²ÄÖÊÓ¦ÓÃÆ½»¬×ÅÉ«*/
+		/** è®©cube1ï¼ˆå› ä¸ºå®ƒåªæœ‰ä¸€ä¸ªæè´¨ï¼‰æ‰€æœ‰æè´¨åº”ç”¨å¹³æ»‘ç€è‰²*/
 		cube1.setSmoothShade(true, 0);
 		cube1.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		cube1.addRotationAnimator(new Vector3d(0.1, 0.5, 0.0));
 		
 		cube2 = scene.addCubeSceneNode(new Vector3d(4, -4, 20), 5, null);
 		
-		/** ÈÃcube2£¨ÒòÎªËüÖ»ÓĞÒ»¸ö²ÄÖÊ£©ËùÓĞ²ÄÖÊÓ¦ÓÃ·ÇÆ½»¬×ÅÉ«*/
+		/** è®©cube2ï¼ˆå› ä¸ºå®ƒåªæœ‰ä¸€ä¸ªæè´¨ï¼‰æ‰€æœ‰æè´¨åº”ç”¨éå¹³æ»‘ç€è‰²*/
 		cube2.setSmoothShade(false, 0);
 		cube2.setTexture(Engine.SYSTEM_MEDIA + "b&w.bmp");
 		
-		/** ¹Ø±ÕÁËcube2µÄÌùÍ¼µÄË«ÏßĞÔÂË²¨*/
+		/** å…³é—­äº†cube2çš„è´´å›¾çš„åŒçº¿æ€§æ»¤æ³¢*/
 		cube2.setMaterialFlag(MeshSceneNode.EMF_BILINEAR_FILTER, false);
 		cube2.addRotationAnimator(new Vector3d(0.1, 0.5, 0.0));
 		
-		/** ÏÂÃæ¾ÍÈÃÎÒÃÇ¿´¿´ËüÃÇÓĞÄÄĞ©²î±ğ¡£×¢Òâ£¬CubeSceneNodeÒòÎªÃ»ÓĞ¹æ¶¨·¨ÏòÁ¿£¬
-		 * ËùÒÔÓ¦ÓÃ¹âÕÕºó»á±È½ÏÆæ¹Ö		
+		/** ä¸‹é¢å°±è®©æˆ‘ä»¬çœ‹çœ‹å®ƒä»¬æœ‰å“ªäº›å·®åˆ«ã€‚æ³¨æ„ï¼ŒCubeSceneNodeå› ä¸ºæ²¡æœ‰è§„å®šæ³•å‘é‡ï¼Œ
+		 * æ‰€ä»¥åº”ç”¨å…‰ç…§åä¼šæ¯”è¾ƒå¥‡æ€ª		
 		 */
 	}
 	
