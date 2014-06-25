@@ -1,4 +1,4 @@
-﻿package zte.irrlib;
+package zte.irrlib;
 
 import java.io.IOException;
 

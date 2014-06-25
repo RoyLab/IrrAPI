@@ -8,6 +8,8 @@
 #include "IAttributeExchangingObject.h"
 #include "SParticle.h"
 
+//#include "cpu_sph.h"
+
 namespace irr
 {
 namespace scene
@@ -22,6 +24,7 @@ enum E_PARTICLE_AFFECTOR_TYPE
 	EPAT_GRAVITY,
 	EPAT_ROTATE,
 	EPAT_SCALE,
+	EPAT_SPH,
 	EPAT_COUNT
 };
 
@@ -34,6 +37,7 @@ const c8* const ParticleAffectorTypeNames[] =
 	"Gravity",
 	"Rotate",
 	"Scale",
+	"SPH",
 	0
 };
 
@@ -50,6 +54,8 @@ public:
 	\param particlearray Array of particles.
 	\param count Amount of particles in array. */
 	virtual void affect(u32 now, SParticle* particlearray, u32 count) = 0;
+
+	//virtual void affect(u32 now, SParticle* particlearray, u32 count, cpu_sph* cpu) {} ;
 
 	//! Sets whether or not the affector is currently enabled.
 	virtual void setEnabled(bool enabled) { Enabled = enabled; }

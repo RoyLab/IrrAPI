@@ -1,4 +1,4 @@
-﻿package zte.irrlib.core;
+package zte.irrlib.core;
 
 /**
  * 矩形类，边的长度为归一化的浮点数。用于指定贴图的某一个区域

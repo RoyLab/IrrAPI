@@ -1,4 +1,4 @@
-﻿package zte.irrlib.core;
+package zte.irrlib.core;
 
 /**
  * 矩形类，边的长度只能为整数，通常用于指定在像素阵列的区域。

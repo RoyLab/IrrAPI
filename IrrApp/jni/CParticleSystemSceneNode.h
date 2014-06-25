@@ -171,6 +171,9 @@ public:
 	virtual IParticleGravityAffector* createGravityAffector(
 		const core::vector3df& gravity = core::vector3df(0.0f,-0.03f,0.0f),
 		u32 timeForceLost = 1000);
+		
+	virtual IParticleSPHAffector* createSPHAffector(const core::vector3df& point, f32 speed = 1.0f, bool attract = true,
+		bool affectX = true, bool affectY = true, bool affectZ = true);
 
 	//! Creates a rotation affector. This affector rotates the particles
 	//! around a specified pivot point. The speed is in Degrees per second.

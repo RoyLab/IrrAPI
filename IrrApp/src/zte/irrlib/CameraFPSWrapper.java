@@ -1,4 +1,4 @@
-﻿package zte.irrlib;
+package zte.irrlib;
 
 import zte.irrlib.core.Vector3d;
 import zte.irrlib.scene.CameraSceneNode;

@@ -1,4 +1,4 @@
-﻿package zte.irrlib.core;
+package zte.irrlib.core;
 
 /**
  * 二维整型向量

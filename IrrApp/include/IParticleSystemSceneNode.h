@@ -16,6 +16,7 @@
 #include "IParticleFadeOutAffector.h"
 #include "IParticleGravityAffector.h"
 #include "IParticleRotationAffector.h"
+#include "IParticleSPHAffector.h"
 #include "dimension2d.h"
 
 namespace irr
@@ -490,6 +491,10 @@ public:
 	virtual IParticleRotationAffector* createRotationAffector(
 		const core::vector3df& speed = core::vector3df(5.0f,5.0f,5.0f),
 		const core::vector3df& pivotPoint = core::vector3df(0.0f,0.0f,0.0f) ) = 0;
+		
+	virtual IParticleSPHAffector* createSPHAffector(const core::vector3df& point, f32 speed = 1.0f, bool attract = true,
+		bool affectX = true, bool affectY = true, bool affectZ = true) = 0;
+
 };
 
 } // end namespace scene

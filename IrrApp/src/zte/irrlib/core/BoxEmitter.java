@@ -1,4 +1,4 @@
-﻿package zte.irrlib.core;
+package zte.irrlib.core;
 
 /**
  * 盒状粒子发射器类

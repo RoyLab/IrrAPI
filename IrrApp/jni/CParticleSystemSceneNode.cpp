@@ -20,6 +20,7 @@
 #include "CParticleGravityAffector.h"
 #include "CParticleRotationAffector.h"
 #include "CParticleScaleAffector.h"
+#include "CParticleSPHAffector.h"
 #include "SViewFrustum.h"
 
 namespace irr
@@ -284,6 +285,12 @@ IParticleRotationAffector* CParticleSystemSceneNode::createRotationAffector(
 	return new CParticleRotationAffector( speed, pivotPoint );
 }
 
+IParticleSPHAffector* CParticleSystemSceneNode::createSPHAffector(
+	const core::vector3df& point, f32 speed, bool attract,
+	bool affectX, bool affectY, bool affectZ )
+{
+	return new CParticleSPHAffector( point, speed, attract, affectX, affectY, affectZ );
+}
 
 //! pre render event
 void CParticleSystemSceneNode::OnRegisterSceneNode()

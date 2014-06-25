@@ -842,6 +842,91 @@ extern "C"
 		env->ReleaseStringUTFChars(jname, ch);
 		return true;
 	}
+	
+	int Java_zte_irrlib_scene_Scene_nativeAddSnowParticleSceneNode(
+					JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
+					jdouble maxSize, jint snowrate, jdouble dx, jdouble dy, jdouble dz, jint id, jint parent, jboolean isLight)
+	{
+		core::vector3df pos = core::vector3df(x,y,z);
+		scene::IParticleSystemSceneNode* ps = NULL;
+		if(parent != 0){
+			scene::ISceneNode* parentNode = smgr->getSceneNodeFromId(parent);
+			ps = smgr->addParticleSystemSceneNode(true, parentNode, id, pos);
+		}
+		else ps = smgr->addParticleSystemSceneNode(true, 0, id, pos);
+		scene::IParticleEmitter* emExp = ps->createBoxEmitter(
+				core::aabbox3d<f32>(-100,-1,-200,100,1,200), // emitter size
+				core::vector3df(dx,dy,dz),   // initial direction
+				snowrate/2,snowrate,                             // emit rate
+				video::SColor(0,255,255,255),       // darkest color
+				video::SColor(0,255,255,255),       // brightest color
+				6000,8000,0,                         // min and max age, angle
+				core::dimension2df(maxSize/3*2,maxSize/3*2),         // min size
+				core::dimension2df(maxSize,maxSize));        // max size
+
+
+		ps->setEmitter(emExp);
+		emExp->drop();
+		scene::IParticleAffector* paf = ps->createFadeOutParticleAffector();
+
+		ps->addAffector(paf); // same goes for the affector
+		paf->drop();
+		ps->setMaterialFlag(video::EMF_LIGHTING, false);
+		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+		ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+
+		if(ps) return 0;
+		else return -1;
+	}
+
+	int Java_zte_irrlib_scene_Scene_nativeAddSmokeParticleSceneNode(
+			JNIEnv *env, jobject defaultObj, jdouble x, jdouble y, jdouble z,
+			jdouble maxSize, jint smokerate, jdouble dx, jdouble dy, jdouble dz, jint id, jint parent, jboolean isLight)
+	{
+		core::vector3df pos = core::vector3df(x,y,z);
+		scene::IParticleSystemSceneNode* ps = NULL;
+		if(parent != 0){
+			scene::ISceneNode* parentNode = smgr->getSceneNodeFromId(parent);
+			ps = smgr->addParticleSystemSceneNode(true, parentNode, id, pos);
+		}
+		else ps = smgr->addParticleSystemSceneNode(true, 0, id, pos);
+		ps->setMaterialType(video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+		scene::IParticleEmitter* emExp = ps->createPointEmitter(
+			vector3df(0.0f,0.015f,0.0f),
+			smokerate/3*2,
+			smokerate,
+			SColor(155,255,255,255),
+			SColor(255,255,255,255),
+			2500, 3500,
+			188,
+			dimension2df(maxSize/3*2,maxSize/3*2),
+			dimension2df(maxSize,maxSize));
+
+		ps->setEmitter(emExp);
+		emExp->drop();
+		//scene::IParticleAffector* paf = ps->createGravityAffector(core::vector3df(0.0f,0.01f,0.0f));
+
+		//ps->addAffector(paf); // same goes for the affector
+		//paf->drop();
+		scene::IParticleAffector* paf = ps->createSPHAffector(core::vector3df(x,y,z),1.0f,false,false,false,false);
+		ps->addAffector(paf);
+		paf->drop();
+		paf = ps->createFadeOutParticleAffector();
+		ps->addAffector(paf);
+		paf->drop();
+		paf = ps->createScaleParticleAffector(core::dimension2df(maxSize*2,maxSize*2));
+		ps->addAffector(paf);
+		paf->drop();
+		ps->setPosition(core::vector3df(x,y,z));
+		ps->setMaterialFlag(video::EMF_LIGHTING, false);
+		ps->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+		ps->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
+		if(ps) return 0;
+		else return -1;
+	}
+
 }
 	
 	

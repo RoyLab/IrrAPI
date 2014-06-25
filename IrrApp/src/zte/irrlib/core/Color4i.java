@@ -1,4 +1,4 @@
-﻿package zte.irrlib.core;
+package zte.irrlib.core;
 
 /**
  * RGB颜色类，每个颜色的取值区间在0~255的整数

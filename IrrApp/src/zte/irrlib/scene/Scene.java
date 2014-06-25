@@ -1,4 +1,4 @@
-﻿package zte.irrlib.scene;
+package zte.irrlib.scene;
 
 import java.util.ArrayList;
 
@@ -88,14 +88,6 @@ public class Scene {
 	}
 	
 	/**
-	 * 设置材质所在文件夹的路径
-	 * @param path 材质文件夹路径
-	 */
-	public void setResourceDir(String path){
-		mResourceDir = path;
-	}
-
-	/**
 	 * 设置所要使用的摄像机。
 	 * @param camera 所要使用的摄像机对象
 	 */
@@ -118,14 +110,6 @@ public class Scene {
 	 */
 	public void setAmbientLight(Color4i color){
 		nativeSetAmbientLight(color.r(), color.g(), color.b(), color.a());
-	}
-	
-	/**
-	 * 返回材质模型所在文件夹的路径。
-	 * @return 材质模型所在文件夹的路径。
-	 */
-	public String getResourceDir(){
-		return mResourceDir;
 	}
 	
 	/**
@@ -506,6 +490,48 @@ public class Scene {
 	}
 	
 	/**
+	 * 添加雪粒子系统节点
+	 * @param pos 位置坐标
+	 * @param dir 方向
+	 * @param size 大小
+	 * @param speed 速度
+	 * @param rate 粒子产生速率
+	 * @param parent 父节点
+	 * @return 创建的对象
+	 */
+	public ParticleSystemSceneNode addSnowParticleSceneNode(Vector3d pos, Vector3d dir, double size, double speed, int rate,
+			SceneNode parent){
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode(pos, parent);
+		if(nativeAddSnowParticleSceneNode(pos.X, pos.Y, pos.Z,
+				size, rate, dir.X, dir.Y, dir.Z, getId(node), getId(parent),mEnableLighting)!=0){
+			return null;
+		}
+		registerNode(node);
+		return node;
+	}
+	
+	/**
+	 * 添加烟雾粒子系统节点
+	 * @param pos 位置
+	 * @param dir 方向
+	 * @param size 大小
+	 * @param speed 速度
+	 * @param rate 粒子产生速率
+	 * @param parent 父节点
+	 * @return 创建的对象
+	 */
+	public ParticleSystemSceneNode addSmokeParticleSceneNode(Vector3d pos, Vector3d dir, double size, double speed, int rate,
+			SceneNode parent){
+		ParticleSystemSceneNode node = new ParticleSystemSceneNode(pos, parent);
+		if(nativeAddSmokeParticleSceneNode(pos.X, pos.Y, pos.Z,
+				size, rate, dir.X, dir.Y, dir.Z, getId(node), getId(parent),mEnableLighting)!=0){
+			return null;
+		}
+		registerNode(node);
+		return node;
+	}
+	
+	/**
 	 * 添加9个立方体组成的布局类，assets本地读取被禁用时不可用
 	 * @param pos 位置
 	 * @param size 大小
@@ -760,6 +786,22 @@ public class Scene {
 	}
 	
 	/**
+	 * 设置材质所在文件夹的路径，这个方法不应该被用户所调用
+	 * @param path 材质文件夹路径
+	 */
+	public void setResourceDir(String path){
+		mResourceDir = path;
+	}
+
+	/**
+	 * 返回材质模型所在文件夹的路径，这个方法不应该被用户所调用
+	 * @return 材质模型所在文件夹的路径。
+	 */
+	public String getResourceDir(){
+		return mResourceDir;
+	}
+
+	/**
 	 * 这个方法不应该被用户所调用
 	 */
 	public static Scene getInstance(Engine engine){
@@ -776,6 +818,43 @@ public class Scene {
 	 */
 	public static void release(){
 		
+	}
+
+	/**
+	 * 这个方法不应该被用户所调用
+	 */
+	public String getFullPath(String path){
+		
+		if (path == null) return null;
+		if (path.equals("")) return "";
+		
+		if (path.length() > Engine.ASSETS_MARK.length() &&
+				path.substring(0, Engine.ASSETS_MARK.length()).equals(
+				Engine.ASSETS_MARK)){
+			if (mEngine.isNativeAssetsReaderEnabled() == false){
+				Log.e(TAG, "assets is not allowed to be opened!");
+				return null;
+			}
+			return path.substring(Engine.ASSETS_MARK.length());
+		}
+		
+		if (path.length() > Engine.BITMAP_MARK.length() &&
+				path.substring(0, Engine.BITMAP_MARK.length()).equals(
+				Engine.BITMAP_MARK)){
+			return path.substring(Engine.ASSETS_MARK.length());
+		}
+		
+		if (path.length() > Engine.EXTERNAL_TEX_MARK.length() &&
+				path.substring(0, Engine.EXTERNAL_TEX_MARK.length()).equals(
+				Engine.EXTERNAL_TEX_MARK)){
+			return path.substring(Engine.EXTERNAL_TEX_MARK.length());
+		}
+		
+		if (Utils.isAbsolutePath(path)){
+			return path; 
+		} else {
+			return getResourceDir() + path;
+		}
 	}
 
 	/**
@@ -828,43 +907,6 @@ public class Scene {
 			return null;
 		
 		return _UniInstance;
-	}
-	
-	/**
-	 * 这个方法不应该被用户所调用
-	 */
-	public String getFullPath(String path){
-		
-		if (path == null) return null;
-		if (path.equals("")) return "";
-		
-		if (path.length() > Engine.ASSETS_MARK.length() &&
-				path.substring(0, Engine.ASSETS_MARK.length()).equals(
-				Engine.ASSETS_MARK)){
-			if (mEngine.isNativeAssetsReaderEnabled() == false){
-				Log.e(TAG, "assets is not allowed to be opened!");
-				return null;
-			}
-			return path.substring(Engine.ASSETS_MARK.length());
-		}
-		
-		if (path.length() > Engine.BITMAP_MARK.length() &&
-				path.substring(0, Engine.BITMAP_MARK.length()).equals(
-				Engine.BITMAP_MARK)){
-			return path.substring(Engine.ASSETS_MARK.length());
-		}
-		
-		if (path.length() > Engine.EXTERNAL_TEX_MARK.length() &&
-				path.substring(0, Engine.EXTERNAL_TEX_MARK.length()).equals(
-				Engine.EXTERNAL_TEX_MARK)){
-			return path.substring(Engine.EXTERNAL_TEX_MARK.length());
-		}
-		
-		if (Utils.isAbsolutePath(path)){
-			return path; 
-		} else {
-			return getResourceDir() + path;
-		}
 	}
 	
 	private static Scene _UniInstance;
@@ -966,6 +1008,12 @@ public class Scene {
 	private native int nativeAddExplosionParticleSceneNode(
 			double x, double y, double z, double radius,
 			double speed, int id, int parent, boolean isLight);
+	private native int nativeAddSnowParticleSceneNode(
+			double x, double y, double z, double maxSize, int snowrate, 
+			double dx, double dy, double dz, int id, int parent, boolean isLight);
+	private native int nativeAddSmokeParticleSceneNode(
+			double x, double y, double z, double maxSize, int smokerate, 
+			double dx, double dy, double dz, int id, int parent, boolean isLight);
 	
 	
 	private native int nativeAddSkyBoxSceneNode(String top, String bottom, String left, String right,
