@@ -274,9 +274,10 @@ public class Scene {
 	
 	/**
 	 * 添加矩形节点，返回所添加的节点对象。
+	 * @param tex 所添加矩形节点上的贴图
 	 * @param pos 所添加矩形节点所在位置
 	 * @param size 所添加矩形节点的尺寸，指定长宽。
-	 * @param parent 所添加立方体节点的父节点对象
+	 * @param parent 所添加矩形节点的父节点对象
 	 * @return 所添加的节点对象
 	 */
 	public MeshSceneNode addRectSceneNode(String tex, Vector3d pos, Vector2d size, SceneNode parent){
