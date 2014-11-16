@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <irrlicht.h>
 #include "android-global.h"
+#include "ImgSceneNode.h"
 
 #ifdef LOG_TAG
 #undef LOG_TAG
@@ -252,6 +253,53 @@ extern "C"
 		else
 		{
 			ERROR_ADD_FAILD(id, AddCubeSceneNode);
+			return -3;
+		}
+	}
+
+	int Java_zte_irrlib_scene_Scene_nativeAddRectSceneNode(
+		JNIEnv*  env, jobject defaultObj, jstring path,
+		jdouble x, jdouble y, jdouble z, jdouble width, jdouble height, jint id,
+		jint parent, jboolean isLight)
+	{
+		core::vector3df pos = core::vector3df(x,y,z);
+
+		const char *msg = env->GetStringUTFChars(path,0);
+		ITexture* tex = driver->getTexture(io::path(msg));
+		env->ReleaseStringUTFChars(path, msg);
+
+		if (!tex)
+		{
+			LOGW("tex not found!");
+			return -3;
+		}
+
+		ISceneNode* node = NULL;
+		ISceneNode* parentNode = NULL;
+
+		if(parent != 0){
+			parentNode = smgr->getSceneNodeFromId(parent);
+			if (!parentNode)
+			{
+				WARN_PARENT_NOT_FOUND(parent, AddMeshSceneNode);
+				return -1;
+			}
+		}
+		else parentNode = smgr->getRootSceneNode();
+
+		node = new CImgSceneNode(parentNode, smgr, id, width, height);
+		if (node)
+		{
+			node->setPosition(pos);
+			node->setMaterialTexture(0, tex);
+			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
+			node->drop();
+			node = 0;
+			return 0;
+		}
+		else
+		{
+			ERROR_ADD_FAILD(id, AddMeshSceneNode);
 			return -3;
 		}
 	}

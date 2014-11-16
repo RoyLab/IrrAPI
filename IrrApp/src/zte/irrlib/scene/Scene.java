@@ -273,6 +273,23 @@ public class Scene {
 	}
 	
 	/**
+	 * 添加矩形节点，返回所添加的节点对象。
+	 * @param pos 所添加矩形节点所在位置
+	 * @param size 所添加矩形节点的尺寸，指定长宽。
+	 * @param parent 所添加立方体节点的父节点对象
+	 * @return 所添加的节点对象
+	 */
+	public MeshSceneNode addRectSceneNode(String tex, Vector3d pos, Vector2d size, SceneNode parent){
+		MeshSceneNode node = new MeshSceneNode(pos, parent);
+		if (nativeAddRectSceneNode(getFullPath(tex), pos.X, pos.Y, pos.Z, size.X, size.Y,
+				getId(node), getId(parent), mEnableLighting) != 0)
+			return null;
+		
+		registerNode(node);
+		return node;
+	}	
+	
+	/**
 	 * 添加球体节点，返回所添加的节点对象
 	 * @param pos 所添加球体节点所在的位置
 	 * @param radius 所添加球体节点的半径
@@ -1021,6 +1038,9 @@ public class Scene {
 	private native int nativeAddSkyDomeSceneNode(String tex, int hr, int vr,
 			double tp, double sp, double radius, int parent, int id);
 	private native int nativeAddTerrainSceneNode(String heightmap, Color4i color, int smooth, int parent, int id, boolean light);	
+	
+	private native int nativeAddRectSceneNode(String tex, double x, double y, double z, double w, double h,
+			int id, int parent, boolean isLight);
 	
 	//native remove node
 	private native void nativeRemoveNode(int id);
