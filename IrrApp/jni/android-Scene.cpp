@@ -292,6 +292,7 @@ extern "C"
 		{
 			node->setPosition(pos);
 			node->setMaterialTexture(0, tex);
+			node->setMaterialFlag(EMF_BACK_FACE_CULLING, false);
 			if (!isLight) node->setMaterialFlag(video::EMF_LIGHTING, false);
 			node->drop();
 			node = 0;
